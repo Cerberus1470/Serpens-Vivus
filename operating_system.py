@@ -3,6 +3,8 @@ from tkinter import *
 
 main_window = Tk()
 
+print("TEAJS MAUHAHAHAHAH")
+
 
 class OperatingSystem:
     def __init__(self, dictionary, notes, jokes, notepad, bagels, tictactoe, task_manager, user_settings, system_info, reset):
