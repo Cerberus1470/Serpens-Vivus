@@ -4,11 +4,12 @@
 
 #TODO
 # - Create classes for all applications - DONE
-# - Create database for users
-# - Store current users
+# - Create database for users - DONE
+# - Store current users - DONE
 # - User-specific notes and game progress!
 # - Add more games in class format
-# - Fix imports
+# - Fix imports - DONE
+# - Develop GUI interface????
 
 from operating_system import OperatingSystem
 from jokes import Jokes
