@@ -57,7 +57,8 @@ class Bagels:
         print('Do you want to play again? (yes or no)')
         return input().lower().startswith('y')
 
-    def main(self):
+    def main(self, stats):
+        stats["bagels"] = "running"
         print('WELCOME TO BAGELS')
         print(' ')
         NUMDIGITS = int(input('Enter the number of digits in the secret number:'))

@@ -5,26 +5,28 @@ main_window = Tk()
 
 
 class OperatingSystem:
-    def __init__(self, dictionary, notes, jokes, notepad, bagels, tictactoe, task_manager, user_settings, system_info, reset):
+    def __init__(self, args):
         #Initialize all attributes.
         self.current_user = ''
         self.current_password = ''
-        self.jokes = jokes
-        self.notepad = notepad
-        self.bagels = bagels
-        self.tictactoe = tictactoe
-        self.taskmgr = task_manager
-        self.userset = user_settings
-        self.sysinfo = system_info
-        self.reset = reset
+        self.jokes = args[2]
+        self.notepad = args[3]
+        self.bagels = args[4]
+        self.tictactoe = args[5]
+        self.taskmgr = args[6]
+        self.userset = args[7]
+        self.sysinfo = args[8]
+        self.reset = args[9]
         #Notes and users
-        self.notes = notes
-        self.dictionary = dictionary
+        self.dictionary = args[0]
+        self.notes = args[1]
         #Setting current user and password
-        for i in range(len(dictionary)):
-            if dictionary[i][2] == 'CURRENT\n':
-                self.current_user = dictionary[i][0]
-                self.current_password = dictionary[i][1]
+        for i in range(len(self.dictionary)):
+            self.notes[self.dictionary[i][0]] = ' '
+        for i in range(len(self.dictionary)):
+            if self.dictionary[i][2] == 'CURRENT\n':
+                self.current_user = self.dictionary[i][0]
+                self.current_password = self.dictionary[i][1]
                 break
         return
 
@@ -52,19 +54,19 @@ class OperatingSystem:
             if choice.lower() in ('jokes', 'joke',  '1'):
                 self.jokes.main(stats)
             elif choice.lower() in ('notepad', 'notes', 'note', '2'):
-                self.notes[self.current_user] = self.notepad.main(self.notes, stats)
+                self.notes[self.current_user] = self.notepad.main(self.notes, stats, self.current_user)
             elif choice.lower() in ('bagels', 'bagels', '3'):
-                self.bagels.main()
+                self.bagels.main(stats)
             elif choice.lower() in ('tictactoe', 'tic-tac-toe', 'ttt', '4'):
-                self.tictactoe.main()
+                self.tictactoe.main(stats)
             elif choice.lower() in ('task manager', '5'):
                 self.taskmgr.main(stats)
             elif choice.lower() in ('user settings', 'usersettings', '6'):
                 (self.current_user, self.current_password) = self.userset.main(self.current_user, self.current_password, self.dictionary, stats)
             elif choice.lower() in ('system info', 'sys info', '7'):
-                self.sysinfo.main(versions)
+                self.sysinfo.main(stats, versions)
             elif choice.lower() in ('reset', '8'):
-                self.reset.user_reset(self.current_user)
+                self.reset.user_reset(self.current_user, stats)
             elif choice.lower() in ('exit', 'lock computer', '9'):
                 print("Computer has been locked.")
                 return
@@ -77,7 +79,7 @@ class OperatingSystem:
         #The main startup and login screen, housed within a while loop to keep the user here unless specific circumstances are met.
         while True:
             print()
-            Label(main_window, text="Hello! I am Cerberus, running user: " + self.current_user + ". Type 'switch' to switch users or \"shutdown\" to shut down the system.").grid(row=0, column=0)
+            #Label(main_window, text="Hello! I am Cerberus, running user: " + self.current_user + ". Type 'switch' to switch users or \"shutdown\" to shut down the system.").grid(row=0, column=0)
             print("Hello! I am Cerberus, running user: " + self.current_user + ". Type 'switch' to switch users or \"shutdown\" to shut down the system.")
             if self.current_user != 'Guest':
                 #Separate while loop for users. Guest users head down.

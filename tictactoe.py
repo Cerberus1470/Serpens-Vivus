@@ -9,7 +9,7 @@ class TicTacToe:
     def __repr__(self):
         return "< I am a tictactoe class named "+self.__class__.__name__ + ">"
 
-    def drawBoard(self,board):
+    def drawBoard(self, board):
         # This function prints out the board that it was passed.
 
         # "board" is a list of 10 strings representing the board (ignore index 0)
@@ -143,7 +143,8 @@ class TicTacToe:
                 return False
         return True
 
-    def main(self):
+    def main(self, stats):
+        stats['tictactoe'] = 'running'
         print('Welcome to Tic Tac Toe!')
 
         while True:

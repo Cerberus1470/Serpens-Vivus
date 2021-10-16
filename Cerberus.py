@@ -72,7 +72,8 @@ stats = {"main": "not running", "jokes": "not running", "notes": "not running", 
          "tictactoe": "not running", "userset": "not running", "sysinfo": "not running", "setup": "n"}
 
 #Initializing operating system with __init__
-operating_system = OperatingSystem(user_pwd_dictionary, notes_dictionary, jokes, notepad, bagelsGame, tictactoeGame, taskManager, userSettings, systemInfo, reset)
+args = [user_pwd_dictionary, notes_dictionary, jokes, notepad, bagelsGame, tictactoeGame, taskManager, userSettings, systemInfo, reset]
+operating_system = OperatingSystem(args)
 
 #Hard reset everything before booting up.
 reset.reset(stats)

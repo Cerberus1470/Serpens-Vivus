@@ -5,8 +5,8 @@ class SysInfo:
     def __repr__(self):
         return "< This is a System Info class named " + self.__class__.__name__ + ">"
 
-    def main(self, versions):
-        versions["sysinfo"] = "running"
+    def main(self, stats, versions):
+        stats["sysinfo"] = "running"
         print("\nSYSTEM INFO")
         print("Software: POCS (Python Operating Command System) Version %s" % (versions["main"]))
         print("Shell: Python IDLE Version 3.10")
