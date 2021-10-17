@@ -56,14 +56,16 @@ except FileExistsError:
 notes_dictionary = {}
 #Same as above. Try creating the notes database and simply read it if it exists already.
 try:
-    notes_database = open('usernotes.txt', 'x')
+    notes_database = open('user_notes.txt', 'x')
 except FileExistsError:
-    notes_database = open('usernotes.txt', 'r')
-    notecount = 0
+    notes_database = open('user_notes.txt', 'r')
     for i in notes_database:
         (user, notes) = i.split('\t\t', 1)
-        notes_dictionary[notecount] = user, notes
-        notecount += 1
+        user_notes = notes
+        while '\t' in user_notes:
+            (notes1, notes2) = user_notes.split('\t', 1)
+            user_notes = notes1 + '\n' + notes2
+        notes_dictionary[user] = user_notes
     notes_database.close()
 
 #Versions and Stats Dictionaries.

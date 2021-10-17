@@ -21,8 +21,12 @@ class OperatingSystem:
         self.dictionary = args[0]
         self.notes = args[1]
         #Setting current user and password
-        for i in range(len(self.dictionary)):
-            self.notes[self.dictionary[i][0]] = ' '
+        for i in self.dictionary:
+            try:
+                temp = self.notes[self.dictionary[i][0]][0]
+                del temp
+            except KeyError:
+                self.notes[self.dictionary[i][0]] = ''
         for i in range(len(self.dictionary)):
             if self.dictionary[i][2] == 'CURRENT\n':
                 self.current_user = self.dictionary[i][0]
@@ -54,7 +58,7 @@ class OperatingSystem:
             if choice.lower() in ('jokes', 'joke',  '1'):
                 self.jokes.main(stats)
             elif choice.lower() in ('notepad', 'notes', 'note', '2'):
-                self.notes[self.current_user] = self.notepad.main(self.notes, stats, self.current_user)
+                self.notes = self.notepad.main(self.notes, stats, self.current_user)
             elif choice.lower() in ('bagels', 'bagels', '3'):
                 self.bagels.main(stats)
             elif choice.lower() in ('tictactoe', 'tic-tac-toe', 'ttt', '4'):
@@ -97,8 +101,10 @@ class OperatingSystem:
                         else:
                             print("There is currently only one user registered.")
                     elif pwd == 'shutdown':
-                        self.shutdown('userpwd_db.txt', self.dictionary, stats)
-                        return
+                        shutdown = self.shutdown('userpwd_db.txt', 'user_notes.txt', self.dictionary, self.notes, stats)
+                        if shutdown == 0:
+                            return
+                        print("Hello! I am Cerberus, running user: " + self.current_user + ". Type 'switch' to switch users or \"shutdown\" to shut down the system.")
                     elif pwd == 'debugexit':
                         return
                     else:
@@ -112,12 +118,13 @@ class OperatingSystem:
                     self.operating_system("Cerberus", versions, stats)
                     break
 
-    def shutdown(self, db_filename, dictionary, stats):
+    def shutdown(self, db_filename, notes_db, dictionary, notes_dictionary, stats):
         #The shutdown method. Saves everything to disk and rides return statements all the way back to the main file.
         # Exits safely after that.
         print("Shutting down...")
         #Check if any programs are running
         program_running = False
+        forcequit = 'shutdown'
         for i in stats:
             if stats[i] == 'running':
                 print("The " + i + " program is running.")
@@ -125,35 +132,48 @@ class OperatingSystem:
         if program_running:
             print("Would you like to force quit these apps? Type [ENTER] or [return] to return to the OS to save your progress. "
               "Type \"shutdown\" to force quit all apps and proceed with shutdown.")
-        forcequit = input()
+            forcequit = input()
+        else:
+            print("No apps are open.")
         if forcequit == 'shutdown':
+            print("Shutting down...")
             #Proceeding with force quitting and shutting down.
             self.reset.reset(stats)
-            #First open the database.
+            #First open the databases.
             db = open(db_filename, 'w')
+            notes_db = open(notes_db, 'w')
             #Ready the lists.
             users = []
             passwords = []
             current = []
-            #Append each user, password, and current status to the lists.
+            notes = []
+            #Append each user, notes, password, and current status to the lists.
             for i in range(len(dictionary)):
                 users.append(dictionary[i][0])
                 passwords.append(dictionary[i][1])
                 current.append(dictionary[i][2])
+            for i in notes_dictionary:
+                while '\n' in notes_dictionary[i]:
+                    (notes1, notes2) = notes_dictionary[i].split('\n', 1)
+                    notes_dictionary[i] = notes1 + '\t' + notes2
+                notes.append(notes_dictionary[i])
             #Then write each user, password, and current status to the database, saving it to disk.
+            #Also write the notes to the database.
             for i in range(len(dictionary)):
                 db.write(users[i] + '\t\t' + passwords[i] + '\t\t' + current[i])
-            #Close the database.
+                notes_db.write(users[i] + '\t\t' + notes[i] + '\n')
+            #Close the databases.
             db.close()
+            notes_db.close()
             time.sleep(5)
             print("Shut down complete.")
             #Fun ride back home!
-            return
+            return 0
         else:
             #Return to allow the user to save their progress.
             print("Returning to the login screen in 3 seconds.")
             time.sleep(3)
-            return
+            return 1
 
     def setup(self, dictionary):
         #The setup method. Conveniently sets up the system to run on its first bootup. Modifies the dictionary with a new user.
