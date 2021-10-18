@@ -13,6 +13,9 @@ class OperatingSystem:
         self.notepad = args[3]
         self.bagels = args[4]
         self.tictactoe = args[5]
+        self.tttsaved_board = [' '] * 10
+        self.tttturn = ''
+        self.tttletter = ''
         self.taskmgr = args[6]
         self.userset = args[7]
         self.sysinfo = args[8]
@@ -52,6 +55,7 @@ class OperatingSystem:
             print("7. System Info")
             print("8. Reset")
             print("9. Lock Computer")
+            print("10. Shutdown")
             print("Select one from the list above or press [ENTER] or [return] to lock!")
             choice = input()
             #The if elif of choices... so long...
@@ -62,7 +66,7 @@ class OperatingSystem:
             elif choice.lower() in ('bagels', 'bagels', '3'):
                 self.bagels.main(stats)
             elif choice.lower() in ('tictactoe', 'tic-tac-toe', 'ttt', '4'):
-                self.tictactoe.main(stats)
+                self.tttsaved_board, self.tttturn, self.tttletter = self.tictactoe.main(stats, self.tttsaved_board, self.tttturn, self.tttletter)
             elif choice.lower() in ('task manager', '5'):
                 self.taskmgr.main(stats)
             elif choice.lower() in ('user settings', 'usersettings', '6'):
@@ -74,6 +78,9 @@ class OperatingSystem:
             elif choice.lower() in ('exit', 'lock computer', '9'):
                 print("Computer has been locked.")
                 return
+            elif choice.lower() in ('shutdown', '10'):
+                if self.shutdown('userpwd_db.txt', 'user_notes.txt', self.dictionary, self.notes, stats) == 0:
+                    return 'shutdown'
             elif choice.lower() in 'debugexit':
                 return
             else:
@@ -92,7 +99,8 @@ class OperatingSystem:
                     pwd = input()
                     if pwd == self.current_password:
                         print("Welcome!")
-                        self.operating_system("Cerberus", versions, stats)
+                        if self.operating_system("Cerberus", versions, stats) == 'shutdown':
+                            return
                         break
                     elif pwd == 'switch':
                         if len(self.dictionary) > 1:
@@ -147,15 +155,23 @@ class OperatingSystem:
             passwords = []
             current = []
             notes = []
-            #Append each user, notes, password, and current status to the lists.
+            #Append each user, password, and current status to the lists.
             for i in range(len(dictionary)):
                 users.append(dictionary[i][0])
                 passwords.append(dictionary[i][1])
                 current.append(dictionary[i][2])
             for i in notes_dictionary:
+                #Special protocol to translate all new lines to tabs for notes db formatting.
                 while '\n' in notes_dictionary[i]:
                     (notes1, notes2) = notes_dictionary[i].split('\n', 1)
                     notes_dictionary[i] = notes1 + '\t' + notes2
+                #Then try to access everyone's notes. If it doesn't exist, give them an empty notes string.
+                try:
+                    temp = notes_dictionary[i]
+                    del temp
+                except KeyError:
+                    notes_dictionary[i] = ''
+                #After translation and empty notes creation, add everything to the notes list to write to the db later.
                 notes.append(notes_dictionary[i])
             #Then write each user, password, and current status to the database, saving it to disk.
             #Also write the notes to the database.

@@ -11,7 +11,7 @@ class TaskManager:
         print("Here you will find all the programs currently running. You are also able to quit them, however it "
               "clears no memory space, and all program memory will be saved (such as notes).")
         print("The Jokes program is " + stats["jokes"] + ". Type 'jquit' to quit the jokes program.")
-        print("The Notes program is " + stats["notepad"] + ". Type 'nquit' to quit the notes program.")
+        print("The Notes program is " + stats["notes"] + ". Type 'nquit' to quit the notes program.")
         print("The Bagels program is " + stats["bagels"] + ". Type 'bquit' to quit the bagels program.")
         print("The Tic-Tac-Toe program is " + stats["tictactoe"] + ". Type 'tquit' to quit the tic-tac-toe program.")
         print("The User Settings program is " + stats["userset"] + ". Type 'uquit' to quit the user settings program.")

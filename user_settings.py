@@ -9,25 +9,35 @@ class UserSettings:
         return "< This is a UserSettings class named " + self.__class__.__name__ + ">"
 
     def add_user(self, dictionary):
+        #Adding a new user!
         print("Welcome to the Add User setup wizard!")
         print("Name your user:")
+        #Take a name
         add_user = input()
         print("New User added. Enter a password or press [ENTER] or [return] to use the default password.")
+        #While loop for the password.
         while True:
+            #Ask for password
             add_pwd = input()
+            #If password entered:
             if add_pwd:
                 print("Password set. Enter it again to confirm it.")
+                #Make sure it's the same password
                 if add_pwd == input():
                     break
                 else:
                     print('The passwords you entered didn\'t match. Type the same password twice.')
             else:
+                #Default password
                 add_password = 'python123'
+                #Add this to the user dictionary
                 dictionary[len(dictionary)] = (add_user, add_password, '\n')
                 print('Default password set. The password is "python123". Returning to the User Settings in 3 seconds.')
                 time.sleep(3)
+                #Return from here itself, don't run the following.
                 return
         add_password = add_pwd
+        #Add this to the user dictionary
         dictionary[len(dictionary)] = (add_user, add_password, '\n')
         print("Password set successfully. Returning to the User Settings in 3 seconds.")
         time.sleep(3)
@@ -92,7 +102,10 @@ class UserSettings:
                 break
             else:
                 print("Choose a user from the list or type 'exit' to exit.")
-        print("Returning to the login screen in 3 seconds.")
+        if src == 'os':
+            print("Returning to the login screen in 3 seconds.")
+        else:
+            print("Returning to the User Settings in 3 seconds.")
         time.sleep(3)
         return current_user, current_password
 
