@@ -1,2 +1,3 @@
-Tejas		HELLO				These are Tejas's notes!					
-Chatwin						These are Chatwin's notes!			
+Tejas						
+Pranav						
+Maya				

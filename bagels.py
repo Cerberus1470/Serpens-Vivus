@@ -7,22 +7,22 @@ class Bagels:
         return
 
     def __repr__(self):
-        return "< I am a bagels class named "+self.__class__.__name__ + ">"
+        return "< I am a bagels class named " + self.__class__.__name__ + ">"
 
-    def getSecretNum(self,numDigits,baseNumber):
+    def get_secret_num(self, num_digits, base_number):
         # Returns a string that is numDigits long, made up of unique random digits.
-        numbers = list(range(baseNumber))
+        numbers = list(range(base_number))
         random.shuffle(numbers)
-        secretNum = ''
-        for i in range(numDigits):
-            secretNum += str(numbers[i])
-        return secretNum
+        secret_num = ''
+        for i in range(num_digits):
+            secret_num += str(numbers[i])
+        return secret_num
 
-    def isOnlyDigits(self,num,baseNumber):
+    def is_only_digits(self, num, base_number):
         # The map() method in the line of code below converts a list of values to a string and returns that string.
-        #base_String_Elements = ''.join(map(str, list(range(baseNumber))))
-        #for i in num:
-         #   if i not in base_String_Elements:
+        # base_String_Elements = ''.join(map(str, list(range(baseNumber))))
+        # for i in num:
+        #   if i not in base_String_Elements:
         #        return False
         # Returns True if num is a string made up only of digits. Otherwise returns False.
         if num == '':
@@ -34,17 +34,16 @@ class Bagels:
 
         return True
 
-    def getClues(self,guess, secretNum):
+    def getClues(self, guess, secret_num):
         # Returns a string with the pico, fermi, bagels clues to the user.
-        if guess == secretNum:
+        if guess == secret_num:
             return 'You got it!'
 
         clue = []
-
         for i in range(len(guess)):
-            if guess[i] == secretNum[i]:
+            if guess[i] == secret_num[i]:
                 clue.append('Fermi')
-            elif guess[i] in secretNum:
+            elif guess[i] in secret_num:
                 clue.append('Pico')
         if len(clue) == 0:
             return 'Bagels'
@@ -52,7 +51,7 @@ class Bagels:
         clue.sort()
         return ' '.join(clue)
 
-    def playAgain(self):
+    def play_again(self):
         # This function returns True if the player wants to play again, otherwise it returns False.
         print('Do you want to play again? (yes or no)')
         return input().lower().startswith('y')
@@ -61,36 +60,37 @@ class Bagels:
         stats["bagels"] = "running"
         print('WELCOME TO BAGELS')
         print(' ')
-        NUMDIGITS = int(input('Enter the number of digits in the secret number:'))
-        MAXGUESS = int(input('Enter the number of guesses you would like to try:'))
-        BASENUMBER = int(input('Enter a base number system from 5 to 10 to use:'))
+        numdigits = int(input('Enter the number of digits in the secret number:'))
+        maxguess = int(input('Enter the number of guesses you would like to try:'))
+        basenumber = int(input('Enter a base number system from 5 to 10 to use:'))
 
-        print('I am thinking of a %s-digit number. Try to guess what it is.' % (NUMDIGITS))
+        print('I am thinking of a %s-digit number. Try to guess what it is.' % numdigits)
         print('Here are some clues:')
         print('When I say:    That means:')
         print('  Pico         One digit is correct but in the wrong position.')
         print('  Fermi        One digit is correct and in the right position.')
         print('  Bagels       No digit is correct.')
+        print('Hint: Enter different digits. Duplicate digits will produce duplicate results!')
 
         while True:
-            secretNum = self.getSecretNum(NUMDIGITS,BASENUMBER)
-            print('I have thought up a number. You have %s guesses to get it.' % (MAXGUESS))
+            secret_num = self.get_secret_num(numdigits, basenumber)
+            print('I have thought up a number. You have %s guesses to get it.' % maxguess)
 
-            numGuesses = 1
-            while numGuesses <= MAXGUESS:
+            num_guesses = 1
+            while num_guesses <= maxguess:
                 guess = ''
-                while len(guess) != NUMDIGITS or not self.isOnlyDigits(guess,BASENUMBER):
-                    print('Guess #%s: ' % (numGuesses))
+                while len(guess) != numdigits or not self.is_only_digits(guess, basenumber):
+                    print('Guess #%s: ' % num_guesses)
                     guess = input()
 
-                clue = self.getClues(guess, secretNum)
+                clue = self.getClues(guess, secret_num)
                 print(clue)
-                numGuesses += 1
+                num_guesses += 1
 
-                if guess == secretNum:
+                if guess == secret_num:
                     break
-                if numGuesses > MAXGUESS:
-                    print('You ran out of guesses. The answer was %s.' % (secretNum))
+                if num_guesses > maxguess:
+                    print('You ran out of guesses. The answer was %s.' % secret_num)
 
-            if not self.playAgain():
+            if not self.play_again():
                 break

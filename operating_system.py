@@ -26,14 +26,14 @@ class OperatingSystem:
         #Setting current user and password
         for i in self.dictionary:
             try:
-                temp = self.notes[self.dictionary[i][0]][0]
+                temp = self.notes[i][0]
                 del temp
             except KeyError:
-                self.notes[self.dictionary[i][0]] = ''
-        for i in range(len(self.dictionary)):
-            if self.dictionary[i][2] == 'CURRENT\n':
-                self.current_user = self.dictionary[i][0]
-                self.current_password = self.dictionary[i][1]
+                self.notes[i] = ''
+        for i in self.dictionary:
+            if self.dictionary[i][1] == 'CURRENT\n':
+                self.current_user = i
+                self.current_password = self.dictionary[i][0]
                 break
         return
 
@@ -130,6 +130,8 @@ class OperatingSystem:
         #The shutdown method. Saves everything to disk and rides return statements all the way back to the main file.
         # Exits safely after that.
         print("Shutting down...")
+        #Aesthetic pause...
+        time.sleep(2)
         #Check if any programs are running
         program_running = False
         forcequit = 'shutdown'
@@ -143,6 +145,8 @@ class OperatingSystem:
             forcequit = input()
         else:
             print("No apps are open.")
+            #Another aesthetic pause...
+            time.sleep(2)
         if forcequit == 'shutdown':
             print("Shutting down...")
             #Proceeding with force quitting and shutting down.
@@ -156,19 +160,17 @@ class OperatingSystem:
             current = []
             notes = []
             #Append each user, password, and current status to the lists.
-            for i in range(len(dictionary)):
-                users.append(dictionary[i][0])
-                passwords.append(dictionary[i][1])
-                current.append(dictionary[i][2])
-            for i in notes_dictionary:
-                #Special protocol to translate all new lines to tabs for notes db formatting.
-                while '\n' in notes_dictionary[i]:
-                    (notes1, notes2) = notes_dictionary[i].split('\n', 1)
-                    notes_dictionary[i] = notes1 + '\t' + notes2
-                #Then try to access everyone's notes. If it doesn't exist, give them an empty notes string.
+            for i in dictionary:
+                users.append(i)
+                passwords.append(dictionary[i][0])
+                current.append(dictionary[i][1])
+            for i in dictionary:
+                #Try to access everyone's notes. If it doesn't exist, give them an empty notes string.
                 try:
-                    temp = notes_dictionary[i]
-                    del temp
+                    #Special protocol to translate all new lines to tabs for notes db formatting.
+                    while '\n' in notes_dictionary[i]:
+                        (notes1, notes2) = notes_dictionary[i].split('\n', 1)
+                        notes_dictionary[i] = notes1 + '\t' + notes2
                 except KeyError:
                     notes_dictionary[i] = ''
                 #After translation and empty notes creation, add everything to the notes list to write to the db later.

@@ -9,96 +9,97 @@ class UserSettings:
         return "< This is a UserSettings class named " + self.__class__.__name__ + ">"
 
     def add_user(self, dictionary):
-        #Adding a new user!
+        # Adding a new user!
         print("Welcome to the Add User setup wizard!")
         print("Name your user:")
-        #Take a name
+        # Take a name
         add_user = input()
         print("New User added. Enter a password or press [ENTER] or [return] to use the default password.")
-        #While loop for the password.
+        # While loop for the password.
         while True:
-            #Ask for password
+            # Ask for password
             add_pwd = input()
-            #If password entered:
+            # If password entered:
             if add_pwd:
                 print("Password set. Enter it again to confirm it.")
-                #Make sure it's the same password
+                # Make sure it's the same password
                 if add_pwd == input():
                     break
                 else:
                     print('The passwords you entered didn\'t match. Type the same password twice.')
             else:
-                #Default password
+                # Default password
                 add_password = 'python123'
-                #Add this to the user dictionary
-                dictionary[len(dictionary)] = (add_user, add_password, '\n')
+                # Add this to the user dictionary
+                dictionary[add_user] = (add_password, '\n')
                 print('Default password set. The password is "python123". Returning to the User Settings in 3 seconds.')
                 time.sleep(3)
-                #Return from here itself, don't run the following.
+                # Return from here itself, don't run the following.
                 return
         add_password = add_pwd
-        #Add this to the user dictionary
-        dictionary[len(dictionary)] = (add_user, add_password, '\n')
+        # Add this to the user dictionary
+        dictionary[add_user] = (add_password, '\n')
         print("Password set successfully. Returning to the User Settings in 3 seconds.")
         time.sleep(3)
         return
 
     def delete_user(self, dictionary, current_user):
         print("Choose a user to delete or type 'exit' to exit.")
-        for i in range(len(dictionary)):
-            print(str(i+1) + '. ' + dictionary[i][0])
-        pos = 0
+        pos = ''
+        count = 1
+        for i in dictionary:
+            print(str(count) + '. ' + i)
+            count += 1
         while True:
             delete_sel = input()
             if delete_sel == 'exit':
                 return
             elif delete_sel in dictionary:
-                for i in range(len(dictionary)):
-                    if delete_sel == dictionary[i][0]:
+                for i in dictionary:
+                    if delete_sel == i:
                         if delete_sel == current_user:
                             print("You can't delete the current user! Login with a different user to delete this one.")
                             print("Returning to the User Settings in 3 seconds.")
                             time.sleep(3)
                             return
                         else:
-                            deleted_user = dictionary.pop(i)
                             pos = i
                 try:
-                    while dictionary[pos + 1]:
-                        dictionary[pos] = dictionary[pos + 1]
-                        dictionary.pop(pos + 1)
-                        pos += 1
-                except KeyError:
+                    deleted_user = dictionary.pop(pos)
                     print("User deleted successfully. Returning to the User Settings in 3 seconds.")
                     time.sleep(3)
                     return
+                except KeyError:
+                    pass
+
             else:
                 print("Please choose a user from the list or type \"exit\" to exit.")
-
 
     def switch_user(self, dictionary, current_user, current_password, src):
         print("Current User: " + current_user)
         print("Choose a user.")
-        for i in range(len(dictionary)):
-            print(str(i+1) + '. ' + dictionary[i][0])
+        count = 1
+        for i in dictionary:
+            print(str(count) + '. ' + i)
+            count += 1
         while True:
             user_selection = input()
             pos = 0
             isindb = False
-            for i in range(len(dictionary)):
-                isindb = isindb or user_selection == dictionary[i][0]
+            for i in dictionary:
+                isindb = isindb or user_selection == i
             if user_selection.lower() == 'exit':
                 break
                 # Checking if the user selection is in the user pwd database.
             elif isindb:
-                for i in range(len(dictionary)):
-                    if user_selection == dictionary[i][0]:
-                        dictionary[i] = (dictionary[i][0], dictionary[i][1], 'CURRENT\n')
+                for i in dictionary:
+                    if user_selection == i:
+                        dictionary[i] = (dictionary[i][0], 'CURRENT\n')
                         pos = i
-                    if current_user == dictionary[i][0]:
-                        dictionary[i] = (dictionary[i][0], dictionary[i][1], '\n')
-                current_user = dictionary[pos][0]
-                current_password = dictionary[pos][1]
+                    if current_user == i:
+                        dictionary[i] = (dictionary[i][0], '\n')
+                current_user = pos
+                current_password = dictionary[pos][0]
                 break
             else:
                 print("Choose a user from the list or type 'exit' to exit.")

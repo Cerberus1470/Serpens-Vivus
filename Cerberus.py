@@ -3,12 +3,11 @@
 # INCLUDE TWO PYTHON GAMES FROM EARLIER IN THE COURSE (Bagels and TicTacToe)
 
 #TODO
-# - Create classes for all applications - DONE
-# - Create database for users
-# - Store current users
-# - User-specific notes and game progress!
-# - Add more games in class format
-# - Fix imports
+# - Loops in user settings (delete more than one user)
+# - Edit username and password!
+# - User-specific notes and game progress! - In progress
+# - Add more games in class format - In  progress
+# - Fix imports - DONE
 
 from operating_system import OperatingSystem
 from jokes import Jokes
@@ -40,16 +39,14 @@ except FileExistsError:
     #Make dictionary and variables.
     user_pwd_database = open('userpwd_db.txt', "r")
     #Running through the lines of the database.
-    count = 0
     for i in user_pwd_database:
         #Split the line into the three parts and append the user and password to the dictionary above.
         (user, pwd, current) = i.split('\t\t', 2)
         #If the user is specified as the current, write that in the dictionary.
         if current == 'CURRENT\n':
-            user_pwd_dictionary[count] = user, pwd, current
+            user_pwd_dictionary[user] = pwd, current
         else:
-            user_pwd_dictionary[count] = user, pwd, '\n'
-        count += 1
+            user_pwd_dictionary[user] = pwd, '\n'
     user_pwd_database.close()
 
 #Initializing Notes
