@@ -1,3 +1,2 @@
 Tejas		Dhilip		CURRENT
-Pranav		python123		
-Maya		python123		
+Pranav		Dhilip		

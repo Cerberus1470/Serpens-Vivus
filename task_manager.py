@@ -5,6 +5,15 @@ class TaskManager:
     def __repr__(self):
         return "< This is a Task Manager class named " + self.__class__.__name__ + ">"
 
+    def quit(self, app, stats):
+        if app == 'quitall':
+            stats["Jokes"] = stats["Notepad"] = stats["Bagels Game"] = stats["TicTacToe"] = stats["User Settings"] = \
+                stats["System Info"] = "not running"
+            pass
+        else:
+            stats[str(app)] = 'not running'
+            print("The " + str(app) + " Program was successfully quit.")
+
     def main(self, stats):
         print()
         print("Welcome to the task manager!")

@@ -13,17 +13,16 @@ class TicTacToe:
     def draw_board(self, board):
         # This function prints out the board that it was passed.
 
-        # "board" is a list of 10 strings representing the board (ignore index 0)
         print('   |   |')
-        print(' ' + board[7] + ' | ' + board[8] + ' | ' + board[9])
-        print('   |   |')
-        print('-----------')
-        print('   |   |')
-        print(' ' + board[4] + ' | ' + board[5] + ' | ' + board[6])
+        print(' ' + board[0] + ' | ' + board[1] + ' | ' + board[2])
         print('   |   |')
         print('-----------')
         print('   |   |')
-        print(' ' + board[1] + ' | ' + board[2] + ' | ' + board[3])
+        print(' ' + board[3] + ' | ' + board[4] + ' | ' + board[5])
+        print('   |   |')
+        print('-----------')
+        print('   |   |')
+        print(' ' + board[6] + ' | ' + board[7] + ' | ' + board[8])
         print('   |   |')
 
     def input_player_letter(self):
@@ -58,14 +57,14 @@ class TicTacToe:
     def is_winner(self, bo, le):
         # Given a board and a player's letter, this function returns True if that player has won.
         # We use bo instead of board and le instead of letter so we don't have to type as much.
-        return ((bo[7] == le and bo[8] == le and bo[9] == le) or  # across the top
-                (bo[4] == le and bo[5] == le and bo[6] == le) or  # across the middle
-                (bo[1] == le and bo[2] == le and bo[3] == le) or  # across the bottom
-                (bo[7] == le and bo[4] == le and bo[1] == le) or  # down the left side
-                (bo[8] == le and bo[5] == le and bo[2] == le) or  # down the middle
-                (bo[9] == le and bo[6] == le and bo[3] == le) or  # down the right side
-                (bo[7] == le and bo[5] == le and bo[3] == le) or  # diagonal
-                (bo[9] == le and bo[5] == le and bo[1] == le))  # diagonal
+        return ((bo[6] == le and bo[7] == le and bo[8] == le) or  # across the top
+                (bo[3] == le and bo[4] == le and bo[5] == le) or  # across the middle
+                (bo[0] == le and bo[1] == le and bo[2] == le) or  # across the bottom
+                (bo[6] == le and bo[3] == le and bo[0] == le) or  # down the left side
+                (bo[7] == le and bo[4] == le and bo[1] == le) or  # down the middle
+                (bo[8] == le and bo[5] == le and bo[2] == le) or  # down the right side
+                (bo[6] == le and bo[4] == le and bo[2] == le) or  # diagonal
+                (bo[8] == le and bo[4] == le and bo[0] == le))  # diagonal
 
     def get_board_copy(self, board):
         # Make a duplicate of the board list and return it the duplicate.
@@ -82,13 +81,12 @@ class TicTacToe:
 
     def get_player_move(self, board):
         # Let the player type in his move.
-        move = ' '
         while True:
             print('Enter your move from 1-9!')
             move = input()
-            if move in ('1', '2', '3', '4', '5', '6', '7', '8', '9', '0'):
-                if self.is_space_free(board, int(move)):
-                    return int(move)
+            if move in ('1', '2', '3', '4', '5', '6', '7', '8', '9'):
+                if self.is_space_free(board, int(move)-1):
+                    return int(move)-1
                 else:
                     print("That move is taken!")
             if move in ('quit', 'exit', 'get me out of here'):
@@ -116,7 +114,7 @@ class TicTacToe:
 
         # Here is our algorithm for our Tic Tac Toe AI:
         # First, check if we can win in the next move
-        for i in range(1, 10):
+        for i in range(1, 9):
             copy = self.get_board_copy(board)
             if self.is_space_free(copy, i):
                 self.make_move(copy, computer_letter, i)
@@ -124,7 +122,7 @@ class TicTacToe:
                     return i
 
         # Check if the player could win on his next move, and block them.
-        for i in range(1, 10):
+        for i in range(1, 9):
             copy = self.get_board_copy(board)
             if self.is_space_free(copy, i):
                 self.make_move(copy, player_letter, i)
@@ -132,41 +130,61 @@ class TicTacToe:
                     return i
 
         # Try to take one of the corners, if they are free.
-        move = self.choose_random_move_from_list(board, [1, 3, 7, 9])
+        move = self.choose_random_move_from_list(board, [0, 2, 6, 8])
         if move is not None:
             return move
 
         # Try to take the center, if it is free.
-        if self.is_space_free(board, 5):
-            return 5
+        if self.is_space_free(board, 4):
+            return 4
 
         # Move on one of the sides.
-        return self.choose_random_move_from_list(board, [2, 4, 6, 8])
+        return self.choose_random_move_from_list(board, [1, 3, 5, 7])
 
     def is_board_full(self, board):
         # Return True if every space on the board has been taken. Otherwise return False.
-        for i in range(1, 10):
+        for i in range(1, 9):
             if self.is_space_free(board, i):
                 return False
         return True
 
+    def startup(self, turn):
+        print("Welcome back!")
+        if turn == 'player':
+            print("It is your turn. Here is your board:")
+            pass
+        else:
+            print("It is the computer's turn. Press [ENTER] or [return] to continue.")
+            input()
+            pass
+        return
+
     def quit(self, board):
         # Save game status to memory.
-        print("Saving game progress...")
+
         saved_board = self.get_board_copy(board)
         time.sleep(3)
         return saved_board
 
-    def main(self, stats, board, turn, player_letter):
-        stats['tictactoe'] = 'running'
+    def main(self, stats, prog, current_user):
+        stats['TicTacToe'] = 'running'
         print('Welcome to Tic Tac Toe!')
+        empty = True
+        try:
+            board = prog[current_user][0]
+            turn = prog[current_user][1]
+            player_letter = prog[current_user][2]
+            for i in range(len(board)):
+                empty = empty and board[i] == ' '
+            self.startup(turn)
+        except (KeyError, ValueError):
+            board = [' '] * 9
+            player_letter, computer_letter = self.input_player_letter()
+            turn = self.who_goes_first()
+            print('The ' + turn + ' will go first.')
 
         while True:
             # Use the previous board!
-            the_board = board
-            empty = True
-            for i in range(len(the_board)):
-                empty = empty and the_board[i] == ' '
             if empty:
                 player_letter, computer_letter = self.input_player_letter()
                 turn = self.who_goes_first()
@@ -183,20 +201,23 @@ class TicTacToe:
             while game_is_playing:
                 if turn == 'player':
                     # Player's turn.
-                    self.draw_board(the_board)
-                    move = self.get_player_move(the_board)
+                    self.draw_board(board)
+                    move = self.get_player_move(board)
                     if move in ('exit', 'quit', 'get me out of here'):
                         # Safely quit the app.
-                        return self.quit(the_board), turn, player_letter
-                    self.make_move(the_board, player_letter, int(move))
+                        print("Saving game progress...")
+                        time.sleep(3)
+                        return board, turn, player_letter
+                    else:
+                        self.make_move(board, player_letter, int(move))
 
-                    if self.is_winner(the_board, player_letter):
-                        self.draw_board(the_board)
+                    if self.is_winner(board, player_letter):
+                        self.draw_board(board)
                         print('Hooray! You have won the game!')
                         game_is_playing = False
                     else:
-                        if self.is_board_full(the_board):
-                            self.draw_board(the_board)
+                        if self.is_board_full(board):
+                            self.draw_board(board)
                             print('The game is a tie!')
                             break
                         else:
@@ -204,23 +225,22 @@ class TicTacToe:
 
                 else:
                     # Computer's turn.
-                    move = self.get_computer_move(the_board, computer_letter)
-                    self.make_move(the_board, computer_letter, move)
+                    self.draw_board(board)
+                    move = self.get_computer_move(board, computer_letter)
+                    self.make_move(board, computer_letter, move)
 
-                    if self.is_winner(the_board, computer_letter):
-                        self.draw_board(the_board)
+                    if self.is_winner(board, computer_letter):
                         print('The computer has beaten you! You lose.')
                         game_is_playing = False
                     else:
-                        if self.is_board_full(the_board):
-                            self.draw_board(the_board)
+                        if self.is_board_full(board):
                             print('The game is a tie!')
                             break
                         else:
                             turn = 'player'
 
             if self.play_again():
-                board = [' '] * 10
+                board = [' '] * 9
             else:
                 break
         return board, turn, player_letter
