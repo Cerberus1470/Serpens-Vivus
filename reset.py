@@ -8,18 +8,20 @@ class Reset:
     def __repr__(self):
         return "< This is a reset class named" + self.__class__.__name__ + ">"
 
-    def reset(self, stats):
-        stats["jokes"] = stats["notes"] = stats["bagels"] = stats["tictactoe"] = stats["userset"] = \
-            stats["sysinfo"] = "not running"
-        user = ''
-        password = ''
-        notes = ''
-        user_count = 1
+    def reset(self, os_object, stats):
+        stats["Jokes"] = stats["Notepad"] = stats["Bagels Game"] = stats["TicTacToe"] = stats["User Settings"] = \
+            stats["System Info"] = "not running"
+        os_object.current_user = ''
+        os_object.current_password = ''
+        os_object.dictionary = {}
+        os_object.notes = {}
+        os_object.ttt = {}
 
-    def user_reset(self, current_user, password, stats):
+    def user_reset(self, os_object, current_user, password, stats):
+        print('\n'*5)
         print("RESET ALL SETTINGS")
-        print(
-            "Are you sure you want to reset all settings? This includes notes, user settings, game progress, and everything else.")
+        print("\nAre you sure you want to reset all settings? This includes notes, users and their settings, game progress, and "
+              "everything else.")
         print("Type 'resetall' to continue or press [ENTER] or [return] to return to the applications screen.")
         reset_choice = input()
         if reset_choice == 'resetall':
@@ -40,7 +42,7 @@ class Reset:
                         time.sleep(2)
                         print("Entering setup.")
                         time.sleep(2)
-                        self.reset(stats)
+                        self.reset(os_object, stats)
                         for i in range(100):
                             print("SETUP")
                         print()

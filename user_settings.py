@@ -44,36 +44,46 @@ class UserSettings:
         return
 
     def delete_user(self, dictionary, current_user):
-        print("Choose a user to delete or type 'exit' to exit.")
-        pos = ''
-        count = 1
-        for i in dictionary:
-            print(str(count) + '. ' + i)
-            count += 1
         while True:
-            delete_sel = input()
-            if delete_sel == 'exit':
-                return
-            elif delete_sel in dictionary:
-                for i in dictionary:
-                    if delete_sel == i:
-                        if delete_sel == current_user:
-                            print("You can't delete the current user! Login with a different user to delete this one.")
-                            print("Returning to the User Settings in 3 seconds.")
-                            time.sleep(3)
-                            return
-                        else:
-                            pos = i
-                try:
-                    deleted_user = dictionary.pop(pos)
-                    print("User deleted successfully. Returning to the User Settings in 3 seconds.")
-                    time.sleep(3)
+            print("Choose a user to delete or type 'exit' to exit.")
+            pos = ''
+            count = 1
+            for i in dictionary:
+                print(str(count) + '. ' + i)
+                count += 1
+            flag = True
+            while flag:
+                delete_sel = input()
+                if delete_sel == 'exit':
                     return
-                except KeyError:
+                elif delete_sel in dictionary:
+                    for i in dictionary:
+                        if delete_sel == i:
+                            if delete_sel == current_user:
+                                print("You can't delete the current user! Login with a different user to delete this one.")
+                                time.sleep(3)
+                                flag = False
+                                break
+                            else:
+                                pos = i
+                                pass
+                    try:
+                        deleted_user = dictionary.pop(pos)
+                        print("User deleted successfully. Returning to the User Settings in 3 seconds.")
+                        time.sleep(3)
+                        return
+                    except KeyError:
+                        pass
+                else:
+                    print("Please choose a user from the list or type \"exit\" to exit.")
                     pass
-
+                pass
+            print("Delete another user? Yes or no?")
+            if input() == 'yes':
+                pass
             else:
-                print("Please choose a user from the list or type \"exit\" to exit.")
+                print("Returning to the User Settings in 3 seconds.")
+                return
 
     def switch_user(self, dictionary, current_user, current_password, src):
         print("Current User: " + current_user)
@@ -111,7 +121,7 @@ class UserSettings:
         return current_user, current_password
 
     def main(self, current_user, current_password, dictionary, stats):
-        stats["userset"] = "running"
+        stats["User Settings"] = "running"
         print("Welcome to User Settings!")
         print("Here you can edit the username and password of the current user!")
 
@@ -125,30 +135,39 @@ class UserSettings:
             print("\nChoose an option or press [ENTER] or [return] to return to the applications screen!")
             setchoice = input()
             if setchoice.lower() in ('edit username', 'edit uname', '1'):
-                print("New Username:")
-                # new_uname = input()
-                # for i in user_pwd_database:
-                #     (user, pwd, current) = i.split('\t\t', 2)
-                #     if current_user == user:
-                #         result_database.write(new_uname + '\t\t' + current_password + '\t\t' + current + '\n')
-                #     else:
-                #         result_database.write(user + '\t\t' + pwd + '\t\t' + current + '\n')
-                #     current_user = new_uname
-                # user_pwd_database.close()
-                # result_database.close()
-                # del user_pwd_database, result_database
-                # os.replace('resultfile.txt', db_filename)
-                # print("New Username successfully set!")
+                print("New Username for " + current_user + ":")
+                new_uname = input()
+                #Find the current user and change their name to the new name.
+                for i in dictionary:
+                    if current_user == i:
+                        dictionary[new_uname] = dictionary.pop(i)
+                        break
+                current_user = new_uname
+                print("New Username successfully set!")
+                time.sleep(2)
             elif setchoice.lower() in ('edit password', 'edit pwd', '2'):
                 print("Old Password:")
                 old_pwd = input()
                 if old_pwd == current_password:
                     print("New Password:")
                     new_pwd = input()
-                    current_password = new_pwd
-                    print("New Password successfully set!")
+                    print("Enter the new password again:")
+                    if new_pwd == input():
+                        #Find the current user and change their password to the new password.
+                        for i in dictionary:
+                            if current_user == i:
+                                dictionary[i] = (new_pwd, dictionary[i][1])
+                                break
+                        current_password = new_pwd
+                        print("New Password successfully set!")
+                        pass
+                    else:
+                        print("The passwords did not match.")
+                        pass
+                    pass
                 else:
                     print("The password is incorrect.")
+                    pass
             elif setchoice.lower() in ('add new user', '3'):
                 self.add_user(dictionary)
             elif setchoice.lower() in ('delete user', '4'):
