@@ -28,3 +28,7 @@ user_settings.py
 Put delete_user in a while loop and proper break/return statements.
 Modified code to use the dictionary instead of the txt file.
 Changing username and password actually work now!
+
+Changes as of 11/8/2021
+operating_system.py
+Added proper sleep function.
