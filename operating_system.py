@@ -118,7 +118,11 @@ class OperatingSystem:
                         print("Welcome!")
                         if self.operating_system("Cerberus", versions, stats) in ('shutdown', 'hibernate'):
                             return
-                        break
+                        else:
+                            print("\n" * 10)
+                            print("The System is sleeping. Press [ENTER] or [return] to wake.")
+                            input()
+                            break
                     elif pwd == 'switch':
                         if len(self.dictionary) > 1:
                             (self.current_user, self.current_password) = OperatingSystem.userSettings.switch_user(self.dictionary, self.current_user, self.current_password, 'os')
@@ -128,8 +132,8 @@ class OperatingSystem:
                     elif pwd == 'shutdown':
                         shutdown = self.shutdown('userpwd_db.txt', 'user_notes.txt', self.dictionary, self.notes, self.bagels_prog, self.ttt_prog, stats)
                         if shutdown == 1:
-                            print("\n" * 5)
-                            print("The System is sleeping. Press any key to wake.")
+                            print("\n" * 10)
+                            print("The System is sleeping. Press [ENTER] or [return] to wake.")
                             input()
                             break
                         elif shutdown == 3:
@@ -152,19 +156,20 @@ class OperatingSystem:
     def shutdown(self, db_filename, game_prog_db, dictionary, notes_dictionary, bagels_prog, ttt_prog, stats):
         # The shutdown method. Saves everything to disk and rides return statements all the way back to the main file.
         # Exits safely after that.
-        print("Choose an option.")
-        print("1. Sleep")
-        print("2. Hibernate")
-        print("3. Shutdown")
-        print("Type \"info\" for details.")
-        shutdown_choice = input()
         while True:
+            print("Choose an option.")
+            print("1. Sleep")
+            print("2. Hibernate")
+            print("3. Shutdown")
+            print("Type \"info\" for details.")
+            shutdown_choice = input()
             if shutdown_choice.lower() in "info":
                 print("1. Sleep\nSleep does not close the python shell. It logs out the current user and saves the session to RAM. Forcibly closing "
                       "the shell will result in lost data.")
                 print("2. Hibernate\nHibernate saves the current session to disk and exits the python shell. The python shell is closed and all "
                       "data is saved.")
                 print("3. Shutdown\nShutdown saves only users and notes to disk. All other data is erased and all apps are quit.")
+                input()
                 pass
             elif shutdown_choice.lower() in ("sleep", "1"):
                 print("Sleeping...")
