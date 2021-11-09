@@ -65,19 +65,28 @@ except FileExistsError:
         bagels_dictionary[user] = last_guess, num_guesses, num_digits, secret_num, max_guesses
 
     game_prog_database.close()
+    pass
+
+# Reading from saved_state database!
+saved_state = {}
+try:
+    saved_state_database = open('saved_state.txt', 'x')
+except FileExistsError:
+    saved_state_database = open('saved_state.txt', 'r')
+    for i in saved_state_database:
+        (user, stats, new_line) = i.split('\t\t', 2)
+        saved_state[user] = {"Jokes": stats.split('.', 6)[0], "Notepad": stats.split('.', 6)[1], "Bagels Game": stats.split('.', 6)[2], "TicTacToe": stats.split('.', 6)[3], "User Settings": stats.split('.', 6)[4], "System Info": stats.split('.', 6)[5]}
 
 # Versions and Stats Dictionaries.
 versions = {"main": 6.6, "jokes": 1.1, "notes": 1.2, "bagels": 1.4, "tictactoe": 1.2, "userset": 1.4, "sysinfo": 1.2}
-stats = {"Jokes": "not running", "Notepad": "not running", "Bagels Game": "not running",
-         "TicTacToe": "not running", "User Settings": "not running", "System Info": "not running"}
 
 # Initializing operating system with __init__
-args = [user_pwd_dictionary, notes_dictionary, bagels_dictionary, ttt_dictionary]
+args = [user_pwd_dictionary, notes_dictionary, bagels_dictionary, ttt_dictionary, saved_state]
 operating_system = OperatingSystem(args)
 
 # If the user_pwd dictionary exists (meaning the database exists), run startup. Otherwise create it and go into setup.
 if user_pwd_dictionary:
-    operating_system.startup(versions, stats)
+    operating_system.startup(versions)
 else:
     operating_system.setup(user_pwd_dictionary)
-    operating_system.startup(versions, stats)
+    operating_system.startup(versions)
