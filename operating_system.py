@@ -68,7 +68,7 @@ class OperatingSystem:
             print("8. Reset")
             print("9. Lock Computer")
             print("10. Shutdown")
-            print("Select one from the list above or press [ENTER] or [return] to lock!")
+            print("Select one from the list above.")
             choice = input()
             # The if elif of choices... so long...
             if choice.lower() in ('jokes', 'joke', '1'):
@@ -89,7 +89,7 @@ class OperatingSystem:
                 OperatingSystem.reset.user_reset(self, self.current_user, self.current_password, self.save_state[self.current_user])
             elif choice.lower() in ('exit', 'lock computer', '9'):
                 print("Computer has been locked.")
-                return
+                return 'regular'
             elif choice.lower() in ('shutdown', '10'):
                 shutdown = self.shutdown('userpwd_db.txt', 'user_notes.txt', 'saved_state.txt', self.dictionary, self.notes, self.bagels_prog, self.ttt_prog)
                 if shutdown == 1:
@@ -100,8 +100,8 @@ class OperatingSystem:
                     return 'shutdown'
                 else:
                     pass
-            elif choice.lower() in 'debugexit':
-                return
+            elif choice.lower() in ('debugexit', 'debug'):
+                return 'regular'
             else:
                 print("Please choose from the list of applications.")
 
@@ -118,13 +118,17 @@ class OperatingSystem:
                     pwd = input()
                     if pwd == self.current_password:
                         print("Welcome!")
-                        if self.operating_system("Cerberus", versions) in ('shutdown', 'hibernate'):
+                        osstatus = self.operating_system("Cerberus", versions)
+                        if osstatus in ('shutdown', 'hibernate'):
                             return
-                        else:
+                        elif osstatus in 'sleep':
                             print("\n" * 10)
                             print("The System is sleeping. Press [ENTER] or [return] to wake.")
                             input()
+                            print("Hello! I am Cerberus, running user: " + self.current_user + ". Type 'switch' to switch users or \"shutdown\" to shut down the system.")
                             break
+                        else:
+                            pass
                     elif pwd == 'switch':
                         if len(self.dictionary) > 1:
                             (self.current_user, self.current_password) = OperatingSystem.userSettings.switch_user(self.dictionary, self.current_user, self.current_password, 'os')
@@ -155,7 +159,7 @@ class OperatingSystem:
                     self.operating_system("Cerberus", versions)
                     break
 
-    def shutdown(self, db_filename, game_prog_db, saved_state_db, dictionary, notes_dictionary, bagels_prog, ttt_prog):
+    def shutdown(self, db_filename, notes_db, saved_state_db, dictionary, notes_dictionary, bagels_prog, ttt_prog):
         # The shutdown method. Saves everything to disk and rides return statements all the way back to the main file.
         # Exits safely after that.
         while True:
@@ -181,8 +185,8 @@ class OperatingSystem:
                 # Much is similar to shutting down, except no force quitting.
                 # First open the databases.
                 db = open(db_filename, 'w')
-                game_prog_db = open(game_prog_db, 'w')
-                saved_state = open(saved_state_db, 'w')
+                notes_db = open(notes_db, 'w')
+                saved_state_db = open(saved_state_db, 'w')
                 # Ready the lists.
                 users = []
                 passwords = []
@@ -218,14 +222,14 @@ class OperatingSystem:
                     # Append user-specific to the list
                     # Now for bagels!
                     # Simple Array, no translation needed.
-                    bagels_user_prog = bagels_prog[i][0] + '.' + bagels_prog[i][1] + '.' + bagels_prog[i][2] + '.' + bagels_prog[i][3] + '.' + bagels_prog[i][4]
+                    bagels_user_prog = ''
+                    for j in range(4):
+                        bagels_user_prog += str(bagels_prog[i][j]) + '.'
+                    bagels_user_prog += str(bagels_prog[i][4])
                     # Now to store each user's open apps.
-                    user_state = self.save_state[self.current_user]["Jokes"] + '.'
-                    user_state += self.save_state[self.current_user]["Notepad"] + '.'
-                    user_state += self.save_state[self.current_user]["Bagels Game"] + '.'
-                    user_state += self.save_state[self.current_user]["TicTacToe"] + '.'
-                    user_state += self.save_state[self.current_user]["User Settings"] + '.'
-                    user_state += self.save_state[self.current_user]["System Info"]
+                    user_state = ''
+                    for j in self.save_state[i]:
+                        user_state += self.save_state[i][j] + '.'
                     # After translation and empty notes creation, add everything to the notes list to write to the db later.
                     notes.append(notes_dictionary[i])
                     ttt.append(ttt_user_prog)
@@ -235,11 +239,11 @@ class OperatingSystem:
                 # Also write the notes to the database.
                 for i in range(len(dictionary)):
                     db.write(users[i] + '\t\t' + passwords[i] + '\t\t' + current[i])
-                    game_prog_db.write(users[i] + '\t\t' + notes[i] + '\t\t' + bagels[i] + '\t\t' + ttt[i] + '\t\t\n')
-                    saved_state.write(users[i] + '\t\t' + state[i] + '\t\t\n')
+                    notes_db.write(users[i] + '\t\t' + notes[i] + '\t\t\n')
+                    saved_state_db.write(users[i] + '\t\t' + state[i] + '\t\t' + bagels[i] + '\t\t' + ttt[i] + '\t\t\n')
                 # Close the databases.
                 db.close()
-                game_prog_db.close()
+                notes_db.close()
                 time.sleep(5)
                 return 2
             elif shutdown_choice.lower() in ("shutdown", '3'):
@@ -268,14 +272,12 @@ class OperatingSystem:
                         self.save_state["System Info"] = "not running"
                     # First open the databases.
                     db = open(db_filename, 'w')
-                    game_prog_db = open(game_prog_db, 'w')
+                    notes_db = open(notes_db, 'w')
                     # Ready the lists.
                     users = []
                     passwords = []
                     current = []
                     notes = []
-                    bagels = []
-                    ttt = []
                     # Append each user, password, and current status to the lists.
                     for i in dictionary:
                         users.append(i)
@@ -292,31 +294,17 @@ class OperatingSystem:
                             notes_dictionary[i] = ''
                         # Try accessing ttt progress... if not, say nothing.
                         # Special protocol to translate ttt progress lists and strings to strings with splitters for db formatting.
-                        ttt_user_prog = ''
-                        for j in range(8):
-                            if ttt_prog[i][0][j] == 'X' or ttt_prog[i][0][j] == 'O':
-                                ttt_user_prog += (ttt_prog[i][0][j] + ',')
-                            else:
-                                ttt_user_prog += ' ,'
-                        # Append the last term
-                        ttt_user_prog += ttt_prog[i][0][len(ttt_prog[i][0]) - 1] + '.' + ttt_prog[i][1] + '.' + ttt_prog[i][2]
-                        # Append user-specific to the list
-                        ttt.append(ttt_user_prog)
-                        # Now for bagels!
-                        # Simple Array, no translation needed.
-                        bagels_user_prog = bagels_prog[i][0] + '.' + bagels_prog[i][1] + '.' + bagels_prog[i][2] + '.' + bagels_prog[i][3] + '.' + bagels_prog[i][4]
                         pass
                         # After translation and empty notes creation, add everything to the notes list to write to the db later.
                         notes.append(notes_dictionary[i])
-                        bagels.append(bagels_user_prog)
                     # Then write each user, password, and current status to the database, saving it to disk.
                     # Also write the notes to the database.
                     for i in range(len(dictionary)):
                         db.write(users[i] + '\t\t' + passwords[i] + '\t\t' + current[i])
-                        game_prog_db.write(users[i] + '\t\t' + notes[i] + '\t\t' + bagels[i] + '\t\t' + ttt[i] + '\t\t\n')
+                        notes_db.write(users[i] + '\t\t' + notes[i] + '\t\t\n')
                     # Close the databases.
                     db.close()
-                    game_prog_db.close()
+                    notes_db.close()
                     time.sleep(5)
                     print("Shut down complete.")
                     # Fun ride back home!

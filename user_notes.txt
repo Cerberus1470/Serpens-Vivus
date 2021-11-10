@@ -1,2 +1,2 @@
-Tejas		Hello!Hello		 . . . . 		X,O, ,X, ,O,O,X, .player.X		
-Pranav		YOOOOO		 . . . . 		 , , , , , , , , . . 		
+Tejas		Hello!Hello		
+Pranav		YOOOOO		

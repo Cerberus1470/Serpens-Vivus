@@ -46,12 +46,25 @@ try:
 except FileExistsError:
     game_prog_database = open('user_notes.txt', 'r')
     for i in game_prog_database:
-        (user, notes, bagels, ttt, new_line) = i.split('\t\t', 4)
+        (user, notes, new_line) = i.split('\t\t', 4)
         user_notes = notes
         while '!' in user_notes:
             (notes1, notes2) = user_notes.split('!', 1)
             user_notes = notes1 + '\n' + notes2
         notes_dictionary[user] = user_notes
+    game_prog_database.close()
+    pass
+
+# Reading from saved_state database!
+saved_state = {}
+try:
+    saved_state_database = open('saved_state.txt', 'x')
+except FileExistsError:
+    saved_state_database = open('saved_state.txt', 'r')
+    for i in saved_state_database:
+        (user, stats, bagels, ttt, new_line) = i.split('\t\t', 4)
+        saved_state[user] = {"Jokes": stats.split('.', 6)[0], "Notepad": stats.split('.', 6)[1], "Bagels Game": stats.split('.', 6)[2],
+                             "TicTacToe": stats.split('.', 6)[3], "User Settings": stats.split('.', 6)[4], "System Info": stats.split('.', 6)[5]}
         user_ttt = ttt
         (board, turn, letter) = user_ttt.split('.', 2)
         ttt_board = []
@@ -63,19 +76,6 @@ except FileExistsError:
         ttt_dictionary[user] = ttt_board, turn, letter
         (last_guess, num_guesses, num_digits, secret_num, max_guesses) = bagels.split('.', 4)
         bagels_dictionary[user] = last_guess, num_guesses, num_digits, secret_num, max_guesses
-
-    game_prog_database.close()
-    pass
-
-# Reading from saved_state database!
-saved_state = {}
-try:
-    saved_state_database = open('saved_state.txt', 'x')
-except FileExistsError:
-    saved_state_database = open('saved_state.txt', 'r')
-    for i in saved_state_database:
-        (user, stats, new_line) = i.split('\t\t', 2)
-        saved_state[user] = {"Jokes": stats.split('.', 6)[0], "Notepad": stats.split('.', 6)[1], "Bagels Game": stats.split('.', 6)[2], "TicTacToe": stats.split('.', 6)[3], "User Settings": stats.split('.', 6)[4], "System Info": stats.split('.', 6)[5]}
 
 # Versions and Stats Dictionaries.
 versions = {"main": 6.6, "jokes": 1.1, "notes": 1.2, "bagels": 1.4, "tictactoe": 1.2, "userset": 1.4, "sysinfo": 1.2}

@@ -16,7 +16,7 @@ class Bagels:
         random.shuffle(numbers)
         secret_num = ''
         for i in range(num_digits):
-            secret_num += str(numbers[int(i/num_digits)])
+            secret_num += str(numbers[i])
         return secret_num
 
     def is_only_digits(self, num):
@@ -62,7 +62,8 @@ class Bagels:
         num_guesses = 1
         num_digits = int(input('Enter the number of digits in the secret number:'))
         max_guesses = int(input('Enter the number of guesses you would like to try:'))
-        basenumber = int(input('Enter a base number system from 5 to 10 to use:'))
+        basenumber = int(input('Enter a base number system from 5 to 10 to use.\n'
+                               'The base number decides what range of digits to choose the secret number from.'))
         secret_num = self.get_secret_num(num_digits, basenumber)
         return last_guess, num_guesses, num_digits, max_guesses, secret_num
 
@@ -88,11 +89,11 @@ class Bagels:
 
         while True:
             guesses = int(max_guesses)-int(num_guesses)
-            print('I have thought up a number. You have %s guesses to get it.' % guesses)
+            print('I have thought up a number. You have %s guesses to get it.' % (guesses+1))
 
-            while num_guesses <= max_guesses:
+            while int(num_guesses) <= int(max_guesses):
                 guess = ''
-                while len(guess) != num_digits or not self.is_only_digits(guess):
+                while len(guess) != int(num_digits) or not self.is_only_digits(guess):
                     print('Guess #%s: \nType "quit" to quit.' % num_guesses)
                     guess = input()
                     if guess == 'quit':
@@ -113,4 +114,4 @@ class Bagels:
                 self.setup(stats)
                 pass
             else:
-                break
+                return ' ', ' ', ' ', ' ', ' '
