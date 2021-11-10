@@ -170,32 +170,26 @@ class TicTacToe:
         stats['TicTacToe'] = 'running'
         print('Welcome to Tic Tac Toe!')
         empty = True
-        try:
-            board = prog[current_user][0]
-            turn = prog[current_user][1]
-            player_letter = prog[current_user][2]
-            for i in range(len(board)):
-                empty = empty and board[i] == ' '
-            self.startup(turn)
-        except (KeyError, ValueError):
-            board = [' '] * 9
+        # Use the previous values!
+        board = prog[current_user][0]
+        turn = prog[current_user][1]
+        player_letter = prog[current_user][2]
+        for i in range(len(board)):
+            empty = empty and board[i] == ' '
+        if turn == ' ' or player_letter == ' ':
+            empty = True
+        if empty:
             player_letter, computer_letter = self.input_player_letter()
             turn = self.who_goes_first()
             print('The ' + turn + ' will go first.')
+        else:
+            if player_letter == 'X':
+                computer_letter = 'O'
+            else:
+                computer_letter = 'X'
+            self.startup(turn)
 
         while True:
-            # Use the previous board!
-            if empty:
-                player_letter, computer_letter = self.input_player_letter()
-                turn = self.who_goes_first()
-                print('The ' + turn + ' will go first.')
-            else:
-                player_letter = player_letter
-                if player_letter == 'X':
-                    computer_letter = 'O'
-                else:
-                    computer_letter = 'X'
-
             game_is_playing = True
 
             while game_is_playing:

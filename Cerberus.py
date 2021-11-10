@@ -46,7 +46,7 @@ try:
 except FileExistsError:
     game_prog_database = open('user_notes.txt', 'r')
     for i in game_prog_database:
-        (user, notes, new_line) = i.split('\t\t', 4)
+        (user, notes, new_line) = i.split('\t\t', 2)
         user_notes = notes
         while '!' in user_notes:
             (notes1, notes2) = user_notes.split('!', 1)

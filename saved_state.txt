@@ -1,2 +1,2 @@
-Tejas		not running.not running.not running.not running.not running.not running.		123.2.3.402.100		X,O, , , ,O, ,X, .player.X		
-Pranav		not running.not running.not running.not running.running.running.		 . . . . 		 , , , , , , , , . . 		
+Tejas		not running.not running.not running.not running.not running.not running.		 . . . . 		 , , , , , , , , . . 		
+Pranav		not running.not running.not running.not running.not running.not running.		 . . . . 		 , , , , , , , , . . 		

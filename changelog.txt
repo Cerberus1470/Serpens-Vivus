@@ -32,3 +32,38 @@ Changing username and password actually work now!
 Changes as of 11/8/2021
 operating_system.py
 Added proper sleep function.
+
+Fully functional sleep, hibernation, and shutdown!
+
+bagels.py
+Added explanation for base number.
+Fixed repeating number glitch. - Bug #1
+Correct number of guesses shown on bootup. - Bug #2
+Using int() on strings to make sure while loops work.
+Fixed NoneType return value.
+
+Cerberus.py and operating_system.py
+Fully functional Hibernation. Changed behavior of hibernation (storing game progress only happens with hibernation) and shutdown (clears everything except for users and notes).
+Moved game progress to the saved_state.txt text file. user_notes.txt now only stores notes.
+Pressing enter or return no longer locks the system! - Bug #3
+Return values changed to work with shutdown sequence. - Bug #4
+Fixed unintended sleep bug. - Bug #5
+Startup message now shown on bootup from sleep.
+Variable names changed: game_prog_db >>> notes_db to make room for saved_state.
+Using for loops to add bagels prog and user programs.
+
+notepad.py
+Notepad user status named properly.
+
+task_manager.py
+User statuses named properly.
+
+11/10/2021 Patch #1
+Cerberus.py and operating_system.py
+notes_db now only unpacks 3 values.
+New warning message during shutdown alerting the user that game progress will be lost.
+Shutting down now writes empty save states and empty game progress to saved_state.txt.
+
+tictactoe.py
+Try/Catch removed: The database will hold empty values if the values are nonexistent. In other words, the values will always exist, so no need for try catch.
+Moved some code around...

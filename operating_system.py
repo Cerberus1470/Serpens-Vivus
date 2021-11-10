@@ -247,6 +247,14 @@ class OperatingSystem:
                 time.sleep(5)
                 return 2
             elif shutdown_choice.lower() in ("shutdown", '3'):
+                print("Shutting down will erase all game progress. Users and their notes will be saved. Are you sure you want to continue?")
+                print("Type \"shutdown\" to continue, or press [ENTER] or [return] to return to the previous screen.")
+                if input() == 'shutdown':
+                    pass
+                else:
+                    print("Returning to the login screen in 3 seconds.")
+                    time.sleep(3)
+                    return 0
                 print("Shutting down...")
                 # Aesthetic pause...
                 time.sleep(2)
@@ -273,11 +281,15 @@ class OperatingSystem:
                     # First open the databases.
                     db = open(db_filename, 'w')
                     notes_db = open(notes_db, 'w')
+                    saved_state_db = open(saved_state_db, 'w')
                     # Ready the lists.
                     users = []
                     passwords = []
                     current = []
                     notes = []
+                    state = []
+                    bagels = []
+                    ttt = []
                     # Append each user, password, and current status to the lists.
                     for i in dictionary:
                         users.append(i)
@@ -297,11 +309,13 @@ class OperatingSystem:
                         pass
                         # After translation and empty notes creation, add everything to the notes list to write to the db later.
                         notes.append(notes_dictionary[i])
+
                     # Then write each user, password, and current status to the database, saving it to disk.
                     # Also write the notes to the database.
                     for i in range(len(dictionary)):
                         db.write(users[i] + '\t\t' + passwords[i] + '\t\t' + current[i])
                         notes_db.write(users[i] + '\t\t' + notes[i] + '\t\t\n')
+                        saved_state_db.write(users[i] + '\t\tnot running.not running.not running.not running.not running.not running.\t\t . . . . \t\t , , , , , , , , . . \t\t\n')
                     # Close the databases.
                     db.close()
                     notes_db.close()
