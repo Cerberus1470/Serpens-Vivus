@@ -41,8 +41,8 @@ class TaskManager:
                 stats["sysinfo"] = "not running"
                 print("The System Info Program was successfully quit.")
             elif quit_choice == 'quitall':
-                stats["jokes"] = stats["notes"] = stats["bagels"] = stats["tictactoe"] = stats["userset"] = stats[
-                    "sysinfo"] = "not running"
+                stats["Jokes"] = stats["Notepad"] = stats["Bagels Game"] = stats["TicTacToe"] = stats["User Settings"] = stats[
+                    "System Info"] = "not running"
                 print("All programs were successfully quit.")
             else:
                 break

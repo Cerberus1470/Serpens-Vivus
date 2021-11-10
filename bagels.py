@@ -1,4 +1,5 @@
 import random
+import time
 
 
 class Bagels:
@@ -10,15 +11,15 @@ class Bagels:
         return "< I am a bagels class named " + self.__class__.__name__ + ">"
 
     def get_secret_num(self, num_digits, base_number):
-        # Returns a string that is numDigits long, made up of unique random digits.
+        # Returns a string that is num_digits long, made up of unique random digits.
         numbers = list(range(base_number))
         random.shuffle(numbers)
         secret_num = ''
         for i in range(num_digits):
-            secret_num += str(numbers[i])
+            secret_num += str(numbers[int(i/num_digits)])
         return secret_num
 
-    def is_only_digits(self, num, base_number):
+    def is_only_digits(self, num):
         # The map() method in the line of code below converts a list of values to a string and returns that string.
         # base_String_Elements = ''.join(map(str, list(range(baseNumber))))
         # for i in num:
@@ -34,7 +35,7 @@ class Bagels:
 
         return True
 
-    def getClues(self, guess, secret_num):
+    def get_clues(self, guess, secret_num):
         # Returns a string with the pico, fermi, bagels clues to the user.
         if guess == secret_num:
             return 'You got it!'
@@ -56,15 +57,29 @@ class Bagels:
         print('Do you want to play again? (yes or no)')
         return input().lower().startswith('y')
 
-    def main(self, stats):
-        stats["bagels"] = "running"
+    def setup(self, stats):
+        last_guess = ''
+        num_guesses = 1
+        num_digits = int(input('Enter the number of digits in the secret number:'))
+        max_guesses = int(input('Enter the number of guesses you would like to try:'))
+        basenumber = int(input('Enter a base number system from 5 to 10 to use.\n'
+                               'The base number decides what range of digits to choose the secret number from.'))
+        secret_num = self.get_secret_num(num_digits, basenumber)
+        return last_guess, num_guesses, num_digits, max_guesses, secret_num
+
+    def main(self, stats, prog, current_user):
+        stats["Bagels Game"] = "running"
         print('WELCOME TO BAGELS')
         print(' ')
-        numdigits = int(input('Enter the number of digits in the secret number:'))
-        maxguess = int(input('Enter the number of guesses you would like to try:'))
-        basenumber = int(input('Enter a base number system from 5 to 10 to use:'))
+        last_guess = prog[current_user][0]
+        num_guesses = prog[current_user][1]
+        num_digits = prog[current_user][2]
+        secret_num = prog[current_user][3]
+        max_guesses = prog[current_user][4]
+        if last_guess == ' ' or num_guesses == ' ' or num_digits == ' ' or secret_num == ' ' or max_guesses == ' ':
+            last_guess, num_guesses, num_digits, max_guesses, secret_num = self.setup(stats)
 
-        print('I am thinking of a %s-digit number. Try to guess what it is.' % numdigits)
+        print('I am thinking of a %s-digit number. Try to guess what it is.' % num_digits)
         print('Here are some clues:')
         print('When I say:    That means:')
         print('  Pico         One digit is correct but in the wrong position.')
@@ -73,24 +88,30 @@ class Bagels:
         print('Hint: Enter different digits. Duplicate digits will produce duplicate results!')
 
         while True:
-            secret_num = self.get_secret_num(numdigits, basenumber)
-            print('I have thought up a number. You have %s guesses to get it.' % maxguess)
+            guesses = int(max_guesses)-int(num_guesses)
+            print('I have thought up a number. You have %s guesses to get it.' % (guesses+1))
 
-            num_guesses = 1
-            while num_guesses <= maxguess:
+            while int(num_guesses) <= int(max_guesses):
                 guess = ''
-                while len(guess) != numdigits or not self.is_only_digits(guess, basenumber):
-                    print('Guess #%s: ' % num_guesses)
+                while len(guess) != int(num_digits) or not self.is_only_digits(guess):
+                    print('Guess #%s: \nType "quit" to quit.' % num_guesses)
                     guess = input()
-
-                clue = self.getClues(guess, secret_num)
+                    if guess == 'quit':
+                        print("Saving game progress...")
+                        time.sleep(3)
+                        return last_guess, num_guesses, num_digits, secret_num, max_guesses
+                last_guess = guess
+                clue = self.get_clues(last_guess, secret_num)
                 print(clue)
                 num_guesses += 1
 
                 if guess == secret_num:
                     break
-                if num_guesses > maxguess:
+                if num_guesses > max_guesses:
                     print('You ran out of guesses. The answer was %s.' % secret_num)
 
-            if not self.play_again():
-                break
+            if self.play_again():
+                self.setup(stats)
+                pass
+            else:
+                return ' ', ' ', ' ', ' ', ' '
