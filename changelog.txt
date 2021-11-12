@@ -33,14 +33,8 @@ Changes as of 11/8/2021
 operating_system.py
 Added proper sleep function.
 
+Changes as of 11/10/2021
 Fully functional sleep, hibernation, and shutdown!
-
-bagels.py
-Added explanation for base number.
-Fixed repeating number glitch. - Bug #1
-Correct number of guesses shown on bootup. - Bug #2
-Using int() on strings to make sure while loops work.
-Fixed NoneType return value.
 
 Cerberus.py and operating_system.py
 Fully functional Hibernation. Changed behavior of hibernation (storing game progress only happens with hibernation) and shutdown (clears everything except for users and notes).
@@ -51,6 +45,13 @@ Fixed unintended sleep bug. - Bug #5
 Startup message now shown on bootup from sleep.
 Variable names changed: game_prog_db >>> notes_db to make room for saved_state.
 Using for loops to add bagels prog and user programs.
+
+bagels.py
+Added explanation for base number.
+Fixed repeating number glitch. - Bug #1
+Correct number of guesses shown on bootup. - Bug #2
+Using int() on strings to make sure while loops work.
+Fixed NoneType return value.
 
 notepad.py
 Notepad user status named properly.
@@ -67,3 +68,31 @@ Shutting down now writes empty save states and empty game progress to saved_stat
 tictactoe.py
 Try/Catch removed: The database will hold empty values if the values are nonexistent. In other words, the values will always exist, so no need for try catch.
 Moved some code around...
+
+Changes as of 11/11/2021
+New game: HANGMAN!
+Also removed some non-essential files.
+
+Cerberus.py and operating_system.py
+Moved some code around.
+Hangman progress now read to memory.
+Added some comments here and there.
+Imported hangman.
+Added Hangman and Sonar as games. Sonar is still in progress.
+Optimized .lower() code to run only once.
+Shutdown/Hibernate now stores hangman progress.
+Added some warnings and informational messages after each process.
+Optimized Shutdown to only do users and notes. Hardcoded empty game progress and save states.
+
+bagels.py
+Adapted to pass current user's stats instead of the whole dictionary.
+
+hangman.py
+New game! Adapted procedural game to object-oriented.
+Changed method and variable names according to IDEA.
+Added 'quit' feature to save progress.
+
+tictactoe.py
+Adapted to pass current user's stats instead of the whole dictionary.
+
+

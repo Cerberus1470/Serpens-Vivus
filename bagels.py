@@ -67,15 +67,15 @@ class Bagels:
         secret_num = self.get_secret_num(num_digits, basenumber)
         return last_guess, num_guesses, num_digits, max_guesses, secret_num
 
-    def main(self, stats, prog, current_user):
+    def main(self, stats, prog):
         stats["Bagels Game"] = "running"
         print('WELCOME TO BAGELS')
         print(' ')
-        last_guess = prog[current_user][0]
-        num_guesses = prog[current_user][1]
-        num_digits = prog[current_user][2]
-        secret_num = prog[current_user][3]
-        max_guesses = prog[current_user][4]
+        last_guess = prog[0]
+        num_guesses = prog[1]
+        num_digits = prog[2]
+        secret_num = prog[3]
+        max_guesses = prog[4]
         if last_guess == ' ' or num_guesses == ' ' or num_digits == ' ' or secret_num == ' ' or max_guesses == ' ':
             last_guess, num_guesses, num_digits, max_guesses, secret_num = self.setup(stats)
 

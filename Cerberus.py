@@ -5,11 +5,13 @@
 # TODO
 # - Loops in user settings (delete more than one user) - DONE
 # - Edit username and password! - DONE
-# - User-specific notes and game progress! - In progress (Notes done, games coming in...)
+# - User-specific notes and game progress! - DONE
 # - Add more games in class format
+# - Fix add user with game progress
+# - Merge shutdown and hibernate (since they share a lot of root code)
 # - Fix imports - DONE
-# - Add shutdown, hibernate, and sleep options on shutdown menu
-# - Add user-specific app status (app sessions)
+# - Add shutdown, hibernate, and sleep options on shutdown menu - DONE
+# - Add user-specific app status (app sessions) - DONE
 # - Change status dictionary - DONE
 
 from operating_system import OperatingSystem
@@ -33,14 +35,11 @@ except FileExistsError:
         else:
             user_pwd_dictionary[user] = pwd, '\n'
     user_pwd_database.close()
+    pass
 
 # Initializing Notes
 notes_dictionary = {}
-# Initializing Bagels Game Progress
-bagels_dictionary = {}
-# Initializing TTT Game Progress
-ttt_dictionary = {}
-# Same as above. Try creating the notes database and simply read it if it exists already.
+# Try creating the notes database and simply read it if it exists already.
 try:
     game_prog_database = open('user_notes.txt', 'x')
 except FileExistsError:
@@ -57,31 +56,47 @@ except FileExistsError:
 
 # Reading from saved_state database!
 saved_state = {}
+# Initializing Bagels Game Progress
+bagels_dictionary = {}
+# Initializing TTT Game Progress
+ttt_dictionary = {}
+# Initializing Hangman Game Progress
+hangman_dictionary = {}
+# Try creating the save state, and read it if it exists.
 try:
     saved_state_database = open('saved_state.txt', 'x')
 except FileExistsError:
     saved_state_database = open('saved_state.txt', 'r')
+    # Reading from the file.
     for i in saved_state_database:
-        (user, stats, bagels, ttt, new_line) = i.split('\t\t', 4)
-        saved_state[user] = {"Jokes": stats.split('.', 6)[0], "Notepad": stats.split('.', 6)[1], "Bagels Game": stats.split('.', 6)[2],
-                             "TicTacToe": stats.split('.', 6)[3], "User Settings": stats.split('.', 6)[4], "System Info": stats.split('.', 6)[5]}
-        user_ttt = ttt
-        (board, turn, letter) = user_ttt.split('.', 2)
+        # Split the line into each data set.
+        (user, stats, bagels, ttt, hangman, new_line) = i.split('\t\t', 5)
+        # Read the stats into memory.
+        saved_state[user] = {"Jokes": stats.split('.', 7)[0], "Notepad": stats.split('.', 7)[1], "Bagels Game": stats.split('.', 7)[2],
+                             "TicTacToe": stats.split('.', 7)[3], "Hangman": stats.split('.', 7)[4], "User Settings": stats.split('.', 7)[5],
+                             "System Info": stats.split('.', 7)[6]}
+        # Read TTT progress into memory.
+        (board, turn, letter) = ttt.split('.', 2)
         ttt_board = []
+        # Translation algorithm to convert the board from a comma-separated string into a list.
         while ',' in board:
             (board1, board2) = board.split(',', 1)
             board = board1 + board2
         for j in range(len(board)):
             ttt_board.append(board[j])
         ttt_dictionary[user] = ttt_board, turn, letter
-        (last_guess, num_guesses, num_digits, secret_num, max_guesses) = bagels.split('.', 4)
-        bagels_dictionary[user] = last_guess, num_guesses, num_digits, secret_num, max_guesses
+        # Read Bagels and Hangman progress into memory.
+        bagels_dictionary[user] = bagels.split('.', 4)
+        hangman_dictionary[user] = hangman.split('.', 3)
+    saved_state_database.close()
+    pass
 
 # Versions and Stats Dictionaries.
-versions = {"main": 6.6, "jokes": 1.1, "notes": 1.2, "bagels": 1.4, "tictactoe": 1.2, "userset": 1.4, "sysinfo": 1.2}
+# Remove a space after a comma to reformat the file.
+versions = {"main": 8.0, "jokes": 1.2, "notes": 1.3, "bagels": 1.7, "tictactoe": 1.5, "hangman": 1.2, "userset": 1.5, "sysinfo": 1.3}
 
 # Initializing operating system with __init__
-args = [user_pwd_dictionary, notes_dictionary, bagels_dictionary, ttt_dictionary, saved_state]
+args = [user_pwd_dictionary, notes_dictionary, bagels_dictionary, ttt_dictionary, hangman_dictionary, saved_state]
 operating_system = OperatingSystem(args)
 
 # If the user_pwd dictionary exists (meaning the database exists), run startup. Otherwise create it and go into setup.

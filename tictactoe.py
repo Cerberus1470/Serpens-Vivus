@@ -166,14 +166,14 @@ class TicTacToe:
         time.sleep(3)
         return saved_board
 
-    def main(self, stats, prog, current_user):
+    def main(self, stats, prog):
         stats['TicTacToe'] = 'running'
         print('Welcome to Tic Tac Toe!')
         empty = True
         # Use the previous values!
-        board = prog[current_user][0]
-        turn = prog[current_user][1]
-        player_letter = prog[current_user][2]
+        board = prog[0]
+        turn = prog[1]
+        player_letter = prog[2]
         for i in range(len(board)):
             empty = empty and board[i] == ' '
         if turn == ' ' or player_letter == ' ':
