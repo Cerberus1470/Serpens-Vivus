@@ -5,7 +5,8 @@ class Notepad:
     def __repr__(self):
         return "< I am a Notepad class called " + self.__class__.__name__ + ">"
 
-    def main(self, notes, stats, current_user):
+    @staticmethod
+    def main(notes, stats, current_user):
         stats["Notepad"] = 'running'
         #Simple notes program that allows one to enter notes and save them to memory. Soon to be saved to disk.
         print("Welcome to notepad! Type out anything you want! Please don't use '\n', it will break the interface. A fix is coming"

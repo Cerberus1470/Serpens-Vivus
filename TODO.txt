@@ -1,0 +1,14 @@
+#TODO
+# - Loops in user settings (delete more than one user) - DONE
+# - Edit username and password! - DONE
+# - User-specific notes and game progress! - DONE
+# - Add more games in class format
+# - Fix add user with game progress
+# - Merge shutdown and hibernate (since they share a lot of root code)
+# - Fix imports - DONE
+# - Add shutdown, hibernate, and sleep options on shutdown menu - DONE
+# - Add user-specific app status (app sessions) - DONE
+# - Change status dictionary - DONE
+# - Add admins and standard users.
+# - Request password before deleting user (then remove the check for admin users)
+# - Clean the to-do list

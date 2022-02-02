@@ -13,9 +13,9 @@ class Reset:
             stats["System Info"] = "not running"
         os_object.current_user = ''
         os_object.current_password = ''
-        os_object.dictionary = {}
+        os_object.users = {}
         os_object.notes = {}
-        os_object.ttt = {}
+        os_object.section3 = {}
 
     def user_reset(self, os_object, current_user, password, stats):
         print('\n'*5)

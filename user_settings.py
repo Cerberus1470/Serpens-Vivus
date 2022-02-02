@@ -8,7 +8,8 @@ class UserSettings:
     def __repr__(self):
         return "< This is a UserSettings class named " + self.__class__.__name__ + ">"
 
-    def add_user(self, dictionary):
+    @staticmethod
+    def add_user(dictionary):
         # Adding a new user!
         print("Welcome to the Add User setup wizard!")
         print("Name your user:")
@@ -43,7 +44,8 @@ class UserSettings:
         time.sleep(3)
         return
 
-    def delete_user(self, dictionary, current_user):
+    @staticmethod
+    def delete_user(dictionary, current_user):
         while True:
             print("Choose a user to delete or type 'exit' to exit.")
             pos = ''
@@ -59,14 +61,19 @@ class UserSettings:
                 elif delete_sel in dictionary:
                     for i in dictionary:
                         if delete_sel == i:
-                            if delete_sel == current_user:
-                                print("You can't delete the current user! Login with a different user to delete this one.")
-                                time.sleep(3)
-                                flag = False
-                                break
+                            print("Enter the password for " + i)
+                            if input() == dictionary[i][0]:
+                                if delete_sel == current_user:
+                                    print("You can't delete the current user! Login with a different user to delete this one.")
+                                    time.sleep(3)
+                                    flag = False
+                                    break
+                                else:
+                                    pos = i
+                                    pass
                             else:
-                                pos = i
-                                pass
+                                print("Incorrect password.")
+                                break
                     try:
                         deleted_user = dictionary.pop(pos)
                         print("User deleted successfully. Returning to the User Settings in 3 seconds.")
@@ -85,7 +92,8 @@ class UserSettings:
                 print("Returning to the User Settings in 3 seconds.")
                 return
 
-    def switch_user(self, dictionary, current_user, current_password, src):
+    @staticmethod
+    def switch_user(dictionary, current_user, current_password, src):
         print("Current User: " + current_user)
         print("Choose a user.")
         count = 1
@@ -160,9 +168,11 @@ class UserSettings:
                                 break
                         current_password = new_pwd
                         print("New Password successfully set!")
+                        time.sleep(2)
                         pass
                     else:
                         print("The passwords did not match.")
+                        time.sleep(2)
                         pass
                     pass
                 else:

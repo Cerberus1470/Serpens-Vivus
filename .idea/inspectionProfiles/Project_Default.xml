@@ -9,5 +9,15 @@
         </list>
       </option>
     </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="Cerberus.section1" />
+          <option value="Cerberus.section3" />
+          <option value="Cerberus.section2" />
+          <option value="Cerberus.section4" />
+        </list>
+      </option>
+    </inspection_tool>
   </profile>
 </component>

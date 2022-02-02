@@ -5,7 +5,8 @@ class TaskManager:
     def __repr__(self):
         return "< This is a Task Manager class named " + self.__class__.__name__ + ">"
 
-    def quit(self, app, stats):
+    @staticmethod
+    def quit(app, stats):
         if app == 'quitall':
             stats["Jokes"] = stats["Notepad"] = stats["Bagels Game"] = stats["TicTacToe"] = stats["User Settings"] = \
                 stats["System Info"] = "not running"
@@ -14,7 +15,8 @@ class TaskManager:
             stats[str(app)] = 'not running'
             print("The " + str(app) + " Program was successfully quit.")
 
-    def main(self, stats):
+    @staticmethod
+    def main(stats):
         print()
         print("Welcome to the task manager!")
         print("Here you will find all the programs currently running. You are also able to quit them, however it "

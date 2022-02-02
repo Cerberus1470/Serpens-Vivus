@@ -82,6 +82,21 @@ words = {  # this is the word bank
 
 
 class Hangman:
+    def __init__(self, username, missed_letters, correct_letters, secret_word, secret_key):
+        self.username = username
+        self.missed_letters = missed_letters
+        self.correct_letters = correct_letters
+        self.secret_word = secret_word
+        self.secret_key = secret_key
+        if (self.missed_letters == '' and self.correct_letters == '') or self.secret_word == ' ' or self.secret_key == ' ':
+            (self.missed_letters, self.correct_letters, self.secret_word, self.secret_key) = self.setup()
+        else:
+            print("Welcome back!")
+        return
+
+    def __repr__(self):
+        return "< I am a hangman class named " + self.__class__.__name__ + " under the user " + self.username + ">"
+
     def get_random_word(self, word_dict):
         # This function returns a random string from the passed dictionary of lists of strings, and the key also.
         # First, randomly select a key from the dictionary:
@@ -128,62 +143,55 @@ class Hangman:
                 return guess
 
     def setup(self):
-        missed_letters = ''
-        correct_letters = ''
-        (secret_word, secret_key) = self.get_random_word(words)
-        return missed_letters, correct_letters, secret_word, secret_key
+        self.missed_letters = ''
+        self.correct_letters = ''
+        (self.secret_word, self.secret_key) = self.get_random_word(words)
+        return self.missed_letters, self.correct_letters, self.secret_word, self.secret_key
 
     def main(self, stats, prog):
         stats["Hangman"] = 'running'
         # This section prints the first message, resets the correct and incorrect letters, assigns secret words and keys, and sets the game to be running.
         print('H A N G M A N')
-        missed_letters = prog[0]
-        correct_letters = prog[1]
-        secret_word = prog[2]
-        secret_key = prog[3]
-        if (missed_letters == '' and correct_letters == '') or secret_word == ' ' or secret_key == ' ':
-            (missed_letters, correct_letters, secret_word, secret_key) = self.setup()
-        else:
-            print("Welcome back!")
         game_is_done = False
 
         # This while loop continues the guessing until the guesses are up or if the word was correctly guessed.
         while True:
-            self.display_board(HANGMANPICS, missed_letters, correct_letters, secret_word, secret_key)
+            self.display_board(HANGMANPICS, self.missed_letters, self.correct_letters, self.secret_word, self.secret_key)
 
             # Let the player type in a letter.
-            guess = self.get_guess(missed_letters + correct_letters)
+            guess = self.get_guess(self.missed_letters + self.correct_letters)
             if guess == 'quit':
-                return missed_letters, correct_letters, secret_word, secret_key
-            elif guess in secret_word:  # This adds the correct letter to the blanks.
-                correct_letters = correct_letters + guess
+                return self.missed_letters, self.correct_letters, self.secret_word, self.secret_key
+            elif guess in self.secret_word:  # This adds the correct letter to the blanks.
+                self.correct_letters = self.correct_letters + guess
 
                 # Check if the player has won
                 found_all_letters = True
-                for i in range(len(secret_word)):
-                    if secret_word[i] not in correct_letters:
+                for i in range(len(self.secret_word)):
+                    if self.secret_word[i] not in self.correct_letters:
                         found_all_letters = False
                         break
                 if found_all_letters:
-                    print('Yes! The secret word is "' + secret_word + '"! You have won!')
+                    print('Yes! The secret word is "' + self.secret_word + '"! You have won!')
                     game_is_done = True
             else:  # This just loops the player, adding their incorrect letter to the list of incorrect guesses.
-                missed_letters = missed_letters + guess
+                self.missed_letters = self.missed_letters + guess
 
                 # Check if player has guessed too many times and lost
-                if len(missed_letters) == len(HANGMANPICS) - 1:
-                    self.display_board(HANGMANPICS, missed_letters, correct_letters, secret_word, secret_key)
-                    print('You have run out of guesses!\nAfter ' + str(len(missed_letters)) + ' missed guesses and ' + str(len(correct_letters)) + ' correct guesses, the word was "' + secret_word + '"')
+                if len(self.missed_letters) == len(HANGMANPICS) - 1:
+                    self.display_board(HANGMANPICS, self.missed_letters, self.correct_letters, self.secret_word, self.secret_key)
+                    print('You have run out of guesses!\nAfter ' + str(len(self.missed_letters)) + ' missed guesses and ' +
+                          str(len(self.correct_letters)) + ' correct guesses, the word was "' + self.secret_word + '"')
                     game_is_done = True
 
             # Ask the player if they want to play again (but only if the game is done).
             if game_is_done:
                 print('Do you want to play again? (yes or no)')
                 if input().lower().startswith('y'):
-                    missed_letters = ''
-                    correct_letters = ''
+                    self.missed_letters = ''
+                    self.correct_letters = ''
                     game_is_done = False
-                    (secret_word, secret_key) = self.get_random_word(words)
+                    (self.secret_word, self.secret_key) = self.get_random_word(words)
                 else:
                     print("Returning to the login screen in 3 seconds.")
                     time.sleep(3)
