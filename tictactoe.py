@@ -9,23 +9,6 @@ class TicTacToe:
         self.board = board
         self.turn = turn
         self.player_letter = player_letter
-
-        # Use the previous values!
-        empty = True
-        for i in range(len(self.board)):
-            empty = empty and self.board[i] == ' '
-        if self.turn == ' ' or self.player_letter == ' ':
-            empty = True
-        if not empty:
-            if self.player_letter == 'X':
-                self.computer_letter = 'O'
-            else:
-                self.computer_letter = 'X'
-            self.startup(self.turn)
-        else:
-            self.player_letter, self.computer_letter = self.input_player_letter()
-            turn = self.who_goes_first()
-            print('The ' + turn + ' will go first.')
         return
 
     def __repr__(self):
@@ -200,6 +183,23 @@ class TicTacToe:
         stats['TicTacToe'] = 'running'
         print('Welcome to Tic Tac Toe!')
 
+        # Use the previous values!
+        empty = True
+        for i in range(len(self.board)):
+            empty = empty and self.board[i] == ' '
+        if self.turn == ' ' or self.player_letter == ' ':
+            empty = True
+        if not empty:
+            if self.player_letter == 'X':
+                self.computer_letter = 'O'
+            else:
+                self.computer_letter = 'X'
+            self.startup(self.turn)
+        else:
+            self.player_letter, self.computer_letter = self.input_player_letter()
+            turn = self.who_goes_first()
+            print('The ' + turn + ' will go first.')
+
         while True:
             game_is_playing = True
 
@@ -226,13 +226,13 @@ class TicTacToe:
                             print('The game is a tie!')
                             break
                         else:
-                            turn = 'computer'
+                            self.turn = 'computer'
 
                 else:
                     # Computer's turn.
                     self.draw_board(self.board)
                     move = self.get_computer_move(self.board, self.computer_letter)
-                    self.make_move(self.board, self.computer_letter, self.move)
+                    self.make_move(self.board, self.computer_letter, move)
 
                     if self.is_winner(self.board, self.computer_letter):
                         print('The computer has beaten you! You lose.')
@@ -242,10 +242,10 @@ class TicTacToe:
                             print('The game is a tie!')
                             break
                         else:
-                            turn = 'player'
+                            self.turn = 'player'
 
             if self.play_again():
-                board = [' '] * 9
+                self.board = [' '] * 9
             else:
                 break
         return self

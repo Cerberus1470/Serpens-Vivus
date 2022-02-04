@@ -11,8 +11,6 @@ class Bagels:
         self.num_digits = num_digits
         self.secret_num = secret_num
         self.max_guesses = max_guesses
-        if self.last_guess == ' ' or self.num_guesses == ' ' or self.num_digits == ' ' or self.secret_num == ' ' or self.max_guesses == ' ':
-            self.last_guess, self.num_guesses, self.num_digits, self.max_guesses, self.secret_num = self.setup()
         return
 
     def __repr__(self):
@@ -79,11 +77,12 @@ class Bagels:
         secret_num = self.get_secret_num(num_digits, basenumber)
         return last_guess, num_guesses, num_digits, max_guesses, secret_num
 
-    def main(self, stats, prog):
+    def main(self, stats):
         stats["Bagels Game"] = "running"
         print('WELCOME TO BAGELS')
         print(' ')
-
+        if self.last_guess == ' ' or self.num_guesses == ' ' or self.num_digits == ' ' or self.secret_num == ' ' or self.max_guesses == ' ':
+            self.last_guess, self.num_guesses, self.num_digits, self.max_guesses, self.secret_num = self.setup()
         print('I am thinking of a %s-digit number. Try to guess what it is.' % self.num_digits)
         print('Here are some clues:')
         print('When I say:    That means:')
@@ -105,7 +104,7 @@ class Bagels:
                         print("Saving game progress...")
                         time.sleep(3)
                         return self.last_guess, self.num_guesses, self.num_digits, self.secret_num, self.max_guesses
-                last_guess = guess
+                self.last_guess = guess
                 clue = self.get_clues(self.last_guess, self.secret_num)
                 print(clue)
                 self.num_guesses += 1

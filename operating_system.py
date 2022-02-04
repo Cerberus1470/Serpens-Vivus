@@ -21,6 +21,11 @@ class User:
     def __repr__(self):
         return "I am a user named " + self.username
 
+    def setGames(self, bagels_game, ttt_game, hangman_game):
+        self.bagels = bagels_game
+        self.ttt = ttt_game
+        self.hangman = hangman_game
+
 
 class OperatingSystem:
     # Initializing all class attributes for apps

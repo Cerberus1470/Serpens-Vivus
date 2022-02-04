@@ -88,10 +88,6 @@ class Hangman:
         self.correct_letters = correct_letters
         self.secret_word = secret_word
         self.secret_key = secret_key
-        if (self.missed_letters == '' and self.correct_letters == '') or self.secret_word == ' ' or self.secret_key == ' ':
-            (self.missed_letters, self.correct_letters, self.secret_word, self.secret_key) = self.setup()
-        else:
-            print("Welcome back!")
         return
 
     def __repr__(self):
@@ -153,6 +149,10 @@ class Hangman:
         # This section prints the first message, resets the correct and incorrect letters, assigns secret words and keys, and sets the game to be running.
         print('H A N G M A N')
         game_is_done = False
+        if (self.missed_letters == '' and self.correct_letters == '') or self.secret_word == ' ' or self.secret_key == ' ':
+            (self.missed_letters, self.correct_letters, self.secret_word, self.secret_key) = self.setup()
+        else:
+            print("Welcome back!")
 
         # This while loop continues the guessing until the guesses are up or if the word was correctly guessed.
         while True:

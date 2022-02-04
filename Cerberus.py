@@ -58,64 +58,71 @@ try:
 except FileExistsError:
     unprotected_db = open(unprotected_db_name, 'r')
     # Reading from the file.
+    flag = True
     for i in unprotected_db:
-        if i:
-            # Split the line into each data set.
-            progress = 0
-            try:
-                (user, rest) = i.split('\t\t', 1)
-                for j in range(1, 5):
-                    progress = str(j)
-                    (globals()["section" + str(j)], rest) = rest.split('\t\t', 1)
-            except ValueError:
-                print("\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nTHE DATABASE IS CORRUPTED. PLEASE CHECK THE MANUAL, QUIT THE OS, AND RECONFIGURE THE DATABASE."
-                      "\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nCorrupted Database: db_unprotected.txt\nCorrupted Section: " + progress + "\n")
-                break
-            # Read the stats into memory.
-            saved_state[user] = {"Jokes": section1.split('.', 7)[0], "Notepad": section1.split('.', 7)[1], "Bagels Game": section1.split('.', 7)[2],
-                                 "TicTacToe": section1.split('.', 7)[3], "Hangman": section1.split('.', 7)[4], "User Settings": section1.split('.', 7)[5],
-                                 "System Info": section1.split('.', 7)[6]}
+        # Split the line into each data set.
+        flag = False
+        progress = 0
+        try:
+            (user, rest) = i.split('\t\t', 1)
+            for j in range(1, 5):
+                progress = str(j)
+                (globals()["section" + str(j)], rest) = rest.split('\t\t', 1)
+        except ValueError:
+            print("\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nTHE DATABASE IS CORRUPTED. PLEASE CHECK THE MANUAL, QUIT THE OS, AND RECONFIGURE THE DATABASE."
+                  "\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nCorrupted Database: db_unprotected.txt\nCorrupted Section: " + progress + "\n")
+            break
+        # Read the stats into memory.
+        saved_state[user] = {"Jokes": section1.split('.', 7)[0], "Notepad": section1.split('.', 7)[1], "Bagels Game": section1.split('.', 7)[2],
+                             "TicTacToe": section1.split('.', 7)[3], "Hangman": section1.split('.', 7)[4], "User Settings": section1.split('.', 7)[5],
+                             "System Info": section1.split('.', 7)[6]}
 
-            # Read Bagels progress into memory.
-            try:
-                (last_guess, num_guesses, num_digits, secret_num, max_guesses) = section2.split('.', 4)
-                bagels.append(Bagels(user, last_guess, num_guesses, num_digits, secret_num, max_guesses))
-                bagels[user] = section2.split('.', 4)
-                pass
-            except ValueError:
-                print("\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nTHE DATABASE IS CORRUPTED. PLEASE CHECK THE MANUAL, QUIT THE OS, AND RECONFIGURE THE DATABASE."
-                      "\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nCorrupted Database: db_unprotected.txt\nCorrupted Section: B\n")
-                break
-
-            # Read TTT progress into memory.
-            try:
-                (board, turn, letter) = section3.split('.', 2)
-                # Translation algorithm to convert the board from a comma-separated string into a list.
-                while ',' in board:
-                    (board1, board2) = board.split(',', 1)
-                    board = board1 + board2
-                ttt_board = []
-                for j in range(len(board)):
-                    ttt_board.append(board[j])
-                ttt.append(TicTacToe(user, ttt_board, turn, letter))
-                pass
-            except ValueError:
-                print("\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nTHE DATABASE IS CORRUPTED. PLEASE CHECK THE MANUAL, QUIT THE OS, AND RECONFIGURE THE DATABASE."
-                      "\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nCorrupted Database: db_unprotected.txt\nCorrupted Section: T\n")
-                break
-            try:
-                (correct_letters, missed_letters, secret_key, secret_word) = section4.split('.', 3)
-                hangman.append(Hangman(user, correct_letters, missed_letters, secret_key, secret_word))
-                pass
-            except ValueError:
-                print("\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nTHE DATABASE IS CORRUPTED. PLEASE CHECK THE MANUAL, QUIT THE OS, AND RECONFIGURE THE DATABASE."
-                      "\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nCorrupted Database: db_unprotected.txt\nCorrupted Section: H\n")
-                break
-        else:
-            # What happens when there is no progress at all?
+        # Read Bagels progress into memory.
+        try:
+            (last_guess, num_guesses, num_digits, secret_num, max_guesses) = section2.split('.', 4)
+            bagels.append(Bagels(user, last_guess, num_guesses, num_digits, secret_num, max_guesses))
+            bagels[user] = section2.split('.', 4)
             pass
+        except ValueError:
+            print("\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nTHE DATABASE IS CORRUPTED. PLEASE CHECK THE MANUAL, QUIT THE OS, AND RECONFIGURE THE DATABASE."
+                  "\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nCorrupted Database: db_unprotected.txt\nCorrupted Section: B\n")
+            break
+
+        # Read TTT progress into memory.
+        try:
+            (board, turn, letter) = section3.split('.', 2)
+            # Translation algorithm to convert the board from a comma-separated string into a list.
+            while ',' in board:
+                (board1, board2) = board.split(',', 1)
+                board = board1 + board2
+            ttt_board = []
+            for j in range(len(board)):
+                ttt_board.append(board[j])
+            ttt.append(TicTacToe(user, ttt_board, turn, letter))
+            pass
+        except ValueError:
+            print("\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nTHE DATABASE IS CORRUPTED. PLEASE CHECK THE MANUAL, QUIT THE OS, AND RECONFIGURE THE DATABASE."
+                  "\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nCorrupted Database: db_unprotected.txt\nCorrupted Section: T\n")
+            break
+        try:
+            (correct_letters, missed_letters, secret_key, secret_word) = section4.split('.', 3)
+            hangman.append(Hangman(user, correct_letters, missed_letters, secret_key, secret_word))
+            pass
+        except ValueError:
+            print("\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nTHE DATABASE IS CORRUPTED. PLEASE CHECK THE MANUAL, QUIT THE OS, AND RECONFIGURE THE DATABASE."
+                  "\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nCorrupted Database: db_unprotected.txt\nCorrupted Section: H\n")
+            break
         unprotected_db.close()
         pass
+    if flag:
+        # What happens when there is no progress at all?
+        for i in users:
+            bagels.append(Bagels(i.username, ' ', ' ', ' ', ' ', ' '))
+            ttt.append(TicTacToe(i.username, [' '] * 9, 0, ' '))
+            hangman.append(Hangman(i.username, ' ', ' ', ' ', ' '))
+        pass
+    for i in range(len(users)):
+        users[i].setGames(bagels[i], ttt[i], hangman[i])
 
 # Versions and Stats Dictionaries.
 # Remove a space after a comma to reformat the file.
