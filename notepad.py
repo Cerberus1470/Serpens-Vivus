@@ -6,13 +6,12 @@ class Notepad:
         return "< I am a Notepad class called " + self.__class__.__name__ + ">"
 
     @staticmethod
-    def main(notes, stats, current_user):
-        stats["Notepad"] = 'running'
+    def main(current_user):
         #Simple notes program that allows one to enter notes and save them to memory. Soon to be saved to disk.
         print("Welcome to notepad! Type out anything you want! Please don't use '\n', it will break the interface. A fix is coming"
               " soon. Instead, use the new line function: Press [ENTER] or [return] and type \"new line\"\nHere are your notes from"
               " last time (if it's empty, you don't have any notes!)")
-        print(str(notes[current_user]))
+        print(current_user.notes)
         notes_temp = ''
         while True:
             notes_temp_section = input()

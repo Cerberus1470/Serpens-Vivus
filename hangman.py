@@ -93,7 +93,8 @@ class Hangman:
     def __repr__(self):
         return "< I am a hangman class named " + self.__class__.__name__ + " under the user " + self.username + ">"
 
-    def get_random_word(self, word_dict):
+    @staticmethod
+    def get_random_word(word_dict):
         # This function returns a random string from the passed dictionary of lists of strings, and the key also.
         # First, randomly select a key from the dictionary:
         word_key = random.choice(list(word_dict.keys()))
@@ -101,7 +102,8 @@ class Hangman:
         word_index = random.randint(0, len(word_dict[word_key]) - 1)
         return [word_dict[word_key][word_index], word_key]
 
-    def display_board(self, hangman_pics, missed_letters, correct_letters, secret_word, secret_key):
+    @staticmethod
+    def display_board(hangman_pics, missed_letters, correct_letters, secret_word, secret_key):
         # this function displays the selected category, the potato man, the past incorrect and correct guesses, and the blanks.
         print("The secret word is in this set: " + secret_key)
         print(hangman_pics[len(missed_letters)])
@@ -122,7 +124,8 @@ class Hangman:
             print(letter.upper(), end=' ')
         print()
 
-    def get_guess(self, already_guessed):
+    @staticmethod
+    def get_guess(already_guessed):
         # Returns the letter the player entered. This function makes sure the player entered a single letter, and not something else.
         while True:
             print('Guess a letter, or type "quit" to exit the app.')
@@ -144,8 +147,7 @@ class Hangman:
         (self.secret_word, self.secret_key) = self.get_random_word(words)
         return self.missed_letters, self.correct_letters, self.secret_word, self.secret_key
 
-    def main(self, stats, prog):
-        stats["Hangman"] = 'running'
+    def main(self):
         # This section prints the first message, resets the correct and incorrect letters, assigns secret words and keys, and sets the game to be running.
         print('H A N G M A N')
         game_is_done = False

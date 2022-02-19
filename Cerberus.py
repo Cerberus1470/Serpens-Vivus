@@ -9,6 +9,8 @@ from hangman import Hangman
 
 protected_db_name = 'db_protected.txt'
 unprotected_db_name = 'db_unprotected.txt'
+corrupt_message = "\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nTHE DATABASE IS CORRUPTED. PLEASE CHECK THE MANUAL, QUIT THE OS, AND RECONFIGURE THE DATABASE."
+"\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nCorrupted Database: db_protected.txt\nCorrupted Section: "
 user_pwd_dictionary = {}
 users = []
 # Users and Passwords dictionary
@@ -30,8 +32,7 @@ except FileExistsError:
                 (globals()["section" + str(j)], rest) = rest.split('\t\t', 1)
                 pass
         except ValueError:
-            print("\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nTHE DATABASE IS CORRUPTED. PLEASE CHECK THE MANUAL, QUIT THE OS, AND RECONFIGURE THE DATABASE."
-                  "\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nCorrupted Database: db_protected.txt\nCorrupted Section: " + progress + "\n")
+            print(corrupt_message + progress + "\n")
             break
         # If the user is specified as the current, write that in the dictionary.
         while '!' in rest:
@@ -69,8 +70,7 @@ except FileExistsError:
                 progress = str(j)
                 (globals()["section" + str(j)], rest) = rest.split('\t\t', 1)
         except ValueError:
-            print("\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nTHE DATABASE IS CORRUPTED. PLEASE CHECK THE MANUAL, QUIT THE OS, AND RECONFIGURE THE DATABASE."
-                  "\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nCorrupted Database: db_unprotected.txt\nCorrupted Section: " + progress + "\n")
+            print(corrupt_message + progress + "\n")
             break
         # Read the stats into memory.
         saved_state[user] = {"Jokes": section1.split('.', 7)[0], "Notepad": section1.split('.', 7)[1], "Bagels Game": section1.split('.', 7)[2],
@@ -84,8 +84,7 @@ except FileExistsError:
             bagels[user] = section2.split('.', 4)
             pass
         except ValueError:
-            print("\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nTHE DATABASE IS CORRUPTED. PLEASE CHECK THE MANUAL, QUIT THE OS, AND RECONFIGURE THE DATABASE."
-                  "\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nCorrupted Database: db_unprotected.txt\nCorrupted Section: B\n")
+            print(corrupt_message + "B\n")
             break
 
         # Read TTT progress into memory.
@@ -101,16 +100,14 @@ except FileExistsError:
             ttt.append(TicTacToe(user, ttt_board, turn, letter))
             pass
         except ValueError:
-            print("\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nTHE DATABASE IS CORRUPTED. PLEASE CHECK THE MANUAL, QUIT THE OS, AND RECONFIGURE THE DATABASE."
-                  "\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nCorrupted Database: db_unprotected.txt\nCorrupted Section: T\n")
+            print(corrupt_message + "T\n")
             break
         try:
             (correct_letters, missed_letters, secret_key, secret_word) = section4.split('.', 3)
             hangman.append(Hangman(user, correct_letters, missed_letters, secret_key, secret_word))
             pass
         except ValueError:
-            print("\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nTHE DATABASE IS CORRUPTED. PLEASE CHECK THE MANUAL, QUIT THE OS, AND RECONFIGURE THE DATABASE."
-                  "\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nCorrupted Database: db_unprotected.txt\nCorrupted Section: H\n")
+            print(corrupt_message + "H\n")
             break
         unprotected_db.close()
         pass
@@ -120,29 +117,29 @@ except FileExistsError:
             bagels.append(Bagels(i.username, ' ', ' ', ' ', ' ', ' '))
             ttt.append(TicTacToe(i.username, [' '] * 9, 0, ' '))
             hangman.append(Hangman(i.username, ' ', ' ', ' ', ' '))
+            saved_state.append({"Jokes": "not running", "Notepad": "not running", "Bagels Game": "not running",
+                                "TicTacToe": "not running", "Hangman": "not running", "User Settings": "not running",
+                                "System Info": "not running"})
         pass
     for i in range(len(users)):
-        users[i].setGames(bagels[i], ttt[i], hangman[i])
+        users[i].__setGames__(bagels[i], ttt[i], hangman[i], saved_state[i])
 
 # Versions and Stats Dictionaries.
-# Remove a space after a comma to reformat the file.
-versions = {"main": 8.0, "jokes": 1.2, "notes": 1.3, "bagels": 1.7, "tictactoe": 1.5, "hangman": 1.2, "userset": 1.5, "sysinfo": 1.3}
 
 # Initializing operating system with __init__
-args = [users, bagels, ttt, hangman, saved_state]
-operating_system = OperatingSystem(args)
+operating_system = OperatingSystem(users)
 
 # If the user_pwd dictionary exists (meaning the database exists), run startup. Otherwise create it and go into setup.
-if user_pwd_dictionary:
+if len(users) > 0:
     while True:
-        if operating_system.startup(versions) == 'restart':
+        if operating_system.startup() == 'restart':
             break
         else:
             pass
 else:
     operating_system.setup(user_pwd_dictionary)
     while True:
-        if operating_system.startup(versions) == 'restart':
+        if operating_system.startup() == 'restart':
             break
         else:
             pass

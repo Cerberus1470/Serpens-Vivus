@@ -77,11 +77,10 @@ class Bagels:
         secret_num = self.get_secret_num(num_digits, basenumber)
         return last_guess, num_guesses, num_digits, max_guesses, secret_num
 
-    def main(self, stats):
-        stats["Bagels Game"] = "running"
+    def main(self):
         print('WELCOME TO BAGELS')
         print(' ')
-        if self.last_guess == ' ' or self.num_guesses == ' ' or self.num_digits == ' ' or self.secret_num == ' ' or self.max_guesses == ' ':
+        if self.num_guesses == ' ' or self.num_digits == ' ' or self.secret_num == ' ' or self.max_guesses == ' ':
             self.last_guess, self.num_guesses, self.num_digits, self.max_guesses, self.secret_num = self.setup()
         print('I am thinking of a %s-digit number. Try to guess what it is.' % self.num_digits)
         print('Here are some clues:')

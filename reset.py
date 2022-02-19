@@ -8,16 +8,8 @@ class Reset:
     def __repr__(self):
         return "< This is a reset class named" + self.__class__.__name__ + ">"
 
-    def reset(self, os_object, stats):
-        stats["Jokes"] = stats["Notepad"] = stats["Bagels Game"] = stats["TicTacToe"] = stats["User Settings"] = \
-            stats["System Info"] = "not running"
-        os_object.current_user = ''
-        os_object.current_password = ''
-        os_object.users = {}
-        os_object.notes = {}
-        os_object.section3 = {}
-
-    def user_reset(self, os_object, current_user, password, stats):
+    @staticmethod
+    def user_reset(os):
         print('\n'*5)
         print("RESET ALL SETTINGS")
         print("\nAre you sure you want to reset all settings? This includes notes, users and their settings, game progress, and "
@@ -26,9 +18,9 @@ class Reset:
         reset_choice = input()
         if reset_choice == 'resetall':
             print("Type your username to continue.")
-            if input() == current_user:
+            if input() == os.current_user.username:
                 print("Type your password to continue.")
-                if input() == password:
+                if input() == os.current_user.password:
                     print("This is your last chance. Reset all settings and return to setup? 'yes' or 'no'.")
                     if input().lower() == 'yes':
                         time.sleep(2)
@@ -42,7 +34,9 @@ class Reset:
                         time.sleep(2)
                         print("Entering setup.")
                         time.sleep(2)
-                        self.reset(os_object, stats)
+                        del os.current_user
+                        del os.users
+                        del os.versions
                         for i in range(100):
                             print("SETUP")
                         print()

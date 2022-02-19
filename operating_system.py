@@ -6,11 +6,13 @@ from tictactoe import TicTacToe
 from hangman import Hangman
 from task_manager import TaskManager
 from user_settings import UserSettings
-from system_info import SysInfo
+from system_info import SystemInfo
 from reset import Reset
 
 
 class User:
+    # Remove a space after a comma to reformat the file.
+
     def __init__(self, username, password, current, notes):
         self.username = username
         self.password = password
@@ -21,42 +23,27 @@ class User:
     def __repr__(self):
         return "I am a user named " + self.username
 
-    def setGames(self, bagels_game, ttt_game, hangman_game):
+    def __setGames__(self, bagels_game, ttt_game, hangman_game, state):
         self.bagels = bagels_game
         self.ttt = ttt_game
         self.hangman = hangman_game
+        self.saved_state = state
+        return
 
 
 class OperatingSystem:
-    # Initializing all class attributes for apps
-    # jokes = Jokes()
-    # notepad = Notepad()
-    # bagelsGame = Bagels()
-    # tictactoeGame = TicTacToe()
-    # hangmanGame = Hangman()
-    # taskManager = TaskManager()
-    # userSettings = UserSettings()
-    # systemInfo = SysInfo()
-    # reset = Reset()
 
-    def __init__(self, args):
-        # Initialize all instance attributes.
+    def __init__(self, users):
         # Users and passwords
-        self.users = args[0]
-        # Bagels Progress
-        self.bagels_prog = args[1]
-        # TTT progress
-        self.ttt_prog = args[2]
-        # Hangman progress
-        self.hangman_prog = args[3]
-        # User-specific save states
-        self.save_state = args[4]
+        self.users = users
+        self.versions = {"main": 10.0, "jokes": 1.2, "notes": 1.3, "bagels": 1.9, "tictactoe": 1.8, "hangman": 1.6, "userset": 1.5, "sysinfo": 1.3}
+        self.user_settings = UserSettings()
         # Setting current user and password
         for i in range(len(self.users)):
             try:
                 self.users[i].notes
             except KeyError:
-                self.notes[i] = ''
+                self.users[i].notes[i] = ''
         for i in range(len(self.users)):
             if self.users[i].current == 'CURRENT':
                 self.current_user = self.users[i]
@@ -66,93 +53,34 @@ class OperatingSystem:
     def __repr__(self):
         # Representation of this class.
         return "< This is an OperatingSystem class named " + self.__class__.__name__ + "\n Users: " + str(len(self.users)) + "\n Current User: " + \
-               self.current_user + "\n Current Password is hidden. >"
+               self.current_user.username + "\n Current Password is hidden. >"
 
-    def operating_system(self, osname, versions):
-        # The main OS window. Contains the list of apps and choices. Stored in a while loop to keep them inside.
-        print("Hello! I am %s, running POCS v%s" % (osname, versions["main"]))
-        while True:
-            print("\nAPPLICATIONS")
-            print("1. Jokes")
-            print("2. Notepad")
-            print("3. Game: Bagels")
-            print("4. Game: Tic-Tac-Toe")
-            print("5. Game: Hangman")
-            print("6. Game: Sonar")
-            print("7. Task Manager")
-            print("8. Change User Settings")
-            print("9. System Info")
-            print("10. Reset")
-            print("11. Lock Computer")
-            print("12. Shutdown")
-            print("Select one from the list above.")
-            choice = input().lower()
-            # The if elif of choices... so long...
-            if choice in ('jokes', 'joke', '1'):
-                OperatingSystem.jokes.main(self.save_state[self.current_user])
-            elif choice in ('notepad', 'notes', 'note', '2'):
-                self.notes = OperatingSystem.notepad.main(self.notes, self.save_state[self.current_user], self.current_user)
-            elif choice in ('bagels', 'bagels', '3'):
-                self.bagels_prog[self.current_user] = OperatingSystem.bagelsGame.main(self.save_state[self.current_user], self.bagels_prog[self.current_user])
-            elif choice in ('tictactoe', 'tic-tac-toe', 'ttt', '4'):
-                self.ttt_prog[self.current_user] = OperatingSystem.tictactoeGame.main(self.save_state[self.current_user], self.ttt_prog[self.current_user])
-            elif choice in ('hangman', '5'):
-                self.hangman_prog[self.current_user] = OperatingSystem.hangmanGame.main(self.save_state[self.current_user], self.hangman_prog[self.current_user])
-            elif choice in ('sonar', '6'):
-                print("Still in progress...")
-            elif choice in ('task manager', '7'):
-                OperatingSystem.taskManager.main(self.save_state[self.current_user])
-            elif choice in ('user settings', 'usersettings', '8'):
-                (self.current_user, self.current_password) = OperatingSystem.userSettings.main(self.current_user, self.current_password, self.users, self.save_state[self.current_user])
-            elif choice in ('system info', 'sys info', '9'):
-                OperatingSystem.systemInfo.main(self.save_state[self.current_user], versions)
-            elif choice in ('reset', '10'):
-                OperatingSystem.reset.user_reset(self, self.current_user, self.current_password, self.save_state[self.current_user])
-            elif choice in ('exit', 'lock computer', '11'):
-                print("Computer has been locked.")
-                return 'regular'
-            elif choice in ('shutdown', '12'):
-                shutdown = self.shutdown('userpwd_db.txt', 'user_notes.txt', 'saved_state.txt', self.users, self.notes, self.bagels_prog, self.ttt_prog, self.hangman_prog)
-                if shutdown == 1:
-                    return 'sleep'
-                elif shutdown == 2:
-                    return 'hibernate'
-                elif shutdown == 3:
-                    return 'shutdown'
-                else:
-                    pass
-            elif choice in ('debugexit', 'debug'):
-                return 'regular'
-            else:
-                print("Please choose from the list of applications.")
-
-    def startup(self, versions):
+    def startup(self):
         # The main startup and login screen, housed within a while loop to keep the user here unless specific circumstances are met.
         while True:
             print()
             # Label(main_window, text="Hello! I am Cerberus, running user: " + self.current_user + ". Type 'switch' to switch users or \"shutdown\" to shut down the system.").grid(row=0, column=0)
-            print("Hello! I am Cerberus, running user: " + self.current_user + ". Type 'switch' to switch users or \"shutdown\" to shut down the system.")
-            if self.current_user != 'Guest':
+            print("Hello! I am Cerberus, running user: " + self.current_user.username + ". Type 'switch' to switch users or \"shutdown\" to shut down the system.")
+            if self.current_user.username != 'Guest':
                 # Separate while loop for users. Guest users head down.
                 while True:
                     print("Enter password.")
                     pwd = input()
-                    if pwd == self.current_password:
+                    if pwd == self.current_user.password:
                         print("Welcome!")
-                        osstatus = self.operating_system("Cerberus", versions)
-                        if osstatus in ('shutdown', 'hibernate'):
+                        os = self.operating_system()
+                        if os in ('shutdown', 'hibernate'):
                             return
-                        elif osstatus in 'sleep':
+                        elif os in 'sleep':
                             print("\n" * 10)
                             print("The System is sleeping. Press [ENTER] or [return] to wake.")
                             input()
-                            print("Hello! I am Cerberus, running user: " + self.current_user + ". Type 'switch' to switch users or \"shutdown\" to shut down the system.")
                             break
                         else:
                             pass
                     elif pwd == 'switch':
                         if len(self.users) > 1:
-                            (self.current_user, self.current_password) = OperatingSystem.userSettings.switch_user(self.users, self.current_user, self.current_password, 'os')
+                            (self.current_user.username, self.current_user.password) = OperatingSystem.userSettings.switch_user(self.users, self.current_user.username, self.current_user.password, 'os')
                             break
                         else:
                             print("There is currently only one user registered.")
@@ -179,27 +107,85 @@ class OperatingSystem:
                     print("The Guest account will boot into the main screen, but any user settings will have no effect. This includes usernames, passwords, game progress, saved notes, etc. Press [ENTER] or [return] to login")
                     if input() == 'debugexit':
                         return
-                    self.operating_system("Cerberus", versions)
+                    self.operating_system()
                     break
+
+    def operating_system(self):
+        # The main OS window. Contains the list of apps and choices. Stored in a while loop to keep them inside.
+        print("Hello! I am %s, running POCS v%s" % ("Cerberus", self.versions["main"]))
+        while True:
+            print("\nAPPLICATIONS")
+            print("1. Jokes")
+            print("2. Notepad")
+            print("3. Game: Bagels")
+            print("4. Game: Tic-Tac-Toe")
+            print("5. Game: Hangman")
+            print("6. Game: Sonar")
+            print("7. Task Manager")
+            print("8. Change User Settings")
+            print("9. System Info")
+            print("10. Reset")
+            print("11. Lock Computer")
+            print("12. Shutdown")
+            print("Select one from the list above.")
+            choice = input().lower()
+            # The if elif of choices... so long...
+            if choice in ('jokes', 'joke', '1'):
+                Jokes.main()
+                self.current_user.saved_state['Jokes'] = 'running'
+            elif choice in ('notepad', 'notes', 'note', '2'):
+                self.current_user.notes = Notepad.main(self.current_user)
+            elif choice in ('bagels', 'bagels', '3'):
+                self.current_user.saved_state["Bagels Game"] = "running"
+                self.current_user.bagels.main()
+            elif choice in ('tictactoe', 'tic-tac-toe', 'ttt', '4'):
+                self.current_user.saved_state["TicTacToe"] = "running"
+                self.current_user.ttt.main()
+            elif choice in ('hangman', '5'):
+                self.current_user.saved_state["Hangman"] = "running"
+                self.current_user.hangman.main()
+            elif choice in ('sonar', '6'):
+                print("Still in progress...")
+            elif choice in ('task manager', '7'):
+                TaskManager.main(self.current_user.saved_state)
+            elif choice in ('user settings', 'usersettings', '8'):
+                self.current_user.saved_state["User Settings"] = "running"
+                self.user_settings.main(self)
+            elif choice in ('system info', 'sys info', '9'):
+                SystemInfo.main(self.versions)
+            elif choice in ('reset', '10'):
+                Reset.user_reset(self)
+            elif choice in ('exit', 'lock computer', '11'):
+                print("Computer has been locked.")
+                return 'regular'
+            elif choice in ('shutdown', '12'):
+                shutdown = self.shutdown('userpwd_db.txt', 'user_notes.txt', 'saved_state.txt', self.users, self.notes, self.bagels_prog, self.ttt_prog, self.hangman_prog)
+                if shutdown == 1:
+                    return 'sleep'
+                elif shutdown == 2:
+                    return 'hibernate'
+                elif shutdown == 3:
+                    return 'shutdown'
+                else:
+                    pass
+            elif choice in ('debugexit', 'debug'):
+                return 'regular'
+            else:
+                print("Please choose from the list of applications.")
 
     def shutdown(self, db_filename, notes_db, saved_state_db, dictionary, notes_dictionary, bagels_prog, ttt_prog, hangman_prog):
         # The shutdown method. Saves everything to disk and rides return statements all the way back to the main file.
         # Exits safely after that.
         while True:
             print("Choose an option.")
-            print("1. Sleep")
-            print("2. Hibernate")
-            print("3. Shutdown")
-            print("4. Restart")
-            print("Type \"info\" for details.")
+            print("1. Sleep\n2. Hibernate\n3. Shutdown\n4. Restart\nType \"info\" for details.")
             shutdown_choice = input().lower()
             if shutdown_choice in "info":
                 print("1. Sleep\nSleep does not close the python shell. It logs out the current user and saves the session to RAM. Forcibly closing "
-                      "the shell will result in lost data.")
-                print("2. Hibernate\nHibernate saves the current session to disk and exits the python shell. The python shell is closed and all "
-                      "data is saved.")
-                print("3. Shutdown\nShutdown saves only users and notes to disk. All other data is erased and all apps are quit.")
-                print("4. Restart\nRestart shuts down the computer, saving only users and notes to disk, and opens the program again.")
+                      "the shell will result in lost data.\n2. Hibernate\nHibernate saves the current session to disk and exits the python shell. "
+                      "The python shell is closed and all data is saved.\n3. Shutdown\nShutdown saves only users and notes to disk. All other data "
+                      "is erased and all apps are quit.\n4. Restart\nRestart shuts down the computer, saving only users and notes to disk, and opens "
+                      "the program again.")
                 input()
                 pass
             elif shutdown_choice in ("sleep", "1"):

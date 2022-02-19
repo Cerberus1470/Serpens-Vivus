@@ -9,6 +9,10 @@ class TicTacToe:
         self.board = board
         self.turn = turn
         self.player_letter = player_letter
+        if self.player_letter == 'X':
+            self.computer_letter = 'O'
+        else:
+            self.computer_letter = 'X'
         return
 
     def __repr__(self):
@@ -179,8 +183,7 @@ class TicTacToe:
         time.sleep(3)
         return saved_board
 
-    def main(self, stats, prog):
-        stats['TicTacToe'] = 'running'
+    def main(self):
         print('Welcome to Tic Tac Toe!')
 
         # Use the previous values!
