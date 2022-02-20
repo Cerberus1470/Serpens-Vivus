@@ -2,7 +2,8 @@
 # notePad, task manager, two games, information on the system, and the ability to change user settings! IT DOES
 # INCLUDE TWO PYTHON GAMES FROM EARLIER IN THE COURSE (Bagels and TicTacToe)
 
-from operating_system import OperatingSystem, User
+from operating_system import OperatingSystem
+from User import User
 from bagels import Bagels
 from tictactoe import TicTacToe
 from hangman import Hangman
@@ -24,7 +25,7 @@ except FileExistsError:
     # Running through the lines of the database.
     for i in protected_db:
         # Split the line into the three parts and append the user and password to the dictionary above.
-        progress = 0
+        progress = "0"
         try:
             (user, rest) = i.split('\t\t', 1)
             for j in range(1, 3):

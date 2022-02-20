@@ -1,4 +1,5 @@
 import time
+from User import User
 
 
 class UserSettings:
@@ -30,16 +31,14 @@ class UserSettings:
                     print('The passwords you entered didn\'t match. Type the same password twice.')
             else:
                 # Default password
-                add_password = 'python123'
                 # Add this to the user dictionary
-                dictionary[add_user] = (add_password, '\n')
+                os_object.users.append(User(add_user, "python123", "", ""))
                 print('Default password set. The password is "python123". Returning to the User Settings in 3 seconds.')
                 time.sleep(3)
                 # Return from here itself, don't run the following.
                 return
-        add_password = add_pwd
         # Add this to the user dictionary
-        dictionary[add_user] = (add_password, '\n')
+        os_object.users.append(User(add_user, add_pwd, "", ""))
         print("Password set successfully. Returning to the User Settings in 3 seconds.")
         time.sleep(3)
         return
@@ -48,43 +47,39 @@ class UserSettings:
     def delete_user(os_object):
         while True:
             print("Choose a user to delete or type 'exit' to exit.")
-            pos = ''
-            count = 1
-            for i in dictionary:
-                print(str(count) + '. ' + i)
-                count += 1
-            flag = True
-            while flag:
-                delete_sel = input()
-                if delete_sel == 'exit':
-                    return
-                elif delete_sel in dictionary:
-                    for i in dictionary:
-                        if delete_sel == i:
-                            print("Enter the password for " + i)
-                            if input() == dictionary[i][0]:
-                                if delete_sel == current_user:
-                                    print("You can't delete the current user! Login with a different user to delete this one.")
-                                    time.sleep(3)
-                                    flag = False
-                                    break
-                                else:
-                                    pos = i
-                                    pass
-                            else:
-                                print("Incorrect password.")
+            for i in os_object.users:
+                print(str(os_object.users.index(i)) + ": " + i.username)
+            delete_sel = input()
+            if delete_sel == 'exit':
+                return
+            is_in_db = False
+            for i in os_object.users:
+                is_in_db = is_in_db or delete_sel == i.username
+            if is_in_db:
+                for i in os_object.users:
+                    if delete_sel == i.username:
+                        print("Enter the password for " + i.username)
+                        if input() == i.password:
+                            if i.current == "CURRENT":
+                                print("You can't delete the current user! Login with a different user to delete this one.")
+                                time.sleep(3)
                                 break
-                    try:
-                        deleted_user = dictionary.pop(pos)
-                        print("User deleted successfully. Returning to the User Settings in 3 seconds.")
-                        time.sleep(3)
-                        return
-                    except KeyError:
-                        pass
-                else:
-                    print("Please choose a user from the list or type \"exit\" to exit.")
-                    pass
+                            else:
+                                try:
+                                    deleted_user = os_object.users.pop(os_object.users.index(i))
+                                    print("User deleted successfully. Returning to the User Settings in 3 seconds.")
+                                    time.sleep(3)
+                                    return
+                                except KeyError:
+                                    pass
+                        else:
+                            print("Incorrect password.")
+                            break
+
+            else:
+                print("Please choose a user from the list or type \"exit\" to exit.")
                 pass
+            pass
             print("Delete another user? Yes or no?")
             if input() == 'yes':
                 pass
