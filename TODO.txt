@@ -8,7 +8,7 @@ TODO - Basic
     - Add user-specific app status (app sessions) - DONE
     - Change status dictionary - DONE
     - Change current user status to boolean
-    - Fix add user with game progress
+    - Fix add user with game progress - DONE
 
 TODO - Advanced
     - Add admins and standard users.
@@ -18,3 +18,4 @@ TODO - Advanced
     - Add more games in class format
     - Add speed up or slow down to program
     - Rework startup method completely
+    - Add parent-child hierarchy

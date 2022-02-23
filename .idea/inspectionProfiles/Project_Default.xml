@@ -16,6 +16,7 @@
           <option value="Cerberus.section3" />
           <option value="Cerberus.section2" />
           <option value="Cerberus.section4" />
+          <option value="str.last_guess" />
         </list>
       </option>
     </inspection_tool>

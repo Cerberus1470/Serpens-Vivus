@@ -163,7 +163,9 @@ class Hangman:
             # Let the player type in a letter.
             guess = self.get_guess(self.missed_letters + self.correct_letters)
             if guess == 'quit':
-                return self.missed_letters, self.correct_letters, self.secret_word, self.secret_key
+                print("Saving game progress...")
+                time.sleep(3)
+                return
             elif guess in self.secret_word:  # This adds the correct letter to the blanks.
                 self.correct_letters = self.correct_letters + guess
 
@@ -197,4 +199,4 @@ class Hangman:
                 else:
                     print("Returning to the login screen in 3 seconds.")
                     time.sleep(3)
-                    return ' ', ' ', ' ', ' '
+                    return

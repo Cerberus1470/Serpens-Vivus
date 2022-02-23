@@ -10,8 +10,8 @@ from hangman import Hangman
 
 protected_db_name = 'db_protected.txt'
 unprotected_db_name = 'db_unprotected.txt'
-corrupt_message = "\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nTHE DATABASE IS CORRUPTED. PLEASE CHECK THE MANUAL, QUIT THE OS, AND RECONFIGURE THE DATABASE."
-"\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nCorrupted Database: db_protected.txt\nCorrupted Section: "
+corrupt_message = "\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nTHE DATABASE IS CORRUPTED. PLEASE CHECK THE MANUAL, QUIT THE OS, AND RECONFIGURE THE DATABASE." \
+                  "\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nCorrupted Database: db_protected.txt\nCorrupted Section: "
 user_pwd_dictionary = {}
 users = []
 # Users and Passwords dictionary
@@ -28,7 +28,7 @@ except FileExistsError:
         progress = "0"
         try:
             (user, rest) = i.split('\t\t', 1)
-            for j in range(1, 3):
+            for j in range(1, 4):
                 progress = str(j)
                 (globals()["section" + str(j)], rest) = rest.split('\t\t', 1)
                 pass
@@ -36,13 +36,14 @@ except FileExistsError:
             print(corrupt_message + progress + "\n")
             break
         # If the user is specified as the current, write that in the dictionary.
-        while '!' in rest:
-            (notes1, notes2) = rest.split('!', 1)
-            rest = notes1 + '\n' + notes2
+        # noinspection PyUnboundLocalVariable
+        while '\t' in section3:
+            (notes1, notes2) = section3.split('\t', 1)
+            section3 = notes1 + '\n' + notes2
         if section2 == 'CURRENT':
-            users.append(User(user, section1, section2, rest))
+            users.append(User(user, section1, section2, section3))
         else:
-            users.append(User(user, section1, '\n', rest))
+            users.append(User(user, section1, '', section3))
     protected_db.close()
     pass
 
@@ -61,6 +62,7 @@ except FileExistsError:
     unprotected_db = open(unprotected_db_name, 'r')
     # Reading from the file.
     flag = True
+    count = 0
     for i in unprotected_db:
         # Split the line into each data set.
         flag = False
@@ -73,24 +75,10 @@ except FileExistsError:
         except ValueError:
             print(corrupt_message + progress + "\n")
             break
-        # Read the stats into memory.
-        saved_state[user] = {"Jokes": section1.split('.', 7)[0], "Notepad": section1.split('.', 7)[1], "Bagels Game": section1.split('.', 7)[2],
-                             "TicTacToe": section1.split('.', 7)[3], "Hangman": section1.split('.', 7)[4], "User Settings": section1.split('.', 7)[5],
-                             "System Info": section1.split('.', 7)[6]}
-
-        # Read Bagels progress into memory.
-        try:
-            (last_guess, num_guesses, num_digits, secret_num, max_guesses) = section2.split('.', 4)
-            bagels.append(Bagels(user, last_guess, num_guesses, num_digits, secret_num, max_guesses))
-            bagels[user] = section2.split('.', 4)
-            pass
-        except ValueError:
-            print(corrupt_message + "B\n")
-            break
 
         # Read TTT progress into memory.
         try:
-            (board, turn, letter) = section3.split('.', 2)
+            (board, turn, letter) = section1.split('.', 2)
             # Translation algorithm to convert the board from a comma-separated string into a list.
             while ',' in board:
                 (board1, board2) = board.split(',', 1)
@@ -98,32 +86,45 @@ except FileExistsError:
             ttt_board = []
             for j in range(len(board)):
                 ttt_board.append(board[j])
-            ttt.append(TicTacToe(user, ttt_board, turn, letter))
+            users[count].ttt = TicTacToe(user, ttt_board, turn, letter)
             pass
         except ValueError:
             print(corrupt_message + "T\n")
             break
+
+        # Read Bagels progress into memory.
         try:
-            (correct_letters, missed_letters, secret_key, secret_word) = section4.split('.', 3)
-            hangman.append(Hangman(user, correct_letters, missed_letters, secret_key, secret_word))
+            (last_guess, num_guesses, num_digits, secret_num, max_guesses) = section2.split('.', 4)
+            users[count].bagels = Bagels(user, section2.split('.', 4)[0], section2.split('.', 4)[1], section2.split('.', 4)[2], section2.split('.', 4)[3], section2.split('.', 4)[4])
+            pass
+        except ValueError:
+            print(corrupt_message + "B\n")
+            break
+
+        try:
+            users[count].hangman = Hangman(user, section3.split('.', 3)[0], section3.split('.', 3)[1], section3.split('.', 3)[2], section3.split('.', 3)[3])
             pass
         except ValueError:
             print(corrupt_message + "H\n")
             break
-        unprotected_db.close()
+
+        # Read the stats into memory.
+        users[count].saved_state = {"Jokes": section4.split('.', 7)[0], "Notepad": section4.split('.', 7)[1], "Bagels Game": section4.split('.', 7)[2],
+                                    "TicTacToe": section4.split('.', 7)[3], "Hangman": section4.split('.', 7)[4], "User Settings": section4.split('.', 7)[5],
+                                    "System Info": section4.split('.', 7)[6]}
+        count += 1
         pass
     if flag:
         # What happens when there is no progress at all?
         for i in users:
-            bagels.append(Bagels(i.username, ' ', ' ', ' ', ' ', ' '))
-            ttt.append(TicTacToe(i.username, [' '] * 9, 0, ' '))
-            hangman.append(Hangman(i.username, ' ', ' ', ' ', ' '))
-            saved_state.append({"Jokes": "not running", "Notepad": "not running", "Bagels Game": "not running",
-                                "TicTacToe": "not running", "Hangman": "not running", "User Settings": "not running",
-                                "System Info": "not running"})
+            i.bagels = Bagels(i.username, ' ', ' ', ' ', ' ', ' ')
+            i.ttt = TicTacToe(i.username, [' '] * 9, 0, ' ')
+            i.hangman = Hangman(i.username, ' ', ' ', ' ', ' ')
+            i.saved_state = {"Jokes": "not running", "Notepad": "not running", "Bagels Game": "not running",
+                             "TicTacToe": "not running", "Hangman": "not running", "User Settings": "not running",
+                             "System Info": "not running"}
         pass
-    for i in range(len(users)):
-        users[i].__setGames__(bagels[i], ttt[i], hangman[i], saved_state[i])
+    unprotected_db.close()
 
 # Versions and Stats Dictionaries.
 

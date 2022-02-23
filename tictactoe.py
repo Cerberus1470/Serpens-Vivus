@@ -200,8 +200,8 @@ class TicTacToe:
             self.startup(self.turn)
         else:
             self.player_letter, self.computer_letter = self.input_player_letter()
-            turn = self.who_goes_first()
-            print('The ' + turn + ' will go first.')
+            self.turn = self.who_goes_first()
+            print('The ' + self.turn + ' will go first.')
 
         while True:
             game_is_playing = True
@@ -215,7 +215,7 @@ class TicTacToe:
                         # Safely quit the app.
                         print("Saving game progress...")
                         time.sleep(3)
-                        return self.board, self.turn, self.player_letter
+                        return
                     else:
                         self.make_move(self.board, self.player_letter, int(move))
 
@@ -251,4 +251,4 @@ class TicTacToe:
                 self.board = [' '] * 9
             else:
                 break
-        return self
+        return
