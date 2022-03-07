@@ -1,21 +1,77 @@
+KEY:
+! means important.
+~ means in progress.
+> means completed.
+
 TODO - Basic
-    - Loops in user settings (delete more than one user) - DONE
-    - Edit username and password! - DONE
-    - User-specific notes and game progress! - DONE
-    - Merge shutdown and hibernate (since they share a lot of root code) - DONE
-    - Fix imports - DONE
-    - Add shutdown, hibernate, and sleep options on shutdown menu - DONE
-    - Add user-specific app status (app sessions) - DONE
-    - Change status dictionary - DONE
-    - Change current user status to boolean
-    - Fix add user with game progress - DONE
+    > ! - Loops in user settings (delete more than one user)
+    > - Edit username and password
+    > - User-specific notes and game progress
+    > ! - Merge shutdown and hibernate (since they share a lot of root code)
+    > - Fix imports
+    > ! - Add shutdown, hibernate, and sleep options on shutdown menu
+    > - Add user-specific app status (app sessions)
+    > - Change status dictionary
+    > - Change current user status to boolean
+    > ! - Fix add user with game progress
+    > ! - Fix restarting!
+    > - Delete all aesthetic pauses in shutdown function
 
 TODO - Advanced
-    - Add admins and standard users.
-    - Request password before deleting user (then remove the check for admin users)
-    - Rewrite Shutdown function entirely
+    ~ ! - Add admins and standard users.
+    ~ - Request password before deleting user (then remove the check for admin users)
+    - Add 3 recently deleted users
+    ! - Rewrite Shutdown function entirely
         - Explicitly write conditions for all shutdown methods
     - Add more games in class format
     - Add speed up or slow down to program
-    - Rework startup method completely
+    ! - Rework startup method completely
     - Add parent-child hierarchy
+    - Add debug mode. Documentation Below.
+
+TODO - Really advanced
+    - Add a game store. I'll add some documentation below.
+    - Implement hashing (encrypting the databases)
+        - Develop error correcting app after implementing encryption. More documentation below.
+    - Implement Threads
+    - Revamp db_unprotected.txt into user directories. More documentation below.
+        - Completely revamp Notes app. See below for documentation.
+
+Administrators:
+- Admins have elevated access that allow for certain functions. These include:
+    - Creating new Users
+    - Managing Users
+        - Deleting
+        - Editing other user info (not current user info)
+    - Resetting the OS
+    - Installing games (future)
+
+Game store:
+- This is a collection of games that the user can install.
+- Saving game progress will no longer be hardcoded with this addition.
+- Each game will be iterated through and the individual user progress will be written to the database.
+- This is going to be really hard.
+
+Hashing:
+- Essentially encrypting the databases.
+- This will prevent tampering with the saved data.
+- Error correction:
+    - If the data becomes corrupted from an unexpected shutdown or something, an error correcting app will be launched on the next startup.
+    - The user will also be able to launch this if they believe the OS is corrupt.
+    - This will do 2 things: Error check the encrypted databases, and error check the entire root code. Think Disk Check or Recovery Tools for Windows.
+    - The function call will replace the corruption error message being displayed during startup with corrupted databases.
+    - This will probably be even harder than the Game store.
+
+New user directories:
+- Each user will get their own dedicated directory.
+- Upon deletion or username edits, the user directory will be changed as well.
+- This directory will now store whatever was in db_unprotected.txt. This includes game progress.
+- Each game will be in its own notepad file.
+    - New Notepad:
+        - Basically, the user can create txt files at will, in their own directory.
+        - The files will be read from storage into memory, and will be editable and savable.
+        - Saving txt files will be completely different from shutdown.
+
+
+
+! - Encrypt typed password - REJECTED. This turned out to be a LOT harder than I thought. I seriously have no idea how this works.

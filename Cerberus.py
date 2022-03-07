@@ -3,15 +3,19 @@
 # INCLUDE TWO PYTHON GAMES FROM EARLIER IN THE COURSE (Bagels and TicTacToe)
 
 from operating_system import OperatingSystem
-from User import User
+from User import StandardUser, Administrator
 from bagels import Bagels
 from tictactoe import TicTacToe
 from hangman import Hangman
 
 protected_db_name = 'db_protected.txt'
 unprotected_db_name = 'db_unprotected.txt'
+section1 = ""
+section2 = ""
+section3 = ""
+section4 = ""
 corrupt_message = "\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nTHE DATABASE IS CORRUPTED. PLEASE CHECK THE MANUAL, QUIT THE OS, AND RECONFIGURE THE DATABASE." \
-                  "\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nCorrupted Database: db_protected.txt\nCorrupted Section: "
+                  "\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nCorrupted Database: %s\nCorrupted Section: %s\n"
 user_pwd_dictionary = {}
 users = []
 # Users and Passwords dictionary
@@ -23,27 +27,24 @@ except FileExistsError:
     # Make dictionary and variables.
     protected_db = open(protected_db_name, "r")
     # Running through the lines of the database.
+    # noinspection PyTypeChecker
     for i in protected_db:
         # Split the line into the three parts and append the user and password to the dictionary above.
         progress = "0"
         try:
-            (user, rest) = i.split('\t\t', 1)
-            for j in range(1, 4):
+            (userType, rest) = i.split('\t\t', 1)
+            for j in range(1, 5):
                 progress = str(j)
                 (globals()["section" + str(j)], rest) = rest.split('\t\t', 1)
                 pass
         except ValueError:
-            print(corrupt_message + progress + "\n")
+            print(corrupt_message % ("db_protected.txt", progress))
             break
         # If the user is specified as the current, write that in the dictionary.
-        # noinspection PyUnboundLocalVariable
-        while '\t' in section3:
-            (notes1, notes2) = section3.split('\t', 1)
-            section3 = notes1 + '\n' + notes2
-        if section2 == 'CURRENT':
-            users.append(User(user, section1, section2, section3))
-        else:
-            users.append(User(user, section1, '', section3))
+        while '\t' in section4:
+            (notes1, notes2) = section4.split('\t', 1)
+            section4 = notes1 + '\n' + notes2
+        users.append(globals()[userType](section1, section2, section3 == "True", section4))
     protected_db.close()
     pass
 
@@ -63,6 +64,7 @@ except FileExistsError:
     # Reading from the file.
     flag = True
     count = 0
+    # noinspection PyTypeChecker
     for i in unprotected_db:
         # Split the line into each data set.
         flag = False
@@ -73,7 +75,7 @@ except FileExistsError:
                 progress = str(j)
                 (globals()["section" + str(j)], rest) = rest.split('\t\t', 1)
         except ValueError:
-            print(corrupt_message + progress + "\n")
+            print(corrupt_message % ("db_unprotected", progress))
             break
 
         # Read TTT progress into memory.
@@ -129,19 +131,14 @@ except FileExistsError:
 # Versions and Stats Dictionaries.
 
 # Initializing operating system with __init__
-operating_system = OperatingSystem(users)
+Cerberus = OperatingSystem(users)
 
 # If the user_pwd dictionary exists (meaning the database exists), run startup. Otherwise create it and go into setup.
-if len(users) > 0:
-    while True:
-        if operating_system.startup() == 'restart':
-            break
-        else:
-            pass
-else:
-    operating_system.setup(user_pwd_dictionary)
-    while True:
-        if operating_system.startup() == 'restart':
-            break
-        else:
-            pass
+if len(users) <= 0:
+    Cerberus.startup()
+    pass
+while True:
+    if Cerberus.startup() == 'restart':
+        pass
+    else:
+        break

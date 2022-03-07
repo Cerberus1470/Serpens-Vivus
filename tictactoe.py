@@ -32,7 +32,7 @@ class TicTacToe:
         print('-----------')
         print('   |   |')
         print(' ' + board[6] + ' | ' + board[7] + ' | ' + board[8])
-        print('   |   |')
+        print('   |   |\n')
 
     @staticmethod
     def input_player_letter():
