@@ -1,5 +1,5 @@
+import Loading
 import random
-import time
 
 
 class Bagels:
@@ -99,13 +99,11 @@ class Bagels:
             print('I have thought up a number. You have %s guesses to get it.' % (guesses+1))
 
             while int(self.num_guesses) <= int(self.max_guesses):
-                guess = ''
                 # while len(guess) != int(self.num_digits) or not self.is_only_digits(guess):
                 print('Guess #%s: \nType "quit" to quit.' % self.num_guesses)
                 guess = input()
                 if guess == 'quit':
-                    print("Saving game progress...")
-                    time.sleep(3)
+                    Loading.returning("Saving game progress...", 3)
                     return
                 elif len(guess) != int(self.num_digits):
                     print("Guess a number with the same length as the secret number (%s)" % len(self.secret_num))

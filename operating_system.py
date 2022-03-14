@@ -1,31 +1,140 @@
-import time
+import Loading
+import User
+from bagels import Bagels
+from hangman import Hangman
 from jokes import Jokes
 from notepad import Notepad
-from task_manager import TaskManager
-from user_settings import UserSettings
-from system_info import SystemInfo
-from User import Administrator
 from reset import Reset
+from system_info import SystemInfo
+from task_manager import TaskManager
+from tictactoe import TicTacToe
+from user_settings import UserSettings
 
 
+# noinspection PyTypeChecker
 class OperatingSystem:
 
-    def __init__(self, users):
-        # Users and passwords
-        self.users = users
+    def __init__(self, protected_db_name, unprotected_db_name, corrupt_message):
+        # User list, name, and versions. All inherent settings.
+        self.users = []
         self.name = "Cerberus"
+        self.apps = []
         self.versions = {"main": 11.0, "jokes": 1.2, "notes": 1.3, "bagels": 1.12, "tictactoe": 1.10, "hangman": 1.8, "userset": 1.11, "sysinfo": 1.4}
         self.user_settings = UserSettings()
-        # Setting current user and password
-        for i in range(len(self.users)):
-            try:
-                self.users[i].notes
-            except KeyError:
-                self.users[i].notes[i] = ''
-        for i in range(len(self.users)):
-            if self.users[i].current:
-                self.current_user = self.users[i]
-                break
+
+        # The main boot sequence.
+        # Start by trying to create the protected database.
+        try:
+            protected_db = open(protected_db_name, "x")
+            protected_db.close()
+        # If the database exists, read from it!
+        except FileExistsError:
+            # Open the database.
+            protected_db = open(protected_db_name, "r")
+            # Running through the lines of the database.
+            for i in protected_db:
+                # Ready the sections!
+                progress = "0"
+                user_info = ['', '', '', '']
+                try:
+                    # First save the user type. (Standard vs Admin)
+                    (userType, rest) = i.split('\t\t', 1)
+                    # Now loop for 4 more blocks, tracking progress throughout so that the user may fix corruption if necessary.
+                    for j in range(1, 5):
+                        progress = str(j)
+                        (user_info[j - 1], rest) = rest.split('\t\t', 1)
+                        pass
+                except ValueError:
+                    # If something is missing, print out the last stored progress to show the user that something is wrong.
+                    print(corrupt_message % ("db_protected.txt", progress))
+                    break
+                # If the user is specified as the current, write that in the dictionary.
+                while '\t' in user_info[3]:
+                    (notes1, notes2) = user_info[3].split('\t', 1)
+                    user_info[3] = notes1 + '\n' + notes2
+                if userType == 'StandardUser':
+                    self.users.append(User.StandardUser(user_info[0], user_info[1], user_info[2] == "True", user_info[3]))
+                else:
+                    self.users.append(User.Administrator(user_info[0], user_info[1], user_info[2] == "True", user_info[3]))
+                for j in range(len(self.users)):
+                    if self.users[j].current:
+                        self.current_user = self.users[j]
+                        break
+            protected_db.close()
+            pass
+
+        try:
+            unprotected_db = open(unprotected_db_name, 'x')
+            unprotected_db.close()
+        except FileExistsError:
+            unprotected_db = open(unprotected_db_name, 'r')
+            # Reading from the file.
+            data = False
+            count = 0
+            # noinspection PyTypeChecker
+            for i in unprotected_db:
+                # Split the line into each data set.
+                data = True
+                progress = 0
+                game_info = ['', '', '', '']
+                try:
+                    (user, rest) = i.split('\t\t', 1)
+                    for j in range(1, 5):
+                        progress = str(j)
+                        (game_info[j - 1], rest) = rest.split('\t\t', 1)
+                except ValueError:
+                    print(corrupt_message % ("db_unprotected", progress))
+                    break
+
+                # Read TTT progress into memory.
+                try:
+                    (board, turn, letter) = game_info[0].split('.', 2)
+                    # Translation algorithm to convert the board from a comma-separated string into a list.
+                    while ',' in board:
+                        (board1, board2) = board.split(',', 1)
+                        board = board1 + board2
+                    ttt_board = []
+                    for j in range(len(board)):
+                        ttt_board.append(board[j])
+                    self.users[count].ttt = TicTacToe(user, ttt_board, turn, letter)
+                    pass
+                except ValueError:
+                    print(corrupt_message + "T\n")
+                    break
+
+                # Read Bagels progress into memory.
+                try:
+                    self.users[count].bagels = Bagels(user, game_info[1].split('.', 4)[0], game_info[1].split('.', 4)[1], game_info[1].split('.', 4)[2], game_info[1].split('.', 4)[3], game_info[1].split('.', 4)[4])
+                    pass
+                except ValueError:
+                    print(corrupt_message + "B\n")
+                    break
+
+                try:
+                    self.users[count].hangman = Hangman(user, game_info[2].split('.', 3)[0], game_info[2].split('.', 3)[1], game_info[2].split('.', 3)[2], game_info[2].split('.', 3)[3])
+                    pass
+                except ValueError:
+                    print(corrupt_message + "H\n")
+                    break
+
+                # Read the stats into memory.
+                self.users[count].saved_state = {"Jokes": game_info[3].split('.', 7)[0], "Notepad": game_info[3].split('.', 7)[1], "Bagels Game": game_info[3].split('.', 7)[2],
+                                                 "TicTacToe": game_info[3].split('.', 7)[3], "Hangman": game_info[3].split('.', 7)[4], "User Settings": game_info[3].split('.', 7)[5],
+                                                 "System Info": game_info[3].split('.', 7)[6]}
+                count += 1
+                pass
+            if not data:
+                # What happens when there is no progress at all?
+                for i in self.users:
+                    i.bagels = Bagels(i.username, ' ', ' ', ' ', ' ', ' ')
+                    i.ttt = TicTacToe(i.username, [' '] * 9, 0, ' ')
+                    i.hangman = Hangman(i.username, ' ', ' ', ' ', ' ')
+                    i.saved_state = {"Jokes": "not running", "Notepad": "not running", "Bagels Game": "not running",
+                                     "TicTacToe": "not running", "Hangman": "not running", "User Settings": "not running",
+                                     "System Info": "not running"}
+                pass
+            unprotected_db.close()
+
         return
 
     def __repr__(self):
@@ -38,7 +147,7 @@ class OperatingSystem:
         while True:
             print()
             # Label(main_window, text="Hello! I am Cerberus, running user: " + self.current_user + ". Type 'switch' to switch users or \"shutdown\" to shut down the system.").grid(row=0, column=0)
-            print("Hello! I am %s." % self.name)
+            print("\nHello! I am %s." % self.name)
             if self.current_user.username != 'Guest':
                 # Separate while loop for users. Guest users head down.
                 while True:
@@ -70,11 +179,8 @@ class OperatingSystem:
                             print("The System is sleeping. Press [ENTER] or [return] to wake.")
                             input()
                             break
-                        elif shutdown == 2 or shutdown == 3:
-                            return
-                        elif shutdown == 4:
-                            return 'restart'
-                        print("Hello! I am %s, running user: " % self.name + self.current_user + ". Type 'switch' to switch users or \"shutdown\" to shut down the system.")
+                        else:
+                            return shutdown
                     elif pwd == 'debugexit':
                         return
                     else:
@@ -93,6 +199,8 @@ class OperatingSystem:
         # The main OS window. Contains the list of apps and choices. Stored in a while loop to keep them inside.
         print("Hello! I am %s, running POCS v%s" % (self.name, self.versions["main"]))
         while True:
+            for i in self.apps:
+                print(i)
             print("\nAPPLICATIONS")
             print("1. Jokes")
             print("2. Notepad")
@@ -114,7 +222,7 @@ class OperatingSystem:
                 Jokes.main()
             elif choice in ('notepad', 'notes', 'note', '2'):
                 self.current_user.saved_state['Notepad'] = 'running'
-                self.current_user.notes = Notepad.main(self.current_user)
+                Notepad.main(self.current_user)
             elif choice in ('bagels', 'bagels', '3'):
                 self.current_user.saved_state["Bagels Game"] = "running"
                 self.current_user.bagels.main()
@@ -134,7 +242,8 @@ class OperatingSystem:
             elif choice in ('system info', 'sys info', '9'):
                 SystemInfo.main(self.versions)
             elif choice in ('reset', '10'):
-                Reset.user_reset(self)
+                Reset.user_reset()
+                return 4
             elif choice in ('exit', 'lock computer', '11'):
                 print("Computer has been locked.")
                 return 'regular'
@@ -148,6 +257,9 @@ class OperatingSystem:
     def shutdown(self, protected_db_file, unprotected_db_file):
         # The shutdown method. Saves everything to disk and rides return statements all the way back to the main file.
         # Exits safely after that.
+        if self.current_user.username == 'Guest':
+            input("The guest user cannot save progress. The system will shutdown.")
+            return 3
         while True:
             print("Choose an option.")
             print("1. Sleep\n2. Hibernate\n3. Shutdown\n4. Restart\nType \"info\" for details.")
@@ -170,13 +282,6 @@ class OperatingSystem:
                     print("Hibernating...")
                     hibernate = True
                 elif shutdown_choice in ('shutdown', '3', 'restart', '4'):
-                    print("Shutting down will erase all game progress. Users and their notes will be saved. Are you sure you want to continue?")
-                    if input("Type \"shutdown\" to continue, or press [ENTER] or [return] to return to the previous screen.") == 'shutdown':
-                        pass
-                    else:
-                        print("Returning to the login screen in 3 seconds.")
-                        time.sleep(3)
-                        return 0
                     if shutdown_choice in ('shutdown', '3'):
                         shutdown = True
                         print("Shutting down...")
@@ -184,23 +289,20 @@ class OperatingSystem:
                         print("Restarting...")
                     # Check if any programs are running
                     program_running = False
-                    force_quit = 'shutdown'
                     for i in self.current_user.saved_state:
                         if self.current_user.saved_state[i] == 'running':
                             print("The " + i + " program is running.")
                             program_running = True
                     if program_running:
-                        print("Would you like to force quit these apps? Type [ENTER] or [return] to return to the OS to save your progress. ")
-                        force_quit = input("Type \"shutdown\" to force quit all apps and proceed with shutdown >>> ")
+                        print("Would you like to force quit these apps? Type [ENTER] or [return] to return to the OS.")
+                        if input("Type \"shutdown\" to force quit all apps and proceed with shutdown >>> ") == 'shutdown':
+                            pass
+                        else:
+                            # Return to allow the user to save their progress.
+                            Loading.returning("Returning to the login screen in 3 seconds.", 3)
+                            return 0
                     else:
                         print("No apps are open.")
-                    if force_quit == 'shutdown':
-                        pass
-                    else:
-                        # Return to allow the user to save their progress.
-                        print("Returning to the login screen in 3 seconds.")
-                        time.sleep(3)
-                        return 0
                     if shutdown_choice in ('shutdown', '3'):
                         print("Shutting down...")
                     else:
@@ -209,7 +311,6 @@ class OperatingSystem:
                     self.current_user.saved_state["Jokes"] = self.current_user.saved_state["Notepad"] = self.current_user.saved_state["Bagels Game"] = \
                         self.current_user.saved_state["TicTacToe"] = self.current_user.saved_state["User Settings"] = \
                         self.current_user.saved_state["System Info"] = "not running"
-                # Much is similar to shutting down, except no force quitting.
                 # First open the databases.
                 protected_db = open(protected_db_file, 'w')
                 unprotected_db = open(unprotected_db_file, 'w')
@@ -248,7 +349,7 @@ class OperatingSystem:
                         for j in i.saved_state:
                             # noinspection PyTypeChecker
                             translated_save_state += i.saved_state[j] + '.'
-                        i.saved_state = translated_save_state[0:len(translated_save_state)-1]
+                        i.saved_state = translated_save_state[0:len(translated_save_state) - 1]
                         # After translation and empty notes creation, add everything to the notes list to write to the db later.
                 # Then write each user, password, and current status to the database, saving it to disk.
                 # Also write the notes to the database.
@@ -268,10 +369,8 @@ class OperatingSystem:
                     input("Shutdown complete. Open \"%s.py\" to restart the system." % self.name)
                     return 3
                 else:
-                    print("Restarting system...")
-                    time.sleep(2)
-                    print("Booting...")
-                    time.sleep(2)
+                    Loading.returning("Restarting system...", 2)
+                    Loading.returning("Booting...", 2)
                     return 4
 
     def setup(self):
@@ -298,21 +397,18 @@ class OperatingSystem:
                         print('The passwords you entered didn\'t match. Type the same password twice.')
                 else:
                     # If the user did not enter a password:
-                    self.current_user = Administrator(setup_user, 'python123', True, '')
+                    self.current_user = User.Administrator(setup_user, 'python123', True, '')
                     self.users.append(self.current_user)
-                    print('Default password set. The password is "python123". Entering startup in 3 seconds.')
-                    time.sleep(3)
+                    Loading.returning('Default password set. The password is "python123". Entering startup in 3 seconds.', 3)
                     return
             # User entered password correctly twice.
-            self.current_user = Administrator(setup_user, setup_pwd, True, '')
+            self.current_user = User.Administrator(setup_user, setup_pwd, True, '')
             self.users.append(self.current_user)
-            print("Password set successfully. Entering startup in 3 seconds.")
-            time.sleep(3)
+            Loading.returning("Password set successfully. Entering startup in 3 seconds.", 3)
             return
         else:
             # If the user did not specify whether or not they wanted a new user.
-            self.current_user = Administrator("Guest", "", True, '')
+            self.current_user = User.Administrator("Guest", "", True, '')
             self.users.append(self.current_user)
-            print("Guest user added. There is no password. Press [ENTER] or [return] during login. Entering startup in 3 seconds.")
-            time.sleep(3)
+            Loading.returning("Guest user added. There is no password. Press [ENTER] or [return] during login. Entering startup in 3 seconds.", 3)
             return

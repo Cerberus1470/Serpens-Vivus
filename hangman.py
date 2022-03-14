@@ -1,7 +1,7 @@
 # This program is a game of hangman! It will randomly select a word from 4 different categories, displays what category was chosen, and gives the player 5 incorrect guesses before the potato man is hung. Dark, I know right? The fate of a man lies in
 # your ability to guess a word. Good luck! Side note: I thought we were supposed to have a working program, so I just fixed the broken code. Everything works :)
+import Loading
 import random
-import time
 
 HANGMANPICS = ['''
 
@@ -163,8 +163,7 @@ class Hangman:
             # Let the player type in a letter.
             guess = self.get_guess(self.missed_letters + self.correct_letters)
             if guess == 'quit':
-                print("Saving game progress...")
-                time.sleep(3)
+                Loading.returning("Saving game progress...", 3)
                 return
             elif guess in self.secret_word:  # This adds the correct letter to the blanks.
                 self.correct_letters = self.correct_letters + guess
@@ -197,6 +196,5 @@ class Hangman:
                     game_is_done = False
                     (self.secret_word, self.secret_key) = self.get_random_word(words)
                 else:
-                    print("Returning to the login screen in 3 seconds.")
-                    time.sleep(3)
+                    Loading.returning("Returning to the applications screen in 3 seconds.", 3)
                     return

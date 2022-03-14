@@ -1,4 +1,8 @@
+import Loading
+
+
 class SystemInfo:
+
     def __init__(self):
         return
 
@@ -19,5 +23,10 @@ class SystemInfo:
         print("User Settings Version: %s" % versions["userset"])
         print("System Info Version: %s" % versions["sysinfo"])
         print("Press [ENTER] or [return] to return to the applications screen!")
-        input()
+        if input() == "debug":
+            # here is the animation
+            Loading.testing_hash()
+
         return
+
+# SystemInfo.main({"main": 11.0, "jokes": 1.2, "notes": 1.3, "bagels": 1.12, "tictactoe": 1.10, "hangman": 1.8, "userset": 1.11, "sysinfo": 1.4})

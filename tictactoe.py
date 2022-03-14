@@ -1,5 +1,5 @@
-import time
 import random
+import Loading
 
 
 class TicTacToe:
@@ -176,13 +176,6 @@ class TicTacToe:
             pass
         return
 
-    def quit(self, board):
-        # Save game status to memory.
-
-        saved_board = self.get_board_copy(board)
-        time.sleep(3)
-        return saved_board
-
     def main(self):
         print('Welcome to Tic Tac Toe!')
 
@@ -213,8 +206,7 @@ class TicTacToe:
                     move = self.get_player_move(self.board)
                     if move in ('exit', 'quit', 'get me out of here'):
                         # Safely quit the app.
-                        print("Saving game progress...")
-                        time.sleep(3)
+                        Loading.returning("Saving game progress...", 3)
                         return
                     else:
                         self.make_move(self.board, self.player_letter, int(move))

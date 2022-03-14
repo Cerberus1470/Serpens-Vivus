@@ -21,34 +21,32 @@ class TaskManager:
         print("Welcome to the task manager!")
         print("Here you will find all the programs currently running. You are also able to quit them, however it "
               "clears no memory space, and all program memory will be saved (such as notes).")
-        print("The Jokes program is " + stats["Jokes"] + ". Type 'jquit' to quit the jokes program.")
-        print("The Notes program is " + stats["Notepad"] + ". Type 'nquit' to quit the notes program.")
-        print("The Bagels program is " + stats["Bagels Game"] + ". Type 'bquit' to quit the bagels program.")
-        print("The Tic-Tac-Toe program is " + stats["TicTacToe"] + ". Type 'tquit' to quit the tic-tac-toe program.")
-        print("The User Settings program is " + stats["User Settings"] + ". Type 'uquit' to quit the user settings program.")
-        print("The System Info program is " + stats["System Info"] + ". Type 'squit' to quit the system info program.")
+        print("The Jokes program is " + stats["Jokes"] + ".")
+        print("The Notes program is " + stats["Notepad"] + ".")
+        print("The Bagels program is " + stats["Bagels Game"] + ".")
+        print("The Tic-Tac-Toe program is " + stats["TicTacToe"] + ".")
+        print("The User Settings program is " + stats["User Settings"] + ".")
+        print("The System Info program is " + stats["System Info"] + ".")
         while True:
-            print("\nType any of the commands above to quit the corresponding programs or type 'quitall' to quit all "
-                  "programs! All progress will be erased if the programs are quit. To save progress, go into the app "
-                  "and save your progress there. Otherwise, just press [ENTER] or [return] to return to the applications "
-                  "screen!")
-            quit_choice = input()
-            if quit_choice == 'jquit':
+            print('\nType "quit" and the app you want to quit (i.e. "quit jokes") or type "quitall" to quit all programs! All progress will be erased if the programs are quit. To save progress, go into the app and save your progress there. Otherwise, '
+                  'just press [ENTER] or [return] to return to the applications screen!')
+            quit_choice = input().lower()[5:]
+            if quit_choice == 'jokes':
                 stats["Jokes"] = "not running"
                 print("The Jokes Program was successfully quit.")
-            elif quit_choice == 'nquit':
+            elif quit_choice == 'notes':
                 stats["Notepad"] = "not running"
                 print("The Notes Program was successfully quit.")
-            elif quit_choice == 'bquit':
+            elif quit_choice == 'bagels':
                 stats["Bagels Game"] = "not running"
                 print("The Bagels Program was successfully quit.")
-            elif quit_choice == 'tquit':
+            elif quit_choice == 'tic-tac-toe':
                 stats["TicTacToe"] = "not running"
                 print("The Tic-Tac-Toe Program was successfully quit.")
-            elif quit_choice == 'uquit':
+            elif quit_choice == 'user settings':
                 stats["User Settings"] = "not running"
                 print("The User Settings Program was successfully quit.")
-            elif quit_choice == 'squit':
+            elif quit_choice == 'system info':
                 stats["System Info"] = "not running"
                 print("The System Info Program was successfully quit.")
             elif quit_choice == 'quitall':
