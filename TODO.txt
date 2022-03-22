@@ -17,31 +17,38 @@ TODO - Basic
     > ! - Fix add user with game progress
     > ! - Fix restarting!
     > - Delete all aesthetic pauses in shutdown function
-    ~ - Do loading animation for all aesthetic pauses in all files!!!!
+    > - Do loading animation for all aesthetic pauses in all files!!!!
 
 TODO - Advanced
     > ! - Add admins and standard users.
     > - Request password before deleting user (then remove the check for admin users)
-    ~ - Add 3 recently deleted users
+    > - Add 3 recently deleted users
         - Add log of who deleted who
+    ~ - Event Log
+        - Basically keeps track of every event that happens in the computer.
+        - It will also be accessible using an app: Event Viewer
+            - Event Viewer will basically show chunks of events based on time.
+            - This chunk is calculated if the gap between logged events is greater than 10 minutes.
+            - There will be a reset function in the app as well.
     > ! - Rewrite Shutdown function entirely
         - Explicitly write conditions for all shutdown methods
-    - Add more games in class format
-    - Add speed up or slow down to program
+    - Add a lockout for _ number of incorrect passwords.
+    - Add Sonar.
+    > Add speed up or slow down to program
     ~ - Comprehensive app screen
         - Categories! Apps, utilities, games, power
     > ! - Rework startup method completely
     > - Add parent-child hierarchy
     - Add debug mode. Documentation Below.
     X ! - Encrypt typed password - REJECTED. This turned out to be a LOT harder than I thought. I seriously have no idea how this works.
-    ~ - Rework Cerberus.py into operating_system.py
-        I just figured out that restart actually does nothing! It's supposed to shutdown the OS and read from disk storage again from scratch... But it doesn't...
+    > - Rework Cerberus.py into operating_system.py
+        I just figured out that restart actually does nothing! It's supposed to shut down the OS and read from disk storage again from scratch... But it doesn't...
         New function: boot. Boot will read everything from disk storage. Basically what goes on in Cerberus.py now goes
         into a function in operating_system. The goal is to just have the while loop and public variables in Cerberus.py
         > ! - Fix Guest User!
         > ! - Fix Reset
         > - Move reading code into boot function!
-        - Encrypt db_protected.txt using Fernet or Caesar Cypher
+        > Encrypt db_protected.txt using Fernet or Caesar Cypher
 
 TODO - Really advanced
     - Add a game store. I'll add some documentation below.

@@ -1,4 +1,4 @@
-class speed_slow:
+class SpeedSlow:
     @staticmethod
     def main():
         print('Welcome! Default values are 1.')

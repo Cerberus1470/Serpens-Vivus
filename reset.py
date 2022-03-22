@@ -27,6 +27,9 @@ class Reset:
                     file.close()
                     file = open('db_unprotected.txt', 'w')
                     file.close()
+                    file = open('event_log.txt', 'w')
+                    Loading.log("System reset.")
+                    file.close()
                     del file
                     print("\nThe system has successfully reset and will restart shortly.")
                     time.sleep(2)

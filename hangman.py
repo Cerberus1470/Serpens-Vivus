@@ -196,5 +196,5 @@ class Hangman:
                     game_is_done = False
                     (self.secret_word, self.secret_key) = self.get_random_word(words)
                 else:
-                    Loading.returning("Returning to the applications screen in 3 seconds.", 3)
+                    Loading.returning("Returning to the Applications Screen in 3 seconds.", 3)
                     return

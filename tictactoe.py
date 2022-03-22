@@ -98,15 +98,15 @@ class TicTacToe:
     def get_player_move(self, board):
         # Let the player type in his move.
         while True:
-            print('Enter your move from 1-9!')
+            print('Enter your move from 1-9! Or type "exit" to exit.')
             move = input()
             if move in ('1', '2', '3', '4', '5', '6', '7', '8', '9'):
                 if self.is_space_free(board, int(move)-1):
                     return int(move)-1
                 else:
                     print("That move is taken!")
-            if move in ('quit', 'exit', 'get me out of here'):
-                return move
+            elif move in ('quit', 'exit', 'get me out of here'):
+                return 'quit'
 
     def choose_random_move_from_list(self, board, moves_list):
         # Returns a valid move from the passed list on the passed board.
@@ -194,10 +194,10 @@ class TicTacToe:
         else:
             self.player_letter, self.computer_letter = self.input_player_letter()
             self.turn = self.who_goes_first()
-            print('The ' + self.turn + ' will go first.')
 
         while True:
             game_is_playing = True
+            print('The ' + self.turn + ' will go first.')
 
             while game_is_playing:
                 if self.turn == 'player':
@@ -225,15 +225,17 @@ class TicTacToe:
 
                 else:
                     # Computer's turn.
-                    self.draw_board(self.board)
+                    # self.draw_board(self.board)
                     move = self.get_computer_move(self.board, self.computer_letter)
                     self.make_move(self.board, self.computer_letter, move)
 
                     if self.is_winner(self.board, self.computer_letter):
+                        self.draw_board(self.board)
                         print('The computer has beaten you! You lose.')
                         game_is_playing = False
                     else:
                         if self.is_board_full(self.board):
+                            self.draw_board(self.board)
                             print('The game is a tie!')
                             break
                         else:
@@ -241,6 +243,8 @@ class TicTacToe:
 
             if self.play_again():
                 self.board = [' '] * 9
+                self.turn = self.who_goes_first()
             else:
+                Loading.returning("Returning to the Applications Screen in 3 seconds.", 3)
                 break
         return

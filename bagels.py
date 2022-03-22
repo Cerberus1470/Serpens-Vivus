@@ -123,4 +123,5 @@ class Bagels:
                 self.setup()
                 pass
             else:
+                Loading.returning("Returning to the Applications Screen in 3 seconds.", 3)
                 return

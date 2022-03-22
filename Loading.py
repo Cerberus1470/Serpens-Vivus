@@ -1,7 +1,8 @@
 import sys
+from pathlib import Path
 import time
 import threading
-from cryptography.fernet import Fernet
+import datetime
 
 
 class Loading:
@@ -36,60 +37,47 @@ def returning(message, length):
             print('\r' + message + '\t' + char, end='')
             time.sleep(0.25)
             sys.stdout.flush()
+    print()
+    return
 
 
-def caesar_cypher():
-    alphabet = 'abcdefghijklmnopqrstuvwxyz'
-    h = "hzxlo"
+def log(message):
+    file = open("event_log.txt", 'a')
+    file.write("[" + datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S") + "] " + message + '\n')
+    file.close()
+
+
+def caesar_encrypt(message):
+    alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 1234567890!@#$%^&*()`~-_=+[{]}\|;:\'\",<.>/?\\\t'
     encrypted_h = ''
-    decrypted_h = ''
-    print(h)
-    key = [0, 4, 3, 5, 7, 8, 1, 2, 9, 6]
-    if len(key) <= len(h):
-        key = key * (len(h) / 10.0)
-    for i in range(len(h)):
+    key = [10, 4, 3, 5, 7, 8, 1, 2, 9, 6]
+    if len(key) <= len(message):
+        key = key * int(len(message))
+    for i in range(len(message)):
         try:
-            encrypted_h += alphabet[alphabet.index(h[i]) + key[i]]
+            encrypted_h += alphabet[alphabet.index(message[i]) + key[i]]
         except IndexError:
-            encrypted_h += alphabet[alphabet.index(h[i]) + key[i] - 26]
-    print(encrypted_h)
+            encrypted_h += alphabet[alphabet.index(message[i]) + key[i] - 97]
+    return encrypted_h
+
+
+def caesar_decrypt(encrypted_h):
+    alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 1234567890!@#$%^&*()`~-_=+[{]}\|;:\'\",<.>/?\\\t'
+    decrypted_h = ''
+    key = [10, 4, 3, 5, 7, 8, 1, 2, 9, 6]
+    if len(key) <= len(encrypted_h):
+        key = key * int(len(encrypted_h))
     for i in range(len(encrypted_h)):
         try:
             decrypted_h += alphabet[alphabet.index(encrypted_h[i]) - key[i]]
         except IndexError:
-            decrypted_h += alphabet[alphabet.index(encrypted_h[i]) - key[i] + 26]
-    print(decrypted_h)
+            decrypted_h += alphabet[alphabet.index(encrypted_h[i]) - key[i] + 97]
+    return decrypted_h
 
 
-def testing_hash():
-    # we will be encrypting the below string.
-    message = "hello geeks"
-
-    # generate a key for encryption and decryption
-    # You can use fernet to generate
-    # the key or use random key generator
-    # here I'm using fernet to generate key
-
-    key = Fernet.generate_key()
-    # Instance the Fernet class with the key
-
-    fernet = Fernet(key)
-
-    # then use the Fernet class instance
-    # to encrypt the string string must must
-    # be encoded to byte string before encryption
-    encMessage = fernet.encrypt(message.encode())
-
-    print("original string: ", message)
-    print("encrypted string: ", encMessage)
-
-    # decrypt the encrypted string with the
-    # Fernet instance of the key,
-    # that was used for encrypting the string
-    # encoded byte string is returned by decrypt method,
-    # so decode it to string with decode methods
-    decMessage = fernet.decrypt(encMessage).decode()
-
-    print("decrypted string: ", decMessage)
-
-    print(key)
+# noinspection PyTypeChecker
+def testing():
+    p = Path('.')
+    db_prot = p / 'Databases' / 'db_protected.txt'
+    for i in db_prot.open():
+        print(i)
