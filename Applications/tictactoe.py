@@ -1,14 +1,54 @@
+import os
+
 import random
-import Loading
+from System import Loading
 
 
+# noinspection PyTypeChecker
 class TicTacToe:
 
-    def __init__(self, username, board, turn, player_letter):
+    def __init__(self, username):
+        self.new_file = False
+        while True:
+            for subdir, dirs, files in os.walk('Users\\%s' % username):
+                count = 0
+                for file in files:
+                    if file[len(file)-3:len(file)] == 'ttt':
+                        count += 1
+                        print(str(count) + '. ' + file)
+                print(str(count+1) + '. New Game')
+                print(str(count+2) + '. Delete Game')
+            self.filename = input("Which file would you like to open?\n").lower()
+            if self.filename == 'new game':
+                self.new_file = True
+                (self.board, self.turn, self.player_letter) = ([" "] * 9, "", "")
+                break
+            elif self.filename == 'delete game':
+                self.delete()
+                continue
+            else:
+                try:
+                    game = open('Users\\%s\\%s' % (username, self.filename), 'r')
+                except FileNotFoundError:
+                    try:
+                        game = open('Users\\%s\\%s' % (username, self.filename + '.ttt'), 'r')
+                        self.filename = self.filename + '.ttt'
+                    except FileNotFoundError:
+                        Loading.returning("Choose a valid option.", 1)
+                        continue
+                Loading.returning("Loading previous game...", 2)
+                bruh = list(game)
+                # print(bruh)
+                # print(Loading.caesar_decrypt(bruh[0].split('\n')[0]))
+                (self.username, board, self.turn, self.player_letter) = (Loading.caesar_decrypt(bruh[0].split('\n')[0])).split('\t')
+                while ',' in board:
+                    (board1, board2) = board.split(',', 1)
+                    board = board1 + board2
+                self.board = []
+                for j in range(len(board)):
+                    self.board.append(board[j])
+                break
         self.username = username
-        self.board = board
-        self.turn = turn
-        self.player_letter = player_letter
         if self.player_letter == 'X':
             self.computer_letter = 'O'
         else:
@@ -164,6 +204,24 @@ class TicTacToe:
                 return False
         return True
 
+    def delete(self):
+        while True:
+            delete_game = input("Which game would you like to delete?\n")
+            try:
+                os.remove("Users\\{}\\{}".format(self.username, delete_game))
+            except FileNotFoundError:
+                try:
+                    os.remove("Users\\{}\\{}".format(self.username, delete_game + ".ttt"))
+                    pass
+                except FileNotFoundError:
+                    Loading.returning("That file was not found.", 1)
+                    pass
+            if input('Delete another file? "Yes" or "No".').lower() == 'yes':
+                continue
+            else:
+                Loading.returning("The file was successfully deleted.", 2)
+                return
+
     @staticmethod
     def startup(turn):
         print("Welcome back!")
@@ -176,9 +234,26 @@ class TicTacToe:
             pass
         return
 
-    def main(self):
-        print('Welcome to Tic Tac Toe!')
+    def quit(self, new_file, current_user, filename):
+        translated_board = ''
+        for j in range(8):
+            if self.board[j] == 'X' or self.board[j] == 'O':
+                translated_board += (self.board[j] + ',')
+            else:
+                translated_board += ' ,'
+        translated_board += translated_board[8]
+        if new_file:
+            filename = input("File name?\n")
+            game = open('Users\\%s\\%s.ttt' % (current_user.username, filename), 'w')
+            game.write(Loading.caesar_encrypt("{}\t{}\t{}\t{}".format(self.username, translated_board, self.turn, self.player_letter)))
+            game.close()
+        else:
+            game = open('Users\\%s\\%s' % (current_user.username, filename), 'w')
+            game.write(Loading.caesar_encrypt("{}\t{}\t{}\t{}".format(self.username, translated_board, self.turn, self.player_letter)))
+            game.close()
 
+    def main(self, current_user):
+        print('Welcome to Tic Tac Toe!')
         # Use the previous values!
         empty = True
         for i in range(len(self.board)):
@@ -207,6 +282,7 @@ class TicTacToe:
                     if move in ('exit', 'quit', 'get me out of here'):
                         # Safely quit the app.
                         Loading.returning("Saving game progress...", 3)
+                        self.quit(self.new_file, current_user, self.filename)
                         return
                     else:
                         self.make_move(self.board, self.player_letter, int(move))
@@ -245,6 +321,6 @@ class TicTacToe:
                 self.board = [' '] * 9
                 self.turn = self.who_goes_first()
             else:
-                Loading.returning("Returning to the Applications Screen in 3 seconds.", 3)
-                break
-        return
+                Loading.returning_to_apps()
+                self.quit(self.new_file, current_user, self.filename)
+                return
