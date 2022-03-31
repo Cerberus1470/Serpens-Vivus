@@ -26,7 +26,6 @@ def drawBoard(board):
     # Print the numbers across the top of the board.
     print(tensDigitsLine)
     print('  ' + ('0123456789' * 4))
-    print()
 
     # Print each of the 10 rows.
     for row in range(10):
@@ -38,7 +37,6 @@ def drawBoard(board):
         print('%s %s %s' % (row, boardRow, row))
 
     # Print the numbers across the bottom of the board.
-    print()
     print('  ' + ('0123456789' * 4))
     print(tensDigitsLine)
 
