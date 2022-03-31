@@ -41,14 +41,24 @@ def returning(message, length):
     return
 
 
+def returning_to_apps():
+    returning("Returning to the Applications screen...", 2)
+
+
+def progress_bar(message, length):
+    for i in range(10):
+        print('\r' + message + '\t[' + str('=' * i) + str('-' * (10 - i)) + ']', end='')
+        time.sleep(length/10.0)
+
+
 def log(message):
-    file = open("event_log.txt", 'a')
+    file = open("System\\event_log.info", 'a')
     file.write("[" + datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S") + "] " + message + '\n')
     file.close()
 
 
 def caesar_encrypt(message):
-    alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 1234567890!@#$%^&*()`~-_=+[{]}\|;:\'\",<.>/?\\\t'
+    alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 1234567890!@#$%^&*()`~-_=+[{]}|;:\'\",<.>/?\t'
     encrypted_h = ''
     key = [10, 4, 3, 5, 7, 8, 1, 2, 9, 6]
     if len(key) <= len(message):
@@ -57,12 +67,12 @@ def caesar_encrypt(message):
         try:
             encrypted_h += alphabet[alphabet.index(message[i]) + key[i]]
         except IndexError:
-            encrypted_h += alphabet[alphabet.index(message[i]) + key[i] - 97]
+            encrypted_h += alphabet[alphabet.index(message[i]) + key[i] - 95]
     return encrypted_h
 
 
 def caesar_decrypt(encrypted_h):
-    alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 1234567890!@#$%^&*()`~-_=+[{]}\|;:\'\",<.>/?\\\t'
+    alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 1234567890!@#$%^&*()`~-_=+[{]}|;:\'\",<.>/?\t'
     decrypted_h = ''
     key = [10, 4, 3, 5, 7, 8, 1, 2, 9, 6]
     if len(key) <= len(encrypted_h):
@@ -71,7 +81,7 @@ def caesar_decrypt(encrypted_h):
         try:
             decrypted_h += alphabet[alphabet.index(encrypted_h[i]) - key[i]]
         except IndexError:
-            decrypted_h += alphabet[alphabet.index(encrypted_h[i]) - key[i] + 97]
+            decrypted_h += alphabet[alphabet.index(encrypted_h[i]) - key[i] + 95]
     return decrypted_h
 
 

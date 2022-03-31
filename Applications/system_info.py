@@ -1,4 +1,4 @@
-import Loading
+from System import Loading
 
 
 class SystemInfo:

@@ -1,17 +1,15 @@
-from bagels import Bagels
-from tictactoe import TicTacToe
-from hangman import Hangman
+from Applications.bagels import Bagels
+from Applications.hangman import Hangman
 
 
 class User:
 
-    def __init__(self, username, password, current, notes):
+    def __init__(self, username, password, current):
         self.username = username
         self.password = password
         self.current = current
-        self.notes = notes
         self.bagels = Bagels(username, ' ', ' ', ' ', ' ', ' ')
-        self.ttt = TicTacToe(username, [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '], ' ', ' ')
+        # self.ttt = TicTacToe(username, [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '], ' ', ' ')
         self.hangman = Hangman(username, ' ', ' ', ' ', ' ')
         self.saved_state = {"Jokes": "not running", "Notepad": "not running", "Bagels Game": "not running",
                             "TicTacToe": "not running", "Hangman": "not running", "User Settings": "not running",
@@ -25,8 +23,8 @@ class User:
 
 class StandardUser(User):
     # Remove a space after a comma to reformat the file.
-    def __init__(self, username, password, current, notes):
-        super().__init__(username, password, current, notes)
+    def __init__(self, username, password, current):
+        super().__init__(username, password, current)
         return
 
     def __repr__(self):
@@ -34,8 +32,8 @@ class StandardUser(User):
 
 
 class Administrator(User):
-    def __init__(self, username, password, current, notes):
-        super().__init__(username, password, current, notes)
+    def __init__(self, username, password, current):
+        super().__init__(username, password, current)
         self.elevated = True
         return
 

@@ -24,22 +24,21 @@ TODO - Advanced
     > - Request password before deleting user (then remove the check for admin users)
     > - Add 3 recently deleted users
         - Add log of who deleted who
-    ~ - Event Log
-        - Basically keeps track of every event that happens in the computer.
-        - It will also be accessible using an app: Event Viewer
-            - Event Viewer will basically show chunks of events based on time.
-            - This chunk is calculated if the gap between logged events is greater than 10 minutes.
-            - There will be a reset function in the app as well.
+    > - Event Log
+        > - Basically keeps track of every event that happens in the computer.
+        > - It will also be accessible using an app: Event Viewer
+            > - Event Viewer will basically show chunks of events based on time.
+                > - This chunk is calculated if the gap between logged events is greater than 10 minutes.
+            > - There will be a reset function in the app as well.
     > ! - Rewrite Shutdown function entirely
         - Explicitly write conditions for all shutdown methods
-    - Add a lockout for _ number of incorrect passwords.
-    - Add Sonar.
-    > Add speed up or slow down to program
-    ~ - Comprehensive app screen
-        - Categories! Apps, utilities, games, power
+    > - Add a lockout for _ number of incorrect passwords.
+    > - Add speed up or slow down to program
+    > ! - Comprehensive app screen
+        > - Categories! Apps, utilities, games, power
+        > - Admin specific apps, standard users cannot see them
     > ! - Rework startup method completely
     > - Add parent-child hierarchy
-    - Add debug mode. Documentation Below.
     X ! - Encrypt typed password - REJECTED. This turned out to be a LOT harder than I thought. I seriously have no idea how this works.
     > - Rework Cerberus.py into operating_system.py
         I just figured out that restart actually does nothing! It's supposed to shut down the OS and read from disk storage again from scratch... But it doesn't...
@@ -48,16 +47,22 @@ TODO - Advanced
         > ! - Fix Guest User!
         > ! - Fix Reset
         > - Move reading code into boot function!
-        > Encrypt db_protected.txt using Fernet or Caesar Cypher
+        > - Encrypt db_protected.txt using Fernet or Caesar Cypher
+    - Spreadsheet app???
+    ! - Savable user-specific games, similar to notepad. Every game gets the treatment!
+    - Add debug mode. Documentation Below.
+    - Add Sonar.
 
 TODO - Really advanced
+    - Add user personalization. See documentation below.
     - Add a game store. I'll add some documentation below.
-    - Error Correction in databases.
-    - Implement hashing (encrypting the databases)
+    ~ Implement hashing (encrypting the databases)
+        - Error Correction in databases.
         - Develop error correcting app after implementing encryption. More documentation below.
     - Implement Threads
-    - Revamp db_unprotected.txt into user directories. More documentation below.
-        - Completely revamp Notes app. See below for documentation.
+    ~ - Revamp db_unprotected.txt into user directories. More documentation below.
+        ~ - Completely revamp Notes app. See below for documentation.
+            - Add editing functionality.
 
 Administrators:
 - Admins have elevated access that allow for certain functions. These include:
@@ -67,6 +72,16 @@ Administrators:
         - Editing other user info (not current user info)
     - Resetting the OS
     - Installing games (future)
+    - Debug mode
+
+Debug Mode:
+Finally, let's write the documentation. This has been an idea too long.
+- Basically shows a bunch of debug info, like:
+    - System versions
+    - User inputs
+    - Code line number
+    - Any exception
+        - The opportunity to go back to the line of code, etc.
 
 Game store:
 - This is a collection of games that the user can install.
@@ -94,3 +109,7 @@ New user directories:
         - The files will be read from storage into memory, and will be editable and savable.
         - Saving txt files will be completely different from shutdown.
 
+User Personalization:
+- Users can change the color of the background, the color of the text, perhaps even the language????
+- Completely new app.
+- Could spark the change from separate settings apps to a central Settings app!

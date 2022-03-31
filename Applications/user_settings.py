@@ -1,8 +1,10 @@
 import time
-import Loading
-import User
+from System import User, Loading
 import os
 
+
+def returning():
+    Loading.returning("Returning to User Settings...", 2)
 
 class UserSettings:
     def __init__(self):
@@ -68,7 +70,7 @@ class UserSettings:
         # Adding a new user!
         if not os_object.current_user.elevated:
             print("You do not have sufficient privileges to add users.")
-            Loading.returning("Returning to User Settings.", 3)
+            returning()
             return
         print("Welcome to the Add User setup wizard!")
         while True:
@@ -108,11 +110,12 @@ class UserSettings:
                 break
         # Add this to the user dictionary
         if user_type == 'StandardUser':
-            os_object.users.append(User.StandardUser(add_user, add_pwd, False, ""))
+            os_object.users.append(User.StandardUser(add_user, add_pwd, False))
         else:
-            os_object.users.append(User.Administrator(add_user, add_pwd, False, ""))
+            os_object.users.append(User.Administrator(add_user, add_pwd, False))
         os.mkdir('Users\\%s' % add_user)
-        file = open('Users\\%s\\user.info' % add_user, 'x')
+        file = open('Users\\%s\\info.usr' % add_user, 'w')
+        file.write(Loading.caesar_encrypt(user_type + '\t\t' + add_user + '\t\t' + add_pwd + "\t\t" + "False" + '\t\t') + '\n')
         file.close()
         Loading.returning("Password set successfully. Returning to the User Settings in 3 seconds.", 3)
         return
@@ -120,7 +123,7 @@ class UserSettings:
     def delete_user(self, os_object):
         if not os_object.current_user.elevated:
             print("You do not have sufficient privileges to delete users.")
-            Loading.returning("Returning to User Settings.", 3)
+            returning()
             return
         while True:
             delete_sel = self.print_all_users("Choose a user to delete or type 'exit' to exit.", os_object)
@@ -145,13 +148,13 @@ class UserSettings:
             if input() == 'yes':
                 pass
             else:
-                Loading.returning("Returning to the User Settings in 2 seconds.", 2)
+                returning()
                 return
 
     def restore_user(self, os_object):
         if not os_object.current_user.elevated:
             print("You do not have sufficient privileges to restore users.")
-            Loading.returning("Returning to User Settings.", 3)
+            returning()
             return
         if self.recently_deleted_users:
             print("Here is a list of the recently deleted users.")
@@ -167,7 +170,8 @@ class UserSettings:
             if not is_in_db:
                 Loading.returning("The user specified is not in the list of recently deleted users. Returning to User Settings.", 3)
         else:
-            Loading.returning("There are no recently deleted users available. Returning to User Settings.", 3)
+            print("There are no recently deleted users available.", 3)
+            returning()
             return
 
     @staticmethod

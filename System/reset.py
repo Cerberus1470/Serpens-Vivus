@@ -1,6 +1,6 @@
 import time
-
-import Loading
+from System import Loading
+import os
 
 
 class Reset:
@@ -23,23 +23,22 @@ class Reset:
                     Loading.returning("Quitting all programs...", 2)
                     print()
                     Loading.returning("Resetting Users...", 2)
-                    file = open('db_protected.txt', 'w')
-                    file.close()
+                    os.rmdir('Users')
                     file = open('db_unprotected.txt', 'w')
                     file.close()
-                    file = open('event_log.txt', 'w')
+                    file = open('event_log.info', 'w')
                     Loading.log("System reset.")
                     file.close()
                     del file
                     print("\nThe system has successfully reset and will restart shortly.")
                     time.sleep(2)
-                    return
+                    return 4
                 else:
-                    Loading.returning("Returning to the applications screen!", 3)
-                    return
+                    Loading.returning_to_apps()
+                    return 0
             else:
-                Loading.returning("Returning to the applications screen!", 3)
-                return
+                Loading.returning_to_apps()
+                return 0
         else:
-            Loading.returning("Returning to the applications screen!", 3)
-            return
+            Loading.returning_to_apps()
+            return 0
