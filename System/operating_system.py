@@ -446,7 +446,7 @@ class OperatingSystem:
                 for i in self.users:
                     # Open their file, write encrypted data and close the file.
                     Loading.log("Updating files...")
-                    user_file = open('Users\\' + i.username + '\\info.usrinfo.usr', 'w')
+                    user_file = open('Users\\' + i.username + '\\info.usr', 'w')
                     user_file.write(Loading.caesar_encrypt(str(i).split('\n', 1)[1] + i.username + '\t\t' + i.password + "\t\t" + str(i.current) + '\t\t') + '\n')
                     user_file.close()
                     if hibernate:
@@ -499,7 +499,7 @@ class OperatingSystem:
             self.current_user = User.Administrator(setup_user, setup_pwd, True)
             self.users.append(self.current_user)
             os.mkdir('Users\\{}'.format(self.current_user.username))
-            file = open('Users\\{}\\info.usrinfo.usr'.format(self.current_user.username), 'x')
+            file = open('Users\\{}\\info.usr'.format(self.current_user.username), 'x')
             file.close()
             Loading.returning("Password set successfully. Entering startup in 3 seconds.", 3)
             Loading.log("SETUP is complete. New user has been added. Entering startup.")
