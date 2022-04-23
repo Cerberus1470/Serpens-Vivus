@@ -1,3 +1,12 @@
+from System import Loading
+
+category = "admin"
+
+
+def boot(os_object):
+    TaskManager.main(os_object.current_user.saved_state)
+
+
 class TaskManager:
     def __init__(self):
         return
@@ -28,8 +37,8 @@ class TaskManager:
         print("The User Settings program is " + stats["User Settings"] + ".")
         print("The System Info program is " + stats["System Info"] + ".")
         while True:
-            print('\nType "quit" and the app you want to quit (i.e. "quit jokes") or type "quitall" to quit all programs! All progress will be erased if the programs are quit. To save progress, go into the app and save your progress there. Otherwise, '
-                  'just press [ENTER] or [return] to return to the applications screen!')
+            print('\nType "quit" and the app you want to quit (i.e. "quit jokes") or type "quitall" to quit all programs!'
+                  '\nPress [ENTER] or [return] to return to the applications screen!')
             quit_choice = input().lower()[5:]
             if quit_choice == 'jokes':
                 stats["Jokes"] = "not running"
@@ -54,4 +63,5 @@ class TaskManager:
                     "System Info"] = "not running"
                 print("All programs were successfully quit.")
             else:
+                Loading.returning_to_apps()
                 break

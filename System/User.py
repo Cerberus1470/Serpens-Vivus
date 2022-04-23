@@ -1,16 +1,12 @@
-from Applications.bagels import Bagels
-from Applications.hangman import Hangman
-
-
 class User:
 
     def __init__(self, username, password, current):
         self.username = username
         self.password = password
         self.current = current
-        self.bagels = Bagels(username, ' ', ' ', ' ', ' ', ' ')
+        # self.bagels = Bagels(username, ' ', ' ', ' ', ' ', ' ')
         # self.ttt = TicTacToe(username, [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '], ' ', ' ')
-        self.hangman = Hangman(username, ' ', ' ', ' ', ' ')
+        # self.hangman = Hangman(username, ' ', ' ', ' ', ' ')
         self.saved_state = {"Jokes": "not running", "Notepad": "not running", "Bagels Game": "not running",
                             "TicTacToe": "not running", "Hangman": "not running", "User Settings": "not running",
                             "System Info": "not running"}

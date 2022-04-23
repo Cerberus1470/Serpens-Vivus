@@ -1,10 +1,21 @@
 # This program is a game of hangman! It will randomly select a word from 4 different categories, displays what category was chosen, and gives the player 5 incorrect guesses before the potato man is hung. Dark, I know right? The fate of a man lies in
 # your ability to guess a word. Good luck! Side note: I thought we were supposed to have a working program, so I just fixed the broken code. Everything works :)
+import os
 from System import Loading
 import random
+from Applications import bagels
 
-HANGMANPICS = ['''
+category = "games"
 
+
+def boot(os_object):
+    os_object.current_user.saved_state["Hangman"] = "running"
+    hangman = Hangman(os_object.current_user.username)
+    if not hangman.filename == 'exit':
+        hangman.main()
+
+
+HANGMAN_PICS = ['''
   +-----+
   |     |
   |     |
@@ -82,12 +93,15 @@ words = {  # this is the word bank
 
 
 class Hangman:
-    def __init__(self, username, missed_letters, correct_letters, secret_word, secret_key):
+    def __init__(self, username):
+        self.new_file = False
         self.username = username
-        self.missed_letters = missed_letters
-        self.correct_letters = correct_letters
-        self.secret_word = secret_word
-        self.secret_key = secret_key
+        self.filename = ''
+        game_info = bagels.init_game(self, username, 'hng')
+        if game_info == 'new':
+            (self.missed_letters, self.correct_letters, self.secret_word, self.secret_key) = ("", "", "", "")
+        else:
+            (self.username, self.missed_letters, self.correct_letters, self.secret_word, self.secret_key) = game_info
         return
 
     def __repr__(self):
@@ -102,23 +116,20 @@ class Hangman:
         word_index = random.randint(0, len(word_dict[word_key]) - 1)
         return [word_dict[word_key][word_index], word_key]
 
-    @staticmethod
-    def display_board(hangman_pics, missed_letters, correct_letters, secret_word, secret_key):
-        # this function displays the selected category, the potato man, the past incorrect and correct guesses, and the blanks.
-        print("The secret word is in this set: " + secret_key)
-        print(hangman_pics[len(missed_letters)])
+    def display_board(self):
+        # this function displays the selected category, the hangman, the past incorrect and correct guesses, and the blanks.
+        print("The secret word is in this set: " + self.secret_key)
+        print(HANGMAN_PICS[len(self.missed_letters)])
         print()
         print('Missed letters:', end=' ')
-        for letter in missed_letters:
+        for letter in self.missed_letters:
             print(letter.upper(), end=',')
         print()
         print("Word: ", end='')
-
-        blanks = '_' * len(secret_word)
-
-        for i in range(len(secret_word)):  # replace blanks with correctly guessed letters
-            if secret_word[i] in correct_letters:
-                blanks = blanks[:i] + secret_word[i] + blanks[i + 1:]
+        blanks = '_' * len(self.secret_word)
+        for i in range(len(self.secret_word)):  # replace blanks with correctly guessed letters
+            if self.secret_word[i] in self.correct_letters:
+                blanks = blanks[:i] + self.secret_word[i] + blanks[i + 1:]
 
         for letter in blanks:  # show the secret word with spaces in between each letter
             print(letter.upper(), end=' ')
@@ -142,28 +153,60 @@ class Hangman:
                 return guess
 
     def setup(self):
+        self.new_file = True
         self.missed_letters = ''
         self.correct_letters = ''
         (self.secret_word, self.secret_key) = self.get_random_word(words)
-        return self.missed_letters, self.correct_letters, self.secret_word, self.secret_key
+        return
+
+    def delete(self):
+        while True:
+            for subdir, dirs, files in os.walk('Users\\%s' % self.username):
+                count = 0
+                for file in files:
+                    if file[len(file)-3:len(file)] == 'hng':
+                        count += 1
+                        print(str(count) + '. ' + file)
+            delete_game = input("Which game would you like to delete?\n")
+            try:
+                os.remove("Users\\{}\\{}".format(self.username, delete_game))
+            except FileNotFoundError:
+                try:
+                    os.remove("Users\\{}\\{}".format(self.username, delete_game + ".hng"))
+                    pass
+                except FileNotFoundError:
+                    Loading.returning("That file was not found.", 1)
+                    pass
+            if input('Delete another file? "Yes" or "No".').lower() == 'yes':
+                continue
+            else:
+                Loading.returning("The file was successfully deleted.", 2)
+                return
+
+    def quit(self):
+        if self.new_file:
+            self.filename = input("File name?\n") + '.hng'
+        game = open('Users\\%s\\%s' % (self.username, self.filename), 'w')
+        game.write(Loading.caesar_encrypt("{}\t{}\t{}\t{}\t{}".format(self.username, self.missed_letters, self.correct_letters, self.secret_word, self.secret_key)))
+        game.close()
 
     def main(self):
         # This section prints the first message, resets the correct and incorrect letters, assigns secret words and keys, and sets the game to be running.
         print('H A N G M A N')
         game_is_done = False
-        if (self.missed_letters == '' and self.correct_letters == '') or self.secret_word == ' ' or self.secret_key == ' ':
-            (self.missed_letters, self.correct_letters, self.secret_word, self.secret_key) = self.setup()
+        if (self.missed_letters == '' and self.correct_letters == '') or self.secret_word == '' or self.secret_key == '':
+            self.setup()
         else:
-            print("Welcome back!")
-
+            print('Welcome back! Your progress has been restored.')
         # This while loop continues the guessing until the guesses are up or if the word was correctly guessed.
         while True:
-            self.display_board(HANGMANPICS, self.missed_letters, self.correct_letters, self.secret_word, self.secret_key)
+            self.display_board()
 
             # Let the player type in a letter.
             guess = self.get_guess(self.missed_letters + self.correct_letters)
             if guess == 'quit':
-                Loading.returning("Saving game progress...", 3)
+                self.quit()
+                Loading.returning("Saving game progress...", 2)
                 return
             elif guess in self.secret_word:  # This adds the correct letter to the blanks.
                 self.correct_letters = self.correct_letters + guess
@@ -181,20 +224,19 @@ class Hangman:
                 self.missed_letters = self.missed_letters + guess
 
                 # Check if player has guessed too many times and lost
-                if len(self.missed_letters) == len(HANGMANPICS) - 1:
-                    self.display_board(HANGMANPICS, self.missed_letters, self.correct_letters, self.secret_word, self.secret_key)
+                if len(self.missed_letters) == len(HANGMAN_PICS) - 1:
+                    self.display_board()
                     print('You have run out of guesses!\nAfter ' + str(len(self.missed_letters)) + ' missed guesses and ' +
                           str(len(self.correct_letters)) + ' correct guesses, the word was "' + self.secret_word + '"')
                     game_is_done = True
 
             # Ask the player if they want to play again (but only if the game is done).
+            os.remove("Users\\{}\\{}".format(self.username, self.filename))
             if game_is_done:
                 print('Do you want to play again? (yes or no)')
                 if input().lower().startswith('y'):
-                    self.missed_letters = ''
-                    self.correct_letters = ''
+                    self.setup()
                     game_is_done = False
-                    (self.secret_word, self.secret_key) = self.get_random_word(words)
                 else:
                     Loading.returning_to_apps()
                     return

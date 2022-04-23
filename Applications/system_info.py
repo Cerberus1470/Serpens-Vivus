@@ -1,5 +1,12 @@
 from System import Loading
 
+category = "utilities"
+
+
+def boot(os_object):
+    os_object.current_user.saved_state["System Info"] = "running"
+    SystemInfo.main(os_object.versions)
+
 
 class SystemInfo:
 

@@ -1,10 +1,17 @@
-import time
 from System import User, Loading
 import os
 
+category = "utilities"
 
 def returning():
     Loading.returning("Returning to User Settings...", 2)
+
+
+def boot(os_object):
+    os_object.current_user.saved_state["User Settings"] = "running"
+    if os_object.user_settings.main(os_object) == 1:
+        return 'regular'
+
 
 class UserSettings:
     def __init__(self):
@@ -15,35 +22,34 @@ class UserSettings:
         return "< This is a UserSettings class named " + self.__class__.__name__ + ">"
 
     @staticmethod
-    def print_all_users(message, os_object):
+    def print_all_users(message, users):
         print(message)
-        for i in os_object.users:
-            print(str(os_object.users.index(i) + 1) + ": " + i.username)
+        for i in users:
+            print(str(users.index(i) + 1) + ": " + i.username)
         user = input()
-        for i in os_object.users:
+        for i in users:
             if user == i.username:
-                return user
+                return i
         print("Sorry, the username was not in the list.")
         return
 
     def edit_uname(self, os_object):
         user = os_object.current_user.username
         if os_object.current_user.elevated:
-            user = self.print_all_users("Choose the user whose username you want to edit", os_object)
+            user = self.print_all_users("Choose the user whose username you want to edit", os_object.users)
         print("New Username for " + user + ":")
         new_uname = input()
         # Find the current user (or the specified user) and change their name to the new name.
         for i in os_object.users:
-            if i.username == user:
+            if i == user:
                 i.username = new_uname
-                print("New Username successfully set!")
-                time.sleep(2)
+                Loading.returning("New Username successfully set!", 2)
                 return
 
     def edit_pwd(self, os_object):
         user = os_object.current_user
         if os_object.current_user.elevated:
-            user = self.print_all_users("Choose the user whose password you want to edit.", os_object)
+            user = self.print_all_users("Choose the user whose password you want to edit.", os_object.users)
         print("Old Password for " + user.username + ":")
         old_pwd = input()
         if old_pwd == user.password:
@@ -52,12 +58,10 @@ class UserSettings:
             print("Enter the new password again:")
             if new_pwd == input():
                 user.password = new_pwd
-                print("New Password successfully set!")
-                time.sleep(2)
+                Loading.returning("New Password successfully set!", 2)
                 pass
             else:
-                print("The passwords did not match.")
-                time.sleep(2)
+                Loading.returning("The passwords did not match.", 2)
                 pass
             pass
         else:
@@ -97,9 +101,8 @@ class UserSettings:
             add_pwd = input()
             # If password entered:
             if add_pwd:
-                print("Password set. Enter it again to confirm it.")
                 # Make sure it's the same password
-                if add_pwd == input():
+                if add_pwd == input("Password set. Enter it again to confirm it.\n"):
                     break
                 else:
                     print("The passwords you entered didn't match. Type the same password twice.")
@@ -115,7 +118,7 @@ class UserSettings:
             os_object.users.append(User.Administrator(add_user, add_pwd, False))
         os.mkdir('Users\\%s' % add_user)
         file = open('Users\\%s\\info.usr' % add_user, 'w')
-        file.write(Loading.caesar_encrypt(user_type + '\t\t' + add_user + '\t\t' + add_pwd + "\t\t" + "False" + '\t\t') + '\n')
+        file.write(Loading.caesar_encrypt(user_type + '\t\t' + add_user + '\t\t' + add_pwd + "\t\t" + "False" + '\t\t') + '\n\n')
         file.close()
         Loading.returning("Password set successfully. Returning to the User Settings in 3 seconds.", 3)
         return
@@ -126,14 +129,13 @@ class UserSettings:
             returning()
             return
         while True:
-            delete_sel = self.print_all_users("Choose a user to delete or type 'exit' to exit.", os_object)
+            delete_sel = self.print_all_users("Choose a user to delete or type 'exit' to exit.", os_object.users)
             if delete_sel:
                 for i in os_object.users:
-                    if delete_sel == i.username:
+                    if delete_sel == i:
                         if input('Are you sure? Type "YES" if you are sure.\n') == 'YES':
                             if i.current:
-                                print("You can't delete the current user! Login with a different user to delete this one.")
-                                time.sleep(3)
+                                Loading.returning("You can't delete the current user! Login with a different user to delete this one.", 3)
                                 break
                             else:
                                 Loading.log("The user {} was deleted by {}".format(i.username, os_object.current_user.username))
@@ -167,6 +169,9 @@ class UserSettings:
                     os_object.users.append(i)
                     self.recently_deleted_users.pop(self.recently_deleted_users.index(i))
                     is_in_db = True
+                    print("The user was successfully restored.")
+                    Loading.log("The user {} was deleted by {}.".format(i.username, os_object.current_user.username))
+                    returning()
             if not is_in_db:
                 Loading.returning("The user specified is not in the list of recently deleted users. Returning to User Settings.", 3)
         else:
@@ -220,18 +225,20 @@ class UserSettings:
             print("6. Switch User")
             print("\nChoose an option or press [ENTER] or [return] to return to the applications screen!")
             choice = input()
+            if choice == '':
+                return
             if choice.lower() in ('edit username', 'edit uname', '1'):
                 self.edit_uname(os_object)
             elif choice.lower() in ('edit password', 'edit pwd', '2'):
                 self.edit_pwd(os_object)
-            elif choice.lower() in ('add new user', '3'):
+            elif choice.lower() in ('add new user', '3', 'add',  'new', 'new user', 'add user', 'add new'):
                 self.add_user(os_object)
-            elif choice.lower() in ('delete user', '4'):
+            elif choice.lower() in ('delete user', '4', 'delete'):
                 self.delete_user(os_object)
-            elif choice.lower() in ('restore user', '5'):
+            elif choice.lower() in ('restore user', '5', 'restore'):
                 self.restore_user(os_object)
-            elif choice.lower() in ('switch user', '6'):
+            elif choice.lower() in ('switch user', '6', 'switch'):
                 self.switch_user(os_object)
                 return 1
             else:
-                return 0
+                Loading.returning("Please choose from the list of options.", 2)

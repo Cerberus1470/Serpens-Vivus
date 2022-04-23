@@ -63,6 +63,7 @@ TODO - Really advanced
     ~ - Revamp db_unprotected.txt into user directories. More documentation below.
         ~ - Completely revamp Notes app. See below for documentation.
             - Add editing functionality.
+    - Make the saved_state actually do something (and revamp task manager with it)
 
 Administrators:
 - Admins have elevated access that allow for certain functions. These include:
@@ -99,8 +100,7 @@ Hashing:
     - The function call will replace the corruption error message being displayed during startup with corrupted databases.
     - This will probably be even harder than the Game store.
 
-New user directories:
-- Each user will get their own dedicated directory.
+New user directories:- Each user will get their own dedicated directory.
 - Upon deletion or username edits, the user directory will be changed as well.
 - This directory will now store whatever was in db_unprotected.txt. This includes game progress.
 - Each game will be in its own notepad file.

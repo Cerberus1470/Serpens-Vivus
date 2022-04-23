@@ -1,27 +1,32 @@
+import time
+
 import os
 from System import Loading
 from System import User
-from System.task_manager import TaskManager
-from System.reset import Reset
-from System.event_viewer import EventViewer
-from Applications.bagels import Bagels
-from Applications.hangman import Hangman
-from Applications.jokes import Jokes
-from Applications.notepad import Notepad
-from Applications.system_info import SystemInfo
-from Applications.tictactoe import TicTacToe
+import System.task_manager as task_manager
+import System.reset as reset
+import System.event_viewer as event_viewer
+import Applications.jokes as jokes
+import Applications.notepad as notepad
+import Applications.speed_up_or_slow_down as speedslow
+import Applications.bagels as bagels
+import Applications.tictactoe as tictactoe
+import Applications.hangman as hangman
+import Applications.sonar as sonar
+import Applications.user_settings as user_settings
 from Applications.user_settings import UserSettings
-from Applications.speed_up_or_slow_down import SpeedSlow
+import Applications.system_info as system_info
 import traceback
 
 
 # noinspection PyBroadException
 def boot():
     running = True
+    start = time.time()
     while running:
         try:
             # Initialization reads all files and data from disk and loads it into memory.
-            Loading.log("System Startup")
+            Loading.log("System Startup.")
             cerberus = OperatingSystem()
             # Logic to run setup
             if len(cerberus.users) <= 0:
@@ -34,16 +39,16 @@ def boot():
             else:
                 running = False
         # Screen for fatal errors. Catches all exceptions and prints the stacktrace. Allows for a reboot.
-        except Exception:
+        except Exception as e:
             for i in range(20):
                 print("\n")
-            Loading.log("!!! The system encountered a fatal error. Reboot is required. !!!")
-            if input('!!! The system encountered a fatal error. Reboot is required. !!! \nStacktrace: ' + str(traceback.format_exc()) + '\nType "REBOOT" to reboot.') == "REBOOT":
+            Loading.log("The system encountered a fatal error. Reboot is required. Stacktrace: {}".format(e))
+            if input('!!! The system encountered a fatal error. Reboot is required. !!! \nWhat failed: {}\n\nStacktrace: {}'.format(e, str(traceback.format_exc()) + '\nType "REBOOT" to reboot.')) == "REBOOT":
                 pass
             else:
                 print("Goodbye")
                 running = False
-        Loading.log("System Shutdown.")
+        Loading.log("System Shutdown. {} seconds have elapsed.".format(str(time.time() - start)))
 
 
 # noinspection PyTypeChecker
@@ -53,19 +58,14 @@ class OperatingSystem:
         # User list, name, and versions. All inherent settings.
         self.users = []
         self.name = "Cerberus"
-        self.utilities = ["User Settings", "System Info\t", "Notepad\t\t", "SpeedSlow\t", "Power"]
-        self.games = ["Bagels\t", "TicTacToe", "Hangman ", "Joke Teller", '\t\t']
-        self.admin = ["Reset\t\t", "Event Viewer\t", "Task Manager", '\t\t', '\t\t']
-        self.versions = {"Main": 5.0, "Joke Teller": 1.3, "Notepad": 3.2, "Bagels": 3.5, "TicTacToe": 4.7, "Hangman": 2.5, "Sonar": 1.0, "User Settings": 2.7, "System Info": 1.5, "Event Viewer": 1.0}
+        self.notepad = ""
+        self.utilities = ["User Settings", "System Info\t", "Notepad\t\t", "SpeedSlow\t"]
+        self.games = ["Bagels\t", "TicTacToe", "Hangman ", "Joke Teller"]
+        self.admin = ["Reset\t\t", "Event Viewer\t", "Task Manager", '\t\t']
+        self.versions = {"Main": 5.0, "Joke Teller": 1.3, "Notepad": 3.2, "Bagels": 3.5, "TicTacToe": 4.7, "Hangman": 2.5, "Sonar": 1.0, "User Settings": 2.7, "System Info": 1.5, "Event Viewer": 1.0, "SpeedSlow": 1.1}
         self.user_settings = UserSettings()
-        self.notepad = Notepad()
-        corrupt_message = "\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nTHE DATABASE IS CORRUPTED. PLEASE CHECK THE MANUAL, QUIT THE OS, AND RECONFIGURE THE DATABASE." \
-                          "\n!!!\t\t!!!\t\t!!!\t\t!!!\t\t!!!\nCorrupted Database: {}\nCorrupted Section: {}\n"
 
         # The main boot sequence.
-        # Start by trying to create the protected database.
-
-        unprotected_db_name = 'db_unprotected.txt'
         try:
             # Trying to make a User folder
             os.mkdir('Users')
@@ -80,7 +80,8 @@ class OperatingSystem:
                     try:
                         # The first of many user files...
                         file = open("Users\\{}\\info.usr".format(dir1), 'r')
-                        lines.append(Loading.caesar_decrypt(list(file)[0].split('\n')[0]))
+                        file1 = list(file)
+                        lines.append([Loading.caesar_decrypt(file1[0].split('\n')[0]), Loading.caesar_decrypt(file1[1].split('\n')[0])])
                         file.close()
                     except FileNotFoundError:
                         continue
@@ -92,21 +93,37 @@ class OperatingSystem:
                 user_info = ['', '', '', '']
                 try:
                     # First save the user type. (Standard vs Admin)
-                    (user_info[0], rest) = i.split('\t\t', 1)
+                    (user_info[0], rest) = i[0].split('\t\t', 1)
                     # Now loop for 4 more blocks, tracking progress so the user is alerted about corruption.
                     for j in range(1, 4):
                         progress = j
                         (user_info[j], rest) = rest.split('\t\t', 1)
                         pass
                 except ValueError:
-                    # If something is missing, print out the last stored progress to show the user that something is wrong.
-                    print(corrupt_message.format("db_protected.txt", sections[progress].lower()))
-                    Loading.log("The protected database is corrupted at the " + sections[progress] + " section.")
+                    # If something is missing, log the event.
+                    Loading.log("A user file is corrupted at the {} section.".format(sections[progress]))
                     user_info[progress] = 'INVALID'
                 if user_info[0] == 'StandardUser':
                     self.users.append(User.StandardUser(user_info[1], user_info[2], user_info[3] == "True"))
                 else:
                     self.users.append(User.Administrator(user_info[1], user_info[2], user_info[3] == "True"))
+                if i[1]:
+                    self.users[lines.index(i)].saved_state = \
+                        {"Bagels": i[1].split('.')[0], "Hangman": i[1].split('.')[1], "Jokes": i[1].split('.')[2],
+                         "Notepad": i[1].split('.')[3], "Sonar": i[1].split('.')[4], "SpeedSlow": i[1].split('.')[5],
+                         "System Info": i[1].split('.')[6], "TicTacToe": i[1].split('.')[7], "User Settings": i[1].split('.')[8]}
+                    if self.users[lines.index(i)].elevated:
+                        self.users[lines.index(i)].saved_state["Task Manager"] = i[1].split('.')[9]
+                        self.users[lines.index(i)].saved_state["Event Viewer"] = i[1].split('.')[10]
+                else:
+                    self.users[lines.index(i)].saved_state["Bagels"] = self.users[lines.index(i)].saved_state["Hangman"] = \
+                        self.users[lines.index(i)].saved_state["Jokes"] = self.users[lines.index(i)].saved_state["Notepad"] = \
+                        self.users[lines.index(i)].saved_state["Sonar"] = self.users[lines.index(i)].saved_state["SpeedSlow"] = \
+                        self.users[lines.index(i)].saved_state["System Info"] = self.users[lines.index(i)].saved_state["TicTacToe"] = \
+                        self.users[lines.index(i)].saved_state["User Settings"] = "not running"
+                    if self.users[lines.index(i)].elevated:
+                        self.users[lines.index(i)].saved_state["Task Manager"] = \
+                            self.users[lines.index(i)].saved_state["Event Viewer"] = "not running"
             Loading.log("The protected database is finished.")
             # Setting the current user object.
             for j in range(len(self.users)):
@@ -114,97 +131,6 @@ class OperatingSystem:
                     self.current_user = self.users[j]
                     break
             pass
-        # Now for the unprotected database, also soon to be phased out.
-        try:
-            # Try making the unprotected db file.
-            unprotected_db = open(unprotected_db_name, 'x')
-            unprotected_db.close()
-        except FileExistsError:
-            # If the file exists, read from it!
-            unprotected_db = open(unprotected_db_name, 'r')
-            # A simple flag to see if the data exists, and a count to append progress to the user list.
-            data = False
-            count = 0
-            # noinspection PyTypeChecker
-            for i in unprotected_db:
-                # If a line exists, the data is there. Set the flag to True.
-                data = True
-                # Ready the error correction!
-                sections = ['USERNAME', 'TICTACTOE', 'BAGELS', 'HANGMAN', 'SAVED STATE']
-                progress = 0
-                game_info = ['', '', '', '']
-                try:
-                    # Start splitting. Get the username first.
-                    (user, rest) = i.split('\t\t', 1)
-                    # Then run the for loop!
-                    for j in range(1, 5):
-                        progress = str(j)
-                        (game_info[j - 1], rest) = rest.split('\t\t', 1)
-                except ValueError:
-                    # Let the user know something is wrong.
-                    print(corrupt_message.format("db_unprotected.txt", progress))
-                    Loading.log("The unprotected database is corrupted at the " + sections[progress - 1] + " section.")
-                    break
-
-                # TTT First.
-                try:
-                    (board, turn, letter) = game_info[0].split('.', 2)
-                    # Translation algorithm to convert the board from a comma-separated string into a list.
-                    while ',' in board:
-                        (board1, board2) = board.split(',', 1)
-                        board = board1 + board2
-                    ttt_board = []
-                    for j in range(len(board)):
-                        ttt_board.append(board[j])
-                    # self.users[count].ttt = TicTacToe(user, ttt_board, turn, letter)
-                    pass
-                except ValueError:
-                    # Let the user know something is wrong.
-                    print(corrupt_message.format("db_unprotected.txt", "T"))
-                    Loading.log("The unprotected database is corrupted at the " + sections[1] + " section.")
-                    break
-
-                # Read Bagels progress into memory.
-                try:
-                    self.users[count].bagels = Bagels(user, game_info[1].split('.', 4)[0], game_info[1].split('.', 4)[1], game_info[1].split('.', 4)[2], game_info[1].split('.', 4)[3], game_info[1].split('.', 4)[4])
-                    pass
-                except ValueError:
-                    print(corrupt_message.format("db_unprotected.txt", "B"))
-                    Loading.log("The unprotected database is corrupted at the " + sections[2] + " section.")
-                    break
-
-                # Read Hangman progress into memory.
-                try:
-                    self.users[count].hangman = Hangman(user, game_info[2].split('.', 3)[0], game_info[2].split('.', 3)[1], game_info[2].split('.', 3)[2], game_info[2].split('.', 3)[3])
-                    pass
-                except ValueError:
-                    print(corrupt_message.format("db_unprotected.txt", "H"))
-                    Loading.log("The unprotected database is corrupted at the " + sections[3] + " section.")
-                    break
-
-                # Read the open programs into memory.
-                try:
-                    self.users[count].saved_state = {"Jokes": game_info[3].split('.', 7)[0], "Notepad": game_info[3].split('.', 7)[1], "Bagels Game": game_info[3].split('.', 7)[2],
-                                                     "TicTacToe": game_info[3].split('.', 7)[3], "Hangman": game_info[3].split('.', 7)[4], "User Settings": game_info[3].split('.', 7)[5],
-                                                     "System Info": game_info[3].split('.', 7)[6]}
-                except ValueError:
-                    print(corrupt_message.format("db_unprotected.txt", "S"))
-                    Loading.log("The unprotected database is corrupted at the " + sections[4] + " section.")
-                count += 1
-                pass
-            Loading.log("The unprotected database is finished.")
-            if not data:
-                # What happens when there is no progress at all?
-                Loading.log("No progress present in unprotected_db.txt. Assigning empty progress.")
-                for i in self.users:
-                    i.bagels = Bagels(i.username, ' ', ' ', ' ', ' ', ' ')
-                    # i.ttt = TicTacToe(i.username, [' '] * 9, 0, ' ')
-                    i.hangman = Hangman(i.username, ' ', ' ', ' ', ' ')
-                    i.saved_state = {"Jokes": "not running", "Notepad": "not running", "SpeedSlow": "not running", "Bagels Game": "not running",
-                                     "TicTacToe": "not running", "Hangman": "not running", "User Settings": "not running",
-                                     "System Info": "not running"}
-                pass
-            unprotected_db.close()
         Loading.log("Boot complete.")
         return
 
@@ -216,7 +142,6 @@ class OperatingSystem:
     def startup(self):
         # The main startup and login screen, housed within a while loop to keep the user here unless specific circumstances are met.
         while True:
-            Loading.log("System Startup.")
             # Label(main_window, text="Hello! I am Cerberus, running user: " + self.current_user + ". Type 'switch' to switch users or \"shutdown\" to shut down the system.").grid(row=0, column=0)
             print("\nHello! I am {}.".format(self.name))
             if self.current_user.username != 'Guest':
@@ -248,9 +173,9 @@ class OperatingSystem:
                         # Switch users!
                         self.user_settings.switch_user(self)
                         break
-                    elif pwd == 'shutdown':
+                    elif pwd in ('shutdown', 'power'):
                         # Shutting down...
-                        shutdown = self.shutdown('db_unprotected.txt')
+                        shutdown = self.shutdown()
                         if shutdown == 1:
                             print("\n" * 10)
                             Loading.log("System asleep.")
@@ -291,66 +216,46 @@ class OperatingSystem:
                 print("\nAPPLICATIONS\nUTILITIES\t\t\tGAMES")
                 for i in range(len(self.games)):
                     print(self.utilities[i] + '\t\t' + self.games[i])
+            print("\nLock Computer\tPower")
             choice = input().lower()
             # This logs what app the user opened, but the number codes still work.
             Loading.log(self.current_user.username + " opened " + choice)
-            # First check if the user is elevated... for reasons.
-            if self.current_user.elevated:
-                if choice in ('task manager', '7'):
-                    TaskManager.main(self.current_user.saved_state)
-                elif choice in ('event viewer', 'events'):
-                    EventViewer.main()
-                elif choice in ('reset', '10'):
-                    Reset.user_reset()
-                    return 4
-            # The if elif else of choices... so long...
-            if choice in ('jokes', 'joke', '1', 'joke teller'):
-                self.current_user.saved_state['Jokes'] = 'running'
-                Jokes.main()
-            elif choice in ('notepad', 'notes', 'note', '2'):
-                self.current_user.saved_state['Notepad'] = 'running'
-                self.notepad.main(self.current_user)
-            elif choice in ('speedslow', 'speed up', 'slow down', 'speed up or slow down'):
-                self.current_user.saved_state['SpeedSlow'] = 'running'
-                SpeedSlow.main()
-            elif choice in ('bagels', 'bagels', '3'):
-                self.current_user.saved_state["Bagels Game"] = "running"
-                self.current_user.bagels.main()
-            elif choice in ('tictactoe', 'tic-tac-toe', 'ttt', '4'):
-                self.current_user.saved_state["TicTacToe"] = "running"
-                self.current_user.ttt = TicTacToe(self.current_user.username)
-                self.current_user.ttt.main(self.current_user)
-            elif choice in ('hangman', '5'):
-                self.current_user.saved_state["Hangman"] = "running"
-                self.current_user.hangman.main()
-            elif choice in ('sonar', '6'):
-                print("Still in progress...")
-            elif choice in ('user settings', 'usersettings', '8'):
-                self.current_user.saved_state["User Settings"] = "running"
-                if self.user_settings.main(self) == 1:
-                    return 'regular'
-            elif choice in ('system info', 'sys info', '9'):
-                self.current_user.saved_state["System Info"] = "running"
-                SystemInfo.main(self.versions)
-            elif choice in ('exit', 'lock computer', 'lock', '11'):
+            choices_list = {jokes: ('jokes', 'joke', '1', 'joke teller'), notepad: ('notepad', 'notes', 'note', '2')
+                            , speedslow: ('speedslow', 'speed up', 'slow down', 'speed up or slow down')
+                            , bagels: ('bagels', 'bagels', '3'), tictactoe: ('tictactoe', 'tic-tac-toe', 'ttt', '4')
+                            , hangman: ('hangman', '5'), sonar: ('sonar', '6'), user_settings: ('user settings', 'usersettings', '8')
+                            , system_info: ('system info', 'sys info', '9'), task_manager: ('task manager', '7')
+                            , event_viewer: ('event viewer', 'events'), reset: ('reset', '10')}
+            if choice in ('exit', 'lock computer', 'lock', '11'):
                 Loading.log(self.current_user.username + " logged out.")
                 print("Computer has been locked.")
                 return 'regular'
             elif choice in ('shutdown', '12', 'power'):
                 Loading.log(self.current_user.username + " logged out and shutdown.")
-                return self.shutdown('db_unprotected.txt')
+                return self.shutdown()
             elif choice in ('debugexit', 'debug'):
                 return 'regular'
+            choice_in_list = False
+            for i in choices_list:
+                if choice in choices_list[i]:
+                    choice_in_list = True
+                    if list(choices_list.keys()).index(i) >= len(choices_list) - 3:
+                        if self.current_user.elevated:
+                            if i.boot(self) == 4:
+                                return 4
+                    else:
+                        if i.boot(self) == 'regular':
+                            print("Hello! I am {}, running POCS v{}".format(self.name, self.versions["Main"]))
+                            return 'regular'
+                    break
+            if not choice_in_list:
+                Loading.returning("Please choose from the list of applications.", 2)
 
-            else:
-                print("Please choose from the list of applications.")
-
-    def shutdown(self, unprotected_db_file):
+    def shutdown(self):
         Loading.log("Preparing to shut down...")
-        user_games = open(unprotected_db_file, 'w')
         # The shutdown method. Saves everything to disk and rides return statements all the way back to the main file. Exits safely after that.
         if self.current_user.username == 'Guest':
-            input("The guest user cannot save progress. The system will shutdown.")
+            Loading.returning("The guest user cannot save progress. The system will shutdown.", 3)
             return 3
         while True:
             # While loop to choose what type of shutdown to do.
@@ -388,54 +293,24 @@ class OperatingSystem:
                         shutdown_choice = 'restart'
                         print("Restarting...")
                     # Check if any programs are running
-                    program_running = False
-                    for i in self.users:
-                        for j in i.saved_state:
-                            if i.saved_state[j] == 'running':
-                                program_running = True
+                    program_count = 0
                     for i in self.current_user.saved_state:
-                        if i == 'running':
-                            print("The " + i + " program is running.")
-                            program_running = True
-                    if program_running:
-                        print("Would you like to force quit these apps?")
-                        if input("Type \"{}\" to force quit all apps and proceed with {} or type [ENTER] or [return] to return to the OS.\n".format(shutdown_choice, shutdown_choice)) == 'shutdown':
-                            pass
+                        if self.current_user.saved_state[i] == 'running':
+                            program_count += 1
+                    if program_count > 0:
+                        print("Waiting for {} programs to close.".format(program_count))
+                        for i in self.current_user.saved_state:
+                            if self.current_user.saved_state[i] == 'running':
+                                Loading.returning("Closing {}.".format(str(i)), 2)
+                        if shutdown_choice in ('shutdown', '3'):
+                            print("Shutting down...")
                         else:
-                            # Return to allow the user to save their progress.
-                            Loading.returning("Returning to the login screen in 3 seconds.", 3)
-                            return 0
+                            print("Restarting...")
+                        Loading.log("All apps closed.")
                     else:
                         print("No apps are open.")
-                    Loading.log("All apps closed.")
-                    if shutdown_choice in ('shutdown', '3'):
-                        print("Shutting down...")
-                    else:
-                        print("Restarting...")
-                    # Proceeding with force quitting and shutting down.
-                    self.current_user.saved_state["Jokes"] = self.current_user.saved_state["Notepad"] = self.current_user.saved_state["Bagels Game"] = \
-                        self.current_user.saved_state["TicTacToe"] = self.current_user.saved_state["User Settings"] = \
-                        self.current_user.saved_state["System Info"] = "not running"
                 if hibernate:
-                    # Translate all games to be written to disk.
-                    Loading.log("Saving game data...")
                     for i in self.users:
-                        # Try accessing ttt progress... if not, say nothing.
-                        # Special protocol to translate ttt progress lists and strings to strings with splitters for db formatting.
-                        translated_board = ''
-                        for j in range(8):
-                            if i.ttt.board[j] == 'X' or i.ttt.board[j] == 'O':
-                                translated_board += (i.ttt.board[j] + ',')
-                            else:
-                                translated_board += ' ,'
-                        i.ttt = translated_board + i.ttt.board[8] + '.' + str(i.ttt.turn) + '.' + i.ttt.player_letter
-
-                        # Now for bagels! Simple Array, no translation needed.
-                        i.bagels = i.bagels.last_guess + '.' + i.bagels.num_guesses + '.' + i.bagels.num_digits + '.' + i.bagels.secret_num + '.' + i.bagels.max_guesses
-
-                        # Now for hangman!
-                        i.hangman = i.hangman.missed_letters + '.' + i.hangman.correct_letters + '.' + i.hangman.secret_word + '.' + i.hangman.secret_key
-
                         # Running Programs!
                         translated_save_state = ''
                         for j in i.saved_state:
@@ -445,14 +320,14 @@ class OperatingSystem:
                 # Now write each user's info to their respective info files.
                 for i in self.users:
                     # Open their file, write encrypted data and close the file.
-                    Loading.log("Updating files...")
+                    Loading.log("Updating user files...")
                     user_file = open('Users\\' + i.username + '\\info.usr', 'w')
-                    user_file.write(Loading.caesar_encrypt(str(i).split('\n', 1)[1] + i.username + '\t\t' + i.password + "\t\t" + str(i.current) + '\t\t') + '\n')
-                    user_file.close()
+                    user_file.write(Loading.caesar_encrypt(str(i).split('\n', 1)[1] + i.username + '\t\t' + i.password + "\t\t" + str(i.current) + '\t\t\n'))
                     if hibernate:
-                        user_games.write(i.username + '\t\t' + i.ttt + '\t\t' + i.bagels + '\t\t' + i.hangman + '\t\t' + i.saved_state + '\t\t\n')
+                        user_file.write(Loading.caesar_encrypt(i.saved_state + '\n'))
                     else:
-                        pass
+                        user_file.write('\n')
+                    user_file.close()
                 # Finishing with some print statements.
                 Loading.log("Shutdown complete.")
                 if hibernate:
@@ -463,9 +338,11 @@ class OperatingSystem:
                     return 3
                 else:
                     return 4
+            else:
+                print("Please choose from the list of choices.")
 
     def setup(self):
-        # The setup method. Conveniently sets up the system to run on its first bootup, and whenever there is no data. Modifies the dictionary with a new user.
+        # The setup method. Conveniently sets up the system to run on its first boot, and whenever there is no data. Modifies the dictionary with a new user.
         Loading.log("The system has entered SETUP.")
         print("SETUP: Since this is the first time you're running this OS, you have entered the setup.")
         # Ask the user if they want to make a user or not.

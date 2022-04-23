@@ -19,8 +19,8 @@ for subdir, dirs, files in os.walk('Users'):
             continue
     for file in files:
         try:
-            if file[len(file)-3:len(file)] == 'ttt':
-                # print(str(files.index(file)) + '. ' + file)
+            if file[len(file)-3:len(file)] == 'txt':
+                # print(file[0:len(file)-4])
                 pass
         except FileNotFoundError:
             continue

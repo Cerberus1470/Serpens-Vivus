@@ -1,7 +1,15 @@
 import os
-
 import random
 from System import Loading
+from Applications import bagels
+
+category = "games"
+
+def boot(os_object):
+    os_object.current_user.saved_state["TicTacToe"] = "running"
+    ttt = TicTacToe(os_object.current_user.username)
+    if not ttt.filename == 'exit':
+        ttt.main()
 
 
 # noinspection PyTypeChecker
@@ -9,46 +17,18 @@ class TicTacToe:
 
     def __init__(self, username):
         self.new_file = False
-        while True:
-            for subdir, dirs, files in os.walk('Users\\%s' % username):
-                count = 0
-                for file in files:
-                    if file[len(file)-3:len(file)] == 'ttt':
-                        count += 1
-                        print(str(count) + '. ' + file)
-                print(str(count+1) + '. New Game')
-                print(str(count+2) + '. Delete Game')
-            self.filename = input("Which file would you like to open?\n").lower()
-            if self.filename == 'new game':
-                self.new_file = True
-                (self.board, self.turn, self.player_letter) = ([" "] * 9, "", "")
-                break
-            elif self.filename == 'delete game':
-                self.delete()
-                continue
-            else:
-                try:
-                    game = open('Users\\%s\\%s' % (username, self.filename), 'r')
-                except FileNotFoundError:
-                    try:
-                        game = open('Users\\%s\\%s' % (username, self.filename + '.ttt'), 'r')
-                        self.filename = self.filename + '.ttt'
-                    except FileNotFoundError:
-                        Loading.returning("Choose a valid option.", 1)
-                        continue
-                Loading.returning("Loading previous game...", 2)
-                bruh = list(game)
-                # print(bruh)
-                # print(Loading.caesar_decrypt(bruh[0].split('\n')[0]))
-                (self.username, board, self.turn, self.player_letter) = (Loading.caesar_decrypt(bruh[0].split('\n')[0])).split('\t')
-                while ',' in board:
-                    (board1, board2) = board.split(',', 1)
-                    board = board1 + board2
-                self.board = []
-                for j in range(len(board)):
-                    self.board.append(board[j])
-                break
         self.username = username
+        self.filename = ''
+        game_info = bagels.init_game(self, username, 'ttt')
+        if game_info == 'new':
+            (self.board, self.turn, self.player_letter) = ([" "] * 9, "", "")
+        else:
+            (self.username, board, self.turn, self.player_letter) = game_info
+            while ',' in board:
+                board = board.split(',', 1)[0] + board.split(',', 1)[1]
+            self.board = []
+            for j in range(len(board)):
+                self.board.append(board[j])
         if self.player_letter == 'X':
             self.computer_letter = 'O'
         else:
@@ -58,21 +38,15 @@ class TicTacToe:
     def __repr__(self):
         return "< I am a tictactoe class named " + self.__class__.__name__ + " under the user " + self.username + ">"
 
-    @staticmethod
-    def draw_board(board):
+    def draw_board(self):
         # This function prints out the board that it was passed.
-
-        print('   |   |')
-        print(' ' + board[0] + ' | ' + board[1] + ' | ' + board[2])
-        print('   |   |')
-        print('-----------')
-        print('   |   |')
-        print(' ' + board[3] + ' | ' + board[4] + ' | ' + board[5])
-        print('   |   |')
-        print('-----------')
-        print('   |   |')
-        print(' ' + board[6] + ' | ' + board[7] + ' | ' + board[8])
-        print('   |   |\n')
+        for i in range(3):
+            print('   |   |')
+            print(' ' + self.board[i * 3] + ' | ' + self.board[i * 3 + 1] + ' | ' + self.board[i * 3 + 2])
+            print('   |   |')
+            if not i == 2:
+                print('-----------')
+        print()
 
     @staticmethod
     def input_player_letter():
@@ -98,12 +72,6 @@ class TicTacToe:
             return 'player'
 
     @staticmethod
-    def play_again():
-        # This function returns True if the player wants to play again, otherwise it returns False.
-        print('Do you want to play again? (yes or no)')
-        return input().lower().startswith('y')
-
-    @staticmethod
     def make_move(board, letter, move):
         board[move] = letter
 
@@ -120,12 +88,11 @@ class TicTacToe:
                 (bo[6] == le and bo[4] == le and bo[2] == le) or  # diagonal
                 (bo[8] == le and bo[4] == le and bo[0] == le))  # diagonal
 
-    @staticmethod
-    def get_board_copy(board):
-        # Make a duplicate of the board list and return it the duplicate.
+    def get_board_copy(self):
+        # Make a duplicate of the board list and return it.
         dupe_board = []
 
-        for i in board:
+        for i in self.board:
             dupe_board.append(i)
 
         return dupe_board
@@ -161,9 +128,9 @@ class TicTacToe:
         else:
             return None
 
-    def get_computer_move(self, board, computer_letter):
+    def get_computer_move(self):
         # Given a board and the computer's letter, determine where to move and return that move.
-        if computer_letter == 'X':
+        if self.computer_letter == 'X':
             player_letter = 'O'
         else:
             player_letter = 'X'
@@ -171,41 +138,47 @@ class TicTacToe:
         # Here is our algorithm for our Tic Tac Toe AI:
         # First, check if we can win in the next move
         for i in range(1, 9):
-            copy = self.get_board_copy(board)
+            copy = self.get_board_copy()
             if self.is_space_free(copy, i):
-                self.make_move(copy, computer_letter, i)
-                if self.is_winner(copy, computer_letter):
+                self.make_move(copy, self.computer_letter, i)
+                if self.is_winner(copy, self.computer_letter):
                     return i
 
         # Check if the player could win on his next move, and block them.
         for i in range(1, 9):
-            copy = self.get_board_copy(board)
+            copy = self.get_board_copy()
             if self.is_space_free(copy, i):
                 self.make_move(copy, player_letter, i)
                 if self.is_winner(copy, player_letter):
                     return i
 
         # Try to take one of the corners, if they are free.
-        move = self.choose_random_move_from_list(board, [0, 2, 6, 8])
+        move = self.choose_random_move_from_list(self.board, [0, 2, 6, 8])
         if move is not None:
             return move
 
         # Try to take the center, if it is free.
-        if self.is_space_free(board, 4):
+        if self.is_space_free(self.board, 4):
             return 4
 
         # Move on one of the sides.
-        return self.choose_random_move_from_list(board, [1, 3, 5, 7])
+        return self.choose_random_move_from_list(self.board, [1, 3, 5, 7])
 
-    def is_board_full(self, board):
+    def is_board_full(self):
         # Return True if every space on the board has been taken. Otherwise return False.
         for i in range(1, 9):
-            if self.is_space_free(board, i):
+            if self.is_space_free(self.board, i):
                 return False
         return True
 
     def delete(self):
         while True:
+            for subdir, dirs, files in os.walk('Users\\%s' % self.username):
+                count = 0
+                for file in files:
+                    if file[len(file)-3:len(file)] == 'ttt':
+                        count += 1
+                        print(str(count) + '. ' + file)
             delete_game = input("Which game would you like to delete?\n")
             try:
                 os.remove("Users\\{}\\{}".format(self.username, delete_game))
@@ -234,31 +207,27 @@ class TicTacToe:
             pass
         return
 
-    def quit(self, new_file, current_user, filename):
+    def quit(self):
         translated_board = ''
         for j in range(8):
             if self.board[j] == 'X' or self.board[j] == 'O':
                 translated_board += (self.board[j] + ',')
             else:
                 translated_board += ' ,'
-        translated_board += translated_board[8]
-        if new_file:
-            filename = input("File name?\n")
-            game = open('Users\\%s\\%s.ttt' % (current_user.username, filename), 'w')
-            game.write(Loading.caesar_encrypt("{}\t{}\t{}\t{}".format(self.username, translated_board, self.turn, self.player_letter)))
-            game.close()
-        else:
-            game = open('Users\\%s\\%s' % (current_user.username, filename), 'w')
-            game.write(Loading.caesar_encrypt("{}\t{}\t{}\t{}".format(self.username, translated_board, self.turn, self.player_letter)))
-            game.close()
+        translated_board += self.board[8]
+        if self.new_file:
+            self.filename = input("File name?\n") + '.ttt'
+        game = open('Users\\%s\\%s' % (self.username, self.filename), 'w')
+        game.write(Loading.caesar_encrypt("{}\t{}\t{}\t{}".format(self.username, translated_board, self.turn, self.player_letter)))
+        game.close()
 
-    def main(self, current_user):
+    def main(self):
         print('Welcome to Tic Tac Toe!')
         # Use the previous values!
         empty = True
         for i in range(len(self.board)):
-            empty = empty and self.board[i] == ' '
-        if self.turn == ' ' or self.player_letter == ' ':
+            empty = empty and self.board[i] == ''
+        if self.turn == '' or self.player_letter == '':
             empty = True
         if not empty:
             if self.player_letter == 'X':
@@ -277,23 +246,22 @@ class TicTacToe:
             while game_is_playing:
                 if self.turn == 'player':
                     # Player's turn.
-                    self.draw_board(self.board)
+                    self.draw_board()
                     move = self.get_player_move(self.board)
                     if move in ('exit', 'quit', 'get me out of here'):
                         # Safely quit the app.
-                        Loading.returning("Saving game progress...", 3)
-                        self.quit(self.new_file, current_user, self.filename)
+                        self.quit()
+                        Loading.returning("Saving game progress...", 2)
                         return
                     else:
                         self.make_move(self.board, self.player_letter, int(move))
-
                     if self.is_winner(self.board, self.player_letter):
-                        self.draw_board(self.board)
+                        self.draw_board()
                         print('Hooray! You have won the game!')
                         game_is_playing = False
                     else:
-                        if self.is_board_full(self.board):
-                            self.draw_board(self.board)
+                        if self.is_board_full():
+                            self.draw_board()
                             print('The game is a tie!')
                             break
                         else:
@@ -302,25 +270,26 @@ class TicTacToe:
                 else:
                     # Computer's turn.
                     # self.draw_board(self.board)
-                    move = self.get_computer_move(self.board, self.computer_letter)
-                    self.make_move(self.board, self.computer_letter, move)
+                    move = self.get_computer_move()
+                    self.make_move(self.board, self.computer_letter, int(move))
 
                     if self.is_winner(self.board, self.computer_letter):
-                        self.draw_board(self.board)
+                        self.draw_board()
                         print('The computer has beaten you! You lose.')
                         game_is_playing = False
                     else:
-                        if self.is_board_full(self.board):
-                            self.draw_board(self.board)
+                        if self.is_board_full():
+                            self.draw_board()
                             print('The game is a tie!')
                             break
                         else:
                             self.turn = 'player'
 
-            if self.play_again():
-                self.board = [' '] * 9
-                self.turn = self.who_goes_first()
+            os.remove("Users\\{}\\{}".format(self.username, self.filename))
+            print('Do you want to play again? (yes or no)')
+            if input().lower().startswith('y'):
+                (self.board, self.turn, self.player_letter) = ([" "] * 9, "", "")
+                self.new_file = True
             else:
                 Loading.returning_to_apps()
-                self.quit(self.new_file, current_user, self.filename)
                 return

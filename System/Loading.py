@@ -64,10 +64,13 @@ def caesar_encrypt(message):
     if len(key) <= len(message):
         key = key * int(len(message))
     for i in range(len(message)):
-        try:
-            encrypted_h += alphabet[alphabet.index(message[i]) + key[i]]
-        except IndexError:
-            encrypted_h += alphabet[alphabet.index(message[i]) + key[i] - 95]
+        if message[i] == '\n':
+            encrypted_h += '\n'
+        else:
+            try:
+                encrypted_h += alphabet[alphabet.index(message[i]) + key[i]]
+            except IndexError:
+                encrypted_h += alphabet[alphabet.index(message[i]) + key[i] - 95]
     return encrypted_h
 
 
@@ -78,10 +81,13 @@ def caesar_decrypt(encrypted_h):
     if len(key) <= len(encrypted_h):
         key = key * int(len(encrypted_h))
     for i in range(len(encrypted_h)):
-        try:
-            decrypted_h += alphabet[alphabet.index(encrypted_h[i]) - key[i]]
-        except IndexError:
-            decrypted_h += alphabet[alphabet.index(encrypted_h[i]) - key[i] + 95]
+        if encrypted_h[i] == '\n':
+            decrypted_h += '\n'
+        else:
+            try:
+                decrypted_h += alphabet[alphabet.index(encrypted_h[i]) - key[i]]
+            except IndexError:
+                decrypted_h += alphabet[alphabet.index(encrypted_h[i]) - key[i] + 95]
     return decrypted_h
 
 
