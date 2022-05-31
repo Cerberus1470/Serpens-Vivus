@@ -1,11 +1,11 @@
-category = "games"
-
-def boot(os_object):
-    os_object.current_user.saved_state['Jokes'] = 'running'
-    Jokes.main()
-
-
 class Jokes:
+    category = "games"
+
+    @staticmethod
+    def boot(os_object):
+        os_object.current_user.saved_state['Jokes'] = 'running'
+        Jokes.main()
+
     def __init__(self):
         return
 

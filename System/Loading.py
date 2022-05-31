@@ -1,5 +1,5 @@
 import sys
-from pathlib import Path
+import os
 import time
 import threading
 import datetime
@@ -13,10 +13,14 @@ class Loading:
         thread.start()
 
     @staticmethod
-    def foo(results):
+    async def foo(results):
         while True:
             results += 1
             time.sleep(1)
+
+
+class CorruptedFileSystem(Exception):
+    pass
 
 
 # Here is an example of the process function:
@@ -30,7 +34,9 @@ def animated_loading():
         sys.stdout.flush()
 
 
-def returning(message, length):
+def returning(message, length=0):
+    if length == 0:
+        print(message, end='')
     for i in range(length):
         chars = '/—\\|'
         for char in chars:
@@ -48,16 +54,42 @@ def returning_to_apps():
 def progress_bar(message, length):
     for i in range(10):
         print('\r' + message + '\t[' + str('=' * i) + str('-' * (10 - i)) + ']', end='')
-        time.sleep(length/10.0)
+        time.sleep(length / 10.0)
 
 
-def log(message):
+def log(message=''):
     file = open("System\\event_log.info", 'a')
     file.write("[" + datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S") + "] " + message + '\n')
     file.close()
 
 
-def caesar_encrypt(message):
+def modify_user(username='', element=-1, value=''):
+    if element < 0 or element > 14:
+        return 0
+    for subdir, dirs, files in os.walk("Users"):
+        if subdir == "Users\\" + username:
+            file = list(open("{}\\info.usr".format(subdir), 'r'))
+            info = caesar_decrypt(file[0]).split('\t\t')
+            programs = caesar_decrypt(file[1]).split('\t\t')
+            if element < 4:
+                info[element] = value
+            else:
+                try:
+                    programs[element] = value
+                except IndexError:
+                    pass
+            file = open("{}\\info.usr".format(subdir), 'w')
+            file.write(caesar_encrypt('\t\t'.join(info)))
+            file.write(caesar_encrypt('\t\t'.join(programs)))
+            file.close()
+            if element == 1:
+                os.rename(subdir, "Users\\{}".format(value))
+            return 1
+    returning("An error occurred. Please reboot the system safely.", 2)
+    return 0
+
+
+def caesar_encrypt(message=''):
     alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 1234567890!@#$%^&*()`~-_=+[{]}|;:\'\",<.>/?\t'
     encrypted_h = ''
     key = [10, 4, 3, 5, 7, 8, 1, 2, 9, 6]
@@ -74,7 +106,7 @@ def caesar_encrypt(message):
     return encrypted_h
 
 
-def caesar_decrypt(encrypted_h):
+def caesar_decrypt(encrypted_h=''):
     alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 1234567890!@#$%^&*()`~-_=+[{]}|;:\'\",<.>/?\t'
     decrypted_h = ''
     key = [10, 4, 3, 5, 7, 8, 1, 2, 9, 6]
@@ -92,8 +124,6 @@ def caesar_decrypt(encrypted_h):
 
 
 # noinspection PyTypeChecker
-def testing():
-    p = Path('.')
-    db_prot = p / 'Databases' / 'db_protected.txt'
-    for i in db_prot.open():
-        print(i)
+async def test():
+    print("Hello world!")
+    return 42

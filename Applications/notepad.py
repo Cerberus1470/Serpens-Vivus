@@ -2,22 +2,22 @@ import time
 from System import Loading
 import os
 
-category = "utilities"
-
-
-def boot(os_object):
-    os_object.current_user.saved_state['Notepad'] = 'running'
-    while True:
-        notepad = Notepad(os_object.current_user.username)
-        if notepad.filename == 'exit':
-            break
-        else:
-            if notepad.main(os_object.current_user.username) == 0:
-                break
-
 
 # noinspection PyTypeChecker
 class Notepad:
+    category = "utilities"
+
+    @staticmethod
+    def boot(os_object):
+        os_object.current_user.saved_state['Notepad'] = 'running'
+        while True:
+            notepad = Notepad(os_object.current_user.username)
+            if notepad.filename == 'exit':
+                break
+            else:
+                if notepad.main(os_object.current_user.username) == 0:
+                    break
+
     def __init__(self, username):
         self.username = username
         print("Welcome to notepad!\n")

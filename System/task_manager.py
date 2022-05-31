@@ -1,13 +1,23 @@
 from System import Loading
-
-category = "admin"
-
-
-def boot(os_object):
-    TaskManager.main(os_object.current_user.saved_state)
+from System.event_viewer import EventViewer
+from Applications.jokes import Jokes
+from Applications.notepad import Notepad
+from Applications.speed_up_or_slow_down import SpeedSlow
+from Applications.bagels import Bagels
+from Applications.tictactoe import TicTacToe
+from Applications.hangman import Hangman
+from Applications.sonar import Sonar
+from Applications.system_info import SystemInfo
+from Applications.user_settings import UserSettings
 
 
 class TaskManager:
+    category = "admin"
+
+    @staticmethod
+    def boot(os_object):
+        TaskManager.main(os_object.current_user.saved_state, os_object.current_user.elevated)
+
     def __init__(self):
         return
 
@@ -25,17 +35,23 @@ class TaskManager:
             print("The " + str(app) + " Program was successfully quit.")
 
     @staticmethod
-    def main(stats):
+    def main(stats, elevation):
         print()
         print("Welcome to the task manager!")
         print("Here you will find all the programs currently running. You are also able to quit them, however it "
               "clears no memory space, and all program memory will be saved (such as notes).")
-        print("The Jokes program is " + stats["Jokes"] + ".")
-        print("The Notes program is " + stats["Notepad"] + ".")
-        print("The Bagels program is " + stats["Bagels Game"] + ".")
-        print("The Tic-Tac-Toe program is " + stats["TicTacToe"] + ".")
-        print("The User Settings program is " + stats["User Settings"] + ".")
-        print("The System Info program is " + stats["System Info"] + ".")
+        print("The Jokes program is " + stats[Jokes] + ".")
+        print("The Bagels program is " + stats[Bagels] + ".")
+        print("The Tic-Tac-Toe program is " + stats[TicTacToe] + ".")
+        print("The Hangman program is " + stats[Hangman] + ".")
+        print("The Sonar program is " + stats[Sonar] + ".")
+        print("The SpeedSlow program is " + stats[SpeedSlow] + ".")
+        print("The Notes program is " + stats[Notepad] + ".")
+        print("The User Settings program is " + stats[UserSettings] + ".")
+        print("The System Info program is " + stats[SystemInfo] + ".")
+        if elevation:
+            print("The Task Manager program is " + stats[TaskManager] + ".")
+            print("The Event Viewer program is " + stats[EventViewer] + ".")
         while True:
             print('\nType "quit" and the app you want to quit (i.e. "quit jokes") or type "quitall" to quit all programs!'
                   '\nPress [ENTER] or [return] to return to the applications screen!')

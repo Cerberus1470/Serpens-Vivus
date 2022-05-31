@@ -1,12 +1,8 @@
-category = "admin"
+
 
 from System import Loading
 
 time1 = time2 = 0
-
-
-def boot(os_object):
-    return EventViewer.main()
 
 
 def update_time(events, index):
@@ -16,6 +12,12 @@ def update_time(events, index):
 
 
 class EventViewer:
+    category = "admin"
+
+    @staticmethod
+    def boot(os_object):
+        return EventViewer.main()
+
     @staticmethod
     def main():
         global time1, time2

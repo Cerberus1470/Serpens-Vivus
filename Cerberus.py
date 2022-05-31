@@ -1,28 +1,12 @@
 # This is an experimental operating system running on Python. Features include password protection, joke-teller,
 # notePad, task manager, two games, information on the system, and the ability to change user settings! IT DOES
 # INCLUDE TWO PYTHON GAMES FROM EARLIER IN THE COURSE (Bagels and TicTacToe)
-import os
 from System import operating_system
 
 # sys.path.append('Applications')
 
 # Loading.progress_bar("Loading...", 5)
 
-for subdir, dirs, files in os.walk('Users'):
-    for dir1 in dirs:
-        try:
-            info = open("Users\\%s\\info.usr" % dir1, 'a')
-            # print(dir1[len(dir1)-3:len(dir1)])
-            # print(list(file)[0])
-            info.close()
-        except FileNotFoundError:
-            continue
-    for file in files:
-        try:
-            if file[len(file)-3:len(file)] == 'txt':
-                # print(file[0:len(file)-4])
-                pass
-        except FileNotFoundError:
-            continue
+# print(Loading.reload)
 
-operating_system.boot()
+one = operating_system.boot()

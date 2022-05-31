@@ -31,7 +31,7 @@ TODO - Advanced
                 > - This chunk is calculated if the gap between logged events is greater than 10 minutes.
             > - There will be a reset function in the app as well.
     > ! - Rewrite Shutdown function entirely
-        - Explicitly write conditions for all shutdown methods
+        > - Explicitly write conditions for all shutdown methods
     > - Add a lockout for _ number of incorrect passwords.
     > - Add speed up or slow down to program
     > ! - Comprehensive app screen
@@ -49,14 +49,14 @@ TODO - Advanced
         > - Move reading code into boot function!
         > - Encrypt db_protected.txt using Fernet or Caesar Cypher
     - Spreadsheet app???
-    ! - Savable user-specific games, similar to notepad. Every game gets the treatment!
+    > ! - Savable user-specific games, similar to notepad. Every game gets the treatment!
     - Add debug mode. Documentation Below.
-    - Add Sonar.
+    > - Add Sonar.
 
 TODO - Really advanced
     - Add user personalization. See documentation below.
     - Add a game store. I'll add some documentation below.
-    ~ Implement hashing (encrypting the databases)
+    ~ - Implement hashing (encrypting the databases)
         - Error Correction in databases.
         - Develop error correcting app after implementing encryption. More documentation below.
     - Implement Threads
@@ -87,20 +87,25 @@ Finally, let's write the documentation. This has been an idea too long.
 Game store:
 - This is a collection of games that the user can install.
 - Saving game progress will no longer be hardcoded with this addition.
-- Each game will be iterated through and the individual user progress will be written to the database.
+X Each game will be iterated through and the individual user progress will be written to the database.
+    X - Each game will now have game files, so no more saving through shutdown.
+- Each game will also be completely internalized. Every parameter given to __init__ and boot are literals, no objects.
 - This is going to be really hard.
 
 Hashing:
 - Essentially encrypting the databases.
 - This will prevent tampering with the saved data.
-- Error correction:
+- Error correction (SCRAPPED):
     - If the data becomes corrupted from an unexpected shutdown or something, an error correcting app will be launched on the next startup.
     - The user will also be able to launch this if they believe the OS is corrupt.
     - This will do 2 things: Error check the encrypted databases, and error check the entire root code. Think Disk Check or Recovery Tools for Windows.
     - The function call will replace the corruption error message being displayed during startup with corrupted databases.
     - This will probably be even harder than the Game store.
+- New Error correction:
+    - Essentially, this will provide a comprehensive error report of what happened, possible causes, and how to fix it.
 
-New user directories:- Each user will get their own dedicated directory.
+New user directories:
+- Each user will get their own dedicated directory.
 - Upon deletion or username edits, the user directory will be changed as well.
 - This directory will now store whatever was in db_unprotected.txt. This includes game progress.
 - Each game will be in its own notepad file.

@@ -1,14 +1,13 @@
 from System import Loading
 
-category = "utilities"
-
-
-def boot(os_object):
-    os_object.current_user.saved_state["System Info"] = "running"
-    SystemInfo.main(os_object.versions)
-
 
 class SystemInfo:
+    category = "utilities"
+
+    @staticmethod
+    def boot(os_object):
+        os_object.current_user.saved_state["System Info"] = "running"
+        SystemInfo.main(os_object.versions)
 
     def __init__(self):
         return
@@ -26,7 +25,7 @@ class SystemInfo:
         for i in range(len(versions)):
             print(list(versions)[i] + " Version: " + str(versions[list(versions)[i]]))
         if input() == "debug":
-            Loading.testing()
+            Loading.returning("")
         return
 
 # SystemInfo.main({"main": 11.0, "jokes": 1.2, "notes": 1.3, "bagels": 1.12, "tictactoe": 1.10, "hangman": 1.8, "userset": 1.11, "sysinfo": 1.4})

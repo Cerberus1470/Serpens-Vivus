@@ -5,15 +5,6 @@ from System import Loading
 import random
 from Applications import bagels
 
-category = "games"
-
-
-def boot(os_object):
-    os_object.current_user.saved_state["Hangman"] = "running"
-    hangman = Hangman(os_object.current_user.username)
-    if not hangman.filename == 'exit':
-        hangman.main()
-
 
 HANGMAN_PICS = ['''
   +-----+
@@ -93,19 +84,27 @@ words = {  # this is the word bank
 
 
 class Hangman:
-    def __init__(self, username):
+    category = "games"
+
+    @staticmethod
+    def boot(path="\\"):
+        hangman = Hangman(path)
+        if not hangman.filename == 'exit':
+            hangman.main()
+
+    def __init__(self, path="\\"):
         self.new_file = False
-        self.username = username
+        self.path = path
         self.filename = ''
-        game_info = bagels.init_game(self, username, 'hng')
-        if game_info == 'new':
+        game_info = bagels.init_game(self, path, 'hng')
+        if self.new_file:
             (self.missed_letters, self.correct_letters, self.secret_word, self.secret_key) = ("", "", "", "")
-        else:
-            (self.username, self.missed_letters, self.correct_letters, self.secret_word, self.secret_key) = game_info
+        elif game_info:
+            (self.missed_letters, self.correct_letters, self.secret_word, self.secret_key) = game_info
         return
 
     def __repr__(self):
-        return "< I am a hangman class named " + self.__class__.__name__ + " under the user " + self.username + ">"
+        return "< I am a hangman class named " + self.__class__.__name__ + ">"
 
     @staticmethod
     def get_random_word(word_dict):
@@ -159,35 +158,11 @@ class Hangman:
         (self.secret_word, self.secret_key) = self.get_random_word(words)
         return
 
-    def delete(self):
-        while True:
-            for subdir, dirs, files in os.walk('Users\\%s' % self.username):
-                count = 0
-                for file in files:
-                    if file[len(file)-3:len(file)] == 'hng':
-                        count += 1
-                        print(str(count) + '. ' + file)
-            delete_game = input("Which game would you like to delete?\n")
-            try:
-                os.remove("Users\\{}\\{}".format(self.username, delete_game))
-            except FileNotFoundError:
-                try:
-                    os.remove("Users\\{}\\{}".format(self.username, delete_game + ".hng"))
-                    pass
-                except FileNotFoundError:
-                    Loading.returning("That file was not found.", 1)
-                    pass
-            if input('Delete another file? "Yes" or "No".').lower() == 'yes':
-                continue
-            else:
-                Loading.returning("The file was successfully deleted.", 2)
-                return
-
     def quit(self):
         if self.new_file:
             self.filename = input("File name?\n") + '.hng'
-        game = open('Users\\%s\\%s' % (self.username, self.filename), 'w')
-        game.write(Loading.caesar_encrypt("{}\t{}\t{}\t{}\t{}".format(self.username, self.missed_letters, self.correct_letters, self.secret_word, self.secret_key)))
+        game = open(self.path + "\\" + self.filename, 'w')
+        game.write(Loading.caesar_encrypt("{}\t{}\t{}\t{}".format(self.missed_letters, self.correct_letters, self.secret_word, self.secret_key)))
         game.close()
 
     def main(self):
@@ -231,10 +206,9 @@ class Hangman:
                     game_is_done = True
 
             # Ask the player if they want to play again (but only if the game is done).
-            os.remove("Users\\{}\\{}".format(self.username, self.filename))
             if game_is_done:
-                print('Do you want to play again? (yes or no)')
-                if input().lower().startswith('y'):
+                os.remove(self.path + self.filename)
+                if input('Do you want to play again? (yes or no)\n').lower().startswith('y'):
                     self.setup()
                     game_is_done = False
                 else:

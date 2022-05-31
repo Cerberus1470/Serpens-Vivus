@@ -4,78 +4,48 @@ import random
 import math
 import os
 from System import Loading
-
-category = 'games'
-
-
-def boot(os_object):
-    os_object.current_user.saved_state['Sonar'] = "running"
-    sonar = Sonar(os_object.current_user.username)
-    if not sonar.filename == 'exit':
-        sonar.main()
+from Applications import bagels
 
 
 class Sonar:
-    def __init__(self, username):
-        self.new_file = False
-        self.username = username
-        self.filename = ''
-        while True:
-            for subdir, dirs, files in os.walk('Users\\%s' % username):
-                count = 0
-                for file in files:
-                    if file[len(file)-3:len(file)] == 'snr':
-                        count += 1
-                        print(str(count) + '. ' + file)
-                print(str(count+1) + '. New Game')
-                print(str(count+2) + '. Delete Game')
-            self.filename = input('Which file would you like to open? Type "exit" to exit.\n').lower()
-            if self.filename == 'exit':
-                self.filename = "exit"
-                Loading.returning_to_apps()
-                return
-            if self.filename == 'new game':
-                self.new_file = True
-                (self.devices, self.board, self.chests, self.previous_moves) = (0, '', '', [])
-                return
-            elif self.filename == 'delete game':
-                self.delete()
-                continue
-            else:
-                try:
-                    game = open('Users\\%s\\%s' % (username, self.filename), 'r')
-                except FileNotFoundError:
-                    try:
-                        game = open('Users\\%s\\%s' % (username, self.filename + '.snr'), 'r')
-                        self.filename = self.filename + '.snr'
-                    except FileNotFoundError:
-                        Loading.returning("Choose a valid option.", 1)
-                        continue
-                Loading.returning("Loading previous game...", 2)
-                (uname_and_devices, board, chests, previous_moves) = list(game)
-                (self.username, self.devices) = Loading.caesar_decrypt(uname_and_devices.split('\n')[0]).split('\t')
-                self.devices = int(self.devices)
-                self.board = Loading.caesar_decrypt(board[0:len(board)-1]).split('\t')
-                for i in range(len(self.board)):
-                    self.board[i] = self.board[i].split(',')
-                self.chests = Loading.caesar_decrypt(chests[0:len(chests)-1]).split('\t')
-                for i in range(len(self.chests)):
-                    self.chests[i] = self.chests[i].split(',')
-                for i in range(len(self.chests)):
-                    for j in range(len(self.chests[i])):
-                        self.chests[i][j] = int(self.chests[i][j])
-                self.previous_moves = Loading.caesar_decrypt(previous_moves.split('\n')[0]).split('\t')
-                for i in range(len(self.previous_moves)):
-                    self.previous_moves[i] = self.previous_moves[i].split(',')
-                for i in range(len(self.previous_moves)):
-                    for j in range(len(self.previous_moves[i])):
-                        self.previous_moves[i][j] = int(self.previous_moves[i][j])
-                return
+    category = 'games'
 
+    @staticmethod
+    def boot(path="\\"):
+        sonar = Sonar(path)
+        if not sonar.filename == 'exit':
+            sonar.main()
+
+    def __init__(self, path="\\"):
+        self.new_file = False
+        self.filename = ''
+        self.path = path
+        game_info = bagels.init_game(self, path, 'snr')
+        if self.new_file:
+            (self.devices, self.board, self.chests, self.previous_moves) = (0, '', '', [])
+        elif game_info:
+            (devices, board, chests, previous_moves) = game_info
+            self.devices = Loading.caesar_decrypt(devices.split('\n')[0])
+            self.devices = int(self.devices)
+            self.board = Loading.caesar_decrypt(board[0:len(board)-1]).split('\t')
+            for i in range(len(self.board)):
+                self.board[i] = self.board[i].split(',')
+            self.chests = Loading.caesar_decrypt(chests[0:len(chests)-1]).split('\t')
+            for i in range(len(self.chests)):
+                self.chests[i] = self.chests[i].split(',')
+            for i in range(len(self.chests)):
+                for j in range(len(self.chests[i])):
+                    self.chests[i][j] = int(self.chests[i][j])
+            self.previous_moves = Loading.caesar_decrypt(previous_moves.split('\n')[0]).split('\t')
+            for i in range(len(self.previous_moves)):
+                self.previous_moves[i] = self.previous_moves[i].split(',')
+            for i in range(len(self.previous_moves)):
+                for j in range(len(self.previous_moves[i])):
+                    self.previous_moves[i][j] = int(self.previous_moves[i][j])
         return
 
     def __repr__(self):
-        return "< I am a sonar class named " + self.__class__.__name__ + " under the user " + self.username + ">"
+        return "< I am a sonar class named " + self.__class__.__name__  + ">"
 
     @staticmethod
     def get_new_board():
@@ -240,9 +210,10 @@ class Sonar:
         self.previous_moves = []
         return
 
+    @DeprecationWarning
     def delete(self):
         while True:
-            for subdir, dirs, files in os.walk('Users\\{}'.format(self.username)):
+            for subdir, dirs, files in os.walk(self.path):
                 count = 0
                 for file in files:
                     if file[len(file)-3:len(file)] == 'snr':
@@ -250,10 +221,10 @@ class Sonar:
                         print(str(count) + '. ' + file)
             delete_game = input("Which game would you like to delete?\n")
             try:
-                os.remove("Users\\{}\\{}".format(self.username, delete_game))
+                os.remove(self.path + '\\' + delete_game)
             except FileNotFoundError:
                 try:
-                    os.remove("Users\\{}\\{}".format(self.username, delete_game + ".snr"))
+                    os.remove(self.path + '\\' + delete_game + ".snr")
                     pass
                 except FileNotFoundError:
                     Loading.returning("That file was not found.", 1)
@@ -281,8 +252,8 @@ class Sonar:
             for j in i:
                 previous_moves += '{},'.format(j)
             previous_moves = '{}\t'.format(previous_moves[0:len(previous_moves)-1])
-        game = open('Users\\{}\\{}'.format(self.username, self.filename), 'w')
-        game.write(Loading.caesar_encrypt("{}\t{}".format(self.username, self.devices)) + '\n')
+        game = open(self.path + '\\' + self.filename, 'w')
+        game.write(Loading.caesar_encrypt(str(self.devices)) + '\n')
         game.write(Loading.caesar_encrypt(board[0:len(board)-1]) + '\n')
         game.write(Loading.caesar_encrypt(chests[0:len(chests)-1]) + '\n')
         game.write(Loading.caesar_encrypt(previous_moves[0:len(previous_moves)-1]) + '\n')
@@ -296,8 +267,8 @@ class Sonar:
         else:
             print("Welcome back!")
         while True:
+            self.draw_board()
             while self.devices > 0:
-                self.draw_board()
                 # Show sonar device and chest statuses.
                 print('You have {} sonar device(s) left. {} treasure chest(s) remaining.'.format(self.devices, len(self.chests)))
 
@@ -309,6 +280,7 @@ class Sonar:
 
                 moveResult = self.make_move(x, y)
                 if not moveResult:
+                    self.draw_board()
                     continue
                 else:
                     if moveResult == 'You have found a sunken treasure chest!':
@@ -331,8 +303,8 @@ class Sonar:
                 for x, y in self.chests:
                     print(' {}, {}'.format(x, y))
 
-            os.remove("Users\\{}\\{}".format(self.username, self.filename))
+            os.remove(self.path + '\\' + self.filename)
             print('Do you want to play again? (yes or no)')
-            if not input().lower().startswith('y'):
+            if input().lower().startswith('y'):
                 self.setup()
                 return

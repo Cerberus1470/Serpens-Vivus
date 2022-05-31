@@ -1,14 +1,14 @@
 from System import Loading
 
-category = "utilities"
-
-
-def boot(os_object):
-    os_object.current_user.saved_state['SpeedSlow'] = 'running'
-    SpeedSlow.main()
-
 
 class SpeedSlow:
+    category = "utilities"
+
+    @staticmethod
+    def boot(os_object):
+        os_object.current_user.saved_state['SpeedSlow'] = 'running'
+        SpeedSlow.main()
+
     @staticmethod
     def main():
         print('Welcome! Default values are 1. Type "help" for more info.')

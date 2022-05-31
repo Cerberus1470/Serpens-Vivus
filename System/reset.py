@@ -2,14 +2,14 @@ import time
 from System import Loading
 import os
 
-category = "admin"
-
-
-def boot(os_object):
-    return Reset.user_reset()
-
 
 class Reset:
+    category = "admin"
+
+    @staticmethod
+    def boot(os_object):
+        return Reset.user_reset()
+
     def __init__(self):
         return
 
@@ -27,8 +27,14 @@ class Reset:
                     Loading.returning("Quitting all programs...", 2)
                     print()
                     Loading.returning("Resetting Users...", 2)
-                    os.rmdir('Users')
-                    file = open('event_log.info', 'w')
+                    for subdir, dirs, files in os.walk("Users"):
+                        for i in files:
+                            os.remove(subdir + '\\' + i)
+                    for subdir, dirs, files in os.walk("Users"):
+                        for i in dirs:
+                            os.rmdir(subdir + "\\" + i)
+                    os.rmdir("Users")
+                    file = open('System\\event_log.info', 'w')
                     Loading.log("System reset.")
                     file.close()
                     del file

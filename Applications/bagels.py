@@ -3,19 +3,10 @@ import os
 from System import Loading
 import random
 
-category = "games"
 
-
-def boot(os_object):
-    os_object.current_user.saved_state["Bagels Game"] = "running"
-    bagels = Bagels(os_object.current_user.username)
-    if not bagels.filename == 'exit':
-        bagels.main()
-
-
-def delete(self, extension):
+def delete(path, extension):
     while True:
-        for subdir, dirs, files in os.walk('Users\\%s' % self.username):
+        for subdir, dirs, files in os.walk(path):
             count = 0
             for file in files:
                 if file[len(file)-3:len(file)] == extension:
@@ -23,26 +14,25 @@ def delete(self, extension):
                     print(str(count) + '. ' + file)
         delete_game = input("Which game would you like to delete?\n")
         try:
-            os.remove("Users\\{}\\{}".format(self.username, delete_game))
+            os.remove("{}\\{}".format(path, delete_game))
         except FileNotFoundError:
             try:
-                os.remove("Users\\{}\\{}".format(self.username, delete_game + extension))
+                os.remove("{}\\{}".format(path, '{}.{}'.format(delete_game, extension)))
                 pass
             except FileNotFoundError:
                 Loading.returning("That file was not found.", 1)
                 pass
+        Loading.returning("The file was successfully deleted.", 2)
         if input('Delete another file? "Yes" or "No".').lower() == 'yes':
             continue
         else:
-            Loading.returning("The file was successfully deleted.", 2)
+            Loading.returning("Returning to the game...", 2)
             return
 
 
-def init_game(self, username, extension):
-    self.new_file = False
-    self.username = username
+def init_game(self, path, extension):
     while True:
-        for subdir, dirs, files in os.walk('Users\\%s' % username):
+        for subdir, dirs, files in os.walk(path):
             count = 0
             for file in files:
                 if file[len(file)-3:len(file)] == extension:
@@ -57,41 +47,50 @@ def init_game(self, username, extension):
             return
         if self.filename == 'new game':
             self.new_file = True
-            return 'new'
+            return
         elif self.filename == 'delete game':
-            delete(self, extension)
+            delete(path, extension)
             continue
         else:
             try:
-                game = open('Users\\%s\\%s' % (username, self.filename), 'r')
+                if self.filename[len(self.filename)-3:len(self.filename)] == extension:
+                    game = open("{}\\{}".format(path, self.filename), 'r')
+                else:
+                    game = open("{}\\{}".format(path, '{}.{}'.format(self.filename, extension)), 'r')
+                    self.filename = '{}.{}'.format(self.filename, extension)
             except FileNotFoundError:
-                try:
-                    game = open('Users\\%s\\%s' % (username, self.filename + '.{}'.format(extension)), 'r')
-                    self.filename = self.filename + '.{}'.format(extension)
-                except FileNotFoundError:
-                    Loading.returning("Choose a valid option.", 1)
-                    continue
+                Loading.returning("Choose a valid option.", 1)
+                continue
             Loading.returning("Loading previous game...", 2)
             bruh = list(game)
+            if extension == "snr":
+                return bruh
             return (Loading.caesar_decrypt(bruh[0].split('\n')[0])).split('\t')
 
 
 class Bagels:
+    category = "games"
 
-    def __init__(self, username):
+    @staticmethod
+    def boot(path="\\"):
+        bagels = Bagels(path)
+        if not bagels.filename == 'exit':
+            bagels.main()
+
+    def __init__(self, path="\\"):
         self.new_file = False
-        self.username = username
+        self.path = path
         self.filename = ''
-        game_info = init_game(self, username, 'bgl')
-        if game_info == 'new':
-            (self.prev_guesses, self.num_guesses, self.num_digits, self.secret_num, self.max_guesses) = ("", "", "", "", "")
-        else:
-            (self.username, prev_guesses, self.num_guesses, self.num_digits, self.max_guesses, self.secret_num) = game_info
+        game_info = init_game(self, path, 'bgl')
+        if self.new_file:
+            (self.prev_guesses, self.num_guesses, self.num_digits, self.secret_num, self.max_guesses) = ("", -1, "", "", -1)
+        elif game_info:
+            (prev_guesses, self.num_guesses, self.num_digits, self.max_guesses, self.secret_num) = game_info
             self.prev_guesses = prev_guesses.split(',')
         return
 
     def __repr__(self):
-        return "< I am a bagels class named " + self.__class__.__name__ + " under the user " + self.username + ">"
+        return "< I am a bagels class named " + self.__class__.__name__ + ">"
 
     @staticmethod
     def get_secret_num(num_digits, base_number):
@@ -107,7 +106,7 @@ class Bagels:
 
     @staticmethod
     def is_only_digits(num):
-        # Returns True if num is a string made up only of digits. Otherwise returns False.
+        # Returns True if num is a string made up only of digits. Otherwise, returns False.
         if not num:
             return False
         for i in num:
@@ -115,14 +114,18 @@ class Bagels:
                 return False
         return True
 
-    @staticmethod
-    def get_clues(guess, secret_num):
+    def get_clues(self, guess, secret_num):
         # Returns a string with the pico, fermi, bagels clues to the user.
         # Make sure the lengths match.
         if len(guess) != len(secret_num):
-            return 'Enter a number with {} number of digits.'.format(len(secret_num))
+            print('Enter a number with {} digits.'.format(len(secret_num)))
+            return
+        if not self.is_only_digits(guess):
+            print("Use only digits.")
+            return
         if guess == secret_num:
-            return 'You got it!'
+            print("You got it!")
+            return
 
         clue = []
         for i in range(len(guess)):
@@ -161,12 +164,9 @@ class Bagels:
     def quit(self):
         if self.new_file:
             self.filename = input("File name?\n") + '.bgl'
-        prev_guesses = ''
-        for j in range(len(self.prev_guesses)-1):
-            prev_guesses += (self.prev_guesses[j] + ',')
-        prev_guesses += self.prev_guesses[len(self.prev_guesses)-1]
-        game = open('Users\\%s\\%s' % (self.username, self.filename), 'w')
-        game.write(Loading.caesar_encrypt("{}\t{}\t{}\t{}\t{}\t{}".format(self.username, prev_guesses, self.num_guesses, self.num_digits, self.max_guesses, self.secret_num)))
+        prev_guesses = ','.join(self.prev_guesses)
+        game = open(self.path + "\\" + self.filename, 'w')
+        game.write(Loading.caesar_encrypt("{}\t{}\t{}\t{}\t{}".format(prev_guesses, self.num_guesses, self.num_digits, self.max_guesses, self.secret_num)))
         game.close()
 
     def main(self):
@@ -175,8 +175,8 @@ class Bagels:
         print('I am thinking of a %s-digit number. Try to guess what it is.' % self.num_digits)
         print('Here are some clues:')
         print('When I say:    That means:')
-        print('  Pico         One digit is correct but in the wrong position.')
         print('  Fermi        One digit is correct and in the right position.')
+        print('  Pico         One digit is correct but in the wrong position.')
         print('  Bagels       No digit is correct.')
         print('Hint: Enter different digits. Duplicate digits will produce duplicate results!')
 
@@ -186,7 +186,7 @@ class Bagels:
 
             while int(self.num_guesses) <= int(self.max_guesses):
                 # while len(guess) != int(self.num_digits) or not self.is_only_digits(guess):
-                print('Guess #%s: \nType "quit" to quit.' % self.num_guesses)
+                print('Guess #%s: \nType "help" for help. Type "quit" to quit.' % self.num_guesses)
                 guess = input()
                 if guess == 'quit':
                     self.quit()
@@ -198,8 +198,6 @@ class Bagels:
                     print('  Pico         One digit is correct but in the wrong position.')
                     print('  Fermi        One digit is correct and in the right position.')
                     print('  Bagels       No digit is correct.')
-                elif not self.is_only_digits(guess):
-                    print("Use only digits.")
                 clue = self.get_clues(guess, self.secret_num)
                 self.prev_guesses.append(guess)
                 print(clue)
@@ -209,10 +207,9 @@ class Bagels:
                     break
                 if int(self.num_guesses) > int(self.max_guesses):
                     print('You ran out of guesses. The answer was %s.' % self.secret_num)
-
-            os.remove("Users\\{}\\{}".format(self.username, self.filename))
-            print('Do you want to play again? (yes or no)')
-            if input().lower().startswith('y'):
+            if not self.new_file:
+                os.remove(self.path + self.filename)
+            if input('Do you want to play again? (yes or no)\n').lower().startswith('y'):
                 self.setup()
                 pass
             else:

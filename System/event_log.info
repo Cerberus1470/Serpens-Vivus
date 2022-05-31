@@ -1,731 +1,495 @@
-[11/04/2022 18:07:04] Tejas opened pwoer
-[11/04/2022 18:07:07] Tejas opened power
-[11/04/2022 18:07:07] Tejas logged out and shutdown.
-[11/04/2022 18:07:07] Preparing to shut down...
-[11/04/2022 18:07:08] All apps closed.
-[11/04/2022 18:07:08] Updating user files...
-[11/04/2022 18:07:08] Updating user files...
-[11/04/2022 18:07:08] Updating user files...
-[11/04/2022 18:07:08] Updating user files...
-[11/04/2022 18:07:08] Shutdown complete.
-[11/04/2022 18:07:10] Code 3 returned. Executing task.
-[11/04/2022 18:07:10] System Shutdown. 106.19876265525818 seconds have elapsed.
-[11/04/2022 18:09:32] System Startup.
-[11/04/2022 18:09:32] Reading info from memory...
-[11/04/2022 18:09:32] Decryption complete.
-[11/04/2022 18:09:32] The protected database is finished.
-[11/04/2022 18:09:32] Boot complete.
-[11/04/2022 18:09:35] Tejas logged in.
-[11/04/2022 18:10:28] System Startup.
-[11/04/2022 18:10:28] Reading info from memory...
-[11/04/2022 18:10:28] Decryption complete.
-[11/04/2022 18:10:28] The protected database is finished.
-[11/04/2022 18:10:28] Boot complete.
-[11/04/2022 18:10:30] Preparing to shut down...
-[11/04/2022 18:10:33] The system is now asleep.
-[11/04/2022 18:10:33] System asleep.
-[11/04/2022 18:11:02] Preparing to shut down...
-[11/04/2022 18:11:04] All apps closed.
-[11/04/2022 18:11:04] Updating user files...
-[11/04/2022 18:11:04] Updating user files...
-[11/04/2022 18:11:04] Updating user files...
-[11/04/2022 18:11:04] Updating user files...
-[11/04/2022 18:11:04] Shutdown complete.
-[11/04/2022 18:11:08] System Shutdown. 40.08237886428833 seconds have elapsed.
-[11/04/2022 18:11:08] System Startup.
-[11/04/2022 18:11:08] Reading info from memory...
-[11/04/2022 18:11:08] Decryption complete.
-[11/04/2022 18:11:08] The protected database is finished.
-[11/04/2022 18:11:08] Boot complete.
-[11/04/2022 18:39:42] System Startup.
-[11/04/2022 18:39:42] Reading info from memory...
-[11/04/2022 18:39:42] Decryption complete.
-[11/04/2022 18:39:42] The protected database is finished.
-[11/04/2022 18:39:42] Boot complete.
-[11/04/2022 18:39:58] Tejas logged in.
-[11/04/2022 18:40:00] Tejas opened power
-[11/04/2022 18:40:00] Tejas logged out and shutdown.
-[11/04/2022 18:40:00] Preparing to shut down...
-[11/04/2022 18:40:02] Game progress saved.
-[11/04/2022 18:40:02] Updating user files...
-[11/04/2022 18:40:02] Updating user files...
-[11/04/2022 18:40:02] Updating user files...
-[11/04/2022 18:40:02] Updating user files...
-[11/04/2022 18:40:02] Shutdown complete.
-[11/04/2022 18:40:03] Code 2 returned. Executing task.
-[11/04/2022 18:40:03] System Shutdown. 20.744669198989868 seconds have elapsed.
-[11/04/2022 18:40:45] System Startup.
-[11/04/2022 18:40:45] Reading info from memory...
-[11/04/2022 18:40:45] Decryption complete.
-[11/04/2022 18:40:45] The system encountered a fatal error. Reboot is required. Stacktrace: list index out of range
-[11/04/2022 18:40:56] System Startup.
-[11/04/2022 18:40:56] Reading info from memory...
-[11/04/2022 18:40:56] Decryption complete.
-[11/04/2022 18:42:17] System Startup.
-[11/04/2022 18:42:17] Reading info from memory...
-[11/04/2022 18:42:17] Decryption complete.
-[11/04/2022 18:42:51] System Startup.
-[11/04/2022 18:42:51] Reading info from memory...
-[11/04/2022 18:42:51] Decryption complete.
-[11/04/2022 18:42:57] System Startup.
-[11/04/2022 18:42:57] Reading info from memory...
-[11/04/2022 18:42:57] Decryption complete.
-[11/04/2022 18:42:57] The protected database is finished.
-[11/04/2022 18:42:57] Boot complete.
-[11/04/2022 18:43:05] Tejas logged in.
-[11/04/2022 18:43:09] Tejas opened lock
-[11/04/2022 18:43:09] Tejas logged out.
-[11/04/2022 18:43:09] Code regular returned. Executing task.
-[11/04/2022 18:43:20] Pranav logged in.
-[11/04/2022 18:43:23] Pranav opened lock
-[11/04/2022 18:43:23] Pranav logged out.
-[11/04/2022 18:43:23] Code regular returned. Executing task.
-[11/04/2022 18:43:59] Shanthi logged in.
-[11/04/2022 18:44:14] Shanthi opened user
-[11/04/2022 18:45:19] System Startup.
-[11/04/2022 18:45:19] Reading info from memory...
-[11/04/2022 18:45:19] Decryption complete.
-[11/04/2022 18:45:19] The protected database is finished.
-[11/04/2022 18:45:19] Boot complete.
-[11/04/2022 18:45:25] Tejas logged in.
-[11/04/2022 18:45:28] Tejas opened user
-[11/04/2022 18:45:43] System Startup.
-[11/04/2022 18:45:43] Reading info from memory...
-[11/04/2022 18:45:43] Decryption complete.
-[11/04/2022 18:45:43] The protected database is finished.
-[11/04/2022 18:45:43] Boot complete.
-[11/04/2022 18:45:51] Tejas logged in.
-[11/04/2022 18:45:51] Tejas opened user
-[11/04/2022 18:45:56] Tejas opened user settings
-[11/04/2022 18:46:08] The system encountered a fatal error. Reboot is required. Stacktrace: 'OperatingSystem' object is not iterable
-[11/04/2022 18:47:00] System Startup.
-[11/04/2022 18:47:00] Reading info from memory...
-[11/04/2022 18:47:00] Decryption complete.
-[11/04/2022 18:47:00] The protected database is finished.
-[11/04/2022 18:47:00] Boot complete.
-[11/04/2022 18:47:05] Tejas logged in.
-[11/04/2022 18:47:11] Tejas opened users
-[11/04/2022 18:47:52] Tejas opened user settings
-[11/04/2022 18:51:20] System Startup.
-[11/04/2022 18:51:20] Reading info from memory...
-[11/04/2022 18:51:20] Decryption complete.
-[11/04/2022 18:51:20] The protected database is finished.
-[11/04/2022 18:51:20] Boot complete.
-[11/04/2022 18:51:25] Tejas logged in.
-[11/04/2022 18:51:27] Tejas opened user settings
-[11/04/2022 18:51:37] The system encountered a fatal error. Reboot is required. Stacktrace: 'str' object has no attribute 'username'
-[11/04/2022 18:51:57] System Startup.
-[11/04/2022 18:51:57] Reading info from memory...
-[11/04/2022 18:51:57] Decryption complete.
-[11/04/2022 18:51:57] The protected database is finished.
-[11/04/2022 18:51:57] Boot complete.
-[11/04/2022 18:52:01] Tejas logged in.
-[11/04/2022 18:52:02] Tejas opened user settings
-[11/04/2022 18:53:35] System Startup.
-[11/04/2022 18:53:35] Reading info from memory...
-[11/04/2022 18:53:35] Decryption complete.
-[11/04/2022 18:53:35] The protected database is finished.
-[11/04/2022 18:53:35] Boot complete.
-[11/04/2022 18:53:42] Tejas logged in.
-[11/04/2022 18:53:44] Tejas opened user settings
-[11/04/2022 18:58:26] System Startup.
-[11/04/2022 18:58:26] Reading info from memory...
-[11/04/2022 18:58:26] The system encountered a fatal error. Reboot is required. Stacktrace: list index out of range
-[11/04/2022 18:58:33] System Startup.
-[11/04/2022 18:58:33] Reading info from memory...
-[11/04/2022 18:58:33] The system encountered a fatal error. Reboot is required. Stacktrace: list index out of range
-[11/04/2022 18:58:42] System Startup.
-[11/04/2022 18:58:42] Reading info from memory...
-[11/04/2022 18:58:42] The system encountered a fatal error. Reboot is required. Stacktrace: list index out of range
-[11/04/2022 18:59:24] System Startup.
-[11/04/2022 18:59:24] Reading info from memory...
-[11/04/2022 18:59:24] Decryption complete.
-[11/04/2022 18:59:24] The protected database is finished.
-[11/04/2022 18:59:24] Boot complete.
-[11/04/2022 18:59:27] Tejas logged in.
-[11/04/2022 19:00:46] Tejas opened user settings
-[11/04/2022 19:01:40] The user Bruh was deleted by Tejas
-[11/04/2022 19:06:30] Bruh opened power
-[11/04/2022 19:06:30] Bruh logged out and shutdown.
-[11/04/2022 19:06:30] Preparing to shut down...
-[11/04/2022 19:06:32] All apps closed.
-[11/04/2022 19:06:32] Updating user files...
-[11/04/2022 19:06:32] Updating user files...
-[11/04/2022 19:06:32] Updating user files...
-[11/04/2022 19:06:32] Updating user files...
-[11/04/2022 19:06:32] Updating user files...
-[11/04/2022 19:06:32] Shutdown complete.
-[11/04/2022 19:16:53] System Startup.
-[11/04/2022 19:16:53] Reading info from memory...
-[11/04/2022 19:16:53] Decryption complete.
-[11/04/2022 19:16:53] The protected database is finished.
-[11/04/2022 19:16:53] Boot complete.
-[11/04/2022 19:17:02] Bruh logged in.
-[11/04/2022 19:17:05] Bruh opened user settings
-[11/04/2022 19:17:16] Tejas opened dhilip
-[11/04/2022 19:26:58] System Startup.
-[11/04/2022 19:26:58] Reading info from memory...
-[11/04/2022 19:26:58] Decryption complete.
-[11/04/2022 19:26:58] The protected database is finished.
-[11/04/2022 19:26:58] Boot complete.
-[11/04/2022 19:27:04] Bruh logged in.
-[11/04/2022 19:27:06] Bruh opened user settings
-[11/04/2022 19:27:31] System Startup.
-[11/04/2022 19:27:31] Reading info from memory...
-[11/04/2022 19:27:31] Decryption complete.
-[11/04/2022 19:27:31] The protected database is finished.
-[11/04/2022 19:27:31] Boot complete.
-[11/04/2022 19:27:36] Bruh logged in.
-[11/04/2022 19:27:37] Bruh opened user settings
-[11/04/2022 19:27:52] System Startup.
-[11/04/2022 19:27:52] Reading info from memory...
-[11/04/2022 19:27:52] Decryption complete.
-[11/04/2022 19:27:52] The protected database is finished.
-[11/04/2022 19:27:52] Boot complete.
-[11/04/2022 19:27:55] Bruh logged in.
-[11/04/2022 19:28:01] Bruh opened user settings
-[11/04/2022 19:29:25] System Startup.
-[11/04/2022 19:29:25] Reading info from memory...
-[11/04/2022 19:29:25] Decryption complete.
-[11/04/2022 19:29:25] The protected database is finished.
-[11/04/2022 19:29:25] Boot complete.
-[11/04/2022 19:29:28] Bruh logged in.
-[11/04/2022 19:29:31] Bruh opened user settings
-[11/04/2022 19:29:37] Code regular returned. Executing task.
-[11/04/2022 19:30:09] Tejas logged in.
-[11/04/2022 19:30:12] Tejas opened user settings
-[11/04/2022 19:37:37] System Startup.
-[11/04/2022 19:37:38] Reading info from memory...
-[11/04/2022 19:37:38] Decryption complete.
-[11/04/2022 19:37:38] The protected database is finished.
-[11/04/2022 19:37:38] Boot complete.
-[11/04/2022 19:38:53] System Startup.
-[11/04/2022 19:38:53] Reading info from memory...
-[11/04/2022 19:38:53] Decryption complete.
-[11/04/2022 19:38:53] The protected database is finished.
-[11/04/2022 19:38:53] Boot complete.
-[11/04/2022 19:39:54] Tejas logged in.
-[13/04/2022 11:18:17] System Startup.
-[13/04/2022 11:18:17] Reading info from memory...
-[13/04/2022 11:18:17] Decryption complete.
-[13/04/2022 11:18:17] The protected database is finished.
-[13/04/2022 11:18:17] Boot complete.
-[13/04/2022 11:18:29] Preparing to shut down...
-[13/04/2022 11:18:30] Updating user files...
-[13/04/2022 11:18:30] Updating user files...
-[13/04/2022 11:18:30] Updating user files...
-[13/04/2022 11:18:31] Updating user files...
-[13/04/2022 11:18:31] Updating user files...
-[13/04/2022 11:18:31] Shutdown complete.
-[13/04/2022 11:18:33] System Shutdown. 15.955709218978882 seconds have elapsed.
-[13/04/2022 11:18:39] System Startup.
-[13/04/2022 11:18:39] Reading info from memory...
-[13/04/2022 11:18:39] Decryption complete.
-[13/04/2022 11:18:39] The protected database is finished.
-[13/04/2022 11:18:39] Boot complete.
-[13/04/2022 11:18:47] Preparing to shut down...
-[13/04/2022 11:18:50] Updating user files...
-[13/04/2022 11:18:50] Updating user files...
-[13/04/2022 11:18:50] Updating user files...
-[13/04/2022 11:18:50] Updating user files...
-[13/04/2022 11:18:50] Updating user files...
-[13/04/2022 11:18:50] Shutdown complete.
-[13/04/2022 11:18:54] System Shutdown. 14.462076663970947 seconds have elapsed.
-[13/04/2022 11:18:54] System Startup.
-[13/04/2022 11:18:54] Reading info from memory...
-[13/04/2022 11:18:54] Decryption complete.
-[13/04/2022 11:18:54] The protected database is finished.
-[13/04/2022 11:18:54] Boot complete.
-[13/04/2022 11:19:04] Preparing to shut down...
-[13/04/2022 11:19:06] Updating user files...
-[13/04/2022 11:19:06] Updating user files...
-[13/04/2022 11:19:06] Updating user files...
-[13/04/2022 11:19:06] Updating user files...
-[13/04/2022 11:19:06] Updating user files...
-[13/04/2022 11:19:06] Shutdown complete.
-[13/04/2022 11:19:10] System Shutdown. 30.701775789260864 seconds have elapsed.
-[13/04/2022 11:19:10] System Startup.
-[13/04/2022 11:19:10] Reading info from memory...
-[13/04/2022 11:19:10] Decryption complete.
-[13/04/2022 11:19:10] The protected database is finished.
-[13/04/2022 11:19:10] Boot complete.
-[13/04/2022 11:19:11] Preparing to shut down...
-[13/04/2022 11:19:13] Updating user files...
-[13/04/2022 11:19:13] Updating user files...
-[13/04/2022 11:19:13] Updating user files...
-[13/04/2022 11:19:13] Updating user files...
-[13/04/2022 11:19:13] Updating user files...
-[13/04/2022 11:19:13] Shutdown complete.
-[13/04/2022 11:19:15] System Shutdown. 35.670872926712036 seconds have elapsed.
-[13/04/2022 11:20:09] System Startup.
-[13/04/2022 11:20:09] Reading info from memory...
-[13/04/2022 11:20:09] Decryption complete.
-[13/04/2022 11:20:09] The protected database is finished.
-[13/04/2022 11:20:09] Boot complete.
-[13/04/2022 11:22:47] Tejas logged in.
-[13/04/2022 11:41:32] System Startup.
-[13/04/2022 11:41:32] Reading info from memory...
-[13/04/2022 11:41:32] Decryption complete.
-[13/04/2022 11:41:32] The protected database is finished.
-[13/04/2022 11:41:32] Boot complete.
-[13/04/2022 11:41:35] Tejas logged in.
-[13/04/2022 11:41:36] Tejas opened sonar
-[13/04/2022 11:41:36] The system encountered a fatal error. Reboot is required. Stacktrace: name 'game_info' is not defined
-[13/04/2022 11:41:50] System Startup.
-[13/04/2022 11:41:50] Reading info from memory...
-[13/04/2022 11:41:50] Decryption complete.
-[13/04/2022 11:41:50] The protected database is finished.
-[13/04/2022 11:41:50] Boot complete.
-[13/04/2022 11:41:54] Tejas logged in.
-[13/04/2022 11:41:55] Tejas opened sonar
-[13/04/2022 11:42:36] Tejas opened power
-[13/04/2022 11:42:36] Tejas logged out and shutdown.
-[13/04/2022 11:42:36] Preparing to shut down...
-[13/04/2022 11:42:41] All apps closed.
-[13/04/2022 11:42:41] Updating user files...
-[13/04/2022 11:42:41] Updating user files...
-[13/04/2022 11:42:41] Updating user files...
-[13/04/2022 11:42:41] Updating user files...
-[13/04/2022 11:42:41] Updating user files...
-[13/04/2022 11:42:41] Shutdown complete.
-[13/04/2022 11:42:41] Code 3 returned. Executing task.
-[13/04/2022 11:42:41] System Shutdown. 51.01523184776306 seconds have elapsed.
-[13/04/2022 11:44:07] System Startup.
-[13/04/2022 11:44:07] Reading info from memory...
-[13/04/2022 11:44:07] Decryption complete.
-[13/04/2022 11:44:07] The protected database is finished.
-[13/04/2022 11:44:07] Boot complete.
-[13/04/2022 11:44:09] Tejas logged in.
-[13/04/2022 11:44:10] Tejas opened sonar
-[13/04/2022 11:44:36] System Startup.
-[13/04/2022 11:44:36] Reading info from memory...
-[13/04/2022 11:44:36] Decryption complete.
-[13/04/2022 11:44:36] The protected database is finished.
-[13/04/2022 11:44:36] Boot complete.
-[13/04/2022 11:44:38] Tejas logged in.
-[13/04/2022 11:44:39] Tejas opened sonar
-[13/04/2022 11:45:58] System Startup.
-[13/04/2022 11:45:58] Reading info from memory...
-[13/04/2022 11:45:58] Decryption complete.
-[13/04/2022 11:45:58] The protected database is finished.
-[13/04/2022 11:45:58] Boot complete.
-[13/04/2022 11:46:03] Tejas logged in.
-[13/04/2022 11:46:04] Tejas opened sonar
-[13/04/2022 11:46:10] The system encountered a fatal error. Reboot is required. Stacktrace: not enough values to unpack (expected 2, got 1)
-[13/04/2022 11:46:16] System Startup.
-[13/04/2022 11:46:16] Reading info from memory...
-[13/04/2022 11:46:16] Decryption complete.
-[13/04/2022 11:46:16] The protected database is finished.
-[13/04/2022 11:46:16] Boot complete.
-[13/04/2022 11:46:18] Tejas logged in.
-[13/04/2022 11:46:20] Tejas opened sonar
-[13/04/2022 11:47:33] System Startup.
-[13/04/2022 11:47:33] Reading info from memory...
-[13/04/2022 11:47:33] Decryption complete.
-[13/04/2022 11:47:33] The protected database is finished.
-[13/04/2022 11:47:33] Boot complete.
-[13/04/2022 11:47:41] Tejas logged in.
-[13/04/2022 11:47:42] Tejas opened sonar
-[13/04/2022 11:48:05] System Startup.
-[13/04/2022 11:48:05] Reading info from memory...
-[13/04/2022 11:48:05] Decryption complete.
-[13/04/2022 11:48:05] The protected database is finished.
-[13/04/2022 11:48:05] Boot complete.
-[13/04/2022 11:48:09] Tejas logged in.
-[13/04/2022 11:48:09] Tejas opened sonar
-[13/04/2022 11:49:04] The system encountered a fatal error. Reboot is required. Stacktrace: substring not found
-[13/04/2022 11:49:07] System Startup.
-[13/04/2022 11:49:07] Reading info from memory...
-[13/04/2022 11:49:07] Decryption complete.
-[13/04/2022 11:49:07] The protected database is finished.
-[13/04/2022 11:49:07] Boot complete.
-[13/04/2022 11:49:10] Tejas logged in.
-[13/04/2022 11:49:11] Tejas opened sonar
-[13/04/2022 11:51:33] System Startup.
-[13/04/2022 11:51:33] Reading info from memory...
-[13/04/2022 11:51:33] Decryption complete.
-[13/04/2022 11:51:33] The protected database is finished.
-[13/04/2022 11:51:33] Boot complete.
-[13/04/2022 11:51:40] Tejas logged in.
-[13/04/2022 11:51:40] Tejas opened sonar
-[15/04/2022 08:42:23] System Startup.
-[15/04/2022 08:42:23] Reading info from memory...
-[15/04/2022 08:42:23] Decryption complete.
-[15/04/2022 08:42:23] The protected database is finished.
-[15/04/2022 08:42:23] Boot complete.
-[15/04/2022 08:42:51] Tejas logged in.
-[15/04/2022 08:42:53] Tejas opened sonar
-[15/04/2022 08:43:27] Tejas opened power
-[15/04/2022 08:43:27] Tejas logged out and shutdown.
-[15/04/2022 08:43:27] Preparing to shut down...
-[15/04/2022 08:43:30] Game progress saved.
-[15/04/2022 08:43:30] Updating user files...
-[15/04/2022 08:43:30] Updating user files...
-[15/04/2022 08:43:30] Updating user files...
-[15/04/2022 08:43:30] Updating user files...
-[15/04/2022 08:43:30] Updating user files...
-[15/04/2022 08:43:30] Shutdown complete.
-[15/04/2022 08:43:31] Code 2 returned. Executing task.
-[15/04/2022 08:43:31] System Shutdown. 68.1579978466034 seconds have elapsed.
-[15/04/2022 08:45:16] System Startup.
-[15/04/2022 08:45:16] Reading info from memory...
-[15/04/2022 08:45:16] Decryption complete.
-[15/04/2022 08:45:16] The protected database is finished.
-[15/04/2022 08:45:16] Boot complete.
-[15/04/2022 08:45:37] System Startup.
-[15/04/2022 08:45:37] Reading info from memory...
-[15/04/2022 08:45:37] Decryption complete.
-[15/04/2022 08:45:37] The protected database is finished.
-[15/04/2022 08:45:37] Boot complete.
-[15/04/2022 08:45:40] Tejas logged in.
-[15/04/2022 08:45:41] Tejas opened sonar
-[15/04/2022 08:46:40] Tejas opened power
-[15/04/2022 08:46:40] Tejas logged out and shutdown.
-[15/04/2022 08:46:40] Preparing to shut down...
-[15/04/2022 08:46:45] The system is now asleep.
-[15/04/2022 08:46:45] Code 1 returned. Executing task.
-[15/04/2022 08:46:48] Tejas logged in.
-[15/04/2022 08:46:52] Tejas opened sonar
-[15/04/2022 08:51:30] System Startup.
-[15/04/2022 08:51:30] Reading info from memory...
-[15/04/2022 08:51:30] Decryption complete.
-[15/04/2022 08:51:30] The protected database is finished.
-[15/04/2022 08:51:30] Boot complete.
-[15/04/2022 08:51:33] System Startup.
-[15/04/2022 08:51:33] Reading info from memory...
-[15/04/2022 08:51:33] Decryption complete.
-[15/04/2022 08:51:33] The protected database is finished.
-[15/04/2022 08:51:33] Boot complete.
-[15/04/2022 08:51:37] Tejas logged in.
-[15/04/2022 08:51:39] Tejas opened sonar
-[15/04/2022 08:52:08] System Startup.
-[15/04/2022 08:52:08] Reading info from memory...
-[15/04/2022 08:52:08] Decryption complete.
-[15/04/2022 08:52:08] The protected database is finished.
-[15/04/2022 08:52:08] Boot complete.
-[15/04/2022 08:52:11] Tejas logged in.
-[15/04/2022 08:52:13] Tejas opened sonar
-[15/04/2022 08:53:32] System Startup.
-[15/04/2022 08:53:32] Reading info from memory...
-[15/04/2022 08:53:32] Decryption complete.
-[15/04/2022 08:53:32] The protected database is finished.
-[15/04/2022 08:53:32] Boot complete.
-[15/04/2022 08:53:35] Tejas logged in.
-[15/04/2022 08:53:36] Tejas opened sonar
-[15/04/2022 08:53:42] The system encountered a fatal error. Reboot is required. Stacktrace: '>' not supported between instances of 'str' and 'int'
-[15/04/2022 08:54:25] System Startup.
-[15/04/2022 08:54:25] Reading info from memory...
-[15/04/2022 08:54:25] Decryption complete.
-[15/04/2022 08:54:25] The protected database is finished.
-[15/04/2022 08:54:25] Boot complete.
-[15/04/2022 08:54:29] Tejas logged in.
-[15/04/2022 08:54:29] Tejas opened sonar
-[15/04/2022 08:54:56] System Startup.
-[15/04/2022 08:54:56] Reading info from memory...
-[15/04/2022 08:54:56] Decryption complete.
-[15/04/2022 08:54:56] The protected database is finished.
-[15/04/2022 08:54:56] Boot complete.
-[15/04/2022 08:54:58] Tejas logged in.
-[15/04/2022 08:54:59] Tejas opened sonar
-[15/04/2022 08:57:08] Tejas opened sonar
-[15/04/2022 08:59:52] System Startup.
-[15/04/2022 08:59:52] Reading info from memory...
-[15/04/2022 08:59:52] Decryption complete.
-[15/04/2022 08:59:52] The protected database is finished.
-[15/04/2022 08:59:52] Boot complete.
-[15/04/2022 08:59:56] Tejas logged in.
-[15/04/2022 08:59:56] Tejas opened sonar
-[15/04/2022 09:00:38] Tejas opened sonar
-[15/04/2022 09:01:29] System Startup.
-[15/04/2022 09:01:29] Reading info from memory...
-[15/04/2022 09:01:29] Decryption complete.
-[15/04/2022 09:01:29] The protected database is finished.
-[15/04/2022 09:01:29] Boot complete.
-[15/04/2022 09:01:31] Tejas logged in.
-[15/04/2022 09:01:32] Tejas opened sonar
-[15/04/2022 09:02:41] System Startup.
-[15/04/2022 09:02:41] Reading info from memory...
-[15/04/2022 09:02:41] Decryption complete.
-[15/04/2022 09:02:41] The protected database is finished.
-[15/04/2022 09:02:41] Boot complete.
-[15/04/2022 09:02:44] Tejas logged in.
-[15/04/2022 09:02:50] Tejas opened sonar
-[15/04/2022 09:03:46] Tejas opened sonar
-[15/04/2022 09:04:48] The system encountered a fatal error. Reboot is required. Stacktrace: too many values to unpack (expected 2)
-[15/04/2022 09:05:44] System Startup.
-[15/04/2022 09:05:44] Reading info from memory...
-[15/04/2022 09:05:44] Decryption complete.
-[15/04/2022 09:05:44] The protected database is finished.
-[15/04/2022 09:05:44] Boot complete.
-[15/04/2022 09:05:49] Tejas logged in.
-[15/04/2022 09:05:49] Tejas opened sonar
-[15/04/2022 09:07:12] System Startup.
-[15/04/2022 09:07:12] Reading info from memory...
-[15/04/2022 09:07:12] Decryption complete.
-[15/04/2022 09:07:12] The protected database is finished.
-[15/04/2022 09:07:12] Boot complete.
-[15/04/2022 09:07:15] Tejas logged in.
-[15/04/2022 09:07:15] Tejas opened sonar
-[15/04/2022 09:07:25] The system encountered a fatal error. Reboot is required. Stacktrace: list index out of range
-[15/04/2022 09:07:30] System Shutdown. 17.890151023864746 seconds have elapsed.
-[15/04/2022 09:07:30] System Startup.
-[15/04/2022 09:07:30] Reading info from memory...
-[15/04/2022 09:07:30] Decryption complete.
-[15/04/2022 09:07:30] The protected database is finished.
-[15/04/2022 09:07:30] Boot complete.
-[15/04/2022 09:07:34] Tejas logged in.
-[15/04/2022 09:07:34] Tejas opened sonar
-[15/04/2022 09:09:49] System Startup.
-[15/04/2022 09:09:49] Reading info from memory...
-[15/04/2022 09:09:49] Decryption complete.
-[15/04/2022 09:09:49] The protected database is finished.
-[15/04/2022 09:09:49] Boot complete.
-[15/04/2022 09:09:52] Tejas logged in.
-[15/04/2022 09:09:53] Tejas opened sonar
-[15/04/2022 09:10:23] System Startup.
-[15/04/2022 09:10:23] Reading info from memory...
-[15/04/2022 09:10:23] Decryption complete.
-[15/04/2022 09:10:23] The protected database is finished.
-[15/04/2022 09:10:23] Boot complete.
-[15/04/2022 09:10:26] Tejas logged in.
-[15/04/2022 09:10:27] Tejas opened sonar
-[15/04/2022 09:11:28] Tejas opened sonar
-[15/04/2022 09:19:16] System Startup.
-[15/04/2022 09:19:16] Reading info from memory...
-[15/04/2022 09:19:16] Decryption complete.
-[15/04/2022 09:19:16] The protected database is finished.
-[15/04/2022 09:19:16] Boot complete.
-[15/04/2022 09:19:19] Tejas logged in.
-[15/04/2022 09:19:19] Tejas opened sonar
-[15/04/2022 09:19:42] System Startup.
-[15/04/2022 09:19:42] Reading info from memory...
-[15/04/2022 09:19:42] Decryption complete.
-[15/04/2022 09:19:42] The protected database is finished.
-[15/04/2022 09:19:42] Boot complete.
-[15/04/2022 09:19:45] Tejas logged in.
-[15/04/2022 09:19:47] Tejas opened sonar
-[15/04/2022 09:20:35] System Startup.
-[15/04/2022 09:20:35] Reading info from memory...
-[15/04/2022 09:20:35] Decryption complete.
-[15/04/2022 09:20:35] The protected database is finished.
-[15/04/2022 09:20:35] Boot complete.
-[15/04/2022 09:20:40] Tejas logged in.
-[15/04/2022 09:20:41] Tejas opened sonar
-[15/04/2022 09:22:40] System Startup.
-[15/04/2022 09:22:40] Reading info from memory...
-[15/04/2022 09:22:40] Decryption complete.
-[15/04/2022 09:22:40] The protected database is finished.
-[15/04/2022 09:22:40] Boot complete.
-[15/04/2022 09:22:42] Tejas logged in.
-[15/04/2022 09:22:43] Tejas opened sonar
-[15/04/2022 09:23:28] System Startup.
-[15/04/2022 09:23:28] Reading info from memory...
-[15/04/2022 09:23:28] Decryption complete.
-[15/04/2022 09:23:28] The protected database is finished.
-[15/04/2022 09:23:28] Boot complete.
-[15/04/2022 09:23:31] Tejas logged in.
-[15/04/2022 09:23:31] Tejas opened sonar
-[15/04/2022 09:23:51] System Startup.
-[15/04/2022 09:23:51] Reading info from memory...
-[15/04/2022 09:23:51] Decryption complete.
-[15/04/2022 09:23:51] The protected database is finished.
-[15/04/2022 09:23:51] Boot complete.
-[15/04/2022 09:23:53] Tejas logged in.
-[15/04/2022 09:23:54] Tejas opened sonar
-[18/04/2022 09:12:52] System Startup.
-[18/04/2022 09:12:52] Reading info from memory...
-[18/04/2022 09:12:52] Decryption complete.
-[18/04/2022 09:12:52] The protected database is finished.
-[18/04/2022 09:12:52] Boot complete.
-[18/04/2022 09:13:02] Tejas logged in.
-[18/04/2022 09:13:03] Tejas opened sonar
-[18/04/2022 09:17:03] System Startup.
-[18/04/2022 09:17:03] Reading info from memory...
-[18/04/2022 09:17:03] Decryption complete.
-[18/04/2022 09:17:03] The protected database is finished.
-[18/04/2022 09:17:03] Boot complete.
-[18/04/2022 09:17:05] Tejas logged in.
-[18/04/2022 09:17:06] Tejas opened sonar
-[18/04/2022 09:17:29] System Startup.
-[18/04/2022 09:17:29] Reading info from memory...
-[18/04/2022 09:17:29] Decryption complete.
-[18/04/2022 09:17:29] The protected database is finished.
-[18/04/2022 09:17:29] Boot complete.
-[18/04/2022 09:17:33] Tejas logged in.
-[18/04/2022 09:17:34] Tejas opened sonar
-[18/04/2022 09:18:26] System Startup.
-[18/04/2022 09:18:26] Reading info from memory...
-[18/04/2022 09:18:26] Decryption complete.
-[18/04/2022 09:18:26] The protected database is finished.
-[18/04/2022 09:18:26] Boot complete.
-[18/04/2022 09:18:29] Tejas logged in.
-[18/04/2022 09:18:30] Tejas opened sonar
-[18/04/2022 09:19:26] The system encountered a fatal error. Reboot is required. Stacktrace: 'str' object does not support item assignment
-[18/04/2022 09:19:40] System Startup.
-[18/04/2022 09:19:40] Reading info from memory...
-[18/04/2022 09:19:40] Decryption complete.
-[18/04/2022 09:19:40] The protected database is finished.
-[18/04/2022 09:19:40] Boot complete.
-[18/04/2022 09:19:43] Tejas logged in.
-[18/04/2022 09:19:43] Tejas opened sonar
-[18/04/2022 09:20:37] System Startup.
-[18/04/2022 09:20:37] Reading info from memory...
-[18/04/2022 09:20:37] Decryption complete.
-[18/04/2022 09:20:37] The protected database is finished.
-[18/04/2022 09:20:37] Boot complete.
-[18/04/2022 09:20:40] Tejas logged in.
-[18/04/2022 09:20:40] Tejas opened sonar
-[18/04/2022 09:23:14] System Startup.
-[18/04/2022 09:23:14] Reading info from memory...
-[18/04/2022 09:23:14] Decryption complete.
-[18/04/2022 09:23:14] The protected database is finished.
-[18/04/2022 09:23:14] Boot complete.
-[18/04/2022 09:23:17] Tejas logged in.
-[18/04/2022 09:23:17] Tejas opened sonar
-[18/04/2022 09:24:22] System Startup.
-[18/04/2022 09:24:22] Reading info from memory...
-[18/04/2022 09:24:22] Decryption complete.
-[18/04/2022 09:24:22] The protected database is finished.
-[18/04/2022 09:24:22] Boot complete.
-[18/04/2022 09:24:26] Tejas logged in.
-[18/04/2022 09:24:26] Tejas opened sonar
-[20/04/2022 08:20:47] System Startup.
-[20/04/2022 08:20:47] Reading info from memory...
-[20/04/2022 08:20:47] Decryption complete.
-[20/04/2022 08:20:47] The protected database is finished.
-[20/04/2022 08:20:47] Boot complete.
-[20/04/2022 08:20:51] Tejas logged in.
-[20/04/2022 08:20:52] Tejas opened sonar
-[20/04/2022 08:22:38] System Startup.
-[20/04/2022 08:22:38] Reading info from memory...
-[20/04/2022 08:22:38] Decryption complete.
-[20/04/2022 08:22:38] The protected database is finished.
-[20/04/2022 08:22:38] Boot complete.
-[20/04/2022 08:22:41] Tejas logged in.
-[20/04/2022 08:22:42] Tejas opened sonar
-[20/04/2022 08:25:03] Tejas opened power
-[20/04/2022 08:25:03] Tejas logged out and shutdown.
-[20/04/2022 08:25:03] Preparing to shut down...
-[20/04/2022 08:25:07] All apps closed.
-[20/04/2022 08:25:07] Updating user files...
-[20/04/2022 08:25:07] Updating user files...
-[20/04/2022 08:25:07] Updating user files...
-[20/04/2022 08:25:07] Updating user files...
-[20/04/2022 08:25:07] Updating user files...
-[20/04/2022 08:25:07] Shutdown complete.
-[20/04/2022 10:21:30] System Startup.
-[20/04/2022 10:21:30] Reading info from memory...
-[20/04/2022 10:21:30] Decryption complete.
-[20/04/2022 10:21:30] The protected database is finished.
-[20/04/2022 10:21:30] Boot complete.
-[20/04/2022 10:21:36] Tejas logged in.
-[20/04/2022 10:21:36] Tejas opened sonar
-[20/04/2022 10:24:08] System Startup.
-[20/04/2022 10:24:08] Reading info from memory...
-[20/04/2022 10:24:08] Decryption complete.
-[20/04/2022 10:24:08] The protected database is finished.
-[20/04/2022 10:24:08] Boot complete.
-[20/04/2022 10:24:11] Tejas logged in.
-[20/04/2022 10:24:12] Tejas opened sonar
-[20/04/2022 10:24:36] System Startup.
-[20/04/2022 10:24:36] Reading info from memory...
-[20/04/2022 10:24:36] Decryption complete.
-[20/04/2022 10:24:36] The protected database is finished.
-[20/04/2022 10:24:36] Boot complete.
-[20/04/2022 10:24:39] Tejas logged in.
-[20/04/2022 10:24:39] Tejas opened sonar
-[20/04/2022 10:25:43] System Startup.
-[20/04/2022 10:25:43] Reading info from memory...
-[20/04/2022 10:25:43] Decryption complete.
-[20/04/2022 10:25:43] The protected database is finished.
-[20/04/2022 10:25:43] Boot complete.
-[20/04/2022 10:25:46] Tejas logged in.
-[20/04/2022 10:25:46] Tejas opened sonar
-[20/04/2022 10:27:29] Tejas opened sonar
-[21/04/2022 12:33:33] System Startup.
-[21/04/2022 12:33:34] Reading info from memory...
-[21/04/2022 12:33:34] Decryption complete.
-[21/04/2022 12:33:34] The protected database is finished.
-[21/04/2022 12:33:34] Boot complete.
-[21/04/2022 12:33:39] System Startup.
-[21/04/2022 12:33:39] Reading info from memory...
-[21/04/2022 12:33:39] Decryption complete.
-[21/04/2022 12:33:39] The protected database is finished.
-[21/04/2022 12:33:39] Boot complete.
-[21/04/2022 12:33:43] Tejas logged in.
-[21/04/2022 12:33:43] Tejas opened sonar
-[22/04/2022 09:07:12] System Startup.
-[22/04/2022 09:07:12] Reading info from memory...
-[22/04/2022 09:07:12] Decryption complete.
-[22/04/2022 09:07:12] The protected database is finished.
-[22/04/2022 09:07:12] Boot complete.
-[22/04/2022 09:21:40] System Startup.
-[22/04/2022 09:21:40] Reading info from memory...
-[22/04/2022 09:21:40] Decryption complete.
-[22/04/2022 09:21:40] The protected database is finished.
-[22/04/2022 09:21:40] Boot complete.
-[22/04/2022 09:21:43] Tejas logged in.
-[22/04/2022 09:21:45] Tejas opened bagels
-[22/04/2022 09:22:42] Tejas opened tictactoe
-[22/04/2022 20:10:10] System Startup.
-[22/04/2022 20:10:10] Reading info from memory...
-[22/04/2022 20:10:10] Decryption complete.
-[22/04/2022 20:10:10] The protected database is finished.
-[22/04/2022 20:10:10] Boot complete.
-[22/04/2022 20:10:36] System Startup.
-[22/04/2022 20:10:36] Reading info from memory...
-[22/04/2022 20:10:36] Decryption complete.
-[22/04/2022 20:10:36] The protected database is finished.
-[22/04/2022 20:10:36] Boot complete.
-[22/04/2022 20:10:40] Tejas logged in.
-[22/04/2022 20:10:41] Tejas opened bagels
-[22/04/2022 20:11:56] Tejas opened power
-[22/04/2022 20:11:56] Tejas logged out and shutdown.
-[22/04/2022 20:11:56] Preparing to shut down...
-[22/04/2022 20:11:57] All apps closed.
-[22/04/2022 20:11:57] Updating user files...
-[22/04/2022 20:11:57] Updating user files...
-[22/04/2022 20:11:57] Updating user files...
-[22/04/2022 20:11:57] Updating user files...
-[22/04/2022 20:11:57] Updating user files...
-[22/04/2022 20:11:57] Shutdown complete.
-[22/04/2022 20:11:58] Code 3 returned. Executing task.
-[22/04/2022 20:11:58] System Shutdown. 81.78920078277588 seconds have elapsed.
-[22/04/2022 20:15:23] System Startup.
-[22/04/2022 20:15:23] Reading info from memory...
-[22/04/2022 20:15:23] Decryption complete.
-[22/04/2022 20:15:23] The protected database is finished.
-[22/04/2022 20:15:23] Boot complete.
-[22/04/2022 20:15:26] Tejas logged in.
-[22/04/2022 20:15:27] Tejas opened bagels
-[22/04/2022 20:15:46] Tejas opened power
-[22/04/2022 20:15:46] Tejas logged out and shutdown.
-[22/04/2022 20:15:46] Preparing to shut down...
-[22/04/2022 20:16:28] All apps closed.
-[22/04/2022 20:16:28] Updating user files...
-[22/04/2022 20:16:28] Updating user files...
-[22/04/2022 20:16:28] Updating user files...
-[22/04/2022 20:16:28] Updating user files...
-[22/04/2022 20:16:28] Updating user files...
-[22/04/2022 20:16:28] Shutdown complete.
-[22/04/2022 20:16:30] Code 3 returned. Executing task.
-[22/04/2022 20:16:30] System Shutdown. 67.43827939033508 seconds have elapsed.
-[22/04/2022 20:16:32] System Startup.
-[22/04/2022 20:16:32] Reading info from memory...
-[22/04/2022 20:16:32] Decryption complete.
-[22/04/2022 20:16:32] The protected database is finished.
-[22/04/2022 20:16:32] Boot complete.
-[22/04/2022 20:16:34] Tejas logged in.
-[22/04/2022 20:16:35] Tejas opened bagels
-[22/04/2022 20:16:48] Tejas opened shutdown
-[22/04/2022 20:16:48] Tejas logged out and shutdown.
-[22/04/2022 20:16:48] Preparing to shut down...
-[22/04/2022 20:17:08] All apps closed.
-[22/04/2022 20:17:08] Updating user files...
-[22/04/2022 20:17:08] Updating user files...
-[22/04/2022 20:17:08] Updating user files...
-[22/04/2022 20:17:08] Updating user files...
-[22/04/2022 20:17:08] Updating user files...
-[22/04/2022 20:17:08] Shutdown complete.
-[22/04/2022 20:17:11] Code 3 returned. Executing task.
-[22/04/2022 20:17:11] System Shutdown. 38.71036958694458 seconds have elapsed.
+[24/05/2022 09:02:51] System reset.
+[24/05/2022 09:02:53] Code 4 returned. Executing task.
+[24/05/2022 09:02:57] System Shutdown. 30.773967266082764 seconds have elapsed.
+[24/05/2022 09:02:57] System Startup.
+[24/05/2022 09:02:57] Reading info from memory...
+[24/05/2022 09:02:57] Decryption complete.
+[24/05/2022 09:02:57] The protected database is finished.
+[24/05/2022 09:02:57] Boot complete.
+[24/05/2022 09:02:57] The system has entered SETUP.
+[24/05/2022 09:03:16] SETUP is complete. New user has been added. Entering startup.
+[25/05/2022 09:17:06] System Startup.
+[25/05/2022 09:17:06] Reading info from memory...
+[25/05/2022 09:17:06] The system encountered a fatal error. Reboot is required. Stacktrace: list index out of range
+[25/05/2022 09:20:03] System Startup.
+[25/05/2022 09:20:03] Reading info from memory...
+[25/05/2022 09:20:03] Decryption complete.
+[25/05/2022 09:20:03] The protected database is finished.
+[25/05/2022 09:20:03] Boot complete.
+[25/05/2022 09:20:03] The system has entered SETUP.
+[25/05/2022 09:20:12] SETUP is complete. New user has been added. Entering startup.
+[25/05/2022 09:20:26] Preparing to shut down...
+[25/05/2022 09:20:28] The system encountered a fatal error. Reboot is required. Stacktrace: I am an administrator user named Tejas
+Administrator		
+[25/05/2022 09:31:37] System Startup.
+[25/05/2022 09:31:37] Reading info from memory...
+[25/05/2022 09:31:37] The system encountered a fatal error. Reboot is required. Stacktrace: list index out of range
+[25/05/2022 09:34:35] System Startup.
+[25/05/2022 09:34:35] Reading info from memory...
+[25/05/2022 09:34:35] The system encountered a fatal error. Reboot is required. Stacktrace: list index out of range
+[25/05/2022 09:34:40] System Startup.
+[25/05/2022 09:34:40] Reading info from memory...
+[25/05/2022 09:34:40] The system encountered a fatal error. Reboot is required. Stacktrace: list index out of range
+[25/05/2022 09:42:52] System Startup.
+[25/05/2022 09:42:52] Reading info from memory...
+[25/05/2022 09:42:52] The system encountered a fatal error. Reboot is required. Stacktrace: list index out of range
+[25/05/2022 09:43:14] System Startup.
+[25/05/2022 09:43:14] Reading info from memory...
+[25/05/2022 09:43:14] Decryption complete.
+[25/05/2022 09:43:14] The protected database is finished.
+[25/05/2022 09:43:14] Boot complete.
+[25/05/2022 09:45:33] System Startup.
+[25/05/2022 09:45:33] Reading info from memory...
+[25/05/2022 09:45:33] Decryption complete.
+[25/05/2022 09:45:33] The protected database is finished.
+[25/05/2022 09:45:33] Boot complete.
+[25/05/2022 09:45:37] tejas logged in.
+[25/05/2022 09:45:39] tejas opened user settings
+[25/05/2022 09:46:03] The system encountered a fatal error. Reboot is required. Stacktrace: can only concatenate str (not "Administrator") to str
+[25/05/2022 09:52:09] System Startup.
+[25/05/2022 09:52:09] Reading info from memory...
+[25/05/2022 09:52:09] Decryption complete.
+[25/05/2022 09:52:09] The protected database is finished.
+[25/05/2022 09:52:09] Boot complete.
+[25/05/2022 09:52:11] tejas logged in.
+[25/05/2022 09:52:14] tejas opened user settings
+[25/05/2022 09:52:41] System Startup.
+[25/05/2022 09:52:41] Reading info from memory...
+[25/05/2022 09:52:41] Decryption complete.
+[25/05/2022 09:52:41] The protected database is finished.
+[25/05/2022 09:52:41] Boot complete.
+[25/05/2022 09:52:47] tejas logged in.
+[25/05/2022 09:52:48] tejas opened user settings
+[25/05/2022 09:54:42] System Startup.
+[25/05/2022 09:54:42] Reading info from memory...
+[25/05/2022 09:54:42] Decryption complete.
+[25/05/2022 09:54:42] The protected database is finished.
+[25/05/2022 09:54:42] Boot complete.
+[25/05/2022 09:54:51] tejas logged in.
+[25/05/2022 09:54:56] tejas opened user settings
+[25/05/2022 09:56:26] System Startup.
+[25/05/2022 09:56:26] Reading info from memory...
+[25/05/2022 09:56:26] The system encountered a fatal error. Reboot is required. Stacktrace: list index out of range
+[25/05/2022 10:03:17] System Startup.
+[25/05/2022 10:03:17] Reading info from memory...
+[25/05/2022 10:03:17] The system encountered a fatal error. Reboot is required. Stacktrace: list index out of range
+[25/05/2022 10:03:27] System Startup.
+[25/05/2022 10:03:27] Reading info from memory...
+[25/05/2022 10:03:27] Decryption complete.
+[25/05/2022 10:03:27] The protected database is finished.
+[25/05/2022 10:03:27] Boot complete.
+[25/05/2022 10:03:32] Tejas Dhilip logged in.
+[25/05/2022 10:03:35] Tejas Dhilip opened user settings
+[25/05/2022 10:05:04] The system encountered a fatal error. Reboot is required. Stacktrace: [WinError 5] Access is denied: 'Users\\Tejas Dhilip' -> 'Users\\Tejas'
+[25/05/2022 10:05:29] System Shutdown. 542.3059825897217 seconds have elapsed.
+[25/05/2022 10:29:26] System Startup.
+[25/05/2022 10:29:26] Reading info from memory...
+[25/05/2022 10:29:26] Decryption complete.
+[25/05/2022 10:29:26] The protected database is finished.
+[25/05/2022 10:29:26] Boot complete.
+[25/05/2022 10:29:26] The system encountered a fatal error. Reboot is required. Stacktrace: 'OperatingSystem' object has no attribute 'current_user'
+[26/05/2022 16:15:59] System Startup.
+[26/05/2022 16:15:59] Reading info from memory...
+[26/05/2022 16:15:59] Decryption complete.
+[26/05/2022 16:15:59] The system encountered a fatal error. Reboot is required. Stacktrace: Administrator.__init__() missing 1 required positional argument: 'saved_state'
+[26/05/2022 16:17:39] System Startup.
+[26/05/2022 16:17:39] Reading info from memory...
+[26/05/2022 16:17:39] Decryption complete.
+[26/05/2022 16:17:39] The protected database is finished.
+[26/05/2022 16:17:39] Boot complete.
+[26/05/2022 16:26:08] Reading info from memory...
+[26/05/2022 16:26:08] Decryption complete.
+[26/05/2022 16:26:08] The protected database is finished.
+[26/05/2022 16:26:08] Boot complete.
+[26/05/2022 19:02:16] System Startup.
+[26/05/2022 19:02:16] Reading info from memory...
+[26/05/2022 19:02:16] Decryption complete.
+[26/05/2022 19:02:16] The system encountered a fatal error. Reboot is required. Stacktrace: 'NoneType' object is not subscriptable
+[26/05/2022 19:02:59] Reading info from memory...
+[26/05/2022 19:02:59] Decryption complete.
+[26/05/2022 19:03:14] System Startup.
+[26/05/2022 19:03:14] Reading info from memory...
+[26/05/2022 19:03:14] Decryption complete.
+[26/05/2022 19:03:35] System Startup.
+[26/05/2022 19:03:35] Reading info from memory...
+[26/05/2022 19:03:35] Decryption complete.
+[26/05/2022 19:03:47] System Startup.
+[26/05/2022 19:03:47] Reading info from memory...
+[26/05/2022 19:03:47] Decryption complete.
+[26/05/2022 19:03:47] The protected database is finished.
+[26/05/2022 19:03:47] Boot complete.
+[26/05/2022 19:03:59] Preparing to shut down...
+[26/05/2022 19:04:01] The system encountered a fatal error. Reboot is required. Stacktrace: I am an administrator user named Bruh
+[26/05/2022 19:05:09] System Startup.
+[26/05/2022 19:05:09] Reading info from memory...
+[26/05/2022 19:05:09] Decryption complete.
+[26/05/2022 19:05:09] The protected database is finished.
+[26/05/2022 19:05:09] Boot complete.
+[26/05/2022 19:05:12] Preparing to shut down...
+[26/05/2022 19:05:31] Updating user files...
+[26/05/2022 19:05:31] The system encountered a fatal error. Reboot is required. Stacktrace: unsupported operand type(s) for +: 'dict' and 'str'
+[26/05/2022 19:05:58] System Startup.
+[26/05/2022 19:05:58] Reading info from memory...
+[26/05/2022 19:05:58] The system encountered a fatal error. Reboot is required. Stacktrace: list index out of range
+[26/05/2022 19:06:24] System Startup.
+[26/05/2022 19:06:24] Reading info from memory...
+[26/05/2022 19:06:24] Decryption complete.
+[26/05/2022 19:06:24] The protected database is finished.
+[26/05/2022 19:06:24] Boot complete.
+[26/05/2022 19:06:24] The system has entered SETUP.
+[26/05/2022 19:06:37] SETUP is complete. New user has been added. Entering startup.
+[26/05/2022 19:06:40] Preparing to shut down...
+[26/05/2022 19:08:22] System Startup.
+[26/05/2022 19:08:22] Reading info from memory...
+[26/05/2022 19:08:22] The system encountered a fatal error. Reboot is required. Stacktrace: list index out of range
+[26/05/2022 19:08:50] System Startup.
+[26/05/2022 19:08:50] Reading info from memory...
+[26/05/2022 19:08:50] Decryption complete.
+[26/05/2022 19:08:50] The protected database is finished.
+[26/05/2022 19:08:50] Boot complete.
+[26/05/2022 19:08:50] The system has entered SETUP.
+[26/05/2022 19:08:52] System Startup.
+[26/05/2022 19:08:52] Reading info from memory...
+[26/05/2022 19:08:52] Decryption complete.
+[26/05/2022 19:08:52] The protected database is finished.
+[26/05/2022 19:08:52] Boot complete.
+[26/05/2022 19:08:52] The system has entered SETUP.
+[26/05/2022 19:08:52] The system encountered a fatal error. Reboot is required. Stacktrace: [WinError 183] Cannot create a file when that file already exists: 'Users'
+[26/05/2022 19:10:30] System Startup.
+[26/05/2022 19:10:30] Reading info from memory...
+[26/05/2022 19:10:30] Decryption complete.
+[26/05/2022 19:10:30] The protected database is finished.
+[26/05/2022 19:10:30] Boot complete.
+[26/05/2022 19:10:30] The system has entered SETUP.
+[26/05/2022 19:10:42] SETUP is complete. New user has been added. Entering startup.
+[26/05/2022 19:10:42] Preparing to shut down...
+[26/05/2022 19:11:15] Updating user files...
+[26/05/2022 19:11:46] Shutdown complete.
+[26/05/2022 19:11:50] System Shutdown. 79.26999163627625 seconds have elapsed.
+[26/05/2022 19:38:44] System Startup.
+[26/05/2022 19:56:11] System Startup.
+[26/05/2022 20:09:35] System Startup.
+[27/05/2022 09:55:47] System Startup.
+[27/05/2022 09:56:30] System Startup.
+[27/05/2022 09:56:30] Reading info from memory...
+[27/05/2022 09:56:30] Decryption complete.
+[27/05/2022 09:56:30] The protected database is finished.
+[27/05/2022 09:56:30] Boot complete.
+[27/05/2022 09:56:30] The system has entered SETUP.
+[27/05/2022 09:58:15] System Startup.
+[27/05/2022 09:58:15] Reading info from memory...
+[27/05/2022 09:58:15] Decryption complete.
+[27/05/2022 09:58:15] The protected database is finished.
+[27/05/2022 09:58:15] Boot complete.
+[27/05/2022 09:58:15] The system has entered SETUP.
+[27/05/2022 09:58:56] SETUP is complete. New user has been added. Entering startup.
+[27/05/2022 09:58:59] Preparing to shut down...
+[27/05/2022 09:59:00] Updating user files...
+[27/05/2022 09:59:00] Shutdown complete.
+[27/05/2022 10:00:22] System Shutdown. 126.51095032691956 seconds have elapsed.
+[27/05/2022 10:00:28] System Startup.
+[27/05/2022 10:00:28] Reading info from memory...
+[27/05/2022 10:00:28] Decryption complete.
+[27/05/2022 10:00:28] The protected database is finished.
+[27/05/2022 10:00:28] Boot complete.
+[27/05/2022 10:00:28] The system has entered SETUP.
+[27/05/2022 10:00:53] SETUP is complete. New user has been added. Entering startup.
+[27/05/2022 10:01:10] System Startup.
+[27/05/2022 10:03:43] System Startup.
+[27/05/2022 10:04:30] System Startup.
+[27/05/2022 10:04:30] Reading info from memory...
+[27/05/2022 10:04:30] Decryption complete.
+[27/05/2022 10:04:30] The protected database is finished.
+[27/05/2022 10:04:30] Boot complete.
+[27/05/2022 10:04:30] The system has entered SETUP.
+[27/05/2022 10:04:43] SETUP is complete. New user has been added. Entering startup.
+[27/05/2022 10:06:14] System Startup.
+[27/05/2022 10:07:33] System Startup.
+[27/05/2022 10:09:49] System Startup.
+[27/05/2022 10:10:27] Reading info from memory...
+[27/05/2022 10:10:27] Decryption complete.
+[27/05/2022 10:10:27] The protected database is finished.
+[27/05/2022 10:10:27] Boot complete.
+[27/05/2022 10:11:58] System Startup.
+[27/05/2022 10:11:58] Reading info from memory...
+[27/05/2022 10:11:58] Decryption complete.
+[27/05/2022 10:11:58] The protected database is finished.
+[27/05/2022 10:11:58] Boot complete.
+[27/05/2022 10:15:53] System Startup.
+[27/05/2022 10:15:53] Reading info from memory...
+[27/05/2022 10:15:53] Decryption complete.
+[27/05/2022 10:15:53] The protected database is finished.
+[27/05/2022 10:15:53] Boot complete.
+[27/05/2022 10:15:59] System Startup.
+[27/05/2022 10:16:17] System Startup.
+[27/05/2022 10:16:41] Reading info from memory...
+[27/05/2022 10:16:41] Decryption complete.
+[27/05/2022 10:16:41] The protected database is finished.
+[27/05/2022 10:16:41] Boot complete.
+[27/05/2022 10:17:08] System Startup.
+[27/05/2022 10:19:56] Boot complete.
+[27/05/2022 10:19:56] The system has entered SETUP.
+[27/05/2022 10:19:56] The system encountered a fatal error. Reboot is required. Stacktrace: The file structure is corrupted.
+[27/05/2022 10:20:07] System Startup.
+[27/05/2022 10:20:07] Boot complete.
+[27/05/2022 10:20:07] The system has entered SETUP.
+[27/05/2022 10:20:07] The system encountered a fatal error. Reboot is required. Stacktrace: The file structure is corrupted.
+[27/05/2022 10:20:20] System Startup.
+[27/05/2022 10:20:20] Boot complete.
+[27/05/2022 10:20:44] System Startup.
+[27/05/2022 10:20:44] Boot complete.
+[27/05/2022 10:20:48] The system encountered a fatal error. Reboot is required. Stacktrace: 'OperatingSystem' object has no attribute 'current_user'
+[27/05/2022 10:22:57] System Startup.
+[27/05/2022 10:22:57] Boot complete.
+[27/05/2022 10:23:01] Tejas logged in.
+[27/05/2022 10:23:04] Tejas opened shutdown
+[27/05/2022 10:23:04] Tejas logged out and shutdown.
+[27/05/2022 10:23:04] Preparing to shut down...
+[27/05/2022 10:23:05] Updating user files...
+[27/05/2022 10:23:05] Shutdown complete.
+[27/05/2022 10:23:07] Code 3 returned. Executing task.
+[27/05/2022 10:23:07] System Shutdown. 9.502630710601807 seconds have elapsed.
+[27/05/2022 10:23:10] System Startup.
+[27/05/2022 10:23:10] Boot complete.
+[27/05/2022 10:23:13] Tejas logged in.
+[27/05/2022 10:23:14] Tejas opened shutdown
+[27/05/2022 10:23:14] Tejas logged out and shutdown.
+[27/05/2022 10:23:14] Preparing to shut down...
+[27/05/2022 10:23:15] Updating user files...
+[27/05/2022 10:23:15] Shutdown complete.
+[27/05/2022 10:23:16] Code 2 returned. Executing task.
+[27/05/2022 10:23:16] System Shutdown. 5.7894065380096436 seconds have elapsed.
+[27/05/2022 10:23:18] System Startup.
+[27/05/2022 10:23:18] Boot complete.
+[27/05/2022 10:23:21] Tejas logged in.
+[27/05/2022 10:23:22] Tejas opened shutdown
+[27/05/2022 10:23:22] Tejas logged out and shutdown.
+[27/05/2022 10:23:22] Preparing to shut down...
+[27/05/2022 10:23:23] The system is now asleep.
+[27/05/2022 10:23:23] Code 1 returned. Executing task.
+[27/05/2022 10:23:28] Preparing to shut down...
+[27/05/2022 10:23:30] Updating user files...
+[27/05/2022 10:23:30] Shutdown complete.
+[27/05/2022 10:23:34] System Shutdown. 15.819466590881348 seconds have elapsed.
+[27/05/2022 10:23:34] System Startup.
+[27/05/2022 10:23:34] Boot complete.
+[27/05/2022 10:26:31] System Startup.
+[27/05/2022 10:26:31] Boot complete.
+[27/05/2022 10:26:34] Tejas logged in.
+[27/05/2022 10:26:45] System Startup.
+[27/05/2022 10:26:45] Boot complete.
+[27/05/2022 22:09:33] System Startup.
+[27/05/2022 22:09:33] Boot complete.
+[27/05/2022 22:09:47] System Startup.
+[27/05/2022 22:09:47] Boot complete.
+[27/05/2022 22:09:55] Tejas logged in.
+[27/05/2022 22:09:58] Tejas opened user settings
+[27/05/2022 22:09:58] The system encountered a fatal error. Reboot is required. Stacktrace: 'OperatingSystem' object has no attribute 'user_settings'
+[27/05/2022 22:12:33] System Startup.
+[27/05/2022 22:12:33] Boot complete.
+[27/05/2022 22:12:39] Tejas logged in.
+[27/05/2022 22:12:42] Tejas opened user settings
+[27/05/2022 22:13:11] Code regular returned. Executing task.
+[27/05/2022 22:13:24] Preparing to shut down...
+[27/05/2022 22:13:39] System Startup.
+[27/05/2022 22:13:39] Boot complete.
+[27/05/2022 22:14:10] System Startup.
+[27/05/2022 22:14:10] Boot complete.
+[27/05/2022 22:14:30] System Startup.
+[27/05/2022 22:15:53] System Startup.
+[27/05/2022 22:15:53] Boot complete.
+[27/05/2022 22:28:10] System Startup.
+[27/05/2022 22:28:10] Boot complete.
+[27/05/2022 22:28:24] System Startup.
+[27/05/2022 22:29:07] System Startup.
+[27/05/2022 22:29:23] System Startup.
+[27/05/2022 22:30:29] System Startup.
+[27/05/2022 22:30:45] The system encountered a fatal error. Reboot is required. Stacktrace: The file system is corrupted. Please reboot safely.
+[27/05/2022 22:31:16] System Startup.
+[27/05/2022 22:32:04] System Startup.
+[27/05/2022 22:32:12] The system encountered a fatal error. Reboot is required. Stacktrace: The file system is corrupted. Please reboot safely.
+[27/05/2022 22:33:22] System Startup.
+[27/05/2022 22:33:45] System Startup.
+[27/05/2022 22:33:57] System Startup.
+[27/05/2022 22:34:01] System Startup.
+[27/05/2022 22:35:49] System Startup.
+[27/05/2022 22:46:50] System Startup.
+[27/05/2022 22:46:50] The system encountered a fatal error. Reboot is required. Stacktrace: The file system is corrupted. Please reboot safely.
+[27/05/2022 22:47:02] System Startup.
+[27/05/2022 22:47:02] Boot complete.
+[27/05/2022 22:47:18] Shanthi logged in.
+[27/05/2022 22:47:20] Shanthi opened user settings
+[27/05/2022 23:03:38] System Startup.
+[27/05/2022 23:04:07] System Startup.
+[27/05/2022 23:04:19] System Startup.
+[27/05/2022 23:04:39] System Startup.
+[27/05/2022 23:08:39] System Startup.
+[27/05/2022 23:09:46] System Startup.
+[27/05/2022 23:09:56] System Startup.
+[27/05/2022 23:10:06] System Shutdown. 10.066352605819702 seconds have elapsed.
+[27/05/2022 23:10:57] System Startup.
+[27/05/2022 23:10:57] The system encountered a fatal error. Reboot is required. Stacktrace: The file system is corrupted. Please reboot safely.
+[27/05/2022 23:11:02] System Shutdown. 4.86391019821167 seconds have elapsed.
+[27/05/2022 23:11:02] System Startup.
+[27/05/2022 23:11:02] The system is entering Recovery. A fatal internal error has occurred.
+[27/05/2022 23:11:15] The system encountered a fatal error. Reboot is required. Stacktrace: The file system is corrupted. Please reboot safely.
+[28/05/2022 14:26:05] System Startup.
+[28/05/2022 14:26:10] The system encountered a fatal error. Reboot is required. Stacktrace: The file system is corrupted. Please reboot safely.
+[28/05/2022 14:26:37] System Startup.
+[28/05/2022 14:27:18] System Startup.
+[28/05/2022 14:27:30] The system encountered a fatal error. Reboot is required. Stacktrace: 
+[28/05/2022 14:27:52] System Startup.
+[28/05/2022 14:28:25] System Startup.
+[28/05/2022 14:29:02] System Startup.
+[28/05/2022 14:29:40] The system encountered a fatal error. Reboot is required. Stacktrace: The file system is corrupted. Please reboot safely.
+[28/05/2022 14:29:45] System Shutdown. 42.31341791152954 seconds have elapsed.
+[28/05/2022 14:29:45] System Startup.
+[28/05/2022 14:29:45] The system is entering Recovery. A fatal internal error has occurred.
+[28/05/2022 14:31:43] System Startup.
+[28/05/2022 14:31:43] The system encountered a fatal error. Reboot is required. Stacktrace: The file system is corrupted. Please reboot safely.
+[28/05/2022 14:33:22] System Startup.
+[28/05/2022 14:33:22] The system encountered a fatal error. Reboot is required. Stacktrace: The file system is corrupted. Please reboot safely.
+[28/05/2022 14:33:28] System Shutdown. 5.837012052536011 seconds have elapsed.
+[28/05/2022 14:33:28] System Startup.
+[28/05/2022 14:33:28] The system is entering Recovery. A fatal internal error has occurred.
+[28/05/2022 14:33:37] The system encountered a fatal error. Reboot is required. Stacktrace: The file system is corrupted. Please reboot safely.
+[28/05/2022 14:34:54] System Shutdown. 91.69887566566467 seconds have elapsed.
+[28/05/2022 14:37:40] System Startup.
+[28/05/2022 14:37:45] System Shutdown. 5.0753514766693115 seconds have elapsed.
+[28/05/2022 14:37:45] System Startup.
+[28/05/2022 14:37:45] The system is entering Recovery. A fatal internal error has occurred.
+[28/05/2022 14:38:48] System Startup.
+[28/05/2022 14:38:50] System Shutdown. 2.898066997528076 seconds have elapsed.
+[28/05/2022 14:38:50] System Startup.
+[28/05/2022 14:38:50] The system is entering Recovery. A fatal internal error has occurred.
+[28/05/2022 14:39:37] System Startup.
+[28/05/2022 14:39:41] System Shutdown. 3.5398190021514893 seconds have elapsed.
+[28/05/2022 14:39:41] System Startup.
+[28/05/2022 14:39:41] The system is entering Recovery. A fatal internal error has occurred.
+[28/05/2022 14:42:14] System Startup.
+[28/05/2022 14:42:17] System Shutdown. 3.0124754905700684 seconds have elapsed.
+[28/05/2022 14:42:17] System Startup.
+[28/05/2022 14:42:17] The system is entering Recovery. A fatal internal error has occurred.
+[28/05/2022 14:44:11] Boot complete.
+[28/05/2022 14:44:37] Tejas logged in.
+[28/05/2022 14:44:40] Tejas opened user settings
+[28/05/2022 14:45:24] Tejas opened shutdown
+[28/05/2022 14:45:24] Tejas logged out and shutdown.
+[28/05/2022 14:45:24] Preparing to shut down...
+[28/05/2022 14:45:25] All apps closed.
+[28/05/2022 14:45:25] Updating user files...
+[28/05/2022 14:45:25] Updating user files...
+[28/05/2022 14:45:25] Updating user files...
+[28/05/2022 14:45:25] Shutdown complete.
+[28/05/2022 14:45:25] Code 4 returned. Executing task.
+[28/05/2022 14:45:29] System Shutdown. 195.49287915229797 seconds have elapsed.
+[28/05/2022 14:45:29] System Startup.
+[28/05/2022 14:45:29] The system is entering Recovery. A fatal internal error has occurred.
+[28/05/2022 14:45:53] System Startup.
+[28/05/2022 14:46:00] System Startup.
+[28/05/2022 14:46:14] System Shutdown. 13.621140003204346 seconds have elapsed.
+[28/05/2022 14:46:14] System Startup.
+[28/05/2022 14:46:14] The system is entering Recovery. A fatal internal error has occurred.
+[28/05/2022 14:46:35] System Shutdown. 34.77399182319641 seconds have elapsed.
+[28/05/2022 14:46:35] System Startup.
+[28/05/2022 14:46:35] The system is entering Recovery. A fatal internal error has occurred.
+[28/05/2022 14:46:46] Boot complete.
+[28/05/2022 14:46:53] System Startup.
+[28/05/2022 14:46:53] Boot complete.
+[28/05/2022 14:47:00] Tejas logged in.
+[28/05/2022 14:47:02] Tejas opened user settings
+[28/05/2022 14:47:32] Tejas opened shutdown
+[28/05/2022 14:47:32] Tejas logged out and shutdown.
+[28/05/2022 14:47:32] Preparing to shut down...
+[28/05/2022 14:47:33] All apps closed.
+[28/05/2022 14:47:33] Updating user files...
+[28/05/2022 14:47:33] Updating user files...
+[28/05/2022 14:47:33] Updating user files...
+[28/05/2022 14:47:33] Shutdown complete.
+[28/05/2022 14:47:33] Code 4 returned. Executing task.
+[28/05/2022 14:47:37] System Shutdown. 44.08264875411987 seconds have elapsed.
+[28/05/2022 14:47:37] System Startup.
+[28/05/2022 14:47:52] System Startup.
+[28/05/2022 14:48:02] System Startup.
+[28/05/2022 14:48:38] System Startup.
+[28/05/2022 14:48:40] System Startup.
+[28/05/2022 14:48:40] Boot complete.
+[28/05/2022 14:49:50] Preparing to shut down...
+[28/05/2022 14:49:51] Updating user files...
+[28/05/2022 14:49:51] Updating user files...
+[28/05/2022 14:49:51] Updating user files...
+[28/05/2022 14:49:52] Shutdown complete.
+[28/05/2022 14:49:56] System Shutdown. 75.30946850776672 seconds have elapsed.
+[28/05/2022 14:50:04] System Startup.
+[28/05/2022 14:50:07] Boot complete.
+[28/05/2022 14:50:11] Tejas logged in.
+[28/05/2022 14:50:12] Tejas opened user settings
+[28/05/2022 14:50:15] Tejas opened shutdown
+[28/05/2022 14:50:15] Tejas logged out and shutdown.
+[28/05/2022 14:50:15] Preparing to shut down...
+[28/05/2022 14:50:16] All apps closed.
+[28/05/2022 14:50:16] Updating user files...
+[28/05/2022 14:50:16] Updating user files...
+[28/05/2022 14:50:16] Updating user files...
+[28/05/2022 14:50:16] Shutdown complete.
+[28/05/2022 14:50:33] System Startup.
+[28/05/2022 14:50:33] Boot complete.
+[28/05/2022 14:50:38] Tejas logged in.
+[28/05/2022 14:50:47] Tejas opened users
+[28/05/2022 14:50:50] Tejas opened user
+[28/05/2022 14:50:52] Tejas opened user settings
+[28/05/2022 14:50:55] Tejas opened power
+[28/05/2022 14:50:55] Tejas logged out and shutdown.
+[28/05/2022 14:50:55] Preparing to shut down...
+[28/05/2022 14:51:12] System Startup.
+[28/05/2022 14:51:12] Boot complete.
+[28/05/2022 14:51:15] Tejas logged in.
+[28/05/2022 14:51:16] Tejas opened user settigns
+[28/05/2022 14:51:19] Tejas opened notepad
+[28/05/2022 14:51:24] Tejas opened power
+[28/05/2022 14:51:24] Tejas logged out and shutdown.
+[28/05/2022 14:51:24] Preparing to shut down...
+[28/05/2022 15:16:34] System Startup.
+[28/05/2022 15:16:34] Boot complete.
+[28/05/2022 15:16:37] Tejas logged in.
+[28/05/2022 15:16:38] Tejas opened bagels
+[28/05/2022 15:29:27] System Startup.
+[28/05/2022 15:29:27] Boot complete.
+[28/05/2022 15:29:31] Tejas logged in.
+[28/05/2022 18:49:57] Tejas opened power
+[28/05/2022 18:49:57] Tejas logged out and shutdown.
+[28/05/2022 18:49:57] Preparing to shut down...
+[28/05/2022 18:49:59] Updating user files...
+[28/05/2022 18:49:59] Updating user files...
+[28/05/2022 18:49:59] Updating user files...
+[28/05/2022 18:49:59] Shutdown complete.
+[28/05/2022 18:50:01] Code 3 returned. Executing task.
+[28/05/2022 18:50:01] System Shutdown. 12034.03083562851 seconds have elapsed.
+[28/05/2022 18:50:05] System Startup.
+[28/05/2022 18:50:05] Boot complete.
+[28/05/2022 18:50:07] Tejas logged in.
+[28/05/2022 18:50:09] Tejas opened bagels
+[28/05/2022 18:51:07] Tejas opened hangman
+[28/05/2022 18:55:11] Tejas opened tictactoe
+[28/05/2022 18:56:47] Tejas opened sonar
+[28/05/2022 19:00:20] Tejas opened power
+[28/05/2022 19:00:20] Tejas logged out and shutdown.
+[28/05/2022 19:00:20] Preparing to shut down...
+[28/05/2022 19:00:24] Updating user files...
+[28/05/2022 19:00:24] Updating user files...
+[28/05/2022 19:00:24] Updating user files...
+[28/05/2022 19:00:24] Shutdown complete.
+[28/05/2022 19:00:25] Code 2 returned. Executing task.
+[28/05/2022 19:00:25] System Shutdown. 620.6412529945374 seconds have elapsed.
+[28/05/2022 19:00:28] System Startup.
+[28/05/2022 19:00:28] Boot complete.
+[28/05/2022 19:00:31] Tejas logged in.
+[28/05/2022 19:00:33] Tejas opened task manager
+[30/05/2022 22:06:03] System Startup.
+[30/05/2022 22:06:03] Boot complete.
+[30/05/2022 22:13:25] System Startup.
+[30/05/2022 22:15:41] System Startup.
+[30/05/2022 22:15:51] System Startup.
+[30/05/2022 22:15:55] System Shutdown. 4.271996736526489 seconds have elapsed.
+[30/05/2022 22:15:55] System Startup.
+[30/05/2022 22:15:55] The system is entering Recovery. A fatal internal error has occurred.

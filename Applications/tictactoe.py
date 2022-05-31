@@ -3,40 +3,39 @@ import random
 from System import Loading
 from Applications import bagels
 
-category = "games"
-
-def boot(os_object):
-    os_object.current_user.saved_state["TicTacToe"] = "running"
-    ttt = TicTacToe(os_object.current_user.username)
-    if not ttt.filename == 'exit':
-        ttt.main()
-
 
 # noinspection PyTypeChecker
 class TicTacToe:
+    category = "games"
 
-    def __init__(self, username):
+    @staticmethod
+    def boot(path='\\'):
+        ttt = TicTacToe(path)
+        if not ttt.filename == 'exit':
+            ttt.main()
+
+    def __init__(self, path="\\"):
         self.new_file = False
-        self.username = username
         self.filename = ''
-        game_info = bagels.init_game(self, username, 'ttt')
-        if game_info == 'new':
+        self.path = path
+        game_info = bagels.init_game(self, path, 'ttt')
+        if self.new_file:
             (self.board, self.turn, self.player_letter) = ([" "] * 9, "", "")
-        else:
-            (self.username, board, self.turn, self.player_letter) = game_info
+        elif game_info:
+            (board, self.turn, self.player_letter) = game_info
             while ',' in board:
                 board = board.split(',', 1)[0] + board.split(',', 1)[1]
             self.board = []
             for j in range(len(board)):
                 self.board.append(board[j])
-        if self.player_letter == 'X':
-            self.computer_letter = 'O'
-        else:
-            self.computer_letter = 'X'
+            if self.player_letter == 'X':
+                self.computer_letter = 'O'
+            else:
+                self.computer_letter = 'X'
         return
 
     def __repr__(self):
-        return "< I am a tictactoe class named " + self.__class__.__name__ + " under the user " + self.username + ">"
+        return "< I am a tictactoe class named " + self.__class__.__name__ + ">"
 
     def draw_board(self):
         # This function prints out the board that it was passed.
@@ -171,9 +170,10 @@ class TicTacToe:
                 return False
         return True
 
+    @DeprecationWarning
     def delete(self):
         while True:
-            for subdir, dirs, files in os.walk('Users\\%s' % self.username):
+            for subdir, dirs, files in os.walk(self.path):
                 count = 0
                 for file in files:
                     if file[len(file)-3:len(file)] == 'ttt':
@@ -181,10 +181,10 @@ class TicTacToe:
                         print(str(count) + '. ' + file)
             delete_game = input("Which game would you like to delete?\n")
             try:
-                os.remove("Users\\{}\\{}".format(self.username, delete_game))
+                os.remove(self.path + '\\' + delete_game)
             except FileNotFoundError:
                 try:
-                    os.remove("Users\\{}\\{}".format(self.username, delete_game + ".ttt"))
+                    os.remove(self.path + '\\' + delete_game + ".ttt")
                     pass
                 except FileNotFoundError:
                     Loading.returning("That file was not found.", 1)
@@ -208,17 +208,11 @@ class TicTacToe:
         return
 
     def quit(self):
-        translated_board = ''
-        for j in range(8):
-            if self.board[j] == 'X' or self.board[j] == 'O':
-                translated_board += (self.board[j] + ',')
-            else:
-                translated_board += ' ,'
-        translated_board += self.board[8]
+        translated_board = ','.join(self.board)
         if self.new_file:
             self.filename = input("File name?\n") + '.ttt'
-        game = open('Users\\%s\\%s' % (self.username, self.filename), 'w')
-        game.write(Loading.caesar_encrypt("{}\t{}\t{}\t{}".format(self.username, translated_board, self.turn, self.player_letter)))
+        game = open(self.path + "\\" + self.filename, 'w')
+        game.write(Loading.caesar_encrypt("{}\t{}\t{}".format(translated_board, self.turn, self.player_letter)))
         game.close()
 
     def main(self):
@@ -285,7 +279,7 @@ class TicTacToe:
                         else:
                             self.turn = 'player'
 
-            os.remove("Users\\{}\\{}".format(self.username, self.filename))
+            os.remove(self.path + self.filename)
             print('Do you want to play again? (yes or no)')
             if input().lower().startswith('y'):
                 (self.board, self.turn, self.player_letter) = ([" "] * 9, "", "")
