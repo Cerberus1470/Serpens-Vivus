@@ -22,6 +22,8 @@
       <option name="ignoredIdentifiers">
         <list>
           <option value="User.*" />
+          <option value="str.__setitem__" />
+          <option value="str.values" />
         </list>
       </option>
     </inspection_tool>

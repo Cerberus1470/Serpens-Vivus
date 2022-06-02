@@ -1,495 +1,119 @@
-[24/05/2022 09:02:51] System reset.
-[24/05/2022 09:02:53] Code 4 returned. Executing task.
-[24/05/2022 09:02:57] System Shutdown. 30.773967266082764 seconds have elapsed.
-[24/05/2022 09:02:57] System Startup.
-[24/05/2022 09:02:57] Reading info from memory...
-[24/05/2022 09:02:57] Decryption complete.
-[24/05/2022 09:02:57] The protected database is finished.
-[24/05/2022 09:02:57] Boot complete.
-[24/05/2022 09:02:57] The system has entered SETUP.
-[24/05/2022 09:03:16] SETUP is complete. New user has been added. Entering startup.
-[25/05/2022 09:17:06] System Startup.
-[25/05/2022 09:17:06] Reading info from memory...
-[25/05/2022 09:17:06] The system encountered a fatal error. Reboot is required. Stacktrace: list index out of range
-[25/05/2022 09:20:03] System Startup.
-[25/05/2022 09:20:03] Reading info from memory...
-[25/05/2022 09:20:03] Decryption complete.
-[25/05/2022 09:20:03] The protected database is finished.
-[25/05/2022 09:20:03] Boot complete.
-[25/05/2022 09:20:03] The system has entered SETUP.
-[25/05/2022 09:20:12] SETUP is complete. New user has been added. Entering startup.
-[25/05/2022 09:20:26] Preparing to shut down...
-[25/05/2022 09:20:28] The system encountered a fatal error. Reboot is required. Stacktrace: I am an administrator user named Tejas
-Administrator		
-[25/05/2022 09:31:37] System Startup.
-[25/05/2022 09:31:37] Reading info from memory...
-[25/05/2022 09:31:37] The system encountered a fatal error. Reboot is required. Stacktrace: list index out of range
-[25/05/2022 09:34:35] System Startup.
-[25/05/2022 09:34:35] Reading info from memory...
-[25/05/2022 09:34:35] The system encountered a fatal error. Reboot is required. Stacktrace: list index out of range
-[25/05/2022 09:34:40] System Startup.
-[25/05/2022 09:34:40] Reading info from memory...
-[25/05/2022 09:34:40] The system encountered a fatal error. Reboot is required. Stacktrace: list index out of range
-[25/05/2022 09:42:52] System Startup.
-[25/05/2022 09:42:52] Reading info from memory...
-[25/05/2022 09:42:52] The system encountered a fatal error. Reboot is required. Stacktrace: list index out of range
-[25/05/2022 09:43:14] System Startup.
-[25/05/2022 09:43:14] Reading info from memory...
-[25/05/2022 09:43:14] Decryption complete.
-[25/05/2022 09:43:14] The protected database is finished.
-[25/05/2022 09:43:14] Boot complete.
-[25/05/2022 09:45:33] System Startup.
-[25/05/2022 09:45:33] Reading info from memory...
-[25/05/2022 09:45:33] Decryption complete.
-[25/05/2022 09:45:33] The protected database is finished.
-[25/05/2022 09:45:33] Boot complete.
-[25/05/2022 09:45:37] tejas logged in.
-[25/05/2022 09:45:39] tejas opened user settings
-[25/05/2022 09:46:03] The system encountered a fatal error. Reboot is required. Stacktrace: can only concatenate str (not "Administrator") to str
-[25/05/2022 09:52:09] System Startup.
-[25/05/2022 09:52:09] Reading info from memory...
-[25/05/2022 09:52:09] Decryption complete.
-[25/05/2022 09:52:09] The protected database is finished.
-[25/05/2022 09:52:09] Boot complete.
-[25/05/2022 09:52:11] tejas logged in.
-[25/05/2022 09:52:14] tejas opened user settings
-[25/05/2022 09:52:41] System Startup.
-[25/05/2022 09:52:41] Reading info from memory...
-[25/05/2022 09:52:41] Decryption complete.
-[25/05/2022 09:52:41] The protected database is finished.
-[25/05/2022 09:52:41] Boot complete.
-[25/05/2022 09:52:47] tejas logged in.
-[25/05/2022 09:52:48] tejas opened user settings
-[25/05/2022 09:54:42] System Startup.
-[25/05/2022 09:54:42] Reading info from memory...
-[25/05/2022 09:54:42] Decryption complete.
-[25/05/2022 09:54:42] The protected database is finished.
-[25/05/2022 09:54:42] Boot complete.
-[25/05/2022 09:54:51] tejas logged in.
-[25/05/2022 09:54:56] tejas opened user settings
-[25/05/2022 09:56:26] System Startup.
-[25/05/2022 09:56:26] Reading info from memory...
-[25/05/2022 09:56:26] The system encountered a fatal error. Reboot is required. Stacktrace: list index out of range
-[25/05/2022 10:03:17] System Startup.
-[25/05/2022 10:03:17] Reading info from memory...
-[25/05/2022 10:03:17] The system encountered a fatal error. Reboot is required. Stacktrace: list index out of range
-[25/05/2022 10:03:27] System Startup.
-[25/05/2022 10:03:27] Reading info from memory...
-[25/05/2022 10:03:27] Decryption complete.
-[25/05/2022 10:03:27] The protected database is finished.
-[25/05/2022 10:03:27] Boot complete.
-[25/05/2022 10:03:32] Tejas Dhilip logged in.
-[25/05/2022 10:03:35] Tejas Dhilip opened user settings
-[25/05/2022 10:05:04] The system encountered a fatal error. Reboot is required. Stacktrace: [WinError 5] Access is denied: 'Users\\Tejas Dhilip' -> 'Users\\Tejas'
-[25/05/2022 10:05:29] System Shutdown. 542.3059825897217 seconds have elapsed.
-[25/05/2022 10:29:26] System Startup.
-[25/05/2022 10:29:26] Reading info from memory...
-[25/05/2022 10:29:26] Decryption complete.
-[25/05/2022 10:29:26] The protected database is finished.
-[25/05/2022 10:29:26] Boot complete.
-[25/05/2022 10:29:26] The system encountered a fatal error. Reboot is required. Stacktrace: 'OperatingSystem' object has no attribute 'current_user'
-[26/05/2022 16:15:59] System Startup.
-[26/05/2022 16:15:59] Reading info from memory...
-[26/05/2022 16:15:59] Decryption complete.
-[26/05/2022 16:15:59] The system encountered a fatal error. Reboot is required. Stacktrace: Administrator.__init__() missing 1 required positional argument: 'saved_state'
-[26/05/2022 16:17:39] System Startup.
-[26/05/2022 16:17:39] Reading info from memory...
-[26/05/2022 16:17:39] Decryption complete.
-[26/05/2022 16:17:39] The protected database is finished.
-[26/05/2022 16:17:39] Boot complete.
-[26/05/2022 16:26:08] Reading info from memory...
-[26/05/2022 16:26:08] Decryption complete.
-[26/05/2022 16:26:08] The protected database is finished.
-[26/05/2022 16:26:08] Boot complete.
-[26/05/2022 19:02:16] System Startup.
-[26/05/2022 19:02:16] Reading info from memory...
-[26/05/2022 19:02:16] Decryption complete.
-[26/05/2022 19:02:16] The system encountered a fatal error. Reboot is required. Stacktrace: 'NoneType' object is not subscriptable
-[26/05/2022 19:02:59] Reading info from memory...
-[26/05/2022 19:02:59] Decryption complete.
-[26/05/2022 19:03:14] System Startup.
-[26/05/2022 19:03:14] Reading info from memory...
-[26/05/2022 19:03:14] Decryption complete.
-[26/05/2022 19:03:35] System Startup.
-[26/05/2022 19:03:35] Reading info from memory...
-[26/05/2022 19:03:35] Decryption complete.
-[26/05/2022 19:03:47] System Startup.
-[26/05/2022 19:03:47] Reading info from memory...
-[26/05/2022 19:03:47] Decryption complete.
-[26/05/2022 19:03:47] The protected database is finished.
-[26/05/2022 19:03:47] Boot complete.
-[26/05/2022 19:03:59] Preparing to shut down...
-[26/05/2022 19:04:01] The system encountered a fatal error. Reboot is required. Stacktrace: I am an administrator user named Bruh
-[26/05/2022 19:05:09] System Startup.
-[26/05/2022 19:05:09] Reading info from memory...
-[26/05/2022 19:05:09] Decryption complete.
-[26/05/2022 19:05:09] The protected database is finished.
-[26/05/2022 19:05:09] Boot complete.
-[26/05/2022 19:05:12] Preparing to shut down...
-[26/05/2022 19:05:31] Updating user files...
-[26/05/2022 19:05:31] The system encountered a fatal error. Reboot is required. Stacktrace: unsupported operand type(s) for +: 'dict' and 'str'
-[26/05/2022 19:05:58] System Startup.
-[26/05/2022 19:05:58] Reading info from memory...
-[26/05/2022 19:05:58] The system encountered a fatal error. Reboot is required. Stacktrace: list index out of range
-[26/05/2022 19:06:24] System Startup.
-[26/05/2022 19:06:24] Reading info from memory...
-[26/05/2022 19:06:24] Decryption complete.
-[26/05/2022 19:06:24] The protected database is finished.
-[26/05/2022 19:06:24] Boot complete.
-[26/05/2022 19:06:24] The system has entered SETUP.
-[26/05/2022 19:06:37] SETUP is complete. New user has been added. Entering startup.
-[26/05/2022 19:06:40] Preparing to shut down...
-[26/05/2022 19:08:22] System Startup.
-[26/05/2022 19:08:22] Reading info from memory...
-[26/05/2022 19:08:22] The system encountered a fatal error. Reboot is required. Stacktrace: list index out of range
-[26/05/2022 19:08:50] System Startup.
-[26/05/2022 19:08:50] Reading info from memory...
-[26/05/2022 19:08:50] Decryption complete.
-[26/05/2022 19:08:50] The protected database is finished.
-[26/05/2022 19:08:50] Boot complete.
-[26/05/2022 19:08:50] The system has entered SETUP.
-[26/05/2022 19:08:52] System Startup.
-[26/05/2022 19:08:52] Reading info from memory...
-[26/05/2022 19:08:52] Decryption complete.
-[26/05/2022 19:08:52] The protected database is finished.
-[26/05/2022 19:08:52] Boot complete.
-[26/05/2022 19:08:52] The system has entered SETUP.
-[26/05/2022 19:08:52] The system encountered a fatal error. Reboot is required. Stacktrace: [WinError 183] Cannot create a file when that file already exists: 'Users'
-[26/05/2022 19:10:30] System Startup.
-[26/05/2022 19:10:30] Reading info from memory...
-[26/05/2022 19:10:30] Decryption complete.
-[26/05/2022 19:10:30] The protected database is finished.
-[26/05/2022 19:10:30] Boot complete.
-[26/05/2022 19:10:30] The system has entered SETUP.
-[26/05/2022 19:10:42] SETUP is complete. New user has been added. Entering startup.
-[26/05/2022 19:10:42] Preparing to shut down...
-[26/05/2022 19:11:15] Updating user files...
-[26/05/2022 19:11:46] Shutdown complete.
-[26/05/2022 19:11:50] System Shutdown. 79.26999163627625 seconds have elapsed.
-[26/05/2022 19:38:44] System Startup.
-[26/05/2022 19:56:11] System Startup.
-[26/05/2022 20:09:35] System Startup.
-[27/05/2022 09:55:47] System Startup.
-[27/05/2022 09:56:30] System Startup.
-[27/05/2022 09:56:30] Reading info from memory...
-[27/05/2022 09:56:30] Decryption complete.
-[27/05/2022 09:56:30] The protected database is finished.
-[27/05/2022 09:56:30] Boot complete.
-[27/05/2022 09:56:30] The system has entered SETUP.
-[27/05/2022 09:58:15] System Startup.
-[27/05/2022 09:58:15] Reading info from memory...
-[27/05/2022 09:58:15] Decryption complete.
-[27/05/2022 09:58:15] The protected database is finished.
-[27/05/2022 09:58:15] Boot complete.
-[27/05/2022 09:58:15] The system has entered SETUP.
-[27/05/2022 09:58:56] SETUP is complete. New user has been added. Entering startup.
-[27/05/2022 09:58:59] Preparing to shut down...
-[27/05/2022 09:59:00] Updating user files...
-[27/05/2022 09:59:00] Shutdown complete.
-[27/05/2022 10:00:22] System Shutdown. 126.51095032691956 seconds have elapsed.
-[27/05/2022 10:00:28] System Startup.
-[27/05/2022 10:00:28] Reading info from memory...
-[27/05/2022 10:00:28] Decryption complete.
-[27/05/2022 10:00:28] The protected database is finished.
-[27/05/2022 10:00:28] Boot complete.
-[27/05/2022 10:00:28] The system has entered SETUP.
-[27/05/2022 10:00:53] SETUP is complete. New user has been added. Entering startup.
-[27/05/2022 10:01:10] System Startup.
-[27/05/2022 10:03:43] System Startup.
-[27/05/2022 10:04:30] System Startup.
-[27/05/2022 10:04:30] Reading info from memory...
-[27/05/2022 10:04:30] Decryption complete.
-[27/05/2022 10:04:30] The protected database is finished.
-[27/05/2022 10:04:30] Boot complete.
-[27/05/2022 10:04:30] The system has entered SETUP.
-[27/05/2022 10:04:43] SETUP is complete. New user has been added. Entering startup.
-[27/05/2022 10:06:14] System Startup.
-[27/05/2022 10:07:33] System Startup.
-[27/05/2022 10:09:49] System Startup.
-[27/05/2022 10:10:27] Reading info from memory...
-[27/05/2022 10:10:27] Decryption complete.
-[27/05/2022 10:10:27] The protected database is finished.
-[27/05/2022 10:10:27] Boot complete.
-[27/05/2022 10:11:58] System Startup.
-[27/05/2022 10:11:58] Reading info from memory...
-[27/05/2022 10:11:58] Decryption complete.
-[27/05/2022 10:11:58] The protected database is finished.
-[27/05/2022 10:11:58] Boot complete.
-[27/05/2022 10:15:53] System Startup.
-[27/05/2022 10:15:53] Reading info from memory...
-[27/05/2022 10:15:53] Decryption complete.
-[27/05/2022 10:15:53] The protected database is finished.
-[27/05/2022 10:15:53] Boot complete.
-[27/05/2022 10:15:59] System Startup.
-[27/05/2022 10:16:17] System Startup.
-[27/05/2022 10:16:41] Reading info from memory...
-[27/05/2022 10:16:41] Decryption complete.
-[27/05/2022 10:16:41] The protected database is finished.
-[27/05/2022 10:16:41] Boot complete.
-[27/05/2022 10:17:08] System Startup.
-[27/05/2022 10:19:56] Boot complete.
-[27/05/2022 10:19:56] The system has entered SETUP.
-[27/05/2022 10:19:56] The system encountered a fatal error. Reboot is required. Stacktrace: The file structure is corrupted.
-[27/05/2022 10:20:07] System Startup.
-[27/05/2022 10:20:07] Boot complete.
-[27/05/2022 10:20:07] The system has entered SETUP.
-[27/05/2022 10:20:07] The system encountered a fatal error. Reboot is required. Stacktrace: The file structure is corrupted.
-[27/05/2022 10:20:20] System Startup.
-[27/05/2022 10:20:20] Boot complete.
-[27/05/2022 10:20:44] System Startup.
-[27/05/2022 10:20:44] Boot complete.
-[27/05/2022 10:20:48] The system encountered a fatal error. Reboot is required. Stacktrace: 'OperatingSystem' object has no attribute 'current_user'
-[27/05/2022 10:22:57] System Startup.
-[27/05/2022 10:22:57] Boot complete.
-[27/05/2022 10:23:01] Tejas logged in.
-[27/05/2022 10:23:04] Tejas opened shutdown
-[27/05/2022 10:23:04] Tejas logged out and shutdown.
-[27/05/2022 10:23:04] Preparing to shut down...
-[27/05/2022 10:23:05] Updating user files...
-[27/05/2022 10:23:05] Shutdown complete.
-[27/05/2022 10:23:07] Code 3 returned. Executing task.
-[27/05/2022 10:23:07] System Shutdown. 9.502630710601807 seconds have elapsed.
-[27/05/2022 10:23:10] System Startup.
-[27/05/2022 10:23:10] Boot complete.
-[27/05/2022 10:23:13] Tejas logged in.
-[27/05/2022 10:23:14] Tejas opened shutdown
-[27/05/2022 10:23:14] Tejas logged out and shutdown.
-[27/05/2022 10:23:14] Preparing to shut down...
-[27/05/2022 10:23:15] Updating user files...
-[27/05/2022 10:23:15] Shutdown complete.
-[27/05/2022 10:23:16] Code 2 returned. Executing task.
-[27/05/2022 10:23:16] System Shutdown. 5.7894065380096436 seconds have elapsed.
-[27/05/2022 10:23:18] System Startup.
-[27/05/2022 10:23:18] Boot complete.
-[27/05/2022 10:23:21] Tejas logged in.
-[27/05/2022 10:23:22] Tejas opened shutdown
-[27/05/2022 10:23:22] Tejas logged out and shutdown.
-[27/05/2022 10:23:22] Preparing to shut down...
-[27/05/2022 10:23:23] The system is now asleep.
-[27/05/2022 10:23:23] Code 1 returned. Executing task.
-[27/05/2022 10:23:28] Preparing to shut down...
-[27/05/2022 10:23:30] Updating user files...
-[27/05/2022 10:23:30] Shutdown complete.
-[27/05/2022 10:23:34] System Shutdown. 15.819466590881348 seconds have elapsed.
-[27/05/2022 10:23:34] System Startup.
-[27/05/2022 10:23:34] Boot complete.
-[27/05/2022 10:26:31] System Startup.
-[27/05/2022 10:26:31] Boot complete.
-[27/05/2022 10:26:34] Tejas logged in.
-[27/05/2022 10:26:45] System Startup.
-[27/05/2022 10:26:45] Boot complete.
-[27/05/2022 22:09:33] System Startup.
-[27/05/2022 22:09:33] Boot complete.
-[27/05/2022 22:09:47] System Startup.
-[27/05/2022 22:09:47] Boot complete.
-[27/05/2022 22:09:55] Tejas logged in.
-[27/05/2022 22:09:58] Tejas opened user settings
-[27/05/2022 22:09:58] The system encountered a fatal error. Reboot is required. Stacktrace: 'OperatingSystem' object has no attribute 'user_settings'
-[27/05/2022 22:12:33] System Startup.
-[27/05/2022 22:12:33] Boot complete.
-[27/05/2022 22:12:39] Tejas logged in.
-[27/05/2022 22:12:42] Tejas opened user settings
-[27/05/2022 22:13:11] Code regular returned. Executing task.
-[27/05/2022 22:13:24] Preparing to shut down...
-[27/05/2022 22:13:39] System Startup.
-[27/05/2022 22:13:39] Boot complete.
-[27/05/2022 22:14:10] System Startup.
-[27/05/2022 22:14:10] Boot complete.
-[27/05/2022 22:14:30] System Startup.
-[27/05/2022 22:15:53] System Startup.
-[27/05/2022 22:15:53] Boot complete.
-[27/05/2022 22:28:10] System Startup.
-[27/05/2022 22:28:10] Boot complete.
-[27/05/2022 22:28:24] System Startup.
-[27/05/2022 22:29:07] System Startup.
-[27/05/2022 22:29:23] System Startup.
-[27/05/2022 22:30:29] System Startup.
-[27/05/2022 22:30:45] The system encountered a fatal error. Reboot is required. Stacktrace: The file system is corrupted. Please reboot safely.
-[27/05/2022 22:31:16] System Startup.
-[27/05/2022 22:32:04] System Startup.
-[27/05/2022 22:32:12] The system encountered a fatal error. Reboot is required. Stacktrace: The file system is corrupted. Please reboot safely.
-[27/05/2022 22:33:22] System Startup.
-[27/05/2022 22:33:45] System Startup.
-[27/05/2022 22:33:57] System Startup.
-[27/05/2022 22:34:01] System Startup.
-[27/05/2022 22:35:49] System Startup.
-[27/05/2022 22:46:50] System Startup.
-[27/05/2022 22:46:50] The system encountered a fatal error. Reboot is required. Stacktrace: The file system is corrupted. Please reboot safely.
-[27/05/2022 22:47:02] System Startup.
-[27/05/2022 22:47:02] Boot complete.
-[27/05/2022 22:47:18] Shanthi logged in.
-[27/05/2022 22:47:20] Shanthi opened user settings
-[27/05/2022 23:03:38] System Startup.
-[27/05/2022 23:04:07] System Startup.
-[27/05/2022 23:04:19] System Startup.
-[27/05/2022 23:04:39] System Startup.
-[27/05/2022 23:08:39] System Startup.
-[27/05/2022 23:09:46] System Startup.
-[27/05/2022 23:09:56] System Startup.
-[27/05/2022 23:10:06] System Shutdown. 10.066352605819702 seconds have elapsed.
-[27/05/2022 23:10:57] System Startup.
-[27/05/2022 23:10:57] The system encountered a fatal error. Reboot is required. Stacktrace: The file system is corrupted. Please reboot safely.
-[27/05/2022 23:11:02] System Shutdown. 4.86391019821167 seconds have elapsed.
-[27/05/2022 23:11:02] System Startup.
-[27/05/2022 23:11:02] The system is entering Recovery. A fatal internal error has occurred.
-[27/05/2022 23:11:15] The system encountered a fatal error. Reboot is required. Stacktrace: The file system is corrupted. Please reboot safely.
-[28/05/2022 14:26:05] System Startup.
-[28/05/2022 14:26:10] The system encountered a fatal error. Reboot is required. Stacktrace: The file system is corrupted. Please reboot safely.
-[28/05/2022 14:26:37] System Startup.
-[28/05/2022 14:27:18] System Startup.
-[28/05/2022 14:27:30] The system encountered a fatal error. Reboot is required. Stacktrace: 
-[28/05/2022 14:27:52] System Startup.
-[28/05/2022 14:28:25] System Startup.
-[28/05/2022 14:29:02] System Startup.
-[28/05/2022 14:29:40] The system encountered a fatal error. Reboot is required. Stacktrace: The file system is corrupted. Please reboot safely.
-[28/05/2022 14:29:45] System Shutdown. 42.31341791152954 seconds have elapsed.
-[28/05/2022 14:29:45] System Startup.
-[28/05/2022 14:29:45] The system is entering Recovery. A fatal internal error has occurred.
-[28/05/2022 14:31:43] System Startup.
-[28/05/2022 14:31:43] The system encountered a fatal error. Reboot is required. Stacktrace: The file system is corrupted. Please reboot safely.
-[28/05/2022 14:33:22] System Startup.
-[28/05/2022 14:33:22] The system encountered a fatal error. Reboot is required. Stacktrace: The file system is corrupted. Please reboot safely.
-[28/05/2022 14:33:28] System Shutdown. 5.837012052536011 seconds have elapsed.
-[28/05/2022 14:33:28] System Startup.
-[28/05/2022 14:33:28] The system is entering Recovery. A fatal internal error has occurred.
-[28/05/2022 14:33:37] The system encountered a fatal error. Reboot is required. Stacktrace: The file system is corrupted. Please reboot safely.
-[28/05/2022 14:34:54] System Shutdown. 91.69887566566467 seconds have elapsed.
-[28/05/2022 14:37:40] System Startup.
-[28/05/2022 14:37:45] System Shutdown. 5.0753514766693115 seconds have elapsed.
-[28/05/2022 14:37:45] System Startup.
-[28/05/2022 14:37:45] The system is entering Recovery. A fatal internal error has occurred.
-[28/05/2022 14:38:48] System Startup.
-[28/05/2022 14:38:50] System Shutdown. 2.898066997528076 seconds have elapsed.
-[28/05/2022 14:38:50] System Startup.
-[28/05/2022 14:38:50] The system is entering Recovery. A fatal internal error has occurred.
-[28/05/2022 14:39:37] System Startup.
-[28/05/2022 14:39:41] System Shutdown. 3.5398190021514893 seconds have elapsed.
-[28/05/2022 14:39:41] System Startup.
-[28/05/2022 14:39:41] The system is entering Recovery. A fatal internal error has occurred.
-[28/05/2022 14:42:14] System Startup.
-[28/05/2022 14:42:17] System Shutdown. 3.0124754905700684 seconds have elapsed.
-[28/05/2022 14:42:17] System Startup.
-[28/05/2022 14:42:17] The system is entering Recovery. A fatal internal error has occurred.
-[28/05/2022 14:44:11] Boot complete.
-[28/05/2022 14:44:37] Tejas logged in.
-[28/05/2022 14:44:40] Tejas opened user settings
-[28/05/2022 14:45:24] Tejas opened shutdown
-[28/05/2022 14:45:24] Tejas logged out and shutdown.
-[28/05/2022 14:45:24] Preparing to shut down...
-[28/05/2022 14:45:25] All apps closed.
-[28/05/2022 14:45:25] Updating user files...
-[28/05/2022 14:45:25] Updating user files...
-[28/05/2022 14:45:25] Updating user files...
-[28/05/2022 14:45:25] Shutdown complete.
-[28/05/2022 14:45:25] Code 4 returned. Executing task.
-[28/05/2022 14:45:29] System Shutdown. 195.49287915229797 seconds have elapsed.
-[28/05/2022 14:45:29] System Startup.
-[28/05/2022 14:45:29] The system is entering Recovery. A fatal internal error has occurred.
-[28/05/2022 14:45:53] System Startup.
-[28/05/2022 14:46:00] System Startup.
-[28/05/2022 14:46:14] System Shutdown. 13.621140003204346 seconds have elapsed.
-[28/05/2022 14:46:14] System Startup.
-[28/05/2022 14:46:14] The system is entering Recovery. A fatal internal error has occurred.
-[28/05/2022 14:46:35] System Shutdown. 34.77399182319641 seconds have elapsed.
-[28/05/2022 14:46:35] System Startup.
-[28/05/2022 14:46:35] The system is entering Recovery. A fatal internal error has occurred.
-[28/05/2022 14:46:46] Boot complete.
-[28/05/2022 14:46:53] System Startup.
-[28/05/2022 14:46:53] Boot complete.
-[28/05/2022 14:47:00] Tejas logged in.
-[28/05/2022 14:47:02] Tejas opened user settings
-[28/05/2022 14:47:32] Tejas opened shutdown
-[28/05/2022 14:47:32] Tejas logged out and shutdown.
-[28/05/2022 14:47:32] Preparing to shut down...
-[28/05/2022 14:47:33] All apps closed.
-[28/05/2022 14:47:33] Updating user files...
-[28/05/2022 14:47:33] Updating user files...
-[28/05/2022 14:47:33] Updating user files...
-[28/05/2022 14:47:33] Shutdown complete.
-[28/05/2022 14:47:33] Code 4 returned. Executing task.
-[28/05/2022 14:47:37] System Shutdown. 44.08264875411987 seconds have elapsed.
-[28/05/2022 14:47:37] System Startup.
-[28/05/2022 14:47:52] System Startup.
-[28/05/2022 14:48:02] System Startup.
-[28/05/2022 14:48:38] System Startup.
-[28/05/2022 14:48:40] System Startup.
-[28/05/2022 14:48:40] Boot complete.
-[28/05/2022 14:49:50] Preparing to shut down...
-[28/05/2022 14:49:51] Updating user files...
-[28/05/2022 14:49:51] Updating user files...
-[28/05/2022 14:49:51] Updating user files...
-[28/05/2022 14:49:52] Shutdown complete.
-[28/05/2022 14:49:56] System Shutdown. 75.30946850776672 seconds have elapsed.
-[28/05/2022 14:50:04] System Startup.
-[28/05/2022 14:50:07] Boot complete.
-[28/05/2022 14:50:11] Tejas logged in.
-[28/05/2022 14:50:12] Tejas opened user settings
-[28/05/2022 14:50:15] Tejas opened shutdown
-[28/05/2022 14:50:15] Tejas logged out and shutdown.
-[28/05/2022 14:50:15] Preparing to shut down...
-[28/05/2022 14:50:16] All apps closed.
-[28/05/2022 14:50:16] Updating user files...
-[28/05/2022 14:50:16] Updating user files...
-[28/05/2022 14:50:16] Updating user files...
-[28/05/2022 14:50:16] Shutdown complete.
-[28/05/2022 14:50:33] System Startup.
-[28/05/2022 14:50:33] Boot complete.
-[28/05/2022 14:50:38] Tejas logged in.
-[28/05/2022 14:50:47] Tejas opened users
-[28/05/2022 14:50:50] Tejas opened user
-[28/05/2022 14:50:52] Tejas opened user settings
-[28/05/2022 14:50:55] Tejas opened power
-[28/05/2022 14:50:55] Tejas logged out and shutdown.
-[28/05/2022 14:50:55] Preparing to shut down...
-[28/05/2022 14:51:12] System Startup.
-[28/05/2022 14:51:12] Boot complete.
-[28/05/2022 14:51:15] Tejas logged in.
-[28/05/2022 14:51:16] Tejas opened user settigns
-[28/05/2022 14:51:19] Tejas opened notepad
-[28/05/2022 14:51:24] Tejas opened power
-[28/05/2022 14:51:24] Tejas logged out and shutdown.
-[28/05/2022 14:51:24] Preparing to shut down...
-[28/05/2022 15:16:34] System Startup.
-[28/05/2022 15:16:34] Boot complete.
-[28/05/2022 15:16:37] Tejas logged in.
-[28/05/2022 15:16:38] Tejas opened bagels
-[28/05/2022 15:29:27] System Startup.
-[28/05/2022 15:29:27] Boot complete.
-[28/05/2022 15:29:31] Tejas logged in.
-[28/05/2022 18:49:57] Tejas opened power
-[28/05/2022 18:49:57] Tejas logged out and shutdown.
-[28/05/2022 18:49:57] Preparing to shut down...
-[28/05/2022 18:49:59] Updating user files...
-[28/05/2022 18:49:59] Updating user files...
-[28/05/2022 18:49:59] Updating user files...
-[28/05/2022 18:49:59] Shutdown complete.
-[28/05/2022 18:50:01] Code 3 returned. Executing task.
-[28/05/2022 18:50:01] System Shutdown. 12034.03083562851 seconds have elapsed.
-[28/05/2022 18:50:05] System Startup.
-[28/05/2022 18:50:05] Boot complete.
-[28/05/2022 18:50:07] Tejas logged in.
-[28/05/2022 18:50:09] Tejas opened bagels
-[28/05/2022 18:51:07] Tejas opened hangman
-[28/05/2022 18:55:11] Tejas opened tictactoe
-[28/05/2022 18:56:47] Tejas opened sonar
-[28/05/2022 19:00:20] Tejas opened power
-[28/05/2022 19:00:20] Tejas logged out and shutdown.
-[28/05/2022 19:00:20] Preparing to shut down...
-[28/05/2022 19:00:24] Updating user files...
-[28/05/2022 19:00:24] Updating user files...
-[28/05/2022 19:00:24] Updating user files...
-[28/05/2022 19:00:24] Shutdown complete.
-[28/05/2022 19:00:25] Code 2 returned. Executing task.
-[28/05/2022 19:00:25] System Shutdown. 620.6412529945374 seconds have elapsed.
-[28/05/2022 19:00:28] System Startup.
-[28/05/2022 19:00:28] Boot complete.
-[28/05/2022 19:00:31] Tejas logged in.
-[28/05/2022 19:00:33] Tejas opened task manager
-[30/05/2022 22:06:03] System Startup.
-[30/05/2022 22:06:03] Boot complete.
-[30/05/2022 22:13:25] System Startup.
-[30/05/2022 22:15:41] System Startup.
-[30/05/2022 22:15:51] System Startup.
-[30/05/2022 22:15:55] System Shutdown. 4.271996736526489 seconds have elapsed.
-[30/05/2022 22:15:55] System Startup.
-[30/05/2022 22:15:55] The system is entering Recovery. A fatal internal error has occurred.
+[31/05/2022 10:40:49] System reset.
+[31/05/2022 10:40:51] Code 4 returned. Executing task.
+[31/05/2022 10:40:55] System Shutdown. 26.553597688674927 seconds have elapsed.
+[31/05/2022 10:40:55] System Startup.
+[31/05/2022 10:40:55] The system has entered SETUP.
+[31/05/2022 10:43:12] SETUP is complete. Guest user has been added. Entering startup.
+[31/05/2022 10:55:31] Guest user logged in
+[31/05/2022 10:55:31] Guest logged in.
+[31/05/2022 10:55:38] Guest opened bagels
+[31/05/2022 10:56:46] The system encountered a fatal error. Reboot is required. Stacktrace: [Errno 2] No such file or directory: 'Users\\Guest\\bagels.bgl'
+[31/05/2022 13:12:40] Boot complete.
+[31/05/2022 13:12:40] System Startup.
+[31/05/2022 13:12:40] The system has entered SETUP.
+[31/05/2022 13:12:50] SETUP is complete. New user has been added. Entering startup.
+[31/05/2022 13:12:58] Tejas logged in.
+[31/05/2022 13:12:59] Tejas opened notepad
+[01/06/2022 09:32:53] Boot complete.
+[01/06/2022 09:32:53] System Startup.
+[01/06/2022 09:33:03] Tejas logged in.
+[01/06/2022 09:33:14] Tejas opened shutdown
+[01/06/2022 09:33:14] Tejas logged out and shutdown.
+[01/06/2022 09:33:14] Preparing to shut down...
+[01/06/2022 09:33:16] Updating user files...
+[01/06/2022 09:33:16] Shutdown complete.
+[01/06/2022 09:33:18] Code 3 returned. Executing task.
+[01/06/2022 09:33:18] System Shutdown. 25.05859375 seconds have elapsed.
+[01/06/2022 09:33:21] Boot complete.
+[01/06/2022 09:33:21] System Startup.
+[01/06/2022 09:33:24] Tejas logged in.
+[01/06/2022 09:34:09] Tejas opened notepad
+[01/06/2022 09:34:13] Tejas opened bagels
+[01/06/2022 09:36:10] Tejas opened tt
+[01/06/2022 09:36:12] Tejas opened ttt
+[01/06/2022 09:46:20] Tejas opened power
+[01/06/2022 09:46:20] Tejas logged out and shutdown.
+[01/06/2022 09:46:20] Preparing to shut down...
+[01/06/2022 09:46:22] Updating user files...
+[01/06/2022 09:46:22] Shutdown complete.
+[01/06/2022 09:46:23] Code 2 returned. Executing task.
+[01/06/2022 09:46:23] System Shutdown. 782.1840951442719 seconds have elapsed.
+[01/06/2022 09:58:23] Boot complete.
+[01/06/2022 09:58:23] System Startup.
+[01/06/2022 09:58:23] A fatal internal error has occurred. The system is entering Recovery.
+[01/06/2022 09:59:46] Boot complete.
+[01/06/2022 09:59:46] System Startup.
+[01/06/2022 09:59:46] A fatal internal error has occurred. The system is entering Recovery.
+[01/06/2022 10:00:38] Boot complete.
+[01/06/2022 10:00:38] System Startup.
+[01/06/2022 10:00:38] A fatal internal error has occurred. The system is entering Recovery.
+[01/06/2022 10:00:44] Boot complete.
+[01/06/2022 10:00:44] System Startup.
+[01/06/2022 10:00:44] A fatal internal error has occurred. The system is entering Recovery.
+[01/06/2022 10:00:48] Boot complete.
+[01/06/2022 10:00:48] System Startup.
+[01/06/2022 10:00:48] A fatal internal error has occurred. The system is entering Recovery.
+[01/06/2022 10:02:24] Boot complete.
+[01/06/2022 10:02:24] System Startup.
+[01/06/2022 10:02:24] A fatal internal error has occurred. The system is entering Recovery.
+[01/06/2022 10:02:32] Boot complete.
+[01/06/2022 10:02:32] System Startup.
+[01/06/2022 10:02:32] A fatal internal error has occurred. The system is entering Recovery.
+[01/06/2022 10:05:27] Boot complete.
+[01/06/2022 10:05:27] System Startup.
+[01/06/2022 10:05:27] A fatal internal error has occurred. The system is entering Recovery.
+[01/06/2022 10:06:04] Boot complete.
+[01/06/2022 10:06:04] System Startup.
+[01/06/2022 10:06:04] A fatal internal error has occurred. The system is entering Recovery.
+[01/06/2022 10:06:24] Boot complete.
+[01/06/2022 10:06:24] System Startup.
+[01/06/2022 10:06:24] A fatal internal error has occurred. The system is entering Recovery.
+[01/06/2022 10:07:41] Boot complete.
+[01/06/2022 10:07:41] System Startup.
+[01/06/2022 10:07:41] A fatal internal error has occurred. The system is entering Recovery.
+[01/06/2022 10:08:05] The system has entered SETUP.
+[01/06/2022 10:08:05] Cerberus encountered a fatal error. Reboot is required. Stacktrace: The User folder is empty.
+[01/06/2022 10:08:10] System Shutdown. 28.963562488555908 seconds have elapsed.
+[01/06/2022 10:08:10] System Startup.
+[01/06/2022 10:08:10] A fatal internal error has occurred. The system is entering Recovery.
+[01/06/2022 10:08:25] The system has entered SETUP.
+[01/06/2022 10:08:42] SETUP is complete. New user has been added. Entering startup.
+[01/06/2022 10:08:46] Preparing to shut down...
+[01/06/2022 10:08:47] Updating user files...
+[01/06/2022 10:08:47] Shutdown complete.
+[01/06/2022 10:08:49] System Shutdown. 67.41682982444763 seconds have elapsed.
+[01/06/2022 10:09:44] Boot complete.
+[01/06/2022 10:09:44] System Startup.
+[01/06/2022 10:11:11] Boot complete.
+[01/06/2022 10:11:11] System Startup.
+[01/06/2022 10:11:24] Boot complete.
+[01/06/2022 10:11:24] System Startup.
+[01/06/2022 10:17:44] Boot complete.
+[01/06/2022 10:17:44] System Startup.
+[01/06/2022 10:18:15] Boot complete.
+[01/06/2022 10:18:15] System Startup.
+[01/06/2022 10:18:29] Boot complete.
+[01/06/2022 10:18:29] System Startup.
+[01/06/2022 10:18:34] Preparing to shut down...
+[01/06/2022 10:18:44] All apps closed.
+[01/06/2022 10:18:44] Updating user files...
+[01/06/2022 10:18:44] Shutdown complete.
+[01/06/2022 10:18:48] System Shutdown. 18.87889575958252 seconds have elapsed.
+[01/06/2022 10:18:48] System Startup.
+[01/06/2022 10:18:57] Preparing to shut down...
+[01/06/2022 10:18:58] Updating user files...
+[01/06/2022 10:18:58] Shutdown complete.
+[01/06/2022 10:18:59] System Shutdown. 30.071447372436523 seconds have elapsed.
+[01/06/2022 10:28:46] Boot complete.
+[01/06/2022 10:28:46] System Startup.
+[01/06/2022 10:28:46] The system has entered SETUP.
+[01/06/2022 10:29:01] SETUP is complete. New user has been added. Entering startup.
+[01/06/2022 10:29:04] Preparing to shut down...
+[01/06/2022 10:29:06] Updating user files...
+[01/06/2022 10:29:06] Shutdown complete.
+[01/06/2022 10:29:10] System Shutdown. 24.239367485046387 seconds have elapsed.
+[01/06/2022 10:29:10] System Startup.
+[01/06/2022 10:29:13] Preparing to shut down...
+[01/06/2022 10:29:14] Cerberus encountered a fatal error. Reboot is required. Stacktrace: string indices must be integers
+[01/06/2022 13:02:27] Boot complete.
+[01/06/2022 13:02:27] System Startup.

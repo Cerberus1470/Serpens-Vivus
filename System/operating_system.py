@@ -28,15 +28,16 @@ def boot():
     running = True
     start = time.time()
     dirty = []
+    cerberus = OperatingSystem()
     while running:
         try:
             # Initialization reads all files and data from disk and loads it into memory.
             Loading.log("System Startup.")
-            if dirty:
-                Loading.log("The system is entering Recovery. A fatal internal error has occurred.")
-                system_recovery.boot(0, dirty)
-                dirty = []
-            cerberus = OperatingSystem()
+            if cerberus.error:
+                Loading.log("A fatal internal error has occurred. The system is entering Recovery.")
+                Loading.returning("Entering Recovery...")
+                system_recovery.SystemRecovery.boot(cerberus.error)
+            cerberus.reload()
             # Logic to run setup
             if len(cerberus.users) <= 0:
                 cerberus.setup()
@@ -50,10 +51,10 @@ def boot():
         except Exception as e:
             for i in range(20):
                 print("\n")
-            Loading.log("The system encountered a fatal error. Reboot is required. Stacktrace: {}".format(e))
+            Loading.log("{} encountered a fatal error. Reboot is required. Stacktrace: {}".format(cerberus.name, e))
 
-            if input('!!! The system encountered a fatal error. Reboot is required. !!! \nWhat failed: {}\n\nStacktrace: \n{}'.format(
-                    str(traceback.format_exc()).split('\n')[len(traceback.format_exc().split('\n'))-4].split('"')[1], str(traceback.format_exc()) + '\nType "REBOOT" to reboot.')) == "REBOOT":
+            if input('!!! {} encountered a fatal error. Reboot is required. !!! \nWhat failed: {}\n\nStacktrace: \n{}'.format(
+                    cerberus.name, str(traceback.format_exc()).split('\n')[len(traceback.format_exc().split('\n'))-4].split('"')[1], str(traceback.format_exc()) + '\nType "REBOOT" to reboot.')) == "REBOOT":
                 pass
             else:
                 print("Goodbye")
@@ -68,7 +69,7 @@ class OperatingSystem:
         # User list, name, and versions. All inherent settings.
         self.users = []
         self.name = "Cerberus"
-        self.dirty = False
+        self.error = None
         self.recently_deleted_users = []
         self.utilities = ["User Settings", "System Info\t", "Notepad\t\t", "SpeedSlow\t", "\t\t\t"]
         self.games = ["Bagels\t", "TicTacToe", "Hangman ", "Sonar", "Joke Teller"]
@@ -76,63 +77,6 @@ class OperatingSystem:
         self.versions = {"Main": 5.4, "Joke Teller": 1.4, "Notepad": 3.3, "Bagels": 4.5, "TicTacToe": 5.7, "Hangman": 3.5, "Sonar": 2.1, "User Settings": 2.9, "System Info": 1.6, "Event Viewer": 1.1, "SpeedSlow": 1.2, "System Recovery": 1.0}
         self.path = "Users\\{}"
         self.reload()
-        # The main boot sequence. Reading from user folder and readying lines of decrypted user info.
-        # lines = []
-        # Loading.log("Reading info from memory...")
-        # # Looping through the User folders to read their info files.
-        # for subdir, dirs, files in os.walk('Users'):
-        #     for dir1 in dirs:
-        #         try:
-        #             # The first of many user files...
-        #             file = open(self.path.format(dir1) + "\\info.usr", 'r')
-        #             file1 = list(file)
-        #             lines.append([Loading.caesar_decrypt(file1[0].split('\n')[0]), Loading.caesar_decrypt(file1[1].split('\n')[0])])
-        #             file.close()
-        #         except FileNotFoundError:
-        #             continue
-        # Loading.log("Decryption complete.")
-        # for i in lines:
-        #     # Ready the sections!
-        #     sections = ['USER TYPE', 'USERNAME', 'PASSWORD', 'CURRENT STATUS']
-        #     progress = 0
-        #     user_info = ['', '', '', '']
-        #     try:
-        #         # First save the user type. (Standard vs Admin)
-        #         (user_info[0], rest) = i[0].split('\t\t', 1)
-        #         # Now loop for 4 more blocks, tracking progress so the user is alerted about corruption.
-        #         for j in range(1, 4):
-        #             progress = j
-        #             (user_info[j], rest) = rest.split('\t\t', 1)
-        #             pass
-        #     except ValueError:
-        #         # If something is missing, log the event.
-        #         Loading.log("A user file is corrupted at the {} section.".format(sections[progress]))
-        #         user_info[progress] = 'INVALID'
-        #     if user_info[0] == 'StandardUser':
-        #         self.users.append(User.StandardUser(user_info[1], user_info[2], user_info[3] == "True"))
-        #     else:
-        #         self.users.append(User.Administrator(user_info[1], user_info[2], user_info[3] == "True"))
-        #     if i[1]:
-        #         self.users[lines.index(i)].saved_state = {}
-        #         apps = (bagels, hangman, jokes, notepad, sonar, speedslow, system_info, tictactoe, user_settings)
-        #         for j in apps:
-        #             self.users[lines.index(i)].saved_state[j] = i[1].split('.')[apps.index(j)]
-        #             # {bagels: i[1].split('.')[0], hangman: i[1].split('.')[1], jokes: i[1].split('.')[2],
-        #             #  notepad: i[1].split('.')[3], sonar: i[1].split('.')[4], speedslow: i[1].split('.')[5],
-        #             #  system_info: i[1].split('.')[6], tictactoe: i[1].split('.')[7], user_settings: i[1].split('.')[8]}
-        #         if self.users[lines.index(i)].elevated:
-        #             self.users[lines.index(i)].saved_state[task_manager] = i[1].split('.')[9]
-        #             self.users[lines.index(i)].saved_state[event_viewer] = i[1].split('.')[10]
-        #     else:
-        #         self.users[lines.index(i)].saved_state["Bagels"] = self.users[lines.index(i)].saved_state["Hangman"] = \
-        #             self.users[lines.index(i)].saved_state["Jokes"] = self.users[lines.index(i)].saved_state["Notepad"] = \
-        #             self.users[lines.index(i)].saved_state["Sonar"] = self.users[lines.index(i)].saved_state["SpeedSlow"] = \
-        #             self.users[lines.index(i)].saved_state["System Info"] = self.users[lines.index(i)].saved_state["TicTacToe"] = \
-        #             self.users[lines.index(i)].saved_state["User Settings"] = "not running"
-        #         if self.users[lines.index(i)].elevated:
-        #             self.users[lines.index(i)].saved_state["Task Manager"] = \
-        #                 self.users[lines.index(i)].saved_state["Event Viewer"] = "not running"
-        # Loading.log("The protected database is finished.")
         # Setting the current user object.
         for j in range(len(self.users)):
             if self.users[j].current:
@@ -148,6 +92,7 @@ class OperatingSystem:
 
     def reload(self):
         global dirty
+        self.error = None
         try:
             new_users = []
             for subdir, dirs, files in os.walk("Users"):
@@ -161,14 +106,14 @@ class OperatingSystem:
                         elif info[0] == "Administrator":
                             new_users.append(User.Administrator(info[1], info[2], info[3] == "True", programs))
                         else:
-                            dirty.append(subdir)
+                            dirty.append((subdir, info, programs))
                             raise IndexError
                     else:
-                        dirty.append(subdir)
+                        dirty.append((subdir, info, programs))
                         raise IndexError
             self.users = new_users
         except IndexError:
-            raise Loading.CorruptedFileSystem("The file system is corrupted. Please reboot safely.")
+            self.error = system_recovery.CorruptedFileSystem("The file system is corrupted. Please reboot safely.")
 
     def startup(self):
         # The main startup and login screen, housed within a while loop to keep the user here unless specific circumstances are met.
@@ -226,7 +171,7 @@ class OperatingSystem:
             else:
                 while True:
                     # The guest account, housed in its own while loop. The only way to exit is to use debugexit, or when the user shuts down.
-                    print("The Guest account will boot into the main screen, but any user settings will have no effect. This includes usernames, passwords, game progress, saved notes, etc. Press [ENTER] or [return] to login")
+                    print("The Guest account will boot into the main screen, but any user settings will have no effect. \nThis includes usernames, passwords, game progress, saved notes, etc. \nPress [ENTER] or [return] to login")
                     if input() == 'debugexit':
                         return
                     Loading.log("Guest user logged in")
@@ -284,7 +229,6 @@ class OperatingSystem:
                             if i.boot(self) == 'regular':
                                 print("Hello! I am {}, running POCS v{}".format(self.name, self.versions["Main"]))
                                 return 'regular'
-                    break
             if not choice_in_list:
                 Loading.returning("Please choose from the list of applications.", 1)
 
@@ -381,7 +325,8 @@ class OperatingSystem:
         try:
             os.mkdir("Users")
         except FileExistsError:
-            raise Loading.CorruptedFileSystem("The file structure is corrupted.")
+            self.error = system_recovery.EmptyUserFolder("The User folder is empty.")
+            raise self.error
         print("SETUP: Since this is the first time you're running this OS, you have entered the setup.")
         # Ask the user if they want to make a user or not.
         print("Would you like to create a new user, or login as guest?")
@@ -425,5 +370,6 @@ class OperatingSystem:
             self.current_user = User.Administrator("Guest", "", True)
             self.users.append(self.current_user)
             Loading.returning("Guest user added. There is no password. Press [ENTER] or [return] during login. Entering startup in 3 seconds.", 3)
+            os.rmdir("Users")
             Loading.log("SETUP is complete. Guest user has been added. Entering startup.")
             return

@@ -1,12 +1,14 @@
-from Applications import bagels
-from Applications import hangman
-from Applications import jokes
-from Applications import notepad
-from Applications import sonar
-from Applications import speed_up_or_slow_down
-from Applications import system_info
-from Applications import tictactoe
-from Applications import user_settings
+from System.task_manager import TaskManager
+from System.event_viewer import EventViewer
+from Applications.jokes import Jokes
+from Applications.notepad import Notepad
+from Applications.speed_up_or_slow_down import SpeedSlow
+from Applications.bagels import Bagels
+from Applications.tictactoe import TicTacToe
+from Applications.hangman import Hangman
+from Applications.sonar import Sonar
+from Applications.system_info import SystemInfo
+from Applications.user_settings import UserSettings
 
 
 class User:
@@ -17,13 +19,12 @@ class User:
         self.password = password
         self.current = current
         self.saved_state = {}
-        if saved_state is None:
-            self.saved_state = {bagels: "not running", hangman: "not running", jokes: "not running", notepad: "not running",
-                                sonar: "not running", speed_up_or_slow_down: "not running", system_info: "not running",
-                                tictactoe: "not running", user_settings: "not running"}
-        else:
-            apps = (bagels, hangman, jokes, notepad, sonar, speed_up_or_slow_down, system_info, tictactoe, user_settings)
-            for j in apps:
+        # Alphabetical order
+        apps = (Bagels, Hangman, Jokes, Notepad, Sonar, SpeedSlow, SystemInfo, TicTacToe, UserSettings, EventViewer, TaskManager)
+        for j in apps:
+            if saved_state is None:
+                self.saved_state[j] = 'not running'
+            else:
                 self.saved_state[j] = saved_state[apps.index(j)]
 
         self.elevated = False
@@ -50,8 +51,12 @@ class Administrator(User):
     def __init__(self, username="Default", password="Default", current=True, saved_state=None):
         if saved_state == ['\n'] or not saved_state:
             super().__init__(username, password, current)
+            self.saved_state[EventViewer] = "not running"
+            self.saved_state[TaskManager] = "not running"
         else:
-            super().__init__(username, password, current, saved_state)
+            super().__init__(username, password, current, saved_state) # 9 and 10
+            self.saved_state[EventViewer] = saved_state[9]
+            self.saved_state[TaskManager] = saved_state[10]
         self.elevated = True
         return
 
