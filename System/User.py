@@ -20,7 +20,7 @@ class User:
         self.current = current
         self.saved_state = {}
         # Alphabetical order
-        apps = (Bagels, Hangman, Jokes, Notepad, Sonar, SpeedSlow, SystemInfo, TicTacToe, UserSettings, EventViewer, TaskManager)
+        apps = (Bagels, Hangman, Jokes, Notepad, Sonar, SpeedSlow, SystemInfo, TicTacToe, UserSettings)
         for j in apps:
             if saved_state is None:
                 self.saved_state[j] = 'not running'
@@ -47,6 +47,7 @@ class StandardUser(User):
         return "I am a standard user named " + self.username
 
 
+# noinspection PyTypeChecker
 class Administrator(User):
     def __init__(self, username="Default", password="Default", current=True, saved_state=None):
         if saved_state == ['\n'] or not saved_state:
@@ -54,7 +55,7 @@ class Administrator(User):
             self.saved_state[EventViewer] = "not running"
             self.saved_state[TaskManager] = "not running"
         else:
-            super().__init__(username, password, current, saved_state) # 9 and 10
+            super().__init__(username, password, current, saved_state)
             self.saved_state[EventViewer] = saved_state[9]
             self.saved_state[TaskManager] = saved_state[10]
         self.elevated = True

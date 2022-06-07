@@ -54,13 +54,14 @@ TODO - Advanced
     > - Add Sonar.
     - Fix Guest functionality for all apps
         - Add a guest subroutine that doesn't ask for filenames, just makes a new game when launching, no file selection, etc.
+    - Implement recovery password
 
 TODO - Really advanced
     - Add user personalization. See documentation below.
     - Add a game store. I'll add some documentation below.
-    ~ - Implement hashing (encrypting the databases)
-        - Error Correction in databases.
-        - Develop error correcting app after implementing encryption. More documentation below.
+    > ~ - Implement hashing (encrypting the databases)
+        > - Error Correction in databases.
+        > - Develop error correcting app after implementing encryption. More documentation below.
     - Implement Threads
     ~ - Revamp db_unprotected.txt into user directories. More documentation below.
         ~ - Completely revamp Notes app. See below for documentation.
@@ -92,17 +93,18 @@ Game store:
 X Each game will be iterated through and the individual user progress will be written to the database.
     X - Each game will now have game files, so no more saving through shutdown.
 - Each game will also be completely internalized. Every parameter given to __init__ and boot are literals, no objects.
-- This is going to be really hard.
+X - This is going to be really hard.
+- ACTUALLY, Since every game is isolated and doesn't require anything, doing this is much easier.
 
 Hashing:
 - Essentially encrypting the databases.
 - This will prevent tampering with the saved data.
-- Error correction (SCRAPPED):
-    - If the data becomes corrupted from an unexpected shutdown or something, an error correcting app will be launched on the next startup.
-    - The user will also be able to launch this if they believe the OS is corrupt.
-    - This will do 2 things: Error check the encrypted databases, and error check the entire root code. Think Disk Check or Recovery Tools for Windows.
-    - The function call will replace the corruption error message being displayed during startup with corrupted databases.
-    - This will probably be even harder than the Game store.
+X - Error correction (SCRAPPED):
+    X - If the data becomes corrupted from an unexpected shutdown or something, an error correcting app will be launched on the next startup.
+    X - The user will also be able to launch this if they believe the OS is corrupt.
+    X - This will do 2 things: Error check the encrypted databases, and error check the entire root code. Think Disk Check or Recovery Tools for Windows.
+    X - The function call will replace the corruption error message being displayed during startup with corrupted databases.
+    X - This will probably be even harder than the Game store.
 - New Error correction:
     - Essentially, this will provide a comprehensive error report of what happened, possible causes, and how to fix it.
 

@@ -172,6 +172,14 @@ class UserSettings:
                             else:
                                 Loading.log("The user {} was deleted by {}".format(i.username, os_object.current_user.username))
                                 os_object.recently_deleted_users.append(os_object.users.pop(os_object.users.index(i)))
+                                for subdir, dirs, files in os.walk("Users"):
+                                    if subdir == "Users\\" + delete_sel.username:
+                                        try:
+                                            for j in files:
+                                                os.remove(subdir + '\\' + j)
+                                            os.rmdir(subdir)
+                                        except OSError:
+                                            pass
                                 Loading.returning("Deleting user... ", 3)
                                 print("\nUser deleted successfully.")
                                 break

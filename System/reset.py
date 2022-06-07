@@ -8,6 +8,7 @@ class Reset:
 
     @staticmethod
     def boot(os_object):
+        os_object.current_user = os_object.current_user
         return Reset.user_reset()
 
     def __init__(self):
