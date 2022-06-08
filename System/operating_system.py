@@ -1,6 +1,7 @@
 import time
 
 import os
+import random
 from System import Loading
 from System.User import *
 from System import system_recovery
@@ -39,8 +40,7 @@ def boot():
                 print('\n\n\n\n\n')
             cerberus.reload()
             # Logic to run setup
-            if len(cerberus.users) <= 0:
-                cerberus.setup()
+
             # Logic for restarting.
             if cerberus.startup() == 4:
                 Loading.returning("Restarting system...", 2)
@@ -84,48 +84,52 @@ class OperatingSystem:
         return "< This is an OperatingSystem class named " + self.name + "\n Users: " + str(len(self.users)) + "\n Current User: " + \
                self.current_user.username + "\n Current Password is hidden. >"
 
+    # noinspection PyUnreachableCode
     def reload(self):
         global dirty
         self.error = []
         new_users = []
         for subdir, dirs, files in os.walk("Users"):
+            if len(dirs) == 0 and len(files) == 0:
+                self.setup()
+                return
             if "info.usr" in files:
                 file = list(open("{}\\info.usr".format(subdir), 'r'))
                 info = Loading.caesar_decrypt(file[0]).split('\t\t')
-                programs = Loading.caesar_decrypt(file[1]).split('.')
-                if len(info) == 5 and (len(programs) == 1 or len(programs) == 9 or len(programs) == 11):
+                programs = Loading.caesar_decrypt(file[1]).split('\t\t')
+                if len(info) == 5 and (len(programs) == 1 or len(programs) == 10 or len(programs) == 12):
                     try:
                         new_users.append(globals()[info[0]](info[1], info[2], info[3] == "True", programs))
-                        # if info[0] == "StandardUser":
-                        #     new_users.append(User.StandardUser(info[1], info[2], info[3] == "True", programs))
-                        # elif info[0] == "Administrator":
-                        #     new_users.append(User.Administrator(info[1], info[2], info[3] == "True", programs))
                     except (AttributeError, IndexError):
                         self.error.append(system_recovery.CorruptedFileSystem([subdir, info, programs]))
                 else:
                     self.error.append(system_recovery.CorruptedFileSystem([subdir, info, programs]))
-        # Setting the current user object.
-        admin_present = False
-        self.users = new_users
-        for j in self.users:
-            if j.current:
-                self.current_user = j
-            if j.elevated:
-                admin_present = True
-        if self.current_user.username == "Default" and self.current_user.password == "Default" and self.current_user.__class__.__name__ == "User":
-            self.error.append(system_recovery.NoCurrentUser())
-        if not admin_present:
-            self.error.append(system_recovery.NoAdministrator())
-        if self.error:
-            if len(self.error) == 1:
-                raise Exception(self.error[0].__repr__() + " Please reboot the system.")
-            else:
-                raise Exception("Multiple fatal errors occurred. Please reboot the system.")
+        if new_users or self.error:
+            # Setting the current user object.
+            admin_present = False
+            self.users = new_users
+            for j in self.users:
+                if j.current:
+                    self.current_user = j
+                if j.elevated:
+                    admin_present = True
+            if self.current_user.username == "Default" and self.current_user.password == "Default" and self.current_user.__class__.__name__ == "User":
+                self.error.append(system_recovery.NoCurrentUser())
+            if not admin_present:
+                self.error.append(system_recovery.NoAdministrator())
+            if self.error:
+                if len(self.error) == 1:
+                    raise Exception(self.error[0].__repr__() + " Please reboot the system.")
+                else:
+                    raise Exception("Multiple fatal errors occurred. Please reboot the system.")
+        else:
+            self.setup()
+            return
 
     def startup(self):
+
         # The main startup and login screen, housed within a while loop to keep the user here unless specific circumstances are met.
         while True:
-            # Label(main_window, text="Hello! I am Cerberus, running user: " + self.current_user + ". Type 'switch' to switch users or \"shutdown\" to shut down the system.").grid(row=0, column=0)
             print("\nHello! I am {}.".format(self.name))
             if self.current_user.username != 'Guest':
                 # Separate while loop for users. Guest users head down.
@@ -178,12 +182,13 @@ class OperatingSystem:
             else:
                 while True:
                     # The guest account, housed in its own while loop. The only way to exit is to use debugexit, or when the user shuts down.
-                    print("The Guest account will boot into the main screen, but any user settings will have no effect. \nThis includes usernames, passwords, game progress, saved notes, etc. \nPress [ENTER] or [return] to login")
+                    print("WARNING: The Guest account will boot into the main screen, but any user settings or games will have no effect. \nThis includes usernames, passwords, game progress, saved notes, etc.")
+                    print("All games will say that the file or path is not found, this is normal. The Guest User doesn't have a user folder.\nPress [ENTER] or [return] to login.")
                     if input() == 'debugexit':
                         return
                     Loading.log("Guest user logged in")
                     self.operating_system()
-                    break
+                    return 3
 
     def operating_system(self):
         # The main OS window. Contains the list of apps and choices. Stored in a while loop to keep them inside.
@@ -218,11 +223,9 @@ class OperatingSystem:
                 return self.shutdown()
             elif choice in ('debugexit', 'debug'):
                 return 'regular'
-            choice_in_list = False
             for i in choices_list:
                 if choice in choices_list[i]:
-                    choice_in_list = True
-                    self.current_user.saved_state[i] = "running"
+                    self.current_user.saved_state[i] = True
                     if list(choices_list.keys()).index(i) >= len(choices_list) - 3:
                         if self.current_user.elevated:
                             if i.boot(self) == 4:
@@ -236,7 +239,8 @@ class OperatingSystem:
                             if i.boot(self) == 'regular':
                                 print("Hello! I am {}, running POCS v{}".format(self.name, self.versions["Main"]))
                                 return 'regular'
-            if not choice_in_list:
+                    break
+            else:
                 Loading.returning("Please choose from the list of applications.", 1)
 
     def shutdown(self):
@@ -285,15 +289,15 @@ class OperatingSystem:
                     for i in self.users:
                         for j in i.saved_state:
                             if i.current:
-                                if self.current_user.saved_state[j] == 'running':
+                                if self.current_user.saved_state[j]:
                                     program_count += 1
-                            elif i.saved_state[j] == "running":
-                                i.saved_state[j] = "not running"
+                            elif i.saved_state[j]:
+                                i.saved_state[j] = False
                     if program_count > 0:
                         print("Waiting for {} programs to close.".format(program_count))
                         for i in self.current_user.saved_state:
-                            if self.current_user.saved_state[i] == 'running':
-                                self.current_user.saved_state[i] = "not running"
+                            if self.current_user.saved_state[i]:
+                                self.current_user.saved_state[i] = False
                                 Loading.returning("Closing {}.".format(str(i.__name__)), 2)
                         if shutdown_choice in ('shutdown', '3'):
                             print("Shutting down...")
@@ -304,14 +308,14 @@ class OperatingSystem:
                         print("No apps are open.")
                 for i in self.users:
                     # Running Programs!
-                    i.saved_state = '.'.join(i.saved_state.values())
+                    i.saved_state = '\t\t'.join([str(j) for j in i.saved_state.values()]) + '\t\t\n'
                 # Now write each user's info to their respective info files.
                 for i in self.users:
                     # Open their file, write encrypted data and close the file.
                     Loading.log("Updating user files...")
                     user_file = open(self.path.format(i.username) + "\\info.usr", 'w')
                     user_file.write(Loading.caesar_encrypt(i.__class__.__name__ + '\t\t' + i.username + '\t\t' + i.password + "\t\t" + str(i.current) + '\t\t\n'))
-                    user_file.write(Loading.caesar_encrypt(i.saved_state + '\n'))
+                    user_file.write(Loading.caesar_encrypt(i.saved_state))
                     user_file.close()
                 # Finishing with some print statements.
                 Loading.log("Shutdown complete.")
@@ -332,8 +336,7 @@ class OperatingSystem:
         try:
             os.mkdir("Users")
         except FileExistsError:
-            self.error.append(system_recovery.EmptyUserFolder())
-            raise self.error
+            pass
         print("SETUP: Since this is the first time you're running this OS, you have entered the setup.")
         # Ask the user if they want to make a user or not.
         print("Would you like to create a new user, or login as guest?")
@@ -355,26 +358,28 @@ class OperatingSystem:
                         print("The passwords you entered didn't match. Type the same password twice.")
                 else:
                     # If the user did not enter a password.
-                    self.current_user = Administrator(setup_user, 'python123', True)
-                    self.users.append(self.current_user)
-                    os.mkdir(self.path.format(self.current_user.username))
-                    file = open(self.path.format(self.current_user.username) + '\\info.usr', 'x')
-                    file.close()
-                    Loading.returning('Default password set. The password is "python123". Entering startup in 3 seconds.', 3)
-                    return
+                    setup_pwd = "python123"
+                    Loading.returning('Default password set. The password is "python123".', 2)
+                    break
             # User entered password correctly twice.
             self.current_user = Administrator(setup_user, setup_pwd, True)
+            Loading.returning("Password set successfully.", 2)
+            Loading.returning("One last thing!", 1)
+            recovery_pwd = ''.join(str(random.choice(Loading.alphabet)) for i in range(1000)) + '\t\t' + input("Please enter a recovery password.") + '\t\t' + ''.join(str(random.choice(Loading.alphabet)) for i in range(1000))
+            file = open("System\\recovery.info", 'w')
+            file.write(Loading.caesar_encrypt(recovery_pwd))
+            file.close()
             self.users.append(self.current_user)
-            os.mkdir('Users\\{}'.format(self.current_user.username))
+            os.mkdir(self.path.format(self.current_user.username))
             file = open(self.path.format(self.current_user.username) + "\\info.usr", 'w')
             file.write(Loading.caesar_encrypt(self.current_user.__class__.__name__ + '\t\t' + self.current_user.username + '\t\t' + self.current_user.password + "\t\t" + str(self.current_user.current) + '\t\t\n\n'))
             file.close()
-            Loading.returning("Password set successfully. Entering startup in 3 seconds.", 3)
+            Loading.returning("Entering startup in 3 seconds.", 3)
         else:
             # If the user did not specify whether they wanted a new user.
             self.current_user = Administrator("Guest", "", True)
             self.users.append(self.current_user)
-            Loading.returning("Guest user added. There is no password. Press [ENTER] or [return] during login. Entering startup in 3 seconds.", 3)
+            Loading.returning("Guest user added. There is no password. Entering startup in 3 seconds.", 3)
             os.rmdir("Users")
-        Loading.log("SETUP is complete. Guest user has been added. Entering startup.")
+        Loading.log("SETUP is complete. Entering startup.")
         return

@@ -9,7 +9,6 @@ class Notepad:
 
     @staticmethod
     def boot(os_object):
-        os_object.current_user.saved_state['Notepad'] = 'running'
         while True:
             notepad = Notepad(os_object.current_user.username)
             if notepad.filename == 'exit':

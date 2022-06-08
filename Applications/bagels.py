@@ -32,14 +32,14 @@ def delete(path, extension):
 
 def init_game(self, path, extension):
     while True:
+        count = 0
         for subdir, dirs, files in os.walk(path):
-            count = 0
             for file in files:
                 if file[len(file)-3:len(file)] == extension:
                     count += 1
                     print(str(count) + '. ' + file)
-            print(str(count+1) + '. New Game')
-            print(str(count+2) + '. Delete Game')
+        print(str(count+1) + '. New Game')
+        print(str(count+2) + '. Delete Game')
         self.filename = input('Which file would you like to open? Type "exit" to exit.\n').lower()
         if self.filename == 'exit':
             self.filename = "exit"
@@ -82,9 +82,7 @@ class Bagels:
         self.path = path
         self.filename = ''
         game_info = init_game(self, path, 'bgl')
-        if self.new_file:
-            (self.prev_guesses, self.num_guesses, self.num_digits, self.secret_num, self.max_guesses) = ("", -1, "", "", -1)
-        elif game_info:
+        if game_info:
             (prev_guesses, self.num_guesses, self.num_digits, self.max_guesses, self.secret_num) = game_info
             self.prev_guesses = prev_guesses.split(',')
         return
@@ -151,7 +149,7 @@ class Bagels:
         return
 
     def startup(self):
-        if self.num_guesses == '' or self.num_digits == '' or self.secret_num == '' or self.max_guesses == '':
+        if self.new_file:
             self.setup()
         else:
             print("Welcome Back! Your progress has been restored.")
@@ -165,9 +163,12 @@ class Bagels:
         if self.new_file:
             self.filename = input("File name?\n") + '.bgl'
         prev_guesses = ','.join(self.prev_guesses)
-        game = open(self.path + "\\" + self.filename, 'w')
-        game.write(Loading.caesar_encrypt("{}\t{}\t{}\t{}\t{}".format(prev_guesses, self.num_guesses, self.num_digits, self.max_guesses, self.secret_num)))
-        game.close()
+        try:
+            game = open(self.path + "\\" + self.filename, 'w')
+            game.write(Loading.caesar_encrypt("{}\t{}\t{}\t{}\t{}".format(prev_guesses, self.num_guesses, self.num_digits, self.max_guesses, self.secret_num)))
+            game.close()
+        except (FileNotFoundError, FileExistsError):
+            Loading.returning("The path or file was not found.", 2)
 
     def main(self):
         print('WELCOME TO BAGELS\n')

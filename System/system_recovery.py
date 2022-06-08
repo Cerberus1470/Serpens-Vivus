@@ -4,16 +4,17 @@ import os
 
 class CorruptedFileSystem(Exception):
     def __init__(self, element):
-        SystemRecovery.code = 0
+        self.code = 0
         self.element = element
 
     def __repr__(self):
         return "The file structure is corrupted."
 
 
+@DeprecationWarning
 class EmptyUserFolder(Exception):
     def __init__(self):
-        SystemRecovery.code = 1
+        self.code = 1
 
     def __repr__(self):
         return "The User folder is empty."
@@ -21,7 +22,7 @@ class EmptyUserFolder(Exception):
 
 class NoCurrentUser(Exception):
     def __init__(self):
-        SystemRecovery.code = 2
+        self.code = 2
 
     def __repr__(self):
         return "There is no current user."
@@ -29,7 +30,7 @@ class NoCurrentUser(Exception):
 
 class NoAdministrator(Exception):
     def __init__(self):
-        SystemRecovery.code = 3
+        self.code = 3
 
     def __repr__(self):
         return "There is no administrator."
@@ -37,7 +38,8 @@ class NoAdministrator(Exception):
 
 class SystemRecovery:
     code = -1
-    password = ""
+    file = list(open("System\\recovery.info"))
+    password = Loading.caesar_decrypt(file[0]).split('\t\t')[1]
 
     @staticmethod
     def boot(error=None):
@@ -60,15 +62,14 @@ class SystemRecovery:
             Loading.returning("Hey! It seems you were mistakenly sent here. There are no fatal errors to report! Have a great day.", 3)
         Loading.returning("Welcome to System Recovery.")
         Loading.returning("If you are here, it is because an internal error occurred and the system could not recover from it.", 5)
-        while len(self.error) > 0:
-            if SystemRecovery.code == 0:
-                self.corrupt_user()
-            elif SystemRecovery.code == 1:
-                self.empty_users()
-            elif SystemRecovery.code == 2:
-                self.no_current_user()
-            elif SystemRecovery.code == 3:
-                self.no_admin()
+        for i in self.error:
+            match i.code:
+                case 0:
+                    self.corrupt_user()
+                case 2:
+                    self.no_current_user()
+                case 3:
+                    self.no_admin()
             # Add more recovery codes here
         return
 
@@ -132,24 +133,25 @@ class SystemRecovery:
                 for i in more_info:
                     Loading.returning(i, 2)
                 if input("Would you like to attempt to fix these errors?").lower().startswith('y'):
-                    for i in self.error:
-                        if i.__class__.__name__ == CorruptedFileSystem.__name__:
-                            for j in range(1, len(i.element)):
-                                for k in range(len(i.element[j])):
-                                    while '\t' in i.element[j][k]:
-                                        i.element[j][k] = i.element[j][k].split('\t', 1)[0] + '\\t' + i.element[j][k].split('\t', 1)[1]
-                                print('\n' + str('\\t\\t'.join(i.element[j])) + '\n\tDoes this line look good? Click [ENTER] or [return] to continue or type the new line entirely, separated by "\\t\\t"s.')
+                    i = 0
+                    while i < len(self.error):
+                        if self.error[i].__class__.__name__ == CorruptedFileSystem.__name__:
+                            for j in range(1, len(self.error[i].element)):
+                                for k in range(len(self.error[i].element[j])):
+                                    while '\t' in self.error[i].element[j][k]:
+                                        self.error[i].element[j][k] = self.error[i].element[j][k].split('\t', 1)[0] + '\\t' + self.error[i].element[j][k].split('\t', 1)[1]
+                                print('\n' + str('\\t\\t'.join(self.error[i].element[j])) + '\n\tDoes this line look good? Click [ENTER] or [return] to continue or type the new line entirely, separated by "\\t\\t"s.')
                                 new_element = input("Please be careful, as these changes are permanent.")
                                 if new_element:
                                     while '\\t' in new_element:
                                         new_element = new_element.split('\\t', 1)[0] + '\t' + new_element.split('\\t', 1)[1]
-                                    i.element[j] = (new_element + '\n').split('\t\t')
+                                    self.error[i].element[j] = (new_element + '\n').split('\t\t')
                                 else:
                                     continue
                             try:
-                                file = open(i.element[0] + '\\info.usr', 'w')
-                                file.write(Loading.caesar_encrypt('\t\t'.join(i.element[1])))
-                                file.write(Loading.caesar_encrypt('.'.join(i.element[2])))
+                                file = open(self.error[i].element[0] + '\\info.usr', 'w')
+                                file.write(Loading.caesar_encrypt('\t\t'.join(self.error[i].element[1])))
+                                file.write(Loading.caesar_encrypt('\t\t'.join(self.error[i].element[2])))
                                 file.close()
                             except FileNotFoundError:
                                 Loading.returning("Where did the user file go?", 3)
@@ -162,8 +164,11 @@ class SystemRecovery:
                                                 os.rmdir(subdir)
                                             except OSError:
                                                 pass
-                            self.error.pop(self.error.index(i))
-                            return
+                            self.error.pop(self.error.index(self.error[i]))
+                            continue
+                        else:
+                            i += 1
+                    return
             else:
                 for subdir, dirs, files in os.walk("Users"):
                     for i in self.error.element:
@@ -176,6 +181,7 @@ class SystemRecovery:
                                 pass
                 return
 
+    @DeprecationWarning
     def empty_users(self):
         Loading.returning("In this case, the User folder is empty or contains incorrect data.", 3)
         while True:

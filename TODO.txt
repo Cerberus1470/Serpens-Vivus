@@ -52,9 +52,11 @@ TODO - Advanced
     > ! - Savable user-specific games, similar to notepad. Every game gets the treatment!
     - Add debug mode. Documentation Below.
     > - Add Sonar.
-    - Fix Guest functionality for all apps
-        - Add a guest subroutine that doesn't ask for filenames, just makes a new game when launching, no file selection, etc.
-    - Implement recovery password
+    > - Fix Guest functionality for all apps
+        X - Add a guest subroutine that doesn't ask for filenames, just makes a new game when launching, no file selection, etc.
+        > - Just handle the FileNotFound error and tell the user that the message will show up.
+    > - Implement recovery password
+    > - Change Saved State to Booleans
 
 TODO - Really advanced
     - Add user personalization. See documentation below.

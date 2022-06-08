@@ -211,9 +211,12 @@ class TicTacToe:
         translated_board = ','.join(self.board)
         if self.new_file:
             self.filename = input("File name?\n") + '.ttt'
-        game = open(self.path + "\\" + self.filename, 'w')
-        game.write(Loading.caesar_encrypt("{}\t{}\t{}".format(translated_board, self.turn, self.player_letter)))
-        game.close()
+        try:
+            game = open(self.path + "\\" + self.filename, 'w')
+            game.write(Loading.caesar_encrypt("{}\t{}\t{}".format(translated_board, self.turn, self.player_letter)))
+            game.close()
+        except (FileNotFoundError, FileExistsError):
+            Loading.returning("The path or file was not found.", 2)
 
     def main(self):
         print('Welcome to Tic Tac Toe!')

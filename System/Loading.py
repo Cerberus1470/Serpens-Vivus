@@ -1,11 +1,14 @@
-import sys
 import os
 import time
 import threading
 import datetime
+from tkinter import *
+from tkinter.ttk import *
+
+alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 1234567890!@#$%^&*()`~-_=+[{]}|;:\'\",<.>/?\t'
 
 
-class Loading:
+class LoadingClass:
     def __init__(self, results, interval=1):
         self.interval = interval
         thread = threading.Thread(target=self.foo, args=results)
@@ -69,7 +72,7 @@ def modify_user(username='', element=-1, value=''):
                 info[element] = value
             else:
                 try:
-                    programs[element-4] = value
+                    programs[element - 4] = value
                 except IndexError:
                     break
             file = open("{}\\info.usr".format(subdir), 'w')
@@ -92,8 +95,8 @@ def display_user(username=""):
 
 
 def caesar_encrypt(message=''):
-    alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 1234567890!@#$%^&*()`~-_=+[{]}|;:\'\",<.>/?\t'
     encrypted_h = ''
+    message = str(message)
     key = [10, 4, 3, 5, 7, 8, 1, 2, 9, 6]
     if len(key) <= len(message):
         key = key * int(len(message))
@@ -109,7 +112,6 @@ def caesar_encrypt(message=''):
 
 
 def caesar_decrypt(encrypted_h=''):
-    alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 1234567890!@#$%^&*()`~-_=+[{]}|;:\'\",<.>/?\t'
     decrypted_h = ''
     key = [10, 4, 3, 5, 7, 8, 1, 2, 9, 6]
     if len(key) <= len(encrypted_h):
@@ -123,6 +125,22 @@ def caesar_decrypt(encrypted_h=''):
             except IndexError:
                 decrypted_h += alphabet[alphabet.index(encrypted_h[i]) - key[i] + 95]
     return decrypted_h
+
+
+def testing_tkinter():
+    root = Tk()
+
+    # Initialize tkinter window with dimensions 100x100
+    root.geometry('450x300')
+    v = StringVar(root, '1')
+    username = Label(root, text='Username').place(x=40, y=60)
+    password = Label(root, text='Username').place(x=40, y=100)
+    btn = Button(root, text='Submit').place(x=40, y=130)
+    Radiobutton(root, text="Radio Button", variable=v, value="1", ).pack(fill=X, ipady=5)
+    user_entry = Entry(root, width=30).place(x=110, y=60)
+    pwd_entry = Entry(root, width=30).place(x=110, y=100)
+
+    root.mainloop()
 
 
 # noinspection PyTypeChecker

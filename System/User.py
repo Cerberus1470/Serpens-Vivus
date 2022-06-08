@@ -23,9 +23,9 @@ class User:
         apps = (Bagels, Hangman, Jokes, Notepad, Sonar, SpeedSlow, SystemInfo, TicTacToe, UserSettings)
         for j in apps:
             if saved_state is None:
-                self.saved_state[j] = 'not running'
+                self.saved_state[j] = False
             else:
-                self.saved_state[j] = saved_state[apps.index(j)]
+                self.saved_state[j] = saved_state[apps.index(j)] == "True"
 
         self.elevated = False
         return
@@ -52,12 +52,12 @@ class Administrator(User):
     def __init__(self, username="Default", password="Default", current=True, saved_state=None):
         if saved_state == ['\n'] or not saved_state:
             super().__init__(username, password, current)
-            self.saved_state[EventViewer] = "not running"
-            self.saved_state[TaskManager] = "not running"
+            self.saved_state[EventViewer] = False
+            self.saved_state[TaskManager] = False
         else:
             super().__init__(username, password, current, saved_state)
-            self.saved_state[EventViewer] = saved_state[9]
-            self.saved_state[TaskManager] = saved_state[10]
+            self.saved_state[EventViewer] = saved_state[9] == "True"
+            self.saved_state[TaskManager] = saved_state[10] == "True"
         self.elevated = True
         return
 

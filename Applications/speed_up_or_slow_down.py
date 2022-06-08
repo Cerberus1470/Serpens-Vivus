@@ -6,7 +6,6 @@ class SpeedSlow:
 
     @staticmethod
     def boot(os_object):
-        os_object.current_user.saved_state['SpeedSlow'] = 'running'
         SpeedSlow.main()
 
     @staticmethod

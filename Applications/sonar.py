@@ -21,9 +21,7 @@ class Sonar:
         self.filename = ''
         self.path = path
         game_info = bagels.init_game(self, path, 'snr')
-        if self.new_file:
-            (self.devices, self.board, self.chests, self.previous_moves) = (0, '', '', [])
-        elif game_info:
+        if game_info:
             (devices, board, chests, previous_moves) = game_info
             self.devices = Loading.caesar_decrypt(devices.split('\n')[0])
             self.devices = int(self.devices)
@@ -252,17 +250,20 @@ class Sonar:
             for j in i:
                 previous_moves += '{},'.format(j)
             previous_moves = '{}\t'.format(previous_moves[0:len(previous_moves)-1])
-        game = open(self.path + '\\' + self.filename, 'w')
-        game.write(Loading.caesar_encrypt(str(self.devices)) + '\n')
-        game.write(Loading.caesar_encrypt(board[0:len(board)-1]) + '\n')
-        game.write(Loading.caesar_encrypt(chests[0:len(chests)-1]) + '\n')
-        game.write(Loading.caesar_encrypt(previous_moves[0:len(previous_moves)-1]) + '\n')
-        game.close()
+        try:
+            game = open(self.path + '\\' + self.filename, 'w')
+            game.write(Loading.caesar_encrypt(str(self.devices)) + '\n')
+            game.write(Loading.caesar_encrypt(board[0:len(board)-1]) + '\n')
+            game.write(Loading.caesar_encrypt(chests[0:len(chests)-1]) + '\n')
+            game.write(Loading.caesar_encrypt(previous_moves[0:len(previous_moves)-1]) + '\n')
+            game.close()
+        except (FileNotFoundError, FileExistsError):
+            Loading.returning("The path or file was not found.", 2)
         Loading.returning("Saving game progress...", 2)
 
     def main(self):
         print('S O N A R !\n')
-        if self.devices == 0 or self.board == '' or self.chests == '' or self.previous_moves == []:
+        if self.new_file:
             self.setup()
         else:
             print("Welcome back!")

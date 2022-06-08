@@ -124,7 +124,14 @@ class UserSettings:
             else:
                 print("Please type a valid response.")
         # Take a name
-        add_user = input("Name your user:\n")
+        while True:
+            add_user = input("Name your user:\n")
+            for i in os_object.users:
+                if add_user == i.username or add_user == "Default":
+                    Loading.returning("That username is taken")
+                    break
+            else:
+                break
         print("New User added. Enter a password or press [ENTER] or [return] to use the default password.")
         # While loop for the password.
         while True:

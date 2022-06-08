@@ -762,3 +762,193 @@
 [06/06/2022 12:20:27] Shutdown complete.
 [06/06/2022 12:20:28] Code 3 returned. Executing task.
 [06/06/2022 12:20:28] System Shutdown. 81.90812158584595 seconds have elapsed.
+[07/06/2022 12:20:35] Boot complete.
+[07/06/2022 12:20:35] System Startup.
+[07/06/2022 12:20:35] Cerberus encountered a fatal error. Reboot is required. Stacktrace: Multiple fatal errors occurred. Please reboot the system.
+[07/06/2022 12:20:39] System Shutdown. 4.270928621292114 seconds have elapsed.
+[07/06/2022 12:20:39] System Startup.
+[07/06/2022 12:20:40] A fatal internal error has occurred. The system has entered Recovery.
+[07/06/2022 12:23:13] Boot complete.
+[07/06/2022 12:23:13] System Startup.
+[07/06/2022 12:23:13] The system has entered SETUP.
+[07/06/2022 12:23:13] Cerberus encountered a fatal error. Reboot is required. Stacktrace: exceptions must derive from BaseException
+[07/06/2022 12:23:44] Boot complete.
+[07/06/2022 12:23:44] System Startup.
+[07/06/2022 12:23:44] The system has entered SETUP.
+[07/06/2022 12:23:44] Cerberus encountered a fatal error. Reboot is required. Stacktrace: 
+[07/06/2022 12:23:49] System Shutdown. 5.036687612533569 seconds have elapsed.
+[07/06/2022 12:23:49] System Startup.
+[07/06/2022 12:23:50] A fatal internal error has occurred. The system has entered Recovery.
+[07/06/2022 12:25:35] Boot complete.
+[07/06/2022 12:25:35] System Startup.
+[07/06/2022 12:25:35] The system has entered SETUP.
+[07/06/2022 12:25:41] SETUP is complete. Guest user has been added. Entering startup.
+[07/06/2022 12:25:49] Guest user logged in
+[07/06/2022 12:25:49] Guest logged in.
+[07/06/2022 12:25:51] Guest opened power
+[07/06/2022 12:25:51] Guest logged out and shutdown.
+[07/06/2022 12:25:51] Preparing to shut down...
+[07/06/2022 12:28:03] Boot complete.
+[07/06/2022 12:28:03] System Startup.
+[07/06/2022 12:28:03] Cerberus encountered a fatal error. Reboot is required. Stacktrace: Multiple fatal errors occurred. Please reboot the system.
+[07/06/2022 12:28:20] System Shutdown. 17.348067045211792 seconds have elapsed.
+[07/06/2022 12:28:20] System Startup.
+[07/06/2022 12:28:21] A fatal internal error has occurred. The system has entered Recovery.
+[07/06/2022 12:28:51] Boot complete.
+[07/06/2022 12:28:51] System Startup.
+[07/06/2022 12:30:31] Boot complete.
+[07/06/2022 12:30:31] System Startup.
+[07/06/2022 12:30:31] The system has entered SETUP.
+[07/06/2022 12:30:38] SETUP is complete. Guest user has been added. Entering startup.
+[07/06/2022 12:30:40] Guest user logged in
+[07/06/2022 12:30:40] Guest logged in.
+[07/06/2022 12:30:41] Guest opened power
+[07/06/2022 12:30:41] Guest logged out and shutdown.
+[07/06/2022 12:30:41] Preparing to shut down...
+[07/06/2022 12:30:44] System Shutdown. 12.473506689071655 seconds have elapsed.
+[07/06/2022 12:30:50] Boot complete.
+[07/06/2022 12:30:50] System Startup.
+[07/06/2022 12:30:50] The system has entered SETUP.
+[07/06/2022 12:31:20] Preparing to shut down...
+[07/06/2022 12:31:23] Cerberus encountered a fatal error. Reboot is required. Stacktrace: sequence item 0: expected str instance, bool found
+[07/06/2022 12:34:38] Boot complete.
+[07/06/2022 12:34:38] System Startup.
+[07/06/2022 12:34:38] The system has entered SETUP.
+[07/06/2022 12:35:14] Boot complete.
+[07/06/2022 12:35:14] System Startup.
+[07/06/2022 12:35:14] The system has entered SETUP.
+[07/06/2022 12:35:23] Cerberus encountered a fatal error. Reboot is required. Stacktrace: [WinError 183] Cannot create a file when that file already exists: 'Users\\Tejas'
+[07/06/2022 12:35:45] Boot complete.
+[07/06/2022 12:35:45] System Startup.
+[07/06/2022 12:39:20] Boot complete.
+[07/06/2022 12:39:20] System Startup.
+[07/06/2022 12:39:59] Preparing to shut down...
+[07/06/2022 12:40:01] The system is now asleep.
+[07/06/2022 12:40:01] System asleep.
+[07/06/2022 12:40:48] Boot complete.
+[07/06/2022 12:40:48] System Startup.
+[07/06/2022 12:40:48] The system has entered SETUP.
+[07/06/2022 12:40:57] Boot complete.
+[07/06/2022 12:40:57] System Startup.
+[07/06/2022 12:40:57] The system has entered SETUP.
+[07/06/2022 12:41:03] Boot complete.
+[07/06/2022 12:41:03] System Startup.
+[07/06/2022 12:41:03] The system has entered SETUP.
+[07/06/2022 12:41:07] SETUP is complete. Guest user has been added. Entering startup.
+[07/06/2022 12:41:09] Guest user logged in
+[07/06/2022 12:41:09] Guest logged in.
+[07/06/2022 12:41:10] Guest opened pwoer
+[07/06/2022 12:41:12] Guest opened power
+[07/06/2022 12:41:12] Guest logged out and shutdown.
+[07/06/2022 12:41:12] Preparing to shut down...
+[07/06/2022 12:41:15] System Shutdown. 11.803388357162476 seconds have elapsed.
+[07/06/2022 12:41:36] Boot complete.
+[07/06/2022 12:41:36] System Startup.
+[07/06/2022 12:41:36] The system has entered SETUP.
+[07/06/2022 12:41:55] Boot complete.
+[07/06/2022 12:41:55] System Startup.
+[07/06/2022 12:42:00] Tejas logged in.
+[07/06/2022 12:49:29] Boot complete.
+[07/06/2022 12:49:29] System Startup.
+[07/06/2022 12:53:55] Boot complete.
+[07/06/2022 12:53:55] System Startup.
+[07/06/2022 12:53:55] The system has entered SETUP.
+[07/06/2022 12:54:17] SETUP is complete. Entering startup.
+[07/06/2022 12:56:36] Boot complete.
+[07/06/2022 12:56:36] System Startup.
+[07/06/2022 12:56:40] Boot complete.
+[07/06/2022 12:56:40] System Startup.
+[07/06/2022 12:56:40] The system has entered SETUP.
+[07/06/2022 12:56:52] SETUP is complete. Entering startup.
+[07/06/2022 12:57:54] Boot complete.
+[07/06/2022 12:57:54] System Startup.
+[07/06/2022 12:57:54] The system has entered SETUP.
+[07/06/2022 12:58:12] SETUP is complete. Entering startup.
+[07/06/2022 12:58:40] Boot complete.
+[07/06/2022 12:58:40] System Startup.
+[07/06/2022 12:58:40] Cerberus encountered a fatal error. Reboot is required. Stacktrace: There is no administrator. Please reboot the system.
+[07/06/2022 12:58:42] System Shutdown. 2.9061803817749023 seconds have elapsed.
+[07/06/2022 12:58:42] System Startup.
+[07/06/2022 12:58:43] A fatal internal error has occurred. The system has entered Recovery.
+[07/06/2022 13:00:22] Boot complete.
+[07/06/2022 13:00:22] System Startup.
+[07/06/2022 15:30:39] Boot complete.
+[07/06/2022 15:30:39] System Startup.
+[07/06/2022 15:30:48] Boot complete.
+[07/06/2022 15:30:48] System Startup.
+[07/06/2022 15:30:48] The system has entered SETUP.
+[07/06/2022 15:30:55] SETUP is complete. Entering startup.
+[07/06/2022 15:30:57] Guest user logged in
+[07/06/2022 15:30:57] Guest logged in.
+[07/06/2022 15:31:01] Guest opened bagels
+[07/06/2022 15:38:55] Boot complete.
+[07/06/2022 15:38:55] System Startup.
+[07/06/2022 15:38:55] The system has entered SETUP.
+[07/06/2022 15:39:03] SETUP is complete. Entering startup.
+[07/06/2022 15:40:08] Guest user logged in
+[07/06/2022 15:40:08] Guest logged in.
+[07/06/2022 15:40:13] Guest opened bagels
+[07/06/2022 15:40:47] Boot complete.
+[07/06/2022 15:40:47] System Startup.
+[07/06/2022 15:40:47] The system has entered SETUP.
+[07/06/2022 15:40:52] SETUP is complete. Entering startup.
+[07/06/2022 15:40:56] Guest user logged in
+[07/06/2022 15:40:56] Guest logged in.
+[07/06/2022 15:40:57] Guest opened bagels
+[07/06/2022 15:41:23] Boot complete.
+[07/06/2022 15:41:23] System Startup.
+[07/06/2022 15:41:23] The system has entered SETUP.
+[07/06/2022 15:41:29] SETUP is complete. Entering startup.
+[07/06/2022 15:41:30] Guest user logged in
+[07/06/2022 15:41:30] Guest logged in.
+[07/06/2022 15:41:33] Guest opened bagels
+[07/06/2022 15:49:52] Guest opened tictactoe
+[07/06/2022 15:50:00] Guest opened power
+[07/06/2022 15:50:00] Guest logged out and shutdown.
+[07/06/2022 15:50:00] Preparing to shut down...
+[07/06/2022 15:50:03] System Shutdown. 519.945188999176 seconds have elapsed.
+[07/06/2022 16:06:42] Boot complete.
+[07/06/2022 16:06:42] System Startup.
+[07/06/2022 16:06:42] The system has entered SETUP.
+[07/06/2022 16:06:58] SETUP is complete. Entering startup.
+[07/06/2022 16:07:01] Preparing to shut down...
+[07/06/2022 16:07:02] Updating user files...
+[07/06/2022 16:07:02] Shutdown complete.
+[07/06/2022 16:07:04] System Shutdown. 22.00075936317444 seconds have elapsed.
+[07/06/2022 16:07:09] Boot complete.
+[07/06/2022 16:07:09] System Startup.
+[07/06/2022 16:07:09] Cerberus encountered a fatal error. Reboot is required. Stacktrace: Multiple fatal errors occurred. Please reboot the system.
+[07/06/2022 16:07:28] System Shutdown. 18.19700837135315 seconds have elapsed.
+[07/06/2022 16:07:28] System Startup.
+[07/06/2022 16:07:29] A fatal internal error has occurred. The system has entered Recovery.
+[07/06/2022 16:11:38] Boot complete.
+[07/06/2022 16:11:38] System Startup.
+[07/06/2022 16:11:38] The system has entered SETUP.
+[07/06/2022 16:12:47] Boot complete.
+[07/06/2022 16:12:47] System Startup.
+[07/06/2022 16:12:47] The system has entered SETUP.
+[07/06/2022 16:13:03] SETUP is complete. Entering startup.
+[07/06/2022 16:13:03] Preparing to shut down...
+[07/06/2022 16:14:20] Boot complete.
+[07/06/2022 16:14:20] System Startup.
+[07/06/2022 16:14:24] Preparing to shut down...
+[07/06/2022 16:14:36] Updating user files...
+[07/06/2022 16:14:43] Shutdown complete.
+[07/06/2022 16:14:45] System Shutdown. 31.566476583480835 seconds have elapsed.
+[07/06/2022 18:09:04] Boot complete.
+[07/06/2022 18:09:04] System Startup.
+[07/06/2022 18:09:05] Cerberus encountered a fatal error. Reboot is required. Stacktrace: can only concatenate str (not "Administrator") to str
+[07/06/2022 18:09:25] Boot complete.
+[07/06/2022 18:09:25] System Startup.
+[07/06/2022 18:09:46] Boot complete.
+[07/06/2022 18:09:46] System Startup.
+[07/06/2022 18:11:28] Boot complete.
+[07/06/2022 18:11:28] System Startup.
+[07/06/2022 18:12:01] Boot complete.
+[07/06/2022 18:12:01] System Startup.
+[07/06/2022 18:12:09] Boot complete.
+[07/06/2022 18:12:09] System Startup.
+[07/06/2022 18:12:14] Boot complete.
+[07/06/2022 18:12:14] System Startup.
+[07/06/2022 18:12:23] Boot complete.
+[07/06/2022 18:12:23] System Startup.

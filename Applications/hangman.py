@@ -97,9 +97,7 @@ class Hangman:
         self.path = path
         self.filename = ''
         game_info = bagels.init_game(self, path, 'hng')
-        if self.new_file:
-            (self.missed_letters, self.correct_letters, self.secret_word, self.secret_key) = ("", "", "", "")
-        elif game_info:
+        if game_info:
             (self.missed_letters, self.correct_letters, self.secret_word, self.secret_key) = game_info
         return
 
@@ -161,15 +159,18 @@ class Hangman:
     def quit(self):
         if self.new_file:
             self.filename = input("File name?\n") + '.hng'
-        game = open(self.path + "\\" + self.filename, 'w')
-        game.write(Loading.caesar_encrypt("{}\t{}\t{}\t{}".format(self.missed_letters, self.correct_letters, self.secret_word, self.secret_key)))
-        game.close()
+        try:
+            game = open(self.path + "\\" + self.filename, 'w')
+            game.write(Loading.caesar_encrypt("{}\t{}\t{}\t{}".format(self.missed_letters, self.correct_letters, self.secret_word, self.secret_key)))
+            game.close()
+        except (FileNotFoundError, FileExistsError):
+            Loading.returning("The path or file was not found.", 2)
 
     def main(self):
         # This section prints the first message, resets the correct and incorrect letters, assigns secret words and keys, and sets the game to be running.
         print('H A N G M A N')
         game_is_done = False
-        if (self.missed_letters == '' and self.correct_letters == '') or self.secret_word == '' or self.secret_key == '':
+        if self.new_file:
             self.setup()
         else:
             print('Welcome back! Your progress has been restored.')

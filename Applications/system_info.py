@@ -6,7 +6,6 @@ class SystemInfo:
 
     @staticmethod
     def boot(os_object):
-        os_object.current_user.saved_state["System Info"] = "running"
         SystemInfo.main(os_object.versions)
 
     def __init__(self):
