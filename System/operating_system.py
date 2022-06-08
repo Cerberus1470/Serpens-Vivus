@@ -18,6 +18,8 @@ from Applications.sonar import Sonar
 from Applications.system_info import SystemInfo
 from Applications.user_settings import UserSettings
 import traceback
+from tkinter import *
+from tkinter.ttk import *
 
 dirty = []
 
@@ -113,10 +115,11 @@ class OperatingSystem:
                     self.current_user = j
                 if j.elevated:
                     admin_present = True
-            if self.current_user.username == "Default" and self.current_user.password == "Default" and self.current_user.__class__.__name__ == "User":
-                self.error.append(system_recovery.NoCurrentUser())
-            if not admin_present:
-                self.error.append(system_recovery.NoAdministrator())
+            if new_users:
+                if self.current_user.username == "Default" and self.current_user.password == "Default" and self.current_user.__class__.__name__ == "User":
+                    self.error.append(system_recovery.NoCurrentUser())
+                if not admin_present:
+                    self.error.append(system_recovery.NoAdministrator())
             if self.error:
                 if len(self.error) == 1:
                     raise Exception(self.error[0].__repr__() + " Please reboot the system.")
@@ -127,7 +130,14 @@ class OperatingSystem:
             return
 
     def startup(self):
-
+        main_window = Tk()
+        main_window.geometry('1920x1080')
+        Label(main_window, text="Hello! I am Cerberus, running user: " + self.current_user.username + ". Type 'switch' to switch users or \"shutdown\" to shut down the system.").place(x=50, y=50)
+        Label(main_window, text="Password:").place(x=50, y=70)
+        password = Entry(main_window, width="50").place(x=110, y=70)
+        Button(main_window, text="Log in").place(x=50, y=90)
+        Button(main_window, text="Switch Users").place(x=150)
+        main_window.mainloop()
         # The main startup and login screen, housed within a while loop to keep the user here unless specific circumstances are met.
         while True:
             print("\nHello! I am {}.".format(self.name))

@@ -58,8 +58,9 @@ class SystemRecovery:
     def main(self):
         for i in range(10):
             print('\n')
-        if SystemRecovery.code == -1 and not self.error:
+        if not self.error:
             Loading.returning("Hey! It seems you were mistakenly sent here. There are no fatal errors to report! Have a great day.", 3)
+            return
         Loading.returning("Welcome to System Recovery.")
         Loading.returning("If you are here, it is because an internal error occurred and the system could not recover from it.", 5)
         for i in self.error:

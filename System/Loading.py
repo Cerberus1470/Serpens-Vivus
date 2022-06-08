@@ -1,9 +1,9 @@
-import os
-import time
-import threading
-import datetime
 from tkinter import *
-from tkinter.ttk import *
+import sys
+import time
+import datetime
+import os
+import threading
 
 alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 1234567890!@#$%^&*()`~-_=+[{]}|;:\'\",<.>/?\t'
 
