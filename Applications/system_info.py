@@ -3,6 +3,7 @@ from System import Loading
 
 class SystemInfo:
     category = "utilities"
+    name = "System Info"
 
     @staticmethod
     def boot(os_object):
@@ -12,7 +13,7 @@ class SystemInfo:
         return
 
     def __repr__(self):
-        return "< This is a System Info class named " + self.__class__.__name__ + ">"
+        return "System Info"
 
     @staticmethod
     def main(versions):

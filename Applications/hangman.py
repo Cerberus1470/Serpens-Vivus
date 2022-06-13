@@ -85,6 +85,7 @@ words = {  # this is the word bank
 
 class Hangman:
     category = "games"
+    name = "Hangman"
 
     @staticmethod
     def boot(path="\\"):
@@ -102,7 +103,7 @@ class Hangman:
         return
 
     def __repr__(self):
-        return "< I am a hangman class named " + self.__class__.__name__ + ">"
+        return "Hangman"
 
     @staticmethod
     def get_random_word(word_dict):

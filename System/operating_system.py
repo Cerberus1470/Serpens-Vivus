@@ -55,7 +55,7 @@ def boot():
                 print("\n")
             Loading.log("{} encountered a fatal error. Reboot is required. Stacktrace: {}".format(cerberus.name, e))
             if input('!!! {} encountered a fatal error. Reboot is required. !!! \nWhat failed: {}\n\nStacktrace: \n{}'.format(
-                    cerberus.name, str(traceback.format_exc()).split('\n')[len(traceback.format_exc().split('\n'))-4].split('"')[1], str(traceback.format_exc())) + '\nType "REBOOT" to reboot.') == "REBOOT":
+                    cerberus.name, str(traceback.format_exc()).split('\n')[len(traceback.format_exc().split('\n')) - 4].split('"')[1], str(traceback.format_exc())) + '\nType "REBOOT" to reboot.') == "REBOOT":
                 pass
             else:
                 print("Goodbye")
@@ -72,13 +72,17 @@ class OperatingSystem:
         self.name = "Cerberus"
         self.error = []
         self.recently_deleted_users = []
-        self.utilities = ["User Settings", "System Info\t", "Notepad\t\t", "SpeedSlow\t", "\t\t\t"]
-        self.games = ["Bagels\t", "TicTacToe", "Hangman ", "Sonar", "Joke Teller"]
-        self.admin = ["Reset\t\t", "Event Viewer\t", "Task Manager", "\t\t", "\t\t"]
-        self.versions = {"Main": 5.4, "Joke Teller": 1.4, "Notepad": 3.3, "Bagels": 4.5, "TicTacToe": 5.7, "Hangman": 3.5, "Sonar": 2.1, "User Settings": 2.9, "System Info": 1.6, "Event Viewer": 1.1, "SpeedSlow": 1.2, "System Recovery": 1.0}
+        self.versions = {"Main": 6.0, "Joke Teller": 1.4, "Notepad": 3.3, "Bagels": 4.5, "TicTacToe": 5.7, "Hangman": 3.5, "Sonar": 2.1, "User Settings": 2.9, "System Info": 1.6, "Event Viewer": 1.1, "SpeedSlow": 1.2, "System Recovery": 1.0}
         self.path = "Users\\{}"
         self.current_user = User()
         Loading.log("Boot complete.")
+
+        self.tk = Tk()
+        self.pwd_var = StringVar()
+        self.incorrect_pwd = 0
+        self.startup_window = Toplevel(self.tk)
+        self.desktop_window = Toplevel(self.tk)
+        self.shutdown_window = Toplevel(self.tk)
         return
 
     def __repr__(self):
@@ -130,128 +134,135 @@ class OperatingSystem:
             return
 
     def startup(self):
-        main_window = Tk()
-        main_window.geometry('1920x1080')
-        Label(main_window, text="Hello! I am Cerberus, running user: " + self.current_user.username + ". Type 'switch' to switch users or \"shutdown\" to shut down the system.").place(x=50, y=50)
-        Label(main_window, text="Password:").place(x=50, y=70)
-        password = Entry(main_window, width="50").place(x=110, y=70)
-        Button(main_window, text="Log in").place(x=50, y=90)
-        Button(main_window, text="Switch Users").place(x=150)
-        main_window.mainloop()
-        # The main startup and login screen, housed within a while loop to keep the user here unless specific circumstances are met.
-        while True:
-            print("\nHello! I am {}.".format(self.name))
-            if self.current_user.username != 'Guest':
-                # Separate while loop for users. Guest users head down.
-                incorrect_pwd = 0
-                while True:
-                    if incorrect_pwd >= 3:
-                        Loading.returning("You have incorrectly entered the password 3 times. The computer will now restart.", 5)
-                        return 4
-                    print("\nCurrent user: " + self.current_user.username + ". Type \"switch\" to switch users or \"power\" to shut down the system.")
-                    # Ask for password
-                    pwd = input("Enter password.\n")
-                    if pwd == self.current_user.password:
-                        Loading.returning("Welcome!", 1)
-                        # Move to the system screen.
-                        os_rv = self.operating_system()
-                        Loading.log("Code {} returned. Executing task.".format(os_rv))
-                        # Logic for returning from the OS screen.
-                        if os_rv == 1:
-                            print("\n" * 10)
-                            print("The System is sleeping. Press [ENTER] or [return] to wake.")
-                            input()
-                            break
-                        elif os_rv == 'regular':
-                            pass
-                        else:
-                            return os_rv
-                    elif pwd == 'switch':
-                        # Switch users!
-                        UserSettings.switch_user(self)
-                        break
-                    elif pwd in ('shutdown', 'power'):
-                        # Shutting down...
-                        shutdown = self.shutdown()
-                        if shutdown == 1:
-                            print("\n" * 10)
-                            Loading.log("System asleep.")
-                            print("The System is sleeping. Press [ENTER] or [return] to wake.")
-                            input()
-                            break
-                        else:
-                            return shutdown
-                    elif pwd == 'debugexit':
-                        # Carryover from original code :)
-                        Loading.log("Returned code debug.")
-                        return
-                    else:
-                        print("Sorry, that's the wrong password. Try again.")
-                        incorrect_pwd += 1
-                        pass
-            else:
-                while True:
-                    # The guest account, housed in its own while loop. The only way to exit is to use debugexit, or when the user shuts down.
-                    print("WARNING: The Guest account will boot into the main screen, but any user settings or games will have no effect. \nThis includes usernames, passwords, game progress, saved notes, etc.")
-                    print("All games will say that the file or path is not found, this is normal. The Guest User doesn't have a user folder.\nPress [ENTER] or [return] to login.")
-                    if input() == 'debugexit':
-                        return
-                    Loading.log("Guest user logged in")
-                    self.operating_system()
-                    return 3
+        for i in (self.tk, self.desktop_window, self.shutdown_window):
+            if i:
+                i.withdraw()
+        self.pwd_var.set('')
+        self.startup_window.geometry('520x180')
+        Label(self.startup_window, text='Hello! I am Cerberus. Current user: ' + self.current_user.username + '.').place(x=50, y=30)
+        Label(self.startup_window, text="Password:").place(x=50, y=60)
+        Entry(self.startup_window, width="55", textvariable=self.pwd_var).place(x=110, y=60)
+        Button(self.startup_window, text="Log in", command=lambda: self.login(self.pwd_var.get())).place(x=50, y=90)
+        Button(self.startup_window, text="Switch Users", command=lambda: self.login("switch")).place(x=150, y=90)
+        Button(self.startup_window, text="Power", command=lambda: self.login("power")).place(x=250, y=90)
+        self.startup_window.deiconify()
+        self.startup_window.mainloop()
 
-    def operating_system(self):
+    def login(self, password=''):
+        print(password)
+        # The main startup and login screen, housed within a while loop to keep the user here unless specific circumstances are met.
+        if self.current_user.username != 'Guest':
+            if self.incorrect_pwd >= 2:
+                strike_three = Label(self.startup_window, text="You have incorrectly entered the password 3 times. The computer will now restart.")
+                strike_three.place(x=50, y=120)
+                strike_three.after(5000, self.startup_window.destroy)
+            if password == self.current_user.password:
+                self.startup_window.withdraw()
+                # Move to the system screen.
+                self.desktop()
+                # Loading.log("Code {} returned. Executing task.".format(os_rv))
+                # # Logic for returning from the OS screen.
+                # if os_rv == 1:
+                #     print("\n" * 10)
+                #     print("The System is sleeping. Press [ENTER] or [return] to wake.")
+                #     input()
+                # elif os_rv == 'regular':
+                #     pass
+                # else:
+                #     return os_rv
+            elif password == 'debugexit':
+                # Carryover from original code :)
+                Loading.log("Returned code debug.")
+                return
+            else:
+                self.incorrect_pwd += 1
+                welcome = Label(self.startup_window, text="Sorry, that's the wrong password. Try again.\t\tIncorrect Attempts: " + str(self.incorrect_pwd))
+                welcome.place(x=50, y=120)
+                welcome.after(3000, welcome.destroy)
+                print("Sorry, that's the wrong password. Try again.")
+                pass
+        else:
+            while True:
+                # The guest account, housed in its own while loop. The only way to exit is to use debugexit, or when the user shuts down.
+                print("WARNING: The Guest account will boot into the main screen, but any user settings or games will have no effect. \nThis includes usernames, passwords, game progress, saved notes, etc.")
+                print("All games will say that the file or path is not found, this is normal. The Guest User doesn't have a user folder.\nPress [ENTER] or [return] to login.")
+                if input() == 'debugexit':
+                    return
+                Loading.log("Guest user logged in")
+                self.desktop()
+                return 3
+
+    def desktop(self):
         # The main OS window. Contains the list of apps and choices. Stored in a while loop to keep them inside.
         Loading.log(self.current_user.username + " logged in.")
+        self.desktop_window.title("Cerberus - Desktop")
+        self.desktop_window.geometry('425x225')
+        hello = Label(self.desktop_window, text="\t\tHello! I am {}, running POCS v{}\n\nAPPLICATIONS".format(self.name, self.versions["Main"]))
+        hello.place(x=10, y=10)
         print("Hello! I am {}, running POCS v{}".format(self.name, self.versions["Main"]))
-        while True:
-            # Main while loop for applications.
-            if self.current_user.elevated:
-                print("\nAPPLICATIONS\nUTILITIES\t\t\tGAMES\t\t\tADMIN")
-                for i in range(len(self.games)):
-                    print(self.utilities[i] + '\t\t' + self.games[i] + '\t\t' + self.admin[i])
+        # Main while loop for applications.
+        apps_frame = Frame(self.desktop_window)
+        apps_frame.place(x=10, y=60)
+        utilities_title = Label(apps_frame, text='UTILITIES')
+        utilities_title.grid(row=0, column=0, padx=10)
+        games_title = Label(apps_frame, text='GAMES')
+        games_title.grid(row=0, column=1, padx=10)
+        apps = [[UserSettings, SystemInfo, Notepad, SpeedSlow], [Bagels, TicTacToe, Hangman, Sonar, Jokes], [Reset, EventViewer, TaskManager]]
+        for i in range(len(apps)):
+            if i == 2:
+                if self.current_user.elevated:
+                    for j in range(len(apps[i])):
+                        Button(apps_frame, text=apps[i][j].name, command=lambda a=i, b=j: self.select_app(apps[a][b])).grid(row=j + 1, column=i, padx=10)
             else:
-                print("\nAPPLICATIONS\nUTILITIES\t\t\tGAMES")
-                for i in range(len(self.games)):
-                    print(self.utilities[i] + '\t\t' + self.games[i])
-            print("\nLock Computer\tPower")
-            choice = input().lower()
-            # This logs what app the user opened, but the number codes still work.
-            Loading.log(self.current_user.username + " opened " + choice)
-            choices_list = {Jokes: ('jokes', 'joke', '1', 'joke teller'), Notepad: ('notepad', 'notes', 'note', '2')
-                            , SpeedSlow: ('speedslow', 'speed up', 'slow down', 'speed up or slow down')
-                            , Bagels: ('bagels', 'bagels', '3'), TicTacToe: ('tictactoe', 'tic-tac-toe', 'ttt', '4')
-                            , Hangman: ('hangman', '5'), Sonar: ('sonar', '6'), UserSettings: ('user settings', 'usersettings', '8')
-                            , SystemInfo: ('system info', 'sys info', '9'), TaskManager: ('task manager', '7')
-                            , EventViewer: ('event viewer', 'events'), Reset: ('reset', '10')}
-            if choice in ('exit', 'lock computer', 'lock', '11'):
-                Loading.log(self.current_user.username + " logged out.")
-                print("Computer has been locked.")
+                for j in range(len(apps[i])):
+                    Button(apps_frame, text=apps[i][j].name, command=lambda a=i, b=j: self.select_app(apps[a][b])).grid(row=j + 1, column=i, padx=10)
+        Button(apps_frame, text='Lock Computer', command=lambda: self.lock()).grid(row=0, column=4)
+        Button(apps_frame, text='Power', command=lambda: self.power()).grid(row=1, column=4)
+        if self.current_user.elevated:
+            admin_title = Label(apps_frame, text='ADMIN')
+            admin_title.grid(row=0, column=2, padx=10)
+        #     print("\nAPPLICATIONS\nUTILITIES\t\t\tGAMES\t\t\tADMIN")
+        #     for i in range(len(self.games)):
+        #         print(self.utilities[i] + '\t\t' + self.games[i] + '\t\t' + self.admin[i])
+        # else:
+        #     print("\nAPPLICATIONS\nUTILITIES\t\t\tGAMES")
+        #     for i in range(len(self.games)):
+        #         print(self.utilities[i] + '\t\t' + self.games[i])
+        print("\nLock Computer\tPower")
+        self.desktop_window.deiconify()
+        choice = ''
+        # input().lower()
+        # This logs what app the user opened, but the number codes still work.
+        Loading.log(self.current_user.username + " opened " + choice)
+
+    def lock(self):
+        self.desktop_window.withdraw()
+        self.startup()
+
+    def power(self):
+        self.desktop_window.withdraw()
+        self.shutdown()
+
+    def select_app(self, choice):
+        match choice:
+            case 'debug':
                 return 'regular'
-            elif choice in ('shutdown', '12', 'power'):
-                Loading.log(self.current_user.username + " logged out and shutdown.")
-                return self.shutdown()
-            elif choice in ('debugexit', 'debug'):
-                return 'regular'
-            for i in choices_list:
-                if choice in choices_list[i]:
-                    self.current_user.saved_state[i] = True
-                    if list(choices_list.keys()).index(i) >= len(choices_list) - 3:
-                        if self.current_user.elevated:
-                            if i.boot(self) == 4:
-                                return 4
-                    else:
-                        if i.category == "games":
-                            if i.boot(self.path.format(self.current_user.username)) == 'regular':
-                                print("Hello! I am {}, running POCS v{}".format(self.name, self.versions["Main"]))
-                                return 'regular'
-                        elif i.category == "utilities":
-                            if i.boot(self) == 'regular':
-                                print("Hello! I am {}, running POCS v{}".format(self.name, self.versions["Main"]))
-                                return 'regular'
-                    break
-            else:
-                Loading.returning("Please choose from the list of applications.", 1)
+        choices_list = [Jokes, Notepad, SpeedSlow, Bagels, TicTacToe, Hangman, Sonar, UserSettings, SystemInfo, TaskManager, EventViewer, Reset]
+        for i in choices_list:
+            if choice == i:
+                self.current_user.saved_state[i] = True
+                if i.category == "games":
+                    if i.boot(self.path.format(self.current_user.username)) == 'regular':
+                        print("Hello! I am {}, running POCS v{}".format(self.name, self.versions["Main"]))
+                        return 'regular'
+                elif i.category == "utilities":
+                    if i.boot(self) == 'regular':
+                        print("Hello! I am {}, running POCS v{}".format(self.name, self.versions["Main"]))
+                        return 'regular'
+                break
+        else:
+
+            Loading.returning("Please choose from the list of applications.")
 
     def shutdown(self):
         Loading.log("Preparing to shut down...")
@@ -259,26 +270,46 @@ class OperatingSystem:
         if self.current_user.username == 'Guest':
             Loading.returning("The guest user cannot save progress. The system will shutdown.", 3)
             return 3
-        while True:
-            # While loop to choose what type of shutdown to do.
-            print("Choose an option.")
-            print("1. Sleep\n2. Hibernate\n3. Shutdown\n4. Restart\nType \"info\" for details.")
-            shutdown_choice = input().lower()
-            if shutdown_choice == "info":
+        # While loop to choose what type of shutdown to do.
+        self.shutdown_window.geometry("50x185")
+        for i in ["Sleep", "Hibernate", "Shutdown", "Restart"]:
+            Button(self.shutdown_window, text=i, command=lambda a=i: self.select_shutdown(a.lower())).place(x=20, y=10 + (30 * ["Sleep", "Hibernate", "Shutdown", "Restart"].index(i)))
+        Button(self.shutdown_window, text="Info", command=lambda: self.select_shutdown("info")).place(x=20, y=150)
+        self.shutdown_window.deiconify()
+        print("Choose an option.")
+        print("1. Sleep\n2. Hibernate\n3. Shutdown\n4. Restart\nType \"info\" for details.")
+        shutdown_choice = None
+        # input().lower()
+
+    def select_shutdown(self, shutdown_choice):
+        match shutdown_choice:
+            case "info":
                 # Show info
+                infoPanel = Toplevel(self.tk)
+                infoPanel.geometry('770x150')
+                Label(infoPanel, text="1. Sleep\nSleep does not close the python shell. It logs out the current user and saves the session to RAM. Forcibly closing "
+                                      "the shell will result in lost data.\n2. Hibernate\nHibernate saves the current session to disk and exits the python shell. "
+                                      "The python shell is closed and all data is saved.\n3. Shutdown\nShutdown saves only users and notes to disk. All other data "
+                                      "is erased and all apps are quit.\n4. Restart\nRestart shuts down the computer, saving only users and notes to disk, and opens "
+                                      "the program again.").place(x=10, y=10)
                 print("1. Sleep\nSleep does not close the python shell. It logs out the current user and saves the session to RAM. Forcibly closing "
                       "the shell will result in lost data.\n2. Hibernate\nHibernate saves the current session to disk and exits the python shell. "
                       "The python shell is closed and all data is saved.\n3. Shutdown\nShutdown saves only users and notes to disk. All other data "
                       "is erased and all apps are quit.\n4. Restart\nRestart shuts down the computer, saving only users and notes to disk, and opens "
                       "the program again.")
-                input()
                 pass
-            elif shutdown_choice in ("sleep", "1"):
+            case "sleep":
                 # Return sleep code.
                 Loading.log("The system is now asleep.")
                 print("Sleeping...")
+                self.shutdown_window.withdraw()
+                self.startup_window.withdraw()
+                sleep_window = Toplevel(self.tk)
+                sleep_window.geometry("300x150")
+                Label(sleep_window, text="The system is asleep.").place(x=10, y=10)
+                Button(sleep_window, text="Wake", command=lambda: self.wake(sleep_window)).place(x=10, y=30)
                 return 1
-            elif shutdown_choice in ("hibernate", "2", 'shutdown', '3', 'restart', '4'):
+            case ("hibernate", "shutdown", "restart"):
                 # Logic for hibernate vs shutdown vs restart.
                 hibernate = False
                 shutdown = False
@@ -337,8 +368,12 @@ class OperatingSystem:
                     return 3
                 else:
                     return 4
-            else:
+            case _:
                 print("Please choose from the list of choices.")
+
+    def wake(self, window):
+        window.withdraw()
+        self.startup()
 
     def setup(self):
         # The setup method. Conveniently sets up the system to run on its first boot, and whenever there is no data. Modifies the dictionary with a new user.
@@ -375,7 +410,7 @@ class OperatingSystem:
             self.current_user = Administrator(setup_user, setup_pwd, True)
             Loading.returning("Password set successfully.", 2)
             Loading.returning("One last thing!", 1)
-            recovery_pwd = ''.join(str(random.choice(Loading.alphabet)) for i in range(1000)) + '\t\t' + input("Please enter a recovery password.") + '\t\t' + ''.join(str(random.choice(Loading.alphabet)) for i in range(1000))
+            recovery_pwd = ''.join(str(random.choice(Loading.alphabet)) for _ in range(1000)) + '\t\t' + input("Please enter a recovery password.") + '\t\t' + ''.join(str(random.choice(Loading.alphabet)) for _ in range(1000))
             file = open("System\\recovery.info", 'w')
             file.write(Loading.caesar_encrypt(recovery_pwd))
             file.close()

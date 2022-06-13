@@ -7,6 +7,7 @@ from Applications import bagels
 # noinspection PyTypeChecker
 class TicTacToe:
     category = "games"
+    name = "TicTacToe"
 
     @staticmethod
     def boot(path='\\'):
@@ -35,7 +36,7 @@ class TicTacToe:
         return
 
     def __repr__(self):
-        return "< I am a tictactoe class named " + self.__class__.__name__ + ">"
+        return "TicTacToe"
 
     def draw_board(self):
         # This function prints out the board that it was passed.

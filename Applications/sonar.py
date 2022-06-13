@@ -9,6 +9,7 @@ from Applications import bagels
 
 class Sonar:
     category = 'games'
+    name = "Sonar"
 
     @staticmethod
     def boot(path="\\"):
@@ -43,7 +44,7 @@ class Sonar:
         return
 
     def __repr__(self):
-        return "< I am a sonar class named " + self.__class__.__name__  + ">"
+        return "Sonar"
 
     @staticmethod
     def get_new_board():

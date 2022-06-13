@@ -70,6 +70,7 @@ def init_game(self, path, extension):
 
 class Bagels:
     category = "games"
+    name = "Bagels"
 
     @staticmethod
     def boot(path="\\"):
@@ -88,7 +89,7 @@ class Bagels:
         return
 
     def __repr__(self):
-        return "< I am a bagels class named " + self.__class__.__name__ + ">"
+        return "Bagels"
 
     @staticmethod
     def get_secret_num(num_digits, base_number):

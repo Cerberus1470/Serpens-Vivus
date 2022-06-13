@@ -7,6 +7,11 @@ import os
 class Notepad:
     category = "utilities"
 
+    name = "Notepad"
+
+    def __repr__(self):
+        return "Notepad"
+
     @staticmethod
     def boot(os_object):
         while True:
@@ -58,9 +63,6 @@ class Notepad:
                     note.close()
                     break
             return
-
-    def __repr__(self):
-        return "< I am a Notepad class called " + self.__class__.__name__ + ">"
 
     @staticmethod
     def delete_note(current_username):

@@ -3,6 +3,7 @@ from System import Loading
 
 class SpeedSlow:
     category = "utilities"
+    name = "Speed/Slow"
 
     @staticmethod
     def boot(os_object):

@@ -7,6 +7,7 @@ def returning():
 
 
 class UserSettings:
+    name = "User Settings"
     category = "utilities"
 
     @staticmethod
@@ -19,7 +20,7 @@ class UserSettings:
         return
 
     def __repr__(self):
-        return "< This is a UserSettings class named " + self.__class__.__name__ + ">"
+        return "User Settings"
 
     def main(self, os_object):
         print("Welcome to User Settings!")

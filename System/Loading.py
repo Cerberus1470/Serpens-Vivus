@@ -133,10 +133,12 @@ def testing_tkinter():
     # Initialize tkinter window with dimensions 100x100
     root.geometry('450x300')
     v = StringVar(root, '1')
-    username = Label(root, text='Username').place(x=40, y=60)
-    password = Label(root, text='Username').place(x=40, y=100)
+    frame = Frame(root)
+    Label(frame, text="Position 1 : x=0, y=0", bg="#FFFF00", fg="white").place(x=5, y=0)
+    Label(root, text="Position 2 : x=50, y=40", bg="#3300CC", fg="white").place(x=50, y=40)
+    Label(root, text="Position 3 : x=75, y=80", bg="#FF0099", fg="white").place(x=75, y=80)
     btn = Button(root, text='Submit').place(x=40, y=130)
-    Radiobutton(root, text="Radio Button", variable=v, value="1", ).pack(fill=X, ipady=5)
+    Radiobutton(root, text="Radio Button", variable=v, value="1").pack(fill=X, ipady=5)
     user_entry = Entry(root, width=30).place(x=110, y=60)
     pwd_entry = Entry(root, width=30).place(x=110, y=100)
 

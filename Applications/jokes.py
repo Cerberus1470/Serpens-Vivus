@@ -1,5 +1,6 @@
 class Jokes:
     category = "games"
+    name = "Jokes"
 
     @staticmethod
     def boot(os_object):
@@ -9,11 +10,11 @@ class Jokes:
         return
 
     def __repr__(self):
-        return "< I am a jokes class named " + self.__class__.__name__ + ">"
+        return "Jokes"
 
     @staticmethod
     def main():
-        #The original jokes program from Unit 1 of BYU CS Part 1. Takes input and simply prints statements.
+        # The original jokes program from Unit 1 of BYU CS Part 1. Takes input and simply prints statements.
         print("What do sprinters eat before a race?")
         input()
         fast = "fast"

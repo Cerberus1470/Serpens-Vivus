@@ -13,6 +13,7 @@ from Applications.user_settings import UserSettings
 
 class TaskManager:
     category = "admin"
+    name = "Task Manager"
 
     @staticmethod
     def boot(os_object):
@@ -22,7 +23,7 @@ class TaskManager:
         return
 
     def __repr__(self):
-        return "< This is a Task Manager class named " + self.__class__.__name__ + ">"
+        return "Task Manager"
 
     @staticmethod
     def quit(app, stats):

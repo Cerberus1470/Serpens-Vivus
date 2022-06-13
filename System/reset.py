@@ -5,6 +5,7 @@ import os
 
 class Reset:
     category = "admin"
+    name = "Reset"
 
     @staticmethod
     def boot(os_object):
@@ -15,7 +16,7 @@ class Reset:
         return
 
     def __repr__(self):
-        return "< This is a reset class named" + self.__class__.__name__ + ">"
+        return "Reset"
 
     @staticmethod
     def user_reset():

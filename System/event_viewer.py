@@ -13,6 +13,10 @@ def update_time(events, index):
 
 class EventViewer:
     category = "admin"
+    name = "Event Viewer"
+
+    def __repr__(self):
+        return "Event Viewer"
 
     @staticmethod
     def boot(os_object):
