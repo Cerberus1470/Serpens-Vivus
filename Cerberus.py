@@ -5,5 +5,7 @@ from System import operating_system
 
 # Loading.modify_user("Tejas", 7, "running")
 # Loading.display_user("Tejas")
+# scout_rpg = ScoutRPG("Users\\Tejas")
+# Applications.scout_rpg.boot('Users\\Tejas')
 
 one = operating_system.boot()

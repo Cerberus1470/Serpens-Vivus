@@ -2,24 +2,40 @@ import os
 import time
 import threading
 import datetime
-from tkinter import *
-from tkinter.ttk import *
+import sys
 
 alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 1234567890!@#$%^&*()`~-_=+[{]}|;:\'\",<.>/?\t'
 
 
 class LoadingClass:
     def __init__(self, results, interval=1):
+        self.results = results
         self.interval = interval
-        thread = threading.Thread(target=self.foo, args=results)
+        self.interval2 = interval
+
+    def thred(self):
+        thread = threading.Thread(target=self.foo)
+        thread.daemon = True
+        thread.start()
+        time.sleep(6)
+        if self.results > 5:
+            print(self.results)
+
+    def thred2(self):
+        thread = threading.Thread(target=self.goo)
         thread.daemon = True
         thread.start()
 
-    @staticmethod
-    async def foo(results):
+    def goo(self):
         while True:
-            results += 1
-            time.sleep(1)
+            if self.interval != self.interval2:
+                print(str(self.interval) + "! You changed it!")
+                self.interval2 = self.interval
+
+    def foo(self):
+        for i in range(10):
+            self.results += 1
+            time.sleep(self.interval)
 
 
 # Here is an example of the process function:
@@ -125,22 +141,6 @@ def caesar_decrypt(encrypted_h=''):
             except IndexError:
                 decrypted_h += alphabet[alphabet.index(encrypted_h[i]) - key[i] + 95]
     return decrypted_h
-
-
-def testing_tkinter():
-    root = Tk()
-
-    # Initialize tkinter window with dimensions 100x100
-    root.geometry('450x300')
-    v = StringVar(root, '1')
-    username = Label(root, text='Username').place(x=40, y=60)
-    password = Label(root, text='Username').place(x=40, y=100)
-    btn = Button(root, text='Submit').place(x=40, y=130)
-    Radiobutton(root, text="Radio Button", variable=v, value="1", ).pack(fill=X, ipady=5)
-    user_entry = Entry(root, width=30).place(x=110, y=60)
-    pwd_entry = Entry(root, width=30).place(x=110, y=100)
-
-    root.mainloop()
 
 
 # noinspection PyTypeChecker

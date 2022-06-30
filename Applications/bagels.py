@@ -63,7 +63,7 @@ def init_game(self, path, extension):
                 continue
             Loading.returning("Loading previous game...", 2)
             bruh = list(game)
-            if extension == "snr":
+            if extension == "snr" or "spc":
                 return bruh
             return (Loading.caesar_decrypt(bruh[0].split('\n')[0])).split('\t')
 

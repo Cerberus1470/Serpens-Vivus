@@ -952,3 +952,54 @@
 [07/06/2022 18:12:14] System Startup.
 [07/06/2022 18:12:23] Boot complete.
 [07/06/2022 18:12:23] System Startup.
+[26/06/2022 15:05:18] Boot complete.
+[26/06/2022 15:05:18] System Startup.
+[26/06/2022 15:05:36] Cerberus encountered a fatal error. Reboot is required. Stacktrace: name 'sys' is not defined
+[26/06/2022 15:05:42] System Shutdown. 24.20774269104004 seconds have elapsed.
+[26/06/2022 15:06:19] Boot complete.
+[26/06/2022 15:06:19] System Startup.
+[26/06/2022 15:06:23] Tejas logged in.
+[26/06/2022 15:46:28] Boot complete.
+[26/06/2022 15:46:28] System Startup.
+[26/06/2022 15:46:33] Tejas logged in.
+[26/06/2022 15:46:35] Tejas opened system info
+[26/06/2022 22:28:24] Boot complete.
+[26/06/2022 22:28:24] System Startup.
+[28/06/2022 03:12:22] Boot complete.
+[28/06/2022 03:12:22] System Startup.
+[29/06/2022 21:12:54] Boot complete.
+[29/06/2022 21:12:54] System Startup.
+[30/06/2022 09:13:42] Boot complete.
+[30/06/2022 09:13:42] System Startup.
+[30/06/2022 09:17:46] Boot complete.
+[30/06/2022 09:17:46] System Startup.
+[30/06/2022 11:39:57] Boot complete.
+[30/06/2022 11:39:57] System Startup.
+[30/06/2022 11:42:17] Boot complete.
+[30/06/2022 11:42:17] System Startup.
+[30/06/2022 11:43:34] Boot complete.
+[30/06/2022 11:43:34] System Startup.
+[30/06/2022 11:44:25] Boot complete.
+[30/06/2022 11:44:25] System Startup.
+[30/06/2022 11:44:29] Tejas logged in.
+[30/06/2022 11:44:32] Tejas opened user settings
+[30/06/2022 11:45:25] Cerberus encountered a fatal error. Reboot is required. Stacktrace: [WinError 183] Cannot create a file when that file already exists: 'Users\\tejas'
+[30/06/2022 11:45:33] System Shutdown. 67.85991024971008 seconds have elapsed.
+[30/06/2022 11:45:33] System Startup.
+[30/06/2022 11:45:36] Tejas logged in.
+[30/06/2022 11:45:37] Tejas opened userset
+[30/06/2022 11:45:39] Tejas opened 6
+[30/06/2022 11:45:45] Tejas opened user settings
+[30/06/2022 11:46:02] Tejas opened power
+[30/06/2022 11:46:02] Tejas logged out and shutdown.
+[30/06/2022 11:46:02] Preparing to shut down...
+[30/06/2022 11:46:07] All apps closed.
+[30/06/2022 11:46:07] Updating user files...
+[30/06/2022 11:46:07] Updating user files...
+[30/06/2022 11:46:07] Updating user files...
+[30/06/2022 11:46:07] Updating user files...
+[30/06/2022 11:46:07] Shutdown complete.
+[30/06/2022 11:46:08] Code 3 returned. Executing task.
+[30/06/2022 11:46:08] System Shutdown. 103.48279738426208 seconds have elapsed.
+[30/06/2022 11:46:58] Boot complete.
+[30/06/2022 11:46:58] System Startup.

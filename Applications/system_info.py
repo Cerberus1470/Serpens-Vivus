@@ -20,7 +20,7 @@ class SystemInfo:
         print("Software: POCS (Python Operating Command System) Version %s" % str(versions["Main"]))
         print("Shell: Python IDLE Version 3.10")
         print("Applications installed: " + str(len(versions)))
-        print("Applications: Jokes, Notepad, Bagels, Tic-Tac-Toe, Task Manager, User Settings, and System Info")
+        print("Applications: " + str(versions.keys()))
         for i in range(len(versions)):
             print(list(versions)[i] + " Version: " + str(versions[list(versions)[i]]))
         if input() == "debug":

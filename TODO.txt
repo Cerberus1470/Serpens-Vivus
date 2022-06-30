@@ -64,7 +64,7 @@ TODO - Really advanced
     > ~ - Implement hashing (encrypting the databases)
         > - Error Correction in databases.
         > - Develop error correcting app after implementing encryption. More documentation below.
-    - Implement Threads
+    ~ - Implement Threads
     ~ - Revamp db_unprotected.txt into user directories. More documentation below.
         ~ - Completely revamp Notes app. See below for documentation.
             - Add editing functionality.
