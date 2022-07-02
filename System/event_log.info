@@ -1003,3 +1003,87 @@
 [30/06/2022 11:46:08] System Shutdown. 103.48279738426208 seconds have elapsed.
 [30/06/2022 11:46:58] Boot complete.
 [30/06/2022 11:46:58] System Startup.
+[30/06/2022 15:12:21] Boot complete.
+[30/06/2022 15:12:21] System Startup.
+[30/06/2022 15:28:34] Boot complete.
+[30/06/2022 15:28:34] System Startup.
+[30/06/2022 17:33:52] Boot complete.
+[30/06/2022 17:33:52] System Startup.
+[30/06/2022 17:36:21] Boot complete.
+[30/06/2022 17:36:21] System Startup.
+[30/06/2022 17:38:07] Boot complete.
+[30/06/2022 17:38:07] System Startup.
+[30/06/2022 17:40:04] Boot complete.
+[30/06/2022 17:40:04] System Startup.
+[30/06/2022 17:42:15] Boot complete.
+[30/06/2022 17:42:15] System Startup.
+[30/06/2022 21:35:34] Boot complete.
+[30/06/2022 21:35:34] System Startup.
+[01/07/2022 11:16:40] Boot complete.
+[01/07/2022 11:16:40] System Startup.
+[01/07/2022 12:02:00] Boot complete.
+[01/07/2022 12:02:00] System Startup.
+[01/07/2022 12:02:04] Tejas logged in.
+[01/07/2022 12:02:08] Tejas opened user settings
+[01/07/2022 12:02:49] Tejas opened power
+[01/07/2022 12:02:49] Tejas logged out and shutdown.
+[01/07/2022 12:02:49] Preparing to shut down...
+[01/07/2022 12:02:52] All apps closed.
+[01/07/2022 12:02:52] Updating user files...
+[01/07/2022 12:02:52] Updating user files...
+[01/07/2022 12:02:52] Updating user files...
+[01/07/2022 12:02:52] Updating user files...
+[01/07/2022 12:02:52] Shutdown complete.
+[01/07/2022 12:02:58] Code 3 returned. Executing task.
+[01/07/2022 12:02:58] System Shutdown. 57.45905900001526 seconds have elapsed.
+[01/07/2022 12:17:47] Boot complete.
+[01/07/2022 12:17:47] System Startup.
+[01/07/2022 12:17:54]   logged in.
+[01/07/2022 12:17:58]   opened power
+[01/07/2022 12:17:58]   logged out and shutdown.
+[01/07/2022 12:17:58] Preparing to shut down...
+[01/07/2022 12:17:59] Cerberus encountered a fatal error. Reboot is required. Stacktrace: <class 'System.event_viewer.EventViewer'>
+[01/07/2022 12:18:00] System Shutdown. 12.32422399520874 seconds have elapsed.
+[01/07/2022 15:51:43] Boot complete.
+[01/07/2022 15:51:43] System Startup.
+[01/07/2022 18:59:01] Boot complete.
+[01/07/2022 18:59:01] System Startup.
+[01/07/2022 19:20:57] Boot complete.
+[01/07/2022 19:20:57] System Startup.
+[01/07/2022 19:43:27] Boot complete.
+[01/07/2022 19:43:27] System Startup.
+[01/07/2022 19:43:30]   logged in.
+[01/07/2022 19:43:33]   opened bagels
+[01/07/2022 19:44:42]   opened bagels
+[01/07/2022 19:46:07] Boot complete.
+[01/07/2022 19:46:07] System Startup.
+[01/07/2022 19:46:11] Def logged in.
+[01/07/2022 19:46:12] Def opened bagels
+[01/07/2022 19:46:38] Def opened bagels
+[01/07/2022 19:46:42] Cerberus encountered a fatal error. Reboot is required. Stacktrace: not enough values to unpack (expected 5, got 1)
+[01/07/2022 19:48:32] Boot complete.
+[01/07/2022 19:48:32] System Startup.
+[01/07/2022 19:48:34] Def logged in.
+[01/07/2022 19:48:35] Def opened bagels
+[01/07/2022 19:48:39] Cerberus encountered a fatal error. Reboot is required. Stacktrace: not enough values to unpack (expected 5, got 1)
+[01/07/2022 19:49:12] Boot complete.
+[01/07/2022 19:49:12] System Startup.
+[01/07/2022 19:49:13] Def logged in.
+[01/07/2022 19:49:13] Def opened bagels
+[01/07/2022 19:52:41] Boot complete.
+[01/07/2022 19:52:41] System Startup.
+[01/07/2022 19:52:47] Def logged in.
+[01/07/2022 19:52:48] Def opened bagels
+[01/07/2022 19:54:44] Cerberus encountered a fatal error. Reboot is required. Stacktrace: [WinError 2] The system cannot find the file specified: 'Users\\Defbagels.bgl'
+[01/07/2022 21:06:16] Boot complete.
+[01/07/2022 21:06:16] System Startup.
+[01/07/2022 21:39:54] Boot complete.
+[01/07/2022 21:39:54] System Startup.
+[02/07/2022 13:56:36] Boot complete.
+[02/07/2022 13:56:36] System Startup.
+[02/07/2022 14:00:21] Boot complete.
+[02/07/2022 14:00:21] System Startup.
+[02/07/2022 15:00:02] Boot complete.
+[02/07/2022 15:00:02] System Startup.
+[02/07/2022 15:05:55] Boot complete.
+[02/07/2022 15:05:55] System Startup.

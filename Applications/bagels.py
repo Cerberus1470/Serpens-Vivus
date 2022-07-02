@@ -18,10 +18,8 @@ def delete(path, extension):
         except FileNotFoundError:
             try:
                 os.remove("{}\\{}".format(path, '{}.{}'.format(delete_game, extension)))
-                pass
             except FileNotFoundError:
                 Loading.returning("That file was not found.", 1)
-                pass
         Loading.returning("The file was successfully deleted.", 2)
         if input('Delete another file? "Yes" or "No".').lower() == 'yes':
             continue
@@ -63,7 +61,7 @@ def init_game(self, path, extension):
                 continue
             Loading.returning("Loading previous game...", 2)
             bruh = list(game)
-            if extension == "snr" or "spc":
+            if extension == "snr" or extension == "sct":
                 return bruh
             return (Loading.caesar_decrypt(bruh[0].split('\n')[0])).split('\t')
 
@@ -201,7 +199,7 @@ class Bagels:
                     print('  Bagels       No digit is correct.')
                 clue = self.get_clues(guess, self.secret_num)
                 self.prev_guesses.append(guess)
-                print(clue)
+                print(clue) if clue else None
                 self.num_guesses = str(int(self.num_guesses) + 1)
 
                 if guess == self.secret_num:
@@ -209,10 +207,9 @@ class Bagels:
                 if int(self.num_guesses) > int(self.max_guesses):
                     print('You ran out of guesses. The answer was %s.' % self.secret_num)
             if not self.new_file:
-                os.remove(self.path + self.filename)
+                os.remove(self.path + '\\' + self.filename)
             if input('Do you want to play again? (yes or no)\n').lower().startswith('y'):
                 self.setup()
-                pass
             else:
                 Loading.returning_to_apps()
                 return

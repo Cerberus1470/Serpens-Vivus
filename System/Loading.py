@@ -51,8 +51,7 @@ def returning(message, length=0):
     if length == 0:
         print(message, end='')
     for i in range(length):
-        chars = '/—\\|'
-        for char in chars:
+        for char in '/—\\|':
             print('\r' + message + '\t' + char, end='')
             time.sleep(0.25)
             sys.stdout.flush()
@@ -65,9 +64,9 @@ def returning_to_apps():
 
 
 def progress_bar(message, length):
-    for i in range(10):
-        print('\r' + message + '\t[' + str('=' * i) + str('-' * (10 - i)) + ']', end='')
-        time.sleep(length / 10.0)
+    for i in range(1, 101):
+        print('\r' + message + '\t[' + str('=' * int(i/10)) + str('-' * (9 - int(i/10))) + ']\t' + str(i) + '%', end='')
+        time.sleep(length / 100.0)
 
 
 def log(message=''):
