@@ -5,7 +5,7 @@ from datetime import datetime
 import random
 
 stats_list = ("Health", "Hunger", "Thirst", "Money")
-food_list = ("peanuts", "breakfast burrito", "pancake", "mac and cheese", "tofu teriyaki")
+food_list = {"peanuts", "breakfast burrito", "pancake", "mac and cheese", "tofu teriyaki"}
 food_costs = (2.5, 5.0, 3.5, 10.0, 20.0)
 drinks_list = ("water", "soda")
 drinks_cost = (1.0, 2.5)
@@ -22,12 +22,6 @@ scout_store_costs = (60.0, 24.0, 38.0, 27.0, 15.0, 20.0, 25.0, 20.0,
                      24.0, 150.0, 62.5, 27.5, 50.0, 42.5, 35,
                      20.0, 7.5, 12.5, 17.5, 10.0, 15.0, 5.0)
 days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-
-
-def boot(path='\\'):
-    scout_rpg = ScoutRPG(path)
-    if not scout_rpg.filename == "exit":
-        scout_rpg.main()
 
 
 class Statistics:
@@ -48,62 +42,75 @@ class Statistics:
             self.money = 0.0
 
     @staticmethod
-    def iter_list():
+    def __iter__():
         return ['health', 'hunger', 'thirst', 'money']
 
 
 class Food:
-    def __init__(self, name=None, count=None, fuel=None, duration=None, info=None):
+    def __init__(self, name=None, count=None):
         self.name = name if name else None
-        self.count = count if count else None
-        self.fuel = fuel if fuel else None
-        self.duration = duration if duration else None
-        if info:
-            self.name = str(info[0])
-            self.count = int(info[1])
-            self.fuel = int(info[2])
-            self.duration = int(info[3])
-        else:
-            match name:
-                case 'peanuts':
-                    (self.count, self.fuel, self.duration) = (5, 5, 5)
-                case 'breakfast burrito':
-                    (self.count, self.fuel, self.duration) = (0, 10, 10)
-                case 'pancake':
-                    (self.count, self.fuel, self.duration) = (10, 10, 15)
-                case 'mac and cheese':
-                    (self.count, self.fuel, self.duration) = (0, 20, 30)
-                case 'tofu teriyaki':
-                    (self.count, self.fuel, self.duration) = (0, 30, 35)
-                case _:
-                    (self.count, self.fuel, self.duration) = (100, 100, 100)
+        match self.name:
+            case 'peanuts':
+                (self.count, self.fuel, self.duration) = (5, 5, 5)
+            case 'breakfast burrito':
+                (self.count, self.fuel, self.duration) = (0, 10, 10)
+            case 'pancake':
+                (self.count, self.fuel, self.duration) = (10, 10, 15)
+            case 'mac and cheese':
+                (self.count, self.fuel, self.duration) = (0, 20, 30)
+            case 'tofu teriyaki':
+                (self.count, self.fuel, self.duration) = (0, 30, 35)
+            case _:
+                (self.count, self.fuel, self.duration) = (100, 100, 100)
+        self.count = count if count else self.count
+        # self.fuel = fuel if fuel else None
+        # self.duration = duration if duration else None
+        # if info:
+        #     try:
+        #         self.name = str(info[0])
+        #     except IndexError:
+        #         self.name = None
+        #     try:
+        #         self.count = int(info[1])
+        #     except IndexError:
+        #         self.count = None
+        # if info:
+        #     self.name = str(info[0])
+        #     self.count = int(info[1])
+        #     # # self.fuel = int(info[2])
+        #     # self.duration = int(info[3])
 
     def __repr__(self):
         return ','.join(str(x) for x in (self.name, self.count, self.fuel, self.duration))
+
+    def __iter__(self):
+        return [self.name, self.count, self.fuel, self.duration]
 
 
 class Drink:
-    def __init__(self, name=None, count=None, fuel=None, duration=None, info=None):
+    def __init__(self, name=None, count=None):
         self.name = name if name else None
-        self.count = count if count else None
-        self.fuel = fuel if fuel else None
-        self.duration = duration if duration else None
-        if info:
-            self.name = str(info[0])
-            self.count = int(info[1])
-            self.fuel = int(info[2])
-            self.duration = int(info[3])
-        else:
-            match name:
-                case 'water':
-                    (self.count, self.fuel, self.duration) = (24, 20, 5)
-                case 'soda':
-                    (self.count, self.fuel, self.duration) = (0, 100, 10)
-                case _:
-                    (self.count, self.fuel, self.duration) = (0, 0, 0)
+        match self.name:
+            case 'water':
+                (self.count, self.fuel, self.duration) = (24, 20, 5)
+            case 'soda':
+                (self.count, self.fuel, self.duration) = (0, 100, 10)
+            case _:
+                (self.count, self.fuel, self.duration) = (0, 0, 0)
+        self.count = count if count else self.count
+        # self.fuel = fuel if fuel else None
+        # # self.duration = duration if duration else None
+        # if info:
+        #     self.name = str(info[0])
+        #     self.count = int(info[1])
+        #     # self.fuel = int(info[2])
+        #     # self.duration = int(info[3])
 
     def __repr__(self):
         return ','.join(str(x) for x in (self.name, self.count, self.fuel, self.duration))
+
+    def __iter__(self):
+        return [self.name, self.count, self.fuel, self.duration]
 
 
 class Location:
@@ -136,21 +143,23 @@ class Chore:
 
 
 class Possession:
-    def __init__(self, name=None, quantity=None, info=None):
+    def __init__(self, name=None):
         self.name = name if name else None
-        self.quantity = quantity if quantity else None
-        if info and info != ['']:
-            try:
-                self.name = info[0]
-                self.quantity = info[1]
-            except IndexError:
-                pass
 
     def __repr__(self):
-        return self.name + ',' + self.quantity
+        return self.name
 
 
 class ScoutRPG:
+    category = "games"
+    version = '1.1'
+
+    @staticmethod
+    def boot(path='\\'):
+        scout_rpg = ScoutRPG(path)
+        if not scout_rpg.filename == "exit":
+            scout_rpg.main()
+
     def __init__(self, path):
         # Default game setup code, pulled from sonar.py.
         self.new_file = False
@@ -162,7 +171,14 @@ class ScoutRPG:
         if game_info:
             # Decrypting everything and cutting off the new line at the end!
             try:
-                (stats, food, drinks, time, locations, chores, possessions) = [Loading.caesar_decrypt(i).split('\n')[0] for i in game_info]
+                version = Loading.caesar_decrypt(game_info[0]).split('\n')[0]
+            except IndexError:
+                input("There is no version in the selected game file. Press ENTER to delete it, or stop the program now "
+                      "to attempt to recover progress by yourself.")
+                os.remove(self.path + '\\' + self.filename)
+                return
+            try:
+                (version, stats, food, drinks, time, locations, chores, possessions) = self.update_check(version, [Loading.caesar_decrypt(i).split('\n')[0] for i in game_info])
                 self.stats = None
                 self.food = []
                 self.drinks = []
@@ -171,27 +187,25 @@ class ScoutRPG:
                 # stats will look something like "100.0\t50\t50\t0"
                 self.stats = Statistics(stats.split('\t'))
                 # Food data looks like 5,5,5\t0,10,10\t0,30,35
-                self.food = [Food(None, None, None, None, i.split(',')) for i in food.split('\t')]
-                self.drinks = [Drink(None, None, None, None, i.split(',')) for i in drinks.split('\t')]
+                self.food = [Food(i.split(',')[0], i.split(',')[1]) for i in food.split('\t')]
+                self.drinks = [Drink(i.split(',')[0], i.split(',')[1]) for i in drinks.split('\t')]
                 self.locations = [Location(None, None, locations.split('\t')[locations_list.index(i)].split(',')) for i in locations_list]
                 self.time = time.split('\n')[0].split(',')
                 self.previous_time = self.time.copy()
                 self.difference = [0, 0, 0, 0]
                 self.chores = [Chore(None, None, i.split(',')) for i in chores.split('\t')]
-                self.possessions = [Possession(None, None, i.split(',')) for i in possessions.split('\t')] if not possessions == '' else []
+                self.possessions = [Possession(i) for i in possessions.split('\t')] if not possessions == '' else []
                 # Checking for update...
-                if -1 in [self.stats.__getattribute__(i) for i in self.stats.iter_list()]:
-                    raise KeyError
             except (KeyError, IndexError, ValueError):
                 # If the element doesn't exist.
-                self.update_file([Loading.caesar_decrypt(i).split('\n')[0] for i in game_info])
-                Loading.returning("This game was saved in an older version of ScoutRPG. The save file will now be updated.", 3)
-                self.quit()
+                # self.update_file([Loading.caesar_decrypt(i).split('\n')[0] for i in game_info])
+                Loading.returning("This game save is corrupted! Nooooo...", 3)
+                return
 
     def quit(self):
         if self.new_file:
             self.filename = input("File name?\n") + '.sct'
-        stats = '\t'.join(str(self.stats.__getattribute__(i)) for i in self.stats.iter_list())
+        stats = '\t'.join(str(self.stats.__getattribute__(i)) for i in self.stats.__iter__())
         food = '\t'.join(i.__repr__() for i in self.food)
         drinks = '\t'.join(i.__repr__() for i in self.drinks)
         time = ','.join(self.time)
@@ -200,7 +214,7 @@ class ScoutRPG:
         possessions = '\t'.join(i.__repr__() for i in self.possessions)
         try:
             game = open(self.path + '\\' + self.filename, 'w')
-            for i in (stats, food, drinks, time, locations, chores, possessions):
+            for i in ("1.1", stats, food, drinks, time, locations, chores, possessions):
                 game.write(Loading.caesar_encrypt(i) + '\n')
             game.close()
         except (FileNotFoundError, FileExistsError):
@@ -255,11 +269,16 @@ class ScoutRPG:
                 self.time[0] -= 12
                 self.time[2] += 1
             # Updating stats
-            for i in self.stats.iter_list():
+            for i in self.stats.__iter__():
                 if i != "money":
                     self.stats.__setattr__(i, 0.0) if self.stats.__getattribute__(i) < 0.0 else self.stats.__getattribute__(i)
                     self.stats.__setattr__(i, 100.0) if self.stats.__getattribute__(i) > 100.0 else self.stats.__getattribute__(i)
                     self.stats.__setattr__(i, self.stats.__getattribute__(i).__round__(1))
+        if self.time[1] > self.previous_time[1]:
+            for i in self.chores:
+                i.__setattr__('cooldown', False)
+            self.stats.money += 25
+            Loading.returning("ALLOWANCE: $25.00 has been added to your wallet.", 2)
         if self.stats.health == 0.0:
             if self.defeat() == 1:
                 self.setup()
@@ -272,77 +291,140 @@ class ScoutRPG:
                 self.time[i] = str(int(self.time[i]))
         self.previous_time = self.time.copy()
 
-    def update_file(self, unpack):
+    def update_check(self, version, datapack):
+        # "Recursive" method to upgrade game files saved in previous versions.
+        if version == 'alpha1.0':
+            version = '1.0'
+            (stats, food, drinks, time) = datapack[1:]
+            stats = '\t'.join(stats.split(',')) + '\t0.0'
+            food = food.split('\t')
+            for i in range(len(food)):
+                match food[i].split(',')[2]:
+                    case '5':
+                        food[i] = 'peanuts,' + food[i]
+                    case '10':
+                        food[i] = 'breakfast burrito,' + food[i]
+                    case '15':
+                        food[i] = 'pancake,' + food[i]
+                    case '30':
+                        food[i] = 'mac and cheese,' + food[i]
+                    case '35':
+                        food[i] = 'tofu teriyaki,' + food[i]
+            food = '\t'.join(food)
+            drinks = drinks.split('\t')
+            for i in range(len(drinks)):
+                match drinks[i].split(',')[2]:
+                    case '5':
+                        drinks[i] = 'water,' + drinks[i]
+                    case '10':
+                        drinks[i] = 'soda,' + drinks[i]
+            drinks = '\t'.join(drinks)
+            locations = 'grocery store,10\tdepartment store,20\tscout store,30'
+            chores = '\t'.join(i + ',False' for i in chore_list)
+            possessions = ''
+            datapack = [version, stats, food, drinks, time, locations, chores, possessions]
+        if version == '1.0':
+            # TODO CHANGE THE VERSION IF NO GAME FILE CHANGES ARE PRESENT!
+            version = '1.1'
+            (stats, food, drinks, time, locations, chores, possessions) = datapack[1:]
+            if possessions:
+                possessions = possessions.split('\t')
+                for i in range(len(possessions)):
+                    (name, quantity) = possessions[i].split(',')
+                    possessions[i] = '\t'.join([name] * int(quantity))
+                possessions = '\t'.join(possessions)
+            datapack = [version, stats, food, drinks, time, locations, chores, possessions]
+            # Now to quit and rewrite the game files.
+            # TODO THIS SHOULD BE MOVED TO THE BOTTOM OF THE UPGRADE TREE
+            file = open(self.path + '\\' + self.filename, 'w')
+            for i in datapack:
+                file.write(Loading.caesar_encrypt(i) + '\n')
+            file.close()
+            Loading.returning("This game was saved in an older version of ScoutRPG. The save file will now be updated.", 3)
+        return datapack
+        # Failed to datapack values from the game file resulting in 0 game object attributes.
+        # Looping through game object attributes, find which ones are missing. Append them to a list and pass over to the update_file.
+        # This way update_file() knows exactly what to do.
+        # error = []
+        # for i in datapack:
+        #     try:
+        #         if not self.stats:
+        #             self.stats = Statistics(i.split('\t'))
+        #             if -1 in self.stats.__iter__():
+        #                 raise TypeError
+        #             continue
+        #     except (TypeError, IndexError, ValueError):
+        #         error.append("stats")
+        #     # Find the food!
+        #     try:
+        #         if not self.food:
+        #             self.food = [Food(None, None, j.split(',')) for j in i.split('\t')]
+        #             continue
+        #     except (TypeError, IndexError, ValueError):
+        #         error.append("food")
+        #     # Find the drinks!
+        #     try:
+        #         if not self.drinks:
+        #             error.append("drink")
+        #             self.drinks = [Drink(None, None, j.split(',')) for j in i.split('\t')]
+        #             continue
+        #     except (TypeError, IndexError, ValueError):
+        #         pass
+        #     # Find the time!
+        #     try:
+        #         if not self.time:
+        #             error.append("time")
+        #             self.time = i.split('\n')[0].split(',')
+        #             self.previous_time = self.time.copy()
+        #             self.difference = [0, 0, 0, 0]
+        #             continue
+        #     except (TypeError, IndexError, ValueError):
+        #         pass
+        #     # Find the locations!
+        #     try:
+        #         if not self.locations:
+        #             error.append("locations")
+        #             self.locations = [Location('', 0, i.split('\t')[locations_list.index(j)].split(',')) for j in locations_list]
+        #             continue
+        #     except (TypeError, IndexError, ValueError):
+        #         pass
+        #     # Find the chores!
+        #     try:
+        #         if not self.chores:
+        #             error.append("chores")
+        #             self.chores = [Chore(None, None, i.split(',')) for i in i.split('\t')]
+        #             continue
+        #     except (TypeError, IndexError, ValueError):
+        #         pass
+        #     # Find the possessions!
+        #     try:
+        #         if not self.possessions:
+        #             error.append("possessions")
+        #             self.possessions = [Possession(i) for i in i.split('\t')]
+        #             continue
+        #     except (TypeError, IndexError, ValueError):
+        #         pass
+        # defaults = {'stats': Statistics(), 'food': [Food(i) for i in ("peanuts", "pancake")], 'drinks': [Drink("water")],
+        #             'locations': [Location(i, 10 * (locations_list.index(i) + 1)) for i in locations_list], 'time': ["3", "1", datetime.today().year, "08", "00"],
+        #             'chores': [Chore(i) for i in chore_list], 'possessions': []}
+        # for i in defaults:
+        #     if not self.__getattribute__(i):
+        #         self.__setattr__(i, defaults[i])
+        #         self.previous_time = self.time.copy()
+        #         self.difference = [0, 0, 0, 0]
+        #         pass
+
+    @DeprecationWarning
+    def update_file(self):
         # For every statistic.
         try:
             new_stats = Statistics()
-            for i in self.stats.iter_list():
+            for i in self.stats.__iter__():
                 new_stats.__setattr__(i, self.stats.__getattribute__(i) if self.stats.__getattribute__(i) != -1 else new_stats.health)
             self.stats = new_stats
-        # Failed to unpack values from the game file resulting in 0 game object attributes.
+
         except AttributeError:
-            self.stats = self.food = self.drinks = self.locations = self.time = self.chores = self.possessions = None
-            # Find the stats!
-            for i in unpack:
-                try:
-                    if not self.stats:
-                        self.stats = Statistics(i.split('\t'))
-                        continue
-                except (TypeError, IndexError, ValueError):
-                    pass
-                # Find the food!
-                try:
-                    if not self.food:
-                        self.food = [Food(None, None, None, None, j.split(',')) for j in i.split('\t')]
-                        continue
-                except (TypeError, IndexError, ValueError):
-                    pass
-                # Find the drinks!
-                try:
-                    if not self.drinks:
-                        self.drinks = [Drink(None, None, None, None, j.split(',')) for j in i.split('\t')]
-                        continue
-                except (TypeError, IndexError, ValueError):
-                    pass
-                # Find the time!
-                try:
-                    if not self.time:
-                        self.time = i.split('\n')[0].split(',')
-                        self.previous_time = self.time.copy()
-                        self.difference = [0, 0, 0, 0]
-                        continue
-                except (TypeError, IndexError, ValueError):
-                    pass
-                # Find the locations!
-                try:
-                    if not self.locations:
-                        self.locations = [Location('', 0, i.split('\t')[locations_list.index(j)].split(',')) for j in locations_list]
-                        continue
-                except (TypeError, IndexError, ValueError):
-                    pass
-                # Find the chores!
-                try:
-                    if not self.chores:
-                        self.chores = [Chore(None, None, i.split(',')) for i in i.split('\t')]
-                        continue
-                except (TypeError, IndexError, ValueError):
-                    pass
-                # Find the possessions!
-                try:
-                    if not self.possessions:
-                        self.possessions = [Possession(None, None, i.split(',')) for i in i.split('\t')]
-                        continue
-                except (TypeError, IndexError, ValueError):
-                    pass
-            defaults = {'stats': Statistics(), 'food': [Food(i) for i in ("peanuts", "pancake")], 'drinks': [Drink("water")],
-                        'locations': [Location(i, 10 * (locations_list.index(i) + 1)) for i in locations_list], 'time': ["3", "1", datetime.today().year, "08", "00"],
-                        'chores': [Chore(i) for i in chore_list], 'possessions': []}
-            for i in defaults:
-                if not self.__getattribute__(i):
-                    self.__setattr__(i, defaults[i])
-                    self.previous_time = self.time.copy()
-                    self.difference = [0, 0, 0, 0]
-                    pass
+            pass
 
     def main(self):
         # Setup logic
@@ -373,7 +455,7 @@ class ScoutRPG:
         # input("Welcome to Mars.\nYou and a crew of 5 others traveled here 6 sols agp. A sol is 1 day on Mars, slightly "
         #       "longer than an Earth day. A severe storm struck your landing site and forced your team on an emergency course "
         #       "back to Earth. However, during your trip to the Mars Ascent Vehicle (MAV), a large clump of dirt hit you straight "
-        #       "in the chest. You were sucked into the eye of the storm and thrown out the other side. You crew is suddenly "
+        #       "in the chest. You were sucked into the eye of the storm and thrown out the other side. Your crew is suddenly "
         #       "hundreds of meters away from you, your chest pains intensely, and your system alarms are going off. Out of shock, "
         #       "your mind slowly drifts away...\nPress ENTER to continue")
         # input("BEEP! BEEP! You recognize that pattern anywhere. Your suit is low on oxygen. You jolt awake, gasping for what "
@@ -431,7 +513,7 @@ class ScoutRPG:
                 Loading.returning("You eat a {} meal, and it was {}".format(self.food[action].name.title(), ["tasty", "delicious", "scrumptious"][random.randint(0, 2)]), 2)
                 break
             except (IndexError, ValueError):
-                Loading.returning("You don't have any {} meals!".format(action) , 2)
+                Loading.returning("You don't have any {} meals!".format(action), 2)
         pass
 
     def drink(self):
@@ -454,11 +536,12 @@ class ScoutRPG:
         pass
 
     def sleep(self):
-        if int(self.time[3]) >= 21:
+        if int(self.time[3]) >= 21 or int(self.time[3]) < 8:
             self.refresh(1, 1)
             self.time[3] = "08"
             self.time[4] = "00"
-            self.stats.hunger = self.stats.thirst = 25
+            self.stats.hunger = 25 if self.stats.hunger > 25 else self.stats.hunger
+            self.stats.thirst = 25 if self.stats.thirst > 25 else self.stats.thirst
             print("SLEEP: Until 8:00")
             Loading.returning("It's getting late, so you turn in for the day.", 3)
             Loading.returning("Zzzzzzz...", 3)
@@ -527,7 +610,7 @@ class ScoutRPG:
                 Loading.progress_bar("Traveling to the {}".format(destination), [i.duration for i in self.locations if i.name == destination][0] / 4)
                 stores[locations_list.index(i)]()
                 self.refresh(4, [i.duration for i in self.locations if i.name == destination][0])
-            break
+                break
         else:
             Loading.returning("Please pick a valid destination.", 2)
 
@@ -602,15 +685,16 @@ class ScoutRPG:
                     break
             else:
                 Loading.returning("Please type a valid food/drink.")
-    # Buy scouting equipment
-        # Scout Pants: $60
-        # Scout Shorts: $24
-        # Scout Long-sleeve shirt: $38
-        # Scout Short-sleeve shirt: $27
-        # Scout Socks: $15
-        # Scout Belt: $20
-        # Scout Cap: $25
-        # Scout Uniform accessories: $20
+
+    # Buying scouting equipment
+    # Scout Pants: $60
+    # Scout Shorts: $24
+    # Scout Long-sleeve shirt: $38
+    # Scout Short-sleeve shirt: $27
+    # Scout Socks: $15
+    # Scout Belt: $20
+    # Scout Cap: $25
+    # Scout Uniform accessories: $20
 
     def buy(self, buy, stat, store_list, store_costs, item):
         while True:
@@ -624,7 +708,7 @@ class ScoutRPG:
                     Loading.returning("Please type a number between 0 and 100.", 2)
                     continue
             if 0 <= quantity <= 100.0:
-                if self.stats.money > (quantity * store_costs[store_list.index(buy)]):
+                if self.stats.money >= (quantity * store_costs[store_list.index(buy)]):
                     self.stats.money -= (quantity * store_costs[store_list.index(buy)])
                     try:
                         stat[[stat.index(i) for i in stat if i.name == buy][0]].count += quantity
@@ -633,7 +717,7 @@ class ScoutRPG:
                         stat[[stat.index(i) for i in stat if i.name == buy][0]].count = quantity
                     Loading.returning("Purchase successful. Your total was: $" + str(quantity * store_costs[store_list.index(buy)]), 2)
                     return
-                    # Another 1-liner for loop marvel. It's deprecated but I still love it so I kept it.
+                    # Another 1-liner for loop marvel. It's deprecated, but I still love it, so I kept it.
                     # length_index = {"grocery store": (food_list, drinks_list), "department store": department_list, "scout store": scout_store_list}
                     # Loading.progress_bar("Traveling back home...", [i.duration for i in self.locations if i.name == [i for i in length_index if store_list in length_index[i]][0]][0] / 4)
                 else:

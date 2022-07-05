@@ -1109,3 +1109,80 @@
 [03/07/2022 17:23:16] System Startup.
 [03/07/2022 17:30:09] Boot complete.
 [03/07/2022 17:30:09] System Startup.
+[04/07/2022 12:15:24] Boot complete.
+[04/07/2022 12:15:24] System Startup.
+[04/07/2022 12:18:38] Boot complete.
+[04/07/2022 12:18:38] System Startup.
+[04/07/2022 12:18:42] Tejas logged in.
+[04/07/2022 12:19:11] Boot complete.
+[04/07/2022 12:19:11] System Startup.
+[04/07/2022 12:19:13] Tejas logged in.
+[04/07/2022 12:19:24] Boot complete.
+[04/07/2022 12:19:24] System Startup.
+[04/07/2022 12:19:27] Tejas logged in.
+[04/07/2022 12:19:31] Tejas opened scoutrpg
+[04/07/2022 12:19:31] Cerberus encountered a fatal error. Reboot is required. Stacktrace: type object 'ScoutRPG' has no attribute 'category'
+[04/07/2022 12:19:53] Boot complete.
+[04/07/2022 12:19:53] System Startup.
+[04/07/2022 12:19:56] Tejas logged in.
+[04/07/2022 12:19:59] Tejas opened scoutrpg
+[04/07/2022 12:20:17] Tejas opened power
+[04/07/2022 12:20:17] Tejas logged out and shutdown.
+[04/07/2022 12:20:17] Preparing to shut down...
+[04/07/2022 12:20:20] All apps closed.
+[04/07/2022 12:20:20] Updating user files...
+[04/07/2022 12:20:20] Updating user files...
+[04/07/2022 12:20:20] Updating user files...
+[04/07/2022 12:20:20] Updating user files...
+[04/07/2022 12:20:20] Shutdown complete.
+[04/07/2022 12:20:22] Code 3 returned. Executing task.
+[04/07/2022 12:20:22] System Shutdown. 28.55606484413147 seconds have elapsed.
+[04/07/2022 12:52:57] Boot complete.
+[04/07/2022 12:52:57] System Startup.
+[04/07/2022 12:52:57] Cerberus encountered a fatal error. Reboot is required. Stacktrace: Multiple fatal errors occurred. Please reboot the system.
+[04/07/2022 12:53:10] System Shutdown. 12.678589105606079 seconds have elapsed.
+[04/07/2022 12:53:10] System Startup.
+[04/07/2022 12:53:11] A fatal internal error has occurred. The system has entered Recovery.
+[04/07/2022 12:55:36] Boot complete.
+[04/07/2022 12:55:36] System Startup.
+[04/07/2022 12:55:36] Cerberus encountered a fatal error. Reboot is required. Stacktrace: Multiple fatal errors occurred. Please reboot the system.
+[04/07/2022 12:56:39] Boot complete.
+[04/07/2022 12:56:39] System Startup.
+[04/07/2022 12:56:49] Boot complete.
+[04/07/2022 12:56:49] System Startup.
+[04/07/2022 12:57:06] Boot complete.
+[04/07/2022 12:57:06] System Startup.
+[04/07/2022 12:58:25] Boot complete.
+[04/07/2022 12:58:25] System Startup.
+[04/07/2022 12:59:55] Boot complete.
+[04/07/2022 12:59:55] System Startup.
+[04/07/2022 13:00:17] Preparing to shut down...
+[04/07/2022 13:01:18] Updating user files...
+[04/07/2022 13:01:18] Updating user files...
+[04/07/2022 13:01:18] Updating user files...
+[04/07/2022 13:01:18] Updating user files...
+[04/07/2022 13:01:18] Shutdown complete.
+[04/07/2022 13:01:20] System Shutdown. 85.1541907787323 seconds have elapsed.
+[04/07/2022 13:01:26] Boot complete.
+[04/07/2022 13:01:26] System Startup.
+[04/07/2022 13:01:59] Boot complete.
+[04/07/2022 13:01:59] System Startup.
+[04/07/2022 13:02:07] Preparing to shut down...
+[04/07/2022 14:28:18] Boot complete.
+[04/07/2022 14:28:18] System Startup.
+[05/07/2022 10:04:48] Boot complete.
+[05/07/2022 10:04:48] System Startup.
+[05/07/2022 10:08:44] Boot complete.
+[05/07/2022 10:08:44] System Startup.
+[05/07/2022 17:23:28] Boot complete.
+[05/07/2022 17:23:28] System Startup.
+[05/07/2022 18:33:52] Boot complete.
+[05/07/2022 18:33:52] System Startup.
+[05/07/2022 18:37:02] Boot complete.
+[05/07/2022 18:37:02] System Startup.
+[05/07/2022 18:42:26] Boot complete.
+[05/07/2022 18:42:26] System Startup.
+[05/07/2022 18:45:12] Boot complete.
+[05/07/2022 18:45:12] System Startup.
+[05/07/2022 18:45:54] Boot complete.
+[05/07/2022 18:45:54] System Startup.

@@ -7,6 +7,7 @@ from Applications.bagels import Bagels
 from Applications.tictactoe import TicTacToe
 from Applications.hangman import Hangman
 from Applications.sonar import Sonar
+from Applications.scout_rpg import ScoutRPG
 from Applications.system_info import SystemInfo
 from Applications.user_settings import UserSettings
 
@@ -20,7 +21,7 @@ class User:
         self.current = current
         self.saved_state = {}
         # Alphabetical order
-        apps = (Bagels, Hangman, Jokes, Notepad, Sonar, SpeedSlow, SystemInfo, TicTacToe, UserSettings)
+        apps = (Bagels, Hangman, Jokes, Notepad, ScoutRPG, Sonar, SpeedSlow, SystemInfo, TicTacToe, UserSettings)
         for j in apps:
             if saved_state is None:
                 self.saved_state[j] = False

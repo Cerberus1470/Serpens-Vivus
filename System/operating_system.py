@@ -15,6 +15,7 @@ from Applications.bagels import Bagels
 from Applications.tictactoe import TicTacToe
 from Applications.hangman import Hangman
 from Applications.sonar import Sonar
+from Applications.scout_rpg import ScoutRPG
 from Applications.system_info import SystemInfo
 from Applications.user_settings import UserSettings
 import traceback
@@ -70,10 +71,11 @@ class OperatingSystem:
         self.name = "Cerberus"
         self.error = []
         self.recently_deleted_users = []
-        self.utilities = ["User Settings", "System Info\t", "Notepad\t\t", "SpeedSlow\t", "\t\t\t"]
-        self.games = ["Bagels\t", "TicTacToe", "Hangman ", "Sonar", "Joke Teller"]
-        self.admin = ["Reset\t\t", "Event Viewer\t", "Task Manager", "\t\t", "\t\t"]
-        self.versions = {"Main": 5.4, "Joke Teller": 1.4, "Notepad": 3.3, "Bagels": 4.5, "TicTacToe": 5.7, "Hangman": 3.5, "Sonar": 2.1, "User Settings": 2.9, "System Info": 1.6, "Event Viewer": 1.1, "SpeedSlow": 1.2, "System Recovery": 1.0}
+        self.utilities = ["User Settings", "System Info\t", "Notepad\t\t", "SpeedSlow\t", "\t\t\t", "\t\t\t"]
+        self.games = ["Bagels\t", "TicTacToe", "Hangman ", "Sonar", "Joke Teller", "ScoutRPG"]
+        self.admin = ["Reset\t\t", "Event Viewer\t", "Task Manager", "\t\t", "\t\t", "\t\t"]
+        self.versions = {"Main": 5.4, "Joke Teller": 1.4, "Notepad": 3.3, "Bagels": 4.5, "TicTacToe": 5.7, "Hangman": 3.5, "Sonar": 2.1,
+                         "User Settings": 2.9, "System Info": 1.6, "Event Viewer": 1.1, "SpeedSlow": 1.2, "System Recovery": 1.2, "ScoutRPG": 1.1}
         self.path = "Users\\{}"
         self.current_user = User()
         Loading.log("Boot complete.")
@@ -97,7 +99,7 @@ class OperatingSystem:
                 file = list(open("{}\\info.usr".format(subdir), 'r'))
                 info = Loading.caesar_decrypt(file[0]).split('\t\t')
                 programs = Loading.caesar_decrypt(file[1]).split('\t\t')
-                if len(info) == 5 and (len(programs) == 1 or len(programs) == 10 or len(programs) == 12):
+                if len(info) == 5 and (len(programs) == 1 or len(programs) == 11 or len(programs) == 13):
                     try:
                         new_users.append(globals()[info[0]](info[1], info[2], info[3] == "True", programs))
                     except (AttributeError, IndexError):
@@ -211,9 +213,9 @@ class OperatingSystem:
             choices_list = {Jokes: ('jokes', 'joke', '1', 'joke teller'), Notepad: ('notepad', 'notes', 'note', '2')
                             , SpeedSlow: ('speedslow', 'speed up', 'slow down', 'speed up or slow down')
                             , Bagels: ('bagels', 'bagels', '3'), TicTacToe: ('tictactoe', 'tic-tac-toe', 'ttt', '4')
-                            , Hangman: ('hangman', '5'), Sonar: ('sonar', '6'), UserSettings: ('user settings', 'usersettings', '8')
-                            , SystemInfo: ('system info', 'sys info', '9'), TaskManager: ('task manager', '7')
-                            , EventViewer: ('event viewer', 'events'), Reset: ('reset', '10')}
+                            , Hangman: ('hangman', '5'), Sonar: ('sonar', '6'), ScoutRPG: ("scout rpg", "scout", "rpg", "scout_rpg", "scoutrpg")
+                            , UserSettings: ('user settings', 'usersettings', '8'), SystemInfo: ('system info', 'sys info', '9')
+                            , TaskManager: ('task manager', '7'), EventViewer: ('event viewer', 'events'), Reset: ('reset', '10')}
             if choice in ('exit', 'lock computer', 'lock', '11'):
                 Loading.log(self.current_user.username + " logged out.")
                 print("Computer has been locked.")
