@@ -1,26 +1,38 @@
 import os
 from Applications import bagels
 from System import Loading
-from datetime import datetime
+from datetime import datetime as dt
+import calendar
 import random
 
 stats_list = ("Health", "Hunger", "Thirst", "Money")
 food_list = {"peanuts", "breakfast burrito", "pancake", "mac and cheese", "tofu teriyaki"}
-food_costs = (2.5, 5.0, 3.5, 10.0, 20.0)
+food_costs = (0.5, 3.5, 2.5, 9.5, 15.0)
 drinks_list = ("water", "soda")
-drinks_cost = (1.0, 2.5)
+drinks_cost = (0.25, 1.5)
 locations_list = ("grocery store", "department store", "scout store")
 chore_list = {"unload dishwasher": (5.0, 15), "load dishwasher": (10.0, 30), "clean up bedroom": (7.5, 25),
-              "clean up kitchen": (15, 40), "clean up dining room": (8.5, 30), "clean up living room": (7.5, 20),
+              "clean up kitchen": (15.0, 40), "clean up dining room": (8.5, 30), "clean up living room": (7.5, 20),
               "collect the trash": (10.0, 10)}
-department_list = ("desk", "reusable plastic box", "reusable liquid flask", "computer", "kitchen cabinets", "refrigerator")
-department_costs = (50.0, 25.0, 25.0, 450.0, 350.0, 550.0)
+department_list = ("rugged pants", "rugged jacket", "full body thermals", "hiking socks", "desk", "tent",
+                   "computer", "cell phone", "digital watch", "game console", "camera")
+department_costs = (17.5, 20.0, 15.0, 7.5, 50.0, 100.0,
+                    500.0, 450.0, 15.0, 550.0, 200.0)
 scout_store_list = ("pants", "shorts", "long-sleeve shirt", "short-sleeve shirt", "socks", "belt", "cap", "accessories",
-                    "handbook", "tent", "sleeping bag", "sleeping pad", "camping pack", "hiking sticks", "day pack",
-                    "scout water bottle", "insect repellent", "compass", "first aid kit", "pillow", "mess kit", "drinking cup",)
+                    "handbook", "large tent", "sleeping bag", "sleeping pad", "camping pack", "hiking sticks", "day pack",
+                    "scout water bottle", "insect repellent", "sunscreen", "compass", "first aid kit", "pillow", "mess kit",
+                    "drinking cup")
 scout_store_costs = (60.0, 24.0, 38.0, 27.0, 15.0, 20.0, 25.0, 20.0,
                      24.0, 150.0, 62.5, 27.5, 50.0, 42.5, 35,
-                     20.0, 7.5, 12.5, 17.5, 10.0, 15.0, 5.0)
+                     20.0, 7.5, 5.5, 12.5, 17.5, 10.0, 15.0,
+                     5.0)
+# Abilities for non-specialized possessions.
+# Computer: Allows for online shopping (0 travel time for all stores)
+# Cell phone: -25% chance of being late and oversleeping, and an option for recreation.
+# Digital Watch: -50% chance of being late and oversleeping.
+# Game console: +25% chance of being late and oversleeping, and an option for recreation.
+# Camera: +5% chance of being late and oversleeping. Memories saved in game files.
+# Full uniform (Pants/Shorts, Shirt, Socks, belt, optional cap) + handbook REQUIRED for troop meetings. If not present, player will be scolded. FUTURE: Will decrease reputation.
 days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
 
@@ -62,23 +74,7 @@ class Food:
                 (self.count, self.fuel, self.duration) = (0, 30, 35)
             case _:
                 (self.count, self.fuel, self.duration) = (100, 100, 100)
-        self.count = count if count else self.count
-        # self.fuel = fuel if fuel else None
-        # self.duration = duration if duration else None
-        # if info:
-        #     try:
-        #         self.name = str(info[0])
-        #     except IndexError:
-        #         self.name = None
-        #     try:
-        #         self.count = int(info[1])
-        #     except IndexError:
-        #         self.count = None
-        # if info:
-        #     self.name = str(info[0])
-        #     self.count = int(info[1])
-        #     # # self.fuel = int(info[2])
-        #     # self.duration = int(info[3])
+        self.count = int(count) if count else self.count
 
     def __repr__(self):
         return ','.join(str(x) for x in (self.name, self.count, self.fuel, self.duration))
@@ -97,14 +93,7 @@ class Drink:
                 (self.count, self.fuel, self.duration) = (0, 100, 10)
             case _:
                 (self.count, self.fuel, self.duration) = (0, 0, 0)
-        self.count = count if count else self.count
-        # self.fuel = fuel if fuel else None
-        # # self.duration = duration if duration else None
-        # if info:
-        #     self.name = str(info[0])
-        #     self.count = int(info[1])
-        #     # self.fuel = int(info[2])
-        #     # self.duration = int(info[3])
+        self.count = int(count) if count else self.count
 
     def __repr__(self):
         return ','.join(str(x) for x in (self.name, self.count, self.fuel, self.duration))
@@ -114,29 +103,33 @@ class Drink:
 
 
 class Location:
-    def __init__(self, name=None, duration=None, info=None):
-        if name and duration:
-            self.name = name
-            self.duration = int(duration)
-        elif info:
-            (self.name, self.duration) = info
-            self.duration = int(self.duration)
+    def __init__(self, name=None, duration=None):
+        self.name = name
+        self.duration = int(duration)
 
     def __repr__(self):
         return self.name + ',' + str(self.duration)
 
 
 class Chore:
-    def __init__(self, name=None, cooldown=None, info=None):
-        self.name = name if name else None
-        self.cooldown = cooldown if cooldown else None
-        if info:
-            try:
-                self.name = info[0]
-                self.cooldown = info[1] == "True"
-            except IndexError:
-                pass
-        self.cooldown = False if not self.cooldown else self.cooldown
+    def __init__(self, name=None, cooldown=False):
+        self.name = name
+        match self.name:
+            case 'unload dishwasher':
+                (self.earnings, self.duration) = (5.0, 15)
+            case 'load dishwasher':
+                (self.earnings, self.duration) = (10.0, 30)
+            case 'clean up bedroom':
+                (self.earnings, self.duration) = (7.5, 25)
+            case 'clean up kitchen':
+                (self.earnings, self.duration) = (15, 40)
+            case 'clean up dining room':
+                (self.earnings, self.duration) = (8.5, 30)
+            case 'clean up living room':
+                (self.earnings, self.duration) = (7.5, 20)
+            case 'collect the trash':
+                (self.earnings, self.duration) = (10.0, 10)
+        self.cooldown = cooldown == "True"
 
     def __repr__(self):
         return self.name + ',' + str(self.cooldown)
@@ -144,15 +137,31 @@ class Chore:
 
 class Possession:
     def __init__(self, name=None):
-        self.name = name if name else None
+        self.name = name
 
     def __repr__(self):
         return self.name
 
 
+class Event:
+    def __init__(self, name=None, date=None, importance=None):
+        self.name = name
+        self.date = dt.strptime(date, '%m%d%Y%H%M')
+        self.importance = importance
+
+    def __repr__(self):
+        return self.name + ',' + self.date.strftime('%m%d%Y%H%M') + ',' + str(self.importance)
+
+    def str_date(self):
+        return self.date.strftime("%m-%d-%Y")
+
+    def str_time(self):
+        return self.date.strftime("%H:%M")
+
+
 class ScoutRPG:
     category = "games"
-    version = '1.1'
+    version = 'alpha1.2'
 
     @staticmethod
     def boot(path='\\'):
@@ -167,7 +176,6 @@ class ScoutRPG:
         self.path = path
         game_info = bagels.init_game(self, path, 'sct')
         # Default stats for the time being. Health, Hunger, Thirst, and time (date, hour, minute).
-        self.capacity = 10
         if game_info:
             # Decrypting everything and cutting off the new line at the end!
             try:
@@ -178,28 +186,30 @@ class ScoutRPG:
                 os.remove(self.path + '\\' + self.filename)
                 return
             try:
-                (version, stats, food, drinks, time, locations, chores, possessions) = self.update_check(version, [Loading.caesar_decrypt(i).split('\n')[0] for i in game_info])
+                # Checking for update and unpacking...
+                (version, stats, food, drinks, time, locations, chores, possessions, events) = self.update_check(version, [Loading.caesar_decrypt(i).split('\n')[0] for i in game_info])
                 self.stats = None
                 self.food = []
                 self.drinks = []
                 self.locations = []
                 self.possessions = []
-                # stats will look something like "100.0\t50\t50\t0"
-                self.stats = Statistics(stats.split('\t'))
-                # Food data looks like 5,5,5\t0,10,10\t0,30,35
-                self.food = [Food(i.split(',')[0], i.split(',')[1]) for i in food.split('\t')]
-                self.drinks = [Drink(i.split(',')[0], i.split(',')[1]) for i in drinks.split('\t')]
-                self.locations = [Location(None, None, locations.split('\t')[locations_list.index(i)].split(',')) for i in locations_list]
-                self.time = time.split('\n')[0].split(',')
+                # stats will look something like "100.0\t50.0\t50.0\t0.0"
+                self.stats = Statistics(stats.split('\t')) if stats else Statistics()
+                # Food data looks like peanuts,5,5,5\tpancake10,10,15
+                self.food = [Food(i.split(',')[0], i.split(',')[1]) for i in food.split('\t')] if food else []
+                self.drinks = [Drink(i.split(',')[0], i.split(',')[1]) for i in drinks.split('\t')] if drinks else []
+                self.locations = [Location(i.split(',')[0], i.split(',')[1]) for i in locations.split('\t')] if locations else []
+                self.time = time.split('\n')[0].split(',') if time else None
                 self.previous_time = self.time.copy()
                 self.difference = [0, 0, 0, 0]
-                self.chores = [Chore(None, None, i.split(',')) for i in chores.split('\t')]
-                self.possessions = [Possession(i) for i in possessions.split('\t')] if not possessions == '' else []
-                # Checking for update...
+                self.chores = [Chore(i.split(',')[0], i.split(',')[1]) for i in chores.split('\t')] if chores else []
+                self.possessions = [Possession(i) for i in possessions.split('\t')] if possessions else []
+                self.events = [Event(i.split(',')[0], i.split(',')[1], i.split(',')[2]) for i in events.split('\t')] if events else []
             except (KeyError, IndexError, ValueError):
                 # If the element doesn't exist.
-                # self.update_file([Loading.caesar_decrypt(i).split('\n')[0] for i in game_info])
-                Loading.returning("This game save is corrupted! Nooooo...", 3)
+                input("This game save is corrupted! Nooooo...\nPress ENTER to delete it, or stop the program now "
+                      "to attempt to recover progress by yourself.")
+                os.remove(self.path + '\\' + self.filename)
                 return
 
     def quit(self):
@@ -212,9 +222,10 @@ class ScoutRPG:
         locations = '\t'.join(i.__repr__() for i in self.locations)
         chores = '\t'.join(i.__repr__() for i in self.chores)
         possessions = '\t'.join(i.__repr__() for i in self.possessions)
+        events = '\t'.join(i.__repr__() for i in self.events)
         try:
             game = open(self.path + '\\' + self.filename, 'w')
-            for i in ("1.1", stats, food, drinks, time, locations, chores, possessions):
+            for i in (ScoutRPG.version, stats, food, drinks, time, locations, chores, possessions, events):
                 game.write(Loading.caesar_encrypt(i) + '\n')
             game.close()
         except (FileNotFoundError, FileExistsError):
@@ -223,17 +234,17 @@ class ScoutRPG:
         return
 
     def refresh(self, element=None, value=None):
-        for i in range(len(self.time)):
+        for i in range(1, len(self.time)):
             self.time[i] = int(self.time[i])
-            self.previous_time[i] = int(self.previous_time[i])
+        self.previous_time = self.time.copy()
         # Check if we're modifying time or updating it.
         if element and value:
             # Make sure the passed element is ok.
-            if 0 <= element <= 4:
+            if 1 <= element <= 5:
                 self.time[element] += value
             # Math to calculate total time.
-            self.difference[0] += abs(((60 * self.time[3]) + self.time[4]) - ((60 * self.previous_time[3]) + self.previous_time[4]))
-            self.difference[1] += abs(((60 * self.time[3]) + self.time[4]) - ((60 * self.previous_time[3]) + self.previous_time[4]))
+            self.difference[0] += abs(((60 * self.time[4]) + self.time[5]) - ((60 * self.previous_time[4]) + self.previous_time[5]))
+            self.difference[1] += abs(((60 * self.time[4]) + self.time[5]) - ((60 * self.previous_time[4]) + self.previous_time[5]))
             if self.difference[0] >= 60:
                 self.stats.hunger -= 5 * (self.difference[0] / 60)
                 self.difference[0] = 0
@@ -252,49 +263,59 @@ class ScoutRPG:
                 self.difference[3] = 0
         else:
             # Update the time.
-            # Minute rollover
-            if self.time[4] >= 60:
-                self.time[4] -= 60
-                self.time[3] += 1
-            # Hour Rollover
-            if self.time[3] >= 24:
-                self.time[3] -= 24
-                self.time[1] += 1
-            # Day rollover
-            if self.time[1] >= days[self.time[0] - 1]:
-                self.time[1] -= days[self.time[0] - 1]
-                self.time[0] += 1
-            # Month rollover
-            if self.time[0] >= 12:
-                self.time[0] -= 12
+            # Hour rollover
+            if self.time[5] >= 60:
+                self.time[5] -= 60
+                self.time[4] += 1
+            # Day Rollover
+            if self.time[4] >= 24:
+                self.time[4] -= 24
                 self.time[2] += 1
+            # Month rollover
+            if self.time[2] >= days[self.time[1] - 1]:
+                self.time[2] -= days[self.time[1] - 1]
+                self.time[1] += 1
+            # Year rollover
+            if self.time[1] >= 12:
+                self.time[1] -= 12
+                self.time[3] += 1
             # Updating stats
             for i in self.stats.__iter__():
                 if i != "money":
                     self.stats.__setattr__(i, 0.0) if self.stats.__getattribute__(i) < 0.0 else self.stats.__getattribute__(i)
                     self.stats.__setattr__(i, 100.0) if self.stats.__getattribute__(i) > 100.0 else self.stats.__getattribute__(i)
                     self.stats.__setattr__(i, self.stats.__getattribute__(i).__round__(1))
-        if self.time[1] > self.previous_time[1]:
+        # Daily stuff
+        if self.time[2] > self.previous_time[2]:
             for i in self.chores:
                 i.__setattr__('cooldown', False)
             self.stats.money += 25
             Loading.returning("ALLOWANCE: $25.00 has been added to your wallet.", 2)
-        if self.stats.health == 0.0:
+        if self.stats.health <= 0.0:
             if self.defeat() == 1:
                 self.setup()
             else:
                 return 1
-        for i in range(len(self.time)):
+        for i in range(1, len(self.time)):
             if self.time[i] < 10:
                 self.time[i] = "0" + str(int(self.time[i]))
             else:
                 self.time[i] = str(int(self.time[i]))
+        self.time[0] = list(calendar.day_name)[dt.strptime('{} {} {}'.format(self.time[1], self.time[2], self.time[3]), '%m %d %Y').weekday()]
+        for i in self.events:
+            if i.name == "Troop Meeting":
+                break
+        else:
+            if self.time[0] == "Sunday":
+                troop_meeting = Event("Troop Meeting", self.time[1] + str(int(self.time[2]) + 1) + self.time[3] + '1900', 3)
+                self.events.append(troop_meeting)
+                Loading.returning("EVENT: Troop Meeting on {} at {}. Importance: {}".format(troop_meeting.str_date(), troop_meeting.str_time(), troop_meeting.importance), 3)
         self.previous_time = self.time.copy()
 
     def update_check(self, version, datapack):
         # "Recursive" method to upgrade game files saved in previous versions.
-        if version == 'alpha1.0':
-            version = '1.0'
+        if version == 'prealpha':
+            version = 'alpha1.0'
             (stats, food, drinks, time) = datapack[1:]
             stats = '\t'.join(stats.split(',')) + '\t0.0'
             food = food.split('\t')
@@ -323,9 +344,8 @@ class ScoutRPG:
             chores = '\t'.join(i + ',False' for i in chore_list)
             possessions = ''
             datapack = [version, stats, food, drinks, time, locations, chores, possessions]
-        if version == '1.0':
-            # TODO CHANGE THE VERSION IF NO GAME FILE CHANGES ARE PRESENT!
-            version = '1.1'
+        if version == 'alpha1.0':
+            version = 'alpha1.1'
             (stats, food, drinks, time, locations, chores, possessions) = datapack[1:]
             if possessions:
                 possessions = possessions.split('\t')
@@ -334,6 +354,13 @@ class ScoutRPG:
                     possessions[i] = '\t'.join([name] * int(quantity))
                 possessions = '\t'.join(possessions)
             datapack = [version, stats, food, drinks, time, locations, chores, possessions]
+        if version == 'alpha1.1':
+            version = ScoutRPG.version
+            (stats, food, drinks, time, locations, chores, possessions) = datapack[1:]
+            time = time.split(',')
+            time = [list(calendar.day_name)[dt.strptime('{} {} {}'.format(time[0], time[1], time[2]), '%m %d %Y').weekday()]] + time
+            time = ','.join(time)
+            datapack = [version, stats, food, drinks, time, locations, chores, possessions, '']
             # Now to quit and rewrite the game files.
             # TODO THIS SHOULD BE MOVED TO THE BOTTOM OF THE UPGRADE TREE
             file = open(self.path + '\\' + self.filename, 'w')
@@ -342,89 +369,6 @@ class ScoutRPG:
             file.close()
             Loading.returning("This game was saved in an older version of ScoutRPG. The save file will now be updated.", 3)
         return datapack
-        # Failed to datapack values from the game file resulting in 0 game object attributes.
-        # Looping through game object attributes, find which ones are missing. Append them to a list and pass over to the update_file.
-        # This way update_file() knows exactly what to do.
-        # error = []
-        # for i in datapack:
-        #     try:
-        #         if not self.stats:
-        #             self.stats = Statistics(i.split('\t'))
-        #             if -1 in self.stats.__iter__():
-        #                 raise TypeError
-        #             continue
-        #     except (TypeError, IndexError, ValueError):
-        #         error.append("stats")
-        #     # Find the food!
-        #     try:
-        #         if not self.food:
-        #             self.food = [Food(None, None, j.split(',')) for j in i.split('\t')]
-        #             continue
-        #     except (TypeError, IndexError, ValueError):
-        #         error.append("food")
-        #     # Find the drinks!
-        #     try:
-        #         if not self.drinks:
-        #             error.append("drink")
-        #             self.drinks = [Drink(None, None, j.split(',')) for j in i.split('\t')]
-        #             continue
-        #     except (TypeError, IndexError, ValueError):
-        #         pass
-        #     # Find the time!
-        #     try:
-        #         if not self.time:
-        #             error.append("time")
-        #             self.time = i.split('\n')[0].split(',')
-        #             self.previous_time = self.time.copy()
-        #             self.difference = [0, 0, 0, 0]
-        #             continue
-        #     except (TypeError, IndexError, ValueError):
-        #         pass
-        #     # Find the locations!
-        #     try:
-        #         if not self.locations:
-        #             error.append("locations")
-        #             self.locations = [Location('', 0, i.split('\t')[locations_list.index(j)].split(',')) for j in locations_list]
-        #             continue
-        #     except (TypeError, IndexError, ValueError):
-        #         pass
-        #     # Find the chores!
-        #     try:
-        #         if not self.chores:
-        #             error.append("chores")
-        #             self.chores = [Chore(None, None, i.split(',')) for i in i.split('\t')]
-        #             continue
-        #     except (TypeError, IndexError, ValueError):
-        #         pass
-        #     # Find the possessions!
-        #     try:
-        #         if not self.possessions:
-        #             error.append("possessions")
-        #             self.possessions = [Possession(i) for i in i.split('\t')]
-        #             continue
-        #     except (TypeError, IndexError, ValueError):
-        #         pass
-        # defaults = {'stats': Statistics(), 'food': [Food(i) for i in ("peanuts", "pancake")], 'drinks': [Drink("water")],
-        #             'locations': [Location(i, 10 * (locations_list.index(i) + 1)) for i in locations_list], 'time': ["3", "1", datetime.today().year, "08", "00"],
-        #             'chores': [Chore(i) for i in chore_list], 'possessions': []}
-        # for i in defaults:
-        #     if not self.__getattribute__(i):
-        #         self.__setattr__(i, defaults[i])
-        #         self.previous_time = self.time.copy()
-        #         self.difference = [0, 0, 0, 0]
-        #         pass
-
-    @DeprecationWarning
-    def update_file(self):
-        # For every statistic.
-        try:
-            new_stats = Statistics()
-            for i in self.stats.__iter__():
-                new_stats.__setattr__(i, self.stats.__getattribute__(i) if self.stats.__getattribute__(i) != -1 else new_stats.health)
-            self.stats = new_stats
-
-        except AttributeError:
-            pass
 
     def main(self):
         # Setup logic
@@ -434,14 +378,14 @@ class ScoutRPG:
             if self.refresh() == 1:
                 return
             # Status report. Date, time, all stats.
-            print("\nDate: {}/{}/{}\nTime: {}:{}.".format(self.time[0], self.time[1], self.time[2], self.time[3], self.time[4]))
+            print("\nDate: {}, {}/{}/{}\nTime: {}:{}.".format(self.time[0], self.time[1], self.time[2], self.time[3], self.time[4], self.time[5]))
             print('\n'.join(i + (": $" if i == "Money" else ": ") + str(self.stats.__getattribute__(i.lower())) for i in stats_list))
             action = input('What would you like to do? Type "help" for help').lower()
             if action == "help":
-                input('Here is a list of common actions:\n1. Eat\n2. Drink\n3. Sleep\n4. Heal\n5. Chores\n6. Travel\n\n'
+                input('Here is a list of common actions:\n1. Eat\n2. Drink\n3. Sleep\n4. Heal\n5. Chores\n6. Travel\n7. Agenda\n'
                       'You can type "exit" to exit')
             choices = {self.eat: "eat", self.drink: "drink", self.sleep: "sleep", self.heal: "heal",
-                       self.house_chores: "chores", self.travel: "travel"}
+                       self.house_chores: "chores", self.travel: "travel", self.agenda: "agenda"}
             if action in ('quit', 'exit', 'leave', 'save'):
                 self.quit()
                 return
@@ -452,18 +396,6 @@ class ScoutRPG:
                     break
 
     def setup(self):
-        # input("Welcome to Mars.\nYou and a crew of 5 others traveled here 6 sols agp. A sol is 1 day on Mars, slightly "
-        #       "longer than an Earth day. A severe storm struck your landing site and forced your team on an emergency course "
-        #       "back to Earth. However, during your trip to the Mars Ascent Vehicle (MAV), a large clump of dirt hit you straight "
-        #       "in the chest. You were sucked into the eye of the storm and thrown out the other side. Your crew is suddenly "
-        #       "hundreds of meters away from you, your chest pains intensely, and your system alarms are going off. Out of shock, "
-        #       "your mind slowly drifts away...\nPress ENTER to continue")
-        # input("BEEP! BEEP! You recognize that pattern anywhere. Your suit is low on oxygen. You jolt awake, gasping for what "
-        #       "little breathable air you have. You get up, familiarize with the surroundings, and beeline to your Martian habitat. "
-        #       "You cycle the airlock and head inside.\nPress ENTER to continue.")
-        # input("Your head aches, your body feels flat, and your ears are ringing. You are the only one left on the planet, your "
-        #       "next rescue attempt is 4 years away, and your equipment and supplements were designed for a 31-sol mission."
-        #       "\n\nWelcome to Mars.\nPress ENTER to continue.")
         if 'yes' in input("Would you like to view the premise?").lower():
             input("Welcome to Scouting!\nYou have embarked on a journey far beyond any other. Your physical and mental skills "
                   "will be tested. Your memory will be trained. Your survival instinct will be brought to life.\nPress ENTER "
@@ -490,7 +422,7 @@ class ScoutRPG:
         self.stats = Statistics()
         self.food = [Food(i) for i in ("peanuts", "pancake")]
         self.drinks = [Drink("water")]
-        self.time = ["3", "1", datetime.today().year, "08", "00"]
+        self.time = [list(calendar.day_name)[dt.strptime('03 01 {}'.format(dt.today().year), '%m %d %Y').weekday()], "3", "1", dt.today().year, "08", "00"]
         self.previous_time = self.time.copy()
         self.difference = [0, 0, 0, 0]
         self.locations = [Location(i, 10 * (self.locations.index(i) + 1)) for i in self.locations]
@@ -505,12 +437,14 @@ class ScoutRPG:
             if not action:
                 return
             try:
-                action = [self.food.index(i) for i in self.food if i.name == action][0]
+                action = [i for i in self.food if i.name == action][0]
                 # Correctly remove 1, add hunger, and add time.
-                self.food[action].count -= 1
-                self.stats.hunger += self.food[action].fuel
-                self.refresh(4, self.food[action].duration)
-                Loading.returning("You eat a {} meal, and it was {}".format(self.food[action].name.title(), ["tasty", "delicious", "scrumptious"][random.randint(0, 2)]), 2)
+                action.count -= 1
+                self.stats.hunger += action.fuel
+                self.refresh(5, action.duration)
+                Loading.returning("You eat a {} meal, and it was {}".format(action.name.title(), ["tasty", "delicious", "scrumptious"][random.randint(0, 2)]), 2)
+                if action.count <= 0:
+                    self.food.pop(self.food.index(action))
                 break
             except (IndexError, ValueError):
                 Loading.returning("You don't have any {} meals!".format(action), 2)
@@ -524,50 +458,52 @@ class ScoutRPG:
             if not action:
                 return
             try:
-                action = [self.drinks.index(i) for i in self.drinks if i.name == action][0]
+                action = [i for i in self.drinks if i.name == action][0]
                 # Correctly remove 1, add hunger, and add time.
-                self.drinks[action].count -= 1
-                self.stats.thirst += self.drinks[action].fuel
-                self.refresh(4, self.drinks[action].duration)
-                Loading.returning("You drink a bottle of {}, and it was {}".format(self.drinks[action].name.title(), ["quenching", "tasty", "refreshing"][random.randint(0, 2)]), 2)
+                action.count -= 1
+                self.stats.thirst += action.fuel
+                self.refresh(5, action.duration)
+                Loading.returning("You drink a bottle of {}, and it was {}".format(action.name.title(), ["quenching", "tasty", "refreshing"][random.randint(0, 2)]), 2)
+                if action.count <= 0:
+                    self.drinks.pop(self.drinks.index(action))
                 break
             except (IndexError, ValueError):
                 Loading.returning("You do not have any bottles of {}!".format(action), 2)
         pass
 
     def sleep(self):
-        if int(self.time[3]) >= 21 or int(self.time[3]) < 8:
-            self.refresh(1, 1)
-            self.time[3] = "08"
-            self.time[4] = "00"
+        if int(self.time[4]) >= 21 or int(self.time[4]) < 8:
+            self.refresh(2, 1)
+            self.time[4] = "08"
+            self.time[5] = "00"
             self.stats.hunger = 25 if self.stats.hunger > 25 else self.stats.hunger
             self.stats.thirst = 25 if self.stats.thirst > 25 else self.stats.thirst
             print("SLEEP: Until 8:00")
             Loading.returning("It's getting late, so you turn in for the day.", 3)
             Loading.returning("Zzzzzzz...", 3)
         else:
-            sleep_time = [0.5, 1, 2, 3, 4][random.randint(0, 4)]
+            sleep_time = [random.randint(0, 10)]
             if self.stats.hunger <= 0 or self.stats.thirst <= 0:
                 Loading.returning("ALERT: Your Health is getting low. Eat or drink something after you sleep.", 3)
             match sleep_time:
-                case 0.5:
-                    self.refresh(4, 30)
+                case 0, 1, 2:
+                    self.refresh(5, 30)
                     print("SLEEP: 30 Minutes")
                     Loading.returning("You take a small nap and feel more energized.", 3)
-                case 1:
-                    self.refresh(3, 1)
+                case 3, 4, 5, 6:
+                    self.refresh(4, 1)
                     print("SLEEP: 1 Hour")
                     Loading.returning("You take a good nap and are ready to progress.", 3)
-                case 2:
-                    self.refresh(3, 2)
+                case 7, 8:
+                    self.refresh(4, 2)
                     print("SLEEP: 2 Hours")
                     Loading.returning("You oversleep a little bit, but it's nothing special.", 3)
-                case 3:
-                    self.refresh(3, 3)
+                case 9:
+                    self.refresh(4, 3)
                     print("SLEEP: 3 Hours")
                     Loading.returning("You sleep for a while after your alarm, but you still have time in the day.", 3)
-                case 4:
-                    self.refresh(3, 4)
+                case 10:
+                    self.refresh(4, 4)
                     print("SLEEP: 4 Hours")
                     Loading.returning("Oops! You oversleep a lot and are quite hungry.", 3)
 
@@ -580,18 +516,19 @@ class ScoutRPG:
             Loading.returning("You don't need to heal!", 2)
 
     def house_chores(self):
-        print('\n'.join(str(i.title()) + " - +$" + str(chore_list[i][0]) + ' --> ' + str(chore_list[i][1]) + ' minutes' + (", READY" if not self.chores[list(chore_list.keys()).index(i)].cooldown else '') for i in chore_list))
+        print('\n'.join(str(i.name.title()) + " - +$" + str(i.earnings) + ' --> ' + str(i.duration) + ' minutes' + (", READY" if not i.cooldown else '') for i in self.chores))
         while True:
             action = input("Which chore do you want to do?")
             if not action:
                 return
             elif action in chore_list:
-                if not [i.cooldown for i in self.chores if i.name == action][0]:
-                    [i for i in self.chores if i.name == action][0].__setattr__('cooldown', True)
-                    Loading.progress_bar(action.title().split(' ')[0] + 'ing ' + action.title().split(' ', 1)[1], chore_list[action][1] / 4)
-                    self.stats.money += chore_list[action][0]
-                    self.refresh(4, chore_list[action][1])
-                    Loading.returning("Chore complete! ${}0 has been added to your wallet. You may not do this chore again today.".format(chore_list[action][0]), 3)
+                action = [i for i in self.chores if i.name == action][0]
+                if not action.cooldown:
+                    action.__setattr__('cooldown', True)
+                    Loading.progress_bar(action.name.title().split(' ')[0] + 'ing ' + action.name.title().split(' ', 1)[1], action.duration / 4)
+                    self.stats.money += action.earnings
+                    self.refresh(5, action.duration)
+                    Loading.returning("Chore complete! ${}0 has been added to your wallet. You may not do this chore again today.".format(action.earnings), 3)
                     return
                 else:
                     Loading.returning("You have already done that chore today!", 2)
@@ -602,14 +539,13 @@ class ScoutRPG:
         print('\n'.join(str(i.name.title()) + ' --> ' + str(i.duration) + ' minutes' for i in self.locations))
         destination = input("Where would you like to go?").lower()
         destination = destination + " store" if "store" not in destination else destination
-        # self.refresh(4, [i.duration for i in self.locations if i.name == destination][0])
         for i in locations_list:
             if destination == i:
                 stores = (self.groceries, self.department, self.scout_store)
-                self.refresh(4, [i.duration for i in self.locations if i.name == destination][0])
+                self.refresh(5, [i.duration for i in self.locations if i.name == destination][0])
                 Loading.progress_bar("Traveling to the {}".format(destination), [i.duration for i in self.locations if i.name == destination][0] / 4)
                 stores[locations_list.index(i)]()
-                self.refresh(4, [i.duration for i in self.locations if i.name == destination][0])
+                self.refresh(5, [i.duration for i in self.locations if i.name == destination][0])
                 break
         else:
             Loading.returning("Please pick a valid destination.", 2)
@@ -669,7 +605,7 @@ class ScoutRPG:
     def scout_store(self):
         print('\nWelcome to the Scout Store!')
         Loading.returning("Here you can buy your various scouting equipment.", 2)
-        print('\nCLOTHING')
+        print('\nSCOUT-BRANDED CLOTHING')
         print('\n'.join((str(scout_store_list.index(i) + 1) + '. ' + i.title() + ': $' + str(scout_store_costs[scout_store_list.index(i)]) + '0') for i in scout_store_list[0:7]))
         print('\nOUTDOORS')
         print('\n'.join((str(i - 7) + '. ' + scout_store_list[i].title() + ': $' + str(scout_store_costs[i]) + '0') for i in range(len(scout_store_list))[8:]))
@@ -685,16 +621,6 @@ class ScoutRPG:
                     break
             else:
                 Loading.returning("Please type a valid food/drink.")
-
-    # Buying scouting equipment
-    # Scout Pants: $60
-    # Scout Shorts: $24
-    # Scout Long-sleeve shirt: $38
-    # Scout Short-sleeve shirt: $27
-    # Scout Socks: $15
-    # Scout Belt: $20
-    # Scout Cap: $25
-    # Scout Uniform accessories: $20
 
     def buy(self, buy, stat, store_list, store_costs, item):
         while True:
@@ -715,16 +641,19 @@ class ScoutRPG:
                     except IndexError:
                         stat.append(item(buy))
                         stat[[stat.index(i) for i in stat if i.name == buy][0]].count = quantity
-                    Loading.returning("Purchase successful. Your total was: $" + str(quantity * store_costs[store_list.index(buy)]), 2)
+                    Loading.returning("Purchase successful. Your total was: ${}0".format(str(quantity * store_costs[store_list.index(buy)])), 2)
                     return
-                    # Another 1-liner for loop marvel. It's deprecated, but I still love it, so I kept it.
-                    # length_index = {"grocery store": (food_list, drinks_list), "department store": department_list, "scout store": scout_store_list}
-                    # Loading.progress_bar("Traveling back home...", [i.duration for i in self.locations if i.name == [i for i in length_index if store_list in length_index[i]][0]][0] / 4)
                 else:
                     Loading.returning("You don't have enough money! ({})".format(self.stats.money), 2)
                     break
             else:
                 Loading.returning("Please type a number between 0 and 100.", 2)
+
+    def agenda(self):
+        print('\n'.join([i.name + " on " + i.str_date() + " at " + i.str_time() + ". Importance: " + str(i.importance) for i in self.events]))
+        print('\n' + calendar.TextCalendar(6).formatmonth(int(self.time[3]), int(self.time[1])))
+        if input("Press ENTER to continue.") == 'debug':
+            self.events.append(Event(input("What is the event name?"), input("Date and time of the event? E.g. 030120221900"), int(input("Importance of the event?"))))
 
     def defeat(self):
         Loading.returning("Oh no!", 2)

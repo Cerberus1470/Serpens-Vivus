@@ -75,7 +75,7 @@ class OperatingSystem:
         self.games = ["Bagels\t", "TicTacToe", "Hangman ", "Sonar", "Joke Teller", "ScoutRPG"]
         self.admin = ["Reset\t\t", "Event Viewer\t", "Task Manager", "\t\t", "\t\t", "\t\t"]
         self.versions = {"Main": 5.4, "Joke Teller": 1.4, "Notepad": 3.3, "Bagels": 4.5, "TicTacToe": 5.7, "Hangman": 3.5, "Sonar": 2.1,
-                         "User Settings": 2.9, "System Info": 1.6, "Event Viewer": 1.1, "SpeedSlow": 1.2, "System Recovery": 1.2, "ScoutRPG": 1.1}
+                         "User Settings": 2.9, "System Info": 1.6, "Event Viewer": 1.1, "SpeedSlow": 1.2, "System Recovery": 1.2, "ScoutRPG": 1.2}
         self.path = "Users\\{}"
         self.current_user = User()
         Loading.log("Boot complete.")
