@@ -1,5 +1,7 @@
 import os
 import time
+
+import random
 import threading
 import datetime
 import sys
@@ -55,6 +57,7 @@ def returning(message, length=0):
             print('\r' + message + '\t' + char, end='')
             time.sleep(0.25)
             sys.stdout.flush()
+    print('\r' + message, end='')
     print()
     return
 
@@ -140,6 +143,27 @@ def caesar_decrypt(encrypted_h=''):
             except IndexError:
                 decrypted_h += alphabet[alphabet.index(encrypted_h[i]) - key[i] + 95]
     return decrypted_h
+
+
+def caesar_encrypt_hex(message=''):
+    encrypted_h = caesar_encrypt(message)
+    if len(encrypted_h) < 100:
+        return encrypted_h + '\\' + ''.join(random.choices(alphabet, k=99-len(encrypted_h)))
+    elif len(encrypted_h) == 100:
+        return encrypted_h
+    else:
+        encrypted_h = caesar_decrypt(encrypted_h)
+        return caesar_encrypt(str(int(len(encrypted_h)/100)) + encrypted_h[0:int(100-int(len(encrypted_h)/100)/9)]) + '\n' + (caesar_encrypt_hex(encrypted_h[100-int(len(encrypted_h)/100):]))
+
+
+buffer = []
+def caesar_decrypt_hex(encrypted_h=''):
+    if '\\' in encrypted_h:
+        return caesar_decrypt(encrypted_h.split('\\')[0])
+    else:
+        buffer.append(encrypted_h)
+    if buffer:
+        pass
 
 
 # noinspection PyTypeChecker
