@@ -13,6 +13,6 @@ from System import Loading
 # Loading.display_user("Tejas")
 # print(Loading.caesar_encrypt_hex("Hello"))
 # print(Loading.caesar_encrypt_hex(random.choices(Loading.alphabet, k=20)))
-scout_rpg = ScoutRPG.boot('Users\\Tejas')
+# scout_rpg = ScoutRPG.boot('Users\\Tejas')
 
 one = operating_system.boot()
