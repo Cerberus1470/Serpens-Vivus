@@ -1,3 +1,5 @@
+import math
+
 import os
 from Applications import bagels
 from System import Loading
@@ -12,34 +14,31 @@ import random
 # Ask Appa and Amma for feedback!
 
 stats_list = ("Health", "Hunger", "Thirst", "Money")
-food_list = {"peanuts", "breakfast burrito", "pancake", "mac and cheese", "tofu teriyaki"}
-food_costs = (0.5, 3.5, 2.5, 9.5, 15.0)
+food_list = ("peanuts", "breakfast burrito", "pancake", "mac and cheese", "tofu teriyaki")
+food_costs = (0.49, 3.49, 2.49, 9.49, 14.99)
 drinks_list = ("water", "soda")
-drinks_cost = (0.25, 1.5)
+drinks_cost = (0.25, 1.49)
 locations_list = ("grocery store", "department store", "scout store")
-chore_list = {"unload dishwasher": (5.0, 15), "load dishwasher": (10.0, 30), "clean up bedroom": (7.5, 25),
-              "clean up kitchen": (15.0, 40), "clean up dining room": (8.5, 30), "clean up living room": (7.5, 20),
-              "collect the trash": (10.0, 10)}
-department_list = ("rugged pants", "rugged jacket", "full body thermals", "hiking socks", "desk", "tent",
+chore_list = ("unload dishwasher", "load dishwasher", "clean up bedroom", "clean up kitchen", "clean up dining room",
+              "clean up living room", "collect the trash")
+department_list = ("rugged pants", "rugged jacket", "full body thermals", "hiking socks", "hiking shoes", "tent", "desk",
                    "computer", "cell phone", "digital watch", "game console", "camera")
+department_costs = (24.99, 19.99, 14.99, 7.49, 62.49, 49.99, 99.99,
+                    499.99, 449.99, 14.99, 549.99, 199.99)
+scout_store_list = ("pants", "short pants", "long-sleeve shirt", "short-sleeve shirt", "socks", "belt", "cap", "accessories",
+                    "neckerchief", "slide", "shoes", "handbook", "large tent", "sleeping bag", "sleeping pad", "camping pack",
+                    "hiking sticks", "day pack", "scout water bottle", "insect repellent", "sunscreen", "compass",
+                    "first aid kit", "pillow", "mess kit", "drinking cup")
+scout_store_costs = (59.99, 23.99, 37.99, 26.99, 14.99, 19.99, 24.99, 19.99,
+                     23.99, 14.99, 29.99, 27.49, 149.99, 49.99, 42.49, 34.99,
+                     19.99, 34.99, 14.99, 9.99, 9.99, 14.99,
+                     19.99, 24.99, 14.99, 7.49)
+event_list = {"troop meeting": "self.troop_meeting()"}
 possession_attributes = {"computer": "ScoutRPG.online_shopping = True",
                          "cell phone": "ScoutRPG.sleep_weight.extend([0] * 2 + [1] * 2) ; ScoutRPG.choices['self.phone()'] = 'phone'",
                          "digital watch": "ScoutRPG.sleep_weight.extend([0] * 6 + [1] * 7)",
                          "game console": "ScoutRPG.sleep_weight.extend([3] * 3 + [4] * 2) ; ScoutRPG.choices['self.console()'] = 'console'",
                          "camera": "ScoutRPG.sleep_weight.extend([4]) ; ScoutRPG.memories = True"}
-department_costs = (17.5, 20.0, 15.0, 7.5, 50.0, 100.0,
-                    500.0, 450.0, 15.0, 550.0, 200.0)
-scout_store_list = ("pants", "shorts", "long-sleeve shirt", "short-sleeve shirt", "socks", "belt", "cap", "accessories",
-                    "neckerchief", "slide", "handbook", "large tent", "sleeping bag", "sleeping pad", "camping pack",
-                    "hiking sticks", "day pack", "scout water bottle", "insect repellent", "sunscreen", "compass",
-                    "first aid kit", "pillow", "mess kit", "drinking cup")
-scout_store_costs = (60.0, 24.0, 38.0, 27.0, 15.0, 20.0, 25.0, 20.0,
-                     24.0, 150.0, 62.5, 27.5, 50.0, 42.5, 35,
-                     20.0, 7.5, 5.5, 12.5, 17.5, 10.0, 15.0,
-                     5.0)
-event_list = {"troop meeting": "self.troop_meeting()"}
-
-
 # Abilities for non-specialized possessions.
 # Computer: Allows for online shopping (0 travel time for all stores)
 # Cell phone: -25% chance of being late and oversleeping, and an option for recreation.
@@ -48,22 +47,16 @@ event_list = {"troop meeting": "self.troop_meeting()"}
 # Camera: +5% chance of being late and oversleeping. Memories saved in game files.
 # Full uniform (Pants/Shorts, Shirt, Socks, belt, optional cap) + handbook REQUIRED for troop meetings. If not present, player will be scolded. FUTURE: Will decrease reputation.
 
-# Deprecated.
-# days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-
 
 class Statistics:
     def __init__(self, stats=None):
-        self.health = self.hunger = self.thirst = self.money = self.reputation = -1
+        self.health = self.hunger = self.thirst = self.money = self.reputation = None
         if stats:
-            try:
-                self.health = float(stats[0])
-                self.hunger = float(stats[1])
-                self.thirst = float(stats[2])
-                self.money = float(stats[3])
-                self.reputation = int(stats[4])
-            except IndexError:
-                pass
+            self.health = float(stats[0])
+            self.hunger = float(stats[1])
+            self.thirst = float(stats[2])
+            self.money = float(stats[3])
+            self.reputation = int(stats[4])
         else:
             self.health = 100.0
             self.hunger = 50.0
@@ -157,7 +150,7 @@ class Possession:
         self.name = name
         try:
             exec([possession_attributes[i] for i in department_list if i == name][0])
-        except KeyError:
+        except (KeyError, IndexError):
             pass
 
     def __repr__(self):
@@ -182,7 +175,7 @@ class Event:
 
 class ScoutRPG:
     category = "games"
-    version = 'alpha1.4'
+    version = 'alpha1.4.1'
     sleep_weight = [0, 0, 1, 1, 1, 2, 3, 3, 3, 3, 4, 4, 4]
     choices = {'self.eat()': "eat", 'self.drink()': "drink", 'self.sleep()': "sleep", 'self.heal()': "heal",
                'self.house_chores()': "chores", 'self.travel()': "travel", 'self.agenda()': "agenda"}
@@ -206,6 +199,8 @@ class ScoutRPG:
             # Decrypting everything and cutting off the new line at the end!
             try:
                 version = Loading.caesar_decrypt(game_info[0]).split('\n')[0]
+                if version not in ("prealpha", "alpha1.0", "alpha1.1", "alpha1.2", "alpha1.3", "alpha1.4", "alpha1.4.1"):
+                    raise IndexError
             except IndexError:
                 input("There is no version in the selected game file. Press ENTER to delete it, or stop the program now "
                       "to attempt to recover progress by yourself.")
@@ -241,7 +236,7 @@ class ScoutRPG:
     def quit(self):
         if self.new_file:
             self.filename = input("File name?\n") + '.sct'
-        stats = '\t'.join(str(self.stats.__getattribute__(i)) for i in self.stats.__iter__())
+        stats = '\t'.join(str(self.stats.__getattribute__(i)) for i in self.stats.__iter__()) + '\t' + self.stats.reputation
         food = '\t'.join(i.__repr__() for i in self.food)
         drinks = '\t'.join(i.__repr__() for i in self.drinks)
         time = self.time.strftime("%m%d%Y%H%M")
@@ -293,7 +288,17 @@ class ScoutRPG:
                 if i != "money":
                     self.stats.__setattr__(i, 0.0) if self.stats.__getattribute__(i) < 0.0 else self.stats.__getattribute__(i)
                     self.stats.__setattr__(i, 100.0) if self.stats.__getattribute__(i) > 100.0 else self.stats.__getattribute__(i)
-                    self.stats.__setattr__(i, self.stats.__getattribute__(i).__round__(1))
+                    self.stats.__setattr__(i, round(self.stats.__getattribute__(i), 1))
+            self.stats.money = round(self.stats.money, 2)
+            # Some easter eggs :)
+            if self.stats.money >= 1000000000000:
+                Loading.returning("Ok, we get it. You're a trillionaire in a Boy Scouting Simulator.")
+            if self.stats.money >= 1000000000001:
+                Loading.returning("Ok, that's not right... You can't be a trillionaire in this game!")
+                self.stats.__setattr__("money", 1000)
+            if self.stats.money < 0:
+                Loading.returning("Wait, you can't be in debt in this game! Here's some free money.")
+                self.stats.__setattr__("money", 10)
             # 1 Hour reminder for events!
             for i in self.events:
                 if 0 > (self.time - i.date).total_seconds() > -3600:
@@ -460,7 +465,7 @@ class ScoutRPG:
 
     def eat(self):
         print("Here's the food you have:")
-        print('\n'.join("{} {} meals".format(str(int(i.count)).title(), i.name) for i in self.food if i.count > 0))
+        print('\n'.join("{} {} meals".format(str(i.count).title(), i.name) for i in self.food if i.count > 0))
         while True:
             action = input("What would you like to eat?").lower()
             if not action:
@@ -481,7 +486,7 @@ class ScoutRPG:
 
     def drink(self):
         print("Here are the beverages you have:")
-        print('\n'.join("{} bottles of {}".format(str(int(i.count)).title(), i.name) for i in self.drinks if i.count > 0))
+        print('\n'.join("{} bottles of {}".format(str(i.count).title(), i.name) for i in self.drinks if i.count > 0))
         while True:
             action = input("What would you like to drink?").lower()
             if not action:
@@ -501,7 +506,7 @@ class ScoutRPG:
         pass
 
     def sleep(self):
-        if int(self.time.hour) >= 21 or int(self.time.hour) < 8:
+        if 8 >= int(self.time.hour) >= 21:
             self.refresh("day", 1)
             self.time = self.time.replace(hour=8, minute=00)
             self.stats.hunger = 25 if self.stats.hunger > 25 else self.stats.hunger
@@ -553,7 +558,7 @@ class ScoutRPG:
                 action = [i for i in self.chores if i.name == action][0]
                 if not action.cooldown:
                     action.__setattr__('cooldown', True)
-                    Loading.progress_bar(action.name.title().split(' ')[0] + 'ing ' + action.name.title().split(' ', 1)[1], action.duration / 4)
+                    Loading.progress_bar(action.name.title().split(' ', 1)[0] + 'ing ' + action.name.title().split(' ', 1)[1], action.duration / 4)
                     self.stats.money += action.earnings
                     self.refresh("minute", action.duration)
                     Loading.returning("Chore complete! ${}0 has been added to your wallet. You may not do this chore again today.".format(action.earnings), 3)
@@ -564,15 +569,15 @@ class ScoutRPG:
                 Loading.returning("Please enter a valid chore or press ENTER to return.", 2)
 
     def travel(self):
+        stores = (self.groceries, self.department, self.scout_store)
         if ScoutRPG.online_shopping:
             print("You have a computer! Welcome to Online Shopping.\nType the store you want to buy from.")
             print('\n'.join(str(i.name.title()) + ' --> 0 minutes' for i in self.locations))
             destination = input("Where would you like to go?").lower()
             destination = destination + " store" if "store" not in destination else destination
-            for i in locations_list:
-                if destination == i:
-                    stores = (self.groceries, self.department, self.scout_store)
-                    print("ONLINE: " + i.name.title())
+            for i in self.locations:
+                if destination == i.name:
+                    Loading.progress_bar("www.{}.com".format(i.name.lower().replace(' ', '_')), 0.0001)
                     stores[locations_list.index(i.name)]()
         else:
             print('\n'.join(str(i.name.title()) + ' --> ' + str(i.duration) + ' minutes' for i in self.locations))
@@ -580,10 +585,10 @@ class ScoutRPG:
             destination = destination + " store" if "store" not in destination else destination
             for i in self.locations:
                 if destination == i.name:
-                    stores = (self.groceries, self.department, self.scout_store)
                     self.refresh("minute", i.duration)
-                    Loading.progress_bar("Traveling to the {}".format(destination), i.duration / 4)
+                    Loading.progress_bar("Traveling to the {}...".format(destination), i.duration / 4)
                     stores[locations_list.index(i.name)]()
+                    Loading.progress_bar("Traveling back home...".format(destination), i.duration / 4)
                     self.refresh("minute", i.duration)
                     break
             else:
@@ -593,22 +598,19 @@ class ScoutRPG:
         print("\n\nWelcome to the grocery store!")
         Loading.returning("Here you can buy food and drinks.", 2)
         print('\nFOOD')
-        print('\n'.join(str(food_list.index(food_list[i]) + 1) + '. ' + food_list[i].title() + ' - $' + str(food_costs[i]) + '0' for i in range(len(food_list))))
+        print('\n'.join(str(food_list.index(food_list[i]) + 1) + '. ' + food_list[i].title() + ' - $' + str(food_costs[i]) for i in range(len(food_list))))
         print('\nDRINKS')
-        print('\n'.join(str(drinks_list.index(drinks_list[i]) + 1) + '. ' + drinks_list[i].title() + ' - $' + str(drinks_cost[i]) + '0' for i in range(len(drinks_list))))
+        print('\n'.join(str(drinks_list.index(drinks_list[i]) + 1) + '. ' + drinks_list[i].title() + ' - $' + str(drinks_cost[i]) for i in range(len(drinks_list))))
         while True:
             print("Wallet: ${}0".format(self.stats.money))
             buy = input('What would you like to buy? Type "exit" to exit.').lower()
             if buy == 'exit':
-                Loading.progress_bar("Traveling back home...", [i.duration for i in self.locations if i.name == "grocery store"][0] / 4)
                 return
             elif buy in food_list:
                 if self.buy(buy, self.food, food_list, food_costs, Food) == 0:
-                    Loading.progress_bar("Traveling back home...", [i.duration for i in self.locations if i.name == "grocery store"][0] / 4)
                     break
             elif buy in drinks_list:
                 if self.buy(buy, self.drinks, drinks_list, drinks_cost, Drink) == 0:
-                    Loading.progress_bar("Traveling back home...", [i.duration for i in self.locations if i.name == "grocery store"][0] / 4)
                     break
             else:
                 Loading.returning("Please type a valid food/drink.")
@@ -616,22 +618,20 @@ class ScoutRPG:
     def department(self):
         print("\n\nWelcome to the Department store!")
         Loading.returning("Here you can buy various utilities to add to your lifestyle.", 3)
-        print("\nSTORAGE")
-        print('\n'.join((str(department_list.index(i) + 1) + '. ' + i.title() + ': $' + str(department_costs[department_list.index(i)]) + '0') for i in department_list[0:3]))
-        print("\nAPPLIANCES")
-        print('\n'.join((str(department_list.index(i) - 2) + '. ' + i.title() + ': $' + str(department_costs[department_list.index(i)]) + '0') for i in department_list[3:]))
+        print("\nOUTDOORS")
+        print('\n'.join(str(department_list.index(i) + 1) + '. ' + i.title() + ': $' + str(department_costs[department_list.index(i)]) for i in department_list[0:6]))
+        print("\nELECTRONICS")
+        print('\n'.join(str(department_list.index(i) - 2) + '. ' + i.title() + ': $' + str(department_costs[department_list.index(i)]) for i in department_list[6:]))
         while True:
             print("Wallet: ${}0".format(self.stats.money))
             buy = input('What would you like to buy? Type "exit" to exit.').lower()
             if buy == 'exit':
-                Loading.progress_bar("Traveling back home...", [i.duration for i in self.locations if i.name == "department store"][0] / 4)
                 return
             elif buy in department_list:
                 if self.buy(buy, self.possessions, department_list, department_costs, Possession) == 0:
-                    Loading.progress_bar("Traveling back home...", [i.duration for i in self.locations if i.name == "department store"][0] / 4)
                     break
             else:
-                Loading.returning("Please type a valid food/drink.")
+                Loading.returning("Please type a valid item.")
         # Buy Utilities. Everything bought here is stored as objects in a list: self.possessions.
         # Desk: $50 - Reduces time needed to study for ranks.
         # Reusable Plastic Box: $25 - +5 food space.
@@ -642,24 +642,28 @@ class ScoutRPG:
         pass
 
     def scout_store(self):
-        print('\nWelcome to the Scout Store!')
-        Loading.returning("Here you can buy your various scouting equipment.", 2)
-        print('\nSCOUT-BRANDED CLOTHING')
-        print('\n'.join((str(scout_store_list.index(i) + 1) + '. ' + i.title() + ': $' + str(scout_store_costs[scout_store_list.index(i)]) + '0') for i in scout_store_list[0:7]))
-        print('\nOUTDOORS')
-        print('\n'.join((str(i - 7) + '. ' + scout_store_list[i].title() + ': $' + str(scout_store_costs[i]) + '0') for i in range(len(scout_store_list))[8:]))
+        exec("print('\nWelcome to the Scout Store!') ; Loading.returning('Here you can buy your various scouting equipment.', 2) ; print('\nSCOUT-BRANDED CLOTHING')")
+        i = 0
+        while i < 10:
+            print("{}. {}: ${}".format(i + 1, scout_store_list[i].title(), scout_store_costs[i]) + ('\t' * int(math.ceil((20-len(scout_store_list[i])) / 4))) + "{}. {}: ${}".format(i+2, scout_store_list[i+1].title(), scout_store_costs[i+1]))
+            i += 2
+        exec('print("{}. {}: ${}".format(11, scout_store_list[10].title(), scout_store_costs[10])) ; i+= 1 ; print("\nOUTDOORS")')
+        # print('\n'.join(str(scout_store_list.index(i) + 1) + '. ' + i.title() + ': $' + str(scout_store_costs[scout_store_list.index(i)]) for i in scout_store_list[0:11]))
+        while 10 < i < 24:
+            print("{}. {}: ${}".format(i - 10, scout_store_list[i].title(), scout_store_costs[i]) + ('\t' * int(((24-len(scout_store_list[i])) / 4))) + "{}. {}: ${}".format(i - 9, scout_store_list[i+1].title(), scout_store_costs[i+1]))
+            i += 2
+        print("{}. {}: ${}".format(15, scout_store_list[25].title(), scout_store_costs[25]))
+    # print('\n'.join(str(i - 10) + '. ' + scout_store_list[i].title() + ': $' + str(scout_store_costs[i]) for i in range(len(scout_store_list))[11:]))
         while True:
             print("Wallet: ${}0".format(self.stats.money))
             buy = input('What would you like to buy? Type "exit" to exit.').lower()
             if buy == 'exit':
-                Loading.progress_bar("Traveling back home...", [i.duration for i in self.locations if i.name == "scout store"][0] / 4)
                 return
             elif buy in scout_store_list:
                 if self.buy(buy, self.possessions, scout_store_list, scout_store_costs, Possession) == 0:
-                    Loading.progress_bar("Traveling back home...", [i.duration for i in self.locations if i.name == "scout store"][0] / 4)
                     break
             else:
-                Loading.returning("Please type a valid food/drink.")
+                Loading.returning("Please type a valid item.")
 
     def buy(self, buy, stat, store_list, store_costs, item):
         while True:
@@ -669,7 +673,7 @@ class ScoutRPG:
             else:
                 try:
                     quantity = int(quantity)
-                except TypeError:
+                except (TypeError, ValueError):
                     Loading.returning("Please type a number between 0 and 100.", 2)
                     continue
             if 0 <= quantity <= 100.0:
@@ -689,26 +693,28 @@ class ScoutRPG:
                 Loading.returning("Please type a number between 0 and 100.", 2)
 
     def agenda(self):
-        print('\n'.join([i.name + " on " + i.date.strftime("%m/%d/%Y at %H:%M") + ". Importance: " + str(i.importance) for i in self.events]) if self.events else "No events.")
-        print('\n' + calendar.TextCalendar(6).formatmonth(int(self.time.year), int(self.time.month)))
+        print('\n'.join([i.name + " on " + i.date.strftime("%A, %m/%d/%Y at %H:%M") + ". Importance: " + str(i.importance) for i in self.events]) if self.events else "No events.")
+        print(self.time.strftime("\nToday's date: %B %d, %Y\n") + calendar.TextCalendar(6).formatmonth(int(self.time.year), int(self.time.month)))
         if input('Type "add event" to add a custom event or Press ENTER to continue.') == 'add event':
             self.events.append(Event(input("What is the event name?"), input("Date and time of the event? E.g. 030120221900"), int(input("Importance of the event?"))))
 
     def troop_meeting(self):
         class MeetingEvent:
-            def __init__(self, event, yes_msg, no_msg, reputation):
+            def __init__(self, event, yes_msg, no_msg, reputation, follow_up_yes, follow_up_no):
                 self.event = event
                 self.yes_msg = yes_msg
                 self.no_msg = no_msg
                 self.reputation = reputation
+                self.follow_up_yes = follow_up_yes
+                self.follow_up_no = follow_up_no
                 self.answer = None
 
         Loading.returning("Welcome to the troop meeting.", 2)
-        required_uniform = ["Shirt", "Pant", "Socks", "Belt", "Neckerchief", "Slide", "Shoes"]
+        required_uniform = ["shirt", "pants", "socks", "belt", "neckerchief", "slide", "shoes"]
         for i in self.possessions:
             for j in required_uniform:
-                if i.name == j:
-                    required_uniform.pop(j)
+                if j in i.name:
+                    required_uniform.pop(required_uniform.index(j))
                     break
         if required_uniform:
             Loading.returning(["Your Scoutmaster was outside the door ", "An adult leader saw you walk in ", "Your friend was at your table "][random.randint(0, 2)] +
@@ -723,52 +729,75 @@ class ScoutRPG:
             Loading.returning(i, int(len(i) / 10))
         Loading.returning("The flag ceremony has ended.", 2)
         Loading.returning("You head to your table and sit down.", 2)
-        # Deprecated.
-        # for i in [("A friend approaches you and asks for your help. Yes or no?", "Your friend appreciates the help. He may ask you later.", "Your friend woefully walks away. He may ask you later.", 5),
-        #           ("A surprise uniform inspection has occurred!", "", "", 0),
-        #           ("Your patrol wants to organize an outing. Yes or no?", "Your patrol is grateful for your support.", "Your patrol scoffs at your laziness and continues their planning", 15),
-        #           ("The scoutmaster is asking you if the meeting is going well. Yes or no?", "The scoutmaster is glad you enjoy the meeting.", "The scoutmaster is sorry you aren't having fun.", 10),
-        #           ("You see your friend playing on his phone and think about telling him to stop. Yes or no?", "Your friend scoffs at you and puts it away. An adult leader comes by later, and your friend thanks you for the advice.",
-        #            "Your friend continues to play and an adult leader comes by. They scold your friend and take away his phone.", 5),
-        #           ("The weekly meeting game has begun. Are you going to participate? Yes or no?", "The game goes well. Your team wins and you are glad you participated.", "The game goes well, and everyone has fun. Everyone except you.", 20),
-        #           ("You had a long day today and you are just about to fall asleep. Slap yourself awake? Yes or no?", "You slap yourself and your patrol looks at you. You explain it and they understand.",
-        #            "You fall asleep and have a good dream. Thankfully, your patrol notices and wake you up before a leader comes by.", 10),
-        #           ("You're getting bored and want to head to another table to socialize. Yes or no?", "You head to another table and start socializing. It goes well until a leader comes by and sends you back.",
-        #            "You stay at your table and socialize with your own patrol.", -15),
-        #           ("Your friend is going for a scoutmaster conference and asks for good luck. Yes or no?", "He thanks you for your wishes and heads off, feeling confident.", "Your friend walks away annoyed at you.", 5)]:
-        #     events.append(MeetingEvent(i[0], i[1], i[2], i[3]))
-        # yes = ["Your friend appreciates the help. He may ask you later.", None, "Your patrol is grateful for your support.",
-        #        "The scoutmaster is glad you enjoy the meeting.", "Your friend scoffs at you and puts it away. An adult leader comes by later, and your friend thanks you for the advice.",
-        #        "The game goes well. Your team wins and you are glad you participated.", "You slap yourself and your patrol looks at you. You explain it and they understand.",
-        #        "You head to another table and start socializing. It goes well until a leader comes by and sends you back.", "He thanks you for your wishes and heads off, feeling confident."]
-        # no = ["Your friend woefully walks away. He may ask you later.", None, "Your patrol scoffs at your laziness and continues their planning",
-        #       "The scoutmaster is sorry you aren't having fun.", "Your friend continues to play and an adult leader comes by. They scold your friend and take away his phone.",
-        #       "The game goes well, and everyone has fun. Everyone except you.", "You fall asleep and have a good dream. Thankfully, your patrol notices and wake you up before a leader comes by.",
-        #       "You stay at your table and socialize with your own patrol.", "Your friend walks away annoyed at you."]
+        events = []
         for i in random.sample(
-                [MeetingEvent(i[0], i[1], i[2], i[3]) for i in [("A friend approaches you and asks for your help. Yes or no?", "Your friend appreciates the help. He may ask you later.", "Your friend woefully walks away. He may ask you later.", 5),
-                                                                ("A surprise uniform inspection has occurred!", "", "", 0),
-                                                                ("Your patrol wants to organize an outing. Yes or no?", "Your patrol is grateful for your support.", "Your patrol scoffs at your laziness and continues their planning", 15),
-                                                                ("The scoutmaster is asking you if the meeting is going well. Yes or no?", "The scoutmaster is glad you enjoy the meeting.", "The scoutmaster is sorry you aren't having fun.", 10),
-                                                                ("You see your friend playing on his phone and think about telling him to stop. Yes or no?",
-                                                                 "Your friend scoffs at you and puts it away. An adult leader comes by later, and your friend thanks you for the advice.",
-                                                                 "Your friend continues to play and an adult leader comes by. They scold your friend and take away his phone.", 5),
-                                                                ("The weekly meeting game has begun. Are you going to participate? Yes or no?", "The game goes well. Your team wins and you are glad you participated.",
-                                                                 "The game goes well, and everyone has fun. Everyone except you.", 20),
-                                                                ("You had a long day today and you are just about to fall asleep. Slap yourself awake? Yes or no?", "You slap yourself and your patrol looks at you. You explain it and they understand.",
-                                                                 "You fall asleep and have a good dream. Thankfully, your patrol notices and wake you up before a leader comes by.", 10),
-                                                                ("You're getting bored and want to head to another table to socialize. Yes or no?", "You head to another table and start socializing. It goes well until a leader comes by and sends you back.",
-                                                                 "You stay at your table and socialize with your own patrol.", -15),
-                                                                ("Your friend is going for a scoutmaster conference and asks for good luck. Yes or no?", "He thanks you for your wishes and heads off, feeling confident.",
-                                                                 "Your friend walks away annoyed at you.", 5)]], 4):
+                [MeetingEvent(i[0], i[1], i[2], i[3], i[4], i[5]) for i in [("A friend approaches you and asks for your help. Yes or no?", "Your friend appreciates the help. He may ask you later.", "Your friend woefully walks away. He may ask you later.",
+                                                                             5, "The same friend has returned, asking for more help. Yes or no?", "The same friend has returned, but glares at you and walks away."),
+                                                                            ("A surprise uniform inspection has occurred!", "", "", 0, "", ""),
+                                                                            ("Your patrol wants to organize an outing. Yes or no?", "Your patrol is grateful for your support.", "Your patrol scoffs at your laziness and continues their planning", 15,
+                                                                             "Your patrol has finalized the event and is asking your attendance. Yes or no?", "Your patrol now wants to organize a fun outing after your display of laziness. Yes or no?"),
+                                                                            ("The scoutmaster is asking you if the meeting is going well. Yes or no?", "The scoutmaster is glad you enjoy the meeting.", "The scoutmaster is sorry you aren't having fun.", 10,
+                                                                             "", ""),
+                                                                            ("You see your friend playing on his phone and think about telling him to stop. Yes or no?",
+                                                                             "Your friend scoffs at you and puts it away. An adult leader comes by later, and your friend thanks you for the advice.",
+                                                                             "Your friend continues to play and an adult leader comes by. They scold your friend and take away his phone.", 5,
+                                                                             "Your friend pulls his phone out again, but looks at you and puts it away.", "The adult leader comes back with your friend's phone and gives him a stern talk."),
+                                                                            ("The weekly meeting game has begun. Are you going to participate? Yes or no?", "The game goes well. Your team wins and you are glad you participated.",
+                                                                             "The game goes well, and everyone has fun. Everyone except you.", 20, "", ""),
+                                                                            ("You had a long day today and you are just about to fall asleep. Slap yourself awake? Yes or no?",
+                                                                             "You slap yourself and your patrol looks at you. You explain it and they understand.",
+                                                                             "You fall asleep and have a good dream. Thankfully, your patrol notices and wake you up before a leader comes by.", 10,
+                                                                             "You almost fall asleep again when your patrol wakes you up.",
+                                                                             "You fall asleep again but your patrol rolls their eyes and you later get scolded by a leader."),
+                                                                            # Removed. This event has a reversed reputation, which was too difficult to implement.
+                                                                            # ("You're getting bored and want to head to another table to socialize. Yes or no?",
+                                                                            #  "You head to another table and start socializing. It goes well until a leader comes by and sends you back.",
+                                                                            #  "You stay at your table and socialize with your own patrol.", -15, "Your patrol is being very boring and you think about socializing. Yes or no?",
+                                                                            #  "You think about socializing with another patrol and decide against it."),
+                                                                            ("Your friend is going for a scoutmaster conference and asks for good luck. Yes or no?", "He thanks you for your wishes and heads off, feeling confident.",
+                                                                             "Your friend walks away annoyed at you.", 5, "Your friend returns from the conference with a happy face and thanks you for the confidence.",
+                                                                             "Your friend comes back from the conference and looks down the whole time. He gives you a glare before walking away.")]], 3):
             if "Yes or no" in i.event:
-                print(i.event)
-                if input().lower() == "yes":
-                    exec("Loading.returning(i.yes_msg, 3) ; Loading.returning('+{} Reputation.'.format(i.reputation), 2) ; self.stats.reputation += i.reputation")
+                for j in range(3):
+                    print(i.event)
+                    choice = input().lower()
+                    if "yes" in choice:
+                        exec("Loading.returning(i.yes_msg, 3) ; Loading.returning('+{} Reputation.'.format(i.reputation), 2) ; self.stats.reputation += i.reputation ; i.answer = True ; events.append(i)")
+                        break
+                    elif "no" in choice:
+                        exec("Loading.returning(i.no_msg, 3) ; Loading.returning('-{} Reputation.'.format(i.reputation), 2) ; self.stats.reputation -= i.reputation ; i.answer = False ; events.append(i)")
+                        break
+                    else:
+                        Loading.returning("Invalid response. {} attempts remaining. Please try again.".format(2 - j), 2)
                 else:
-                    exec("Loading.returning(i.no_msg, 3) ; Loading.returning('-{} Reputation.'.format(i.reputation), 2) ; self.stats.reputation -= i.reputation")
+                    Loading.returning("3 attempts exceeded. Moving on...", 3)
+                    Loading.returning("+0 Reputation", 2)
             else:
                 Loading.returning(i.event, 3)
+        random.shuffle(events)
+        for i in events:
+            follow_up = i.follow_up_yes if i.answer else i.follow_up_no
+            if follow_up:
+                if "Yes or no" in follow_up:
+                    for j in range(3):
+                        print(follow_up)
+                        choice = input().lower()
+                        if "yes" in choice:
+                            exec("Loading.returning(i.yes_msg, 3) ; Loading.returning('+{} Reputation.'.format(i.reputation), 2) ; self.stats.reputation += i.reputation")
+                            break
+                        elif "no" in choice:
+                            exec("Loading.returning(i.no_msg, 3) ; Loading.returning('-{} Reputation.'.format(i.reputation), 2) ; self.stats.reputation -= i.reputation")
+                            break
+                        else:
+                            Loading.returning("Invalid response. {} attempts remaining. Please try again.".format(2 - j), 2)
+                    else:
+                        Loading.returning("3 attempts exceeded. Moving on...", 3)
+                        Loading.returning("+0 Reputation", 2)
+                else:
+                    Loading.returning(follow_up, 3)
+                    Loading.returning(('+' if i.answer else '-') + str(i.reputation) + ' Reputation.')
+                    self.stats.reputation += (i.reputation if i.answer else -i.reputation)
+
         input("The troop meeting has ended." + (" Don't forget to purchase the remaining uniform articles!" if required_uniform else "") + " Press ENTER to head back home.")
         self.events.pop(self.events.index([i for i in self.events if i.name == 'Troop Meeting'][0]))
         self.time = self.time.replace(hour=20, minute=00)
