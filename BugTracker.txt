@@ -48,3 +48,8 @@ SCT-032 - A file without a version header would result in a "corrupted game file
 SCT-033 - Saving and exiting the game would cause a corrupted game file.
 SCT-034 - Negative money was possible with game file manipulation.
 SCT-035 - Typing a non-integer quantity when buying things crashes the game.
+
+alpha1.4.1
+SCT-036 - Soda replenishes 100 Thirst.
+SCT-037 - Passing a datetime object to the Event constructor crashes the game.
+SCT-038 - Quitting the game produces a corrupt game file.

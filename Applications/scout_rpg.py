@@ -1,5 +1,8 @@
+"""
+SCOUTRPG
+This is a new game I've developed that simulates the life of a Boy Scout and their journey towards Eagle.
+"""
 import math
-
 import os
 from Applications import bagels
 from System import Loading
@@ -16,8 +19,8 @@ import random
 stats_list = ("Health", "Hunger", "Thirst", "Money")
 food_list = ("peanuts", "breakfast burrito", "pancake", "mac and cheese", "tofu teriyaki")
 food_costs = (0.49, 3.49, 2.49, 9.49, 14.99)
-drinks_list = ("water", "soda")
-drinks_cost = (0.25, 1.49)
+drinks_list = ("water", "soda", "tea", "pee")
+drinks_cost = (0.25, 1.49, 1.99, 4.99)
 locations_list = ("grocery store", "department store", "scout store")
 chore_list = ("unload dishwasher", "load dishwasher", "clean up bedroom", "clean up kitchen", "clean up dining room",
               "clean up living room", "collect the trash")
@@ -39,6 +42,192 @@ possession_attributes = {"computer": "ScoutRPG.online_shopping = True",
                          "digital watch": "ScoutRPG.sleep_weight.extend([0] * 6 + [1] * 7)",
                          "game console": "ScoutRPG.sleep_weight.extend([3] * 3 + [4] * 2) ; ScoutRPG.choices['self.console()'] = 'console'",
                          "camera": "ScoutRPG.sleep_weight.extend([4]) ; ScoutRPG.memories = True"}
+
+# noinspection LongLine
+ranks = {
+    "scout": (
+        "1a. Repeat from memory the Scout Oath, Scout Law, Scout motto, and Scout slogan. In your own words, explain their meaning. ",
+        "1b. Explain what Scout spirit is. Describe some ways you have shown Scout spirit by practicing the Scout Oath, Scout Law, Scout motto, and Scout slogan.",
+        "1c. Demonstrate the Scout sign, salute, and handshake. Explain when they should be used.",
+        "1d. Describe the First Class Scout badge and tell what each part stands for. Explain the significance of the First Class Scout badge.",
+        "1e. Repeat from memory the Outdoor Code. In your own words, explain what the Outdoor Code means to you.",
+        "1f. Repeat from memory the Pledge of Allegiance. In your own words, explain its meaning.",
+        "2. After attending at least one Scout troop meeting, do the following:",
+        "2a. Describe how the Scouts in the troop provide its leadership.",
+        "2b. Describe the four steps of Scout advancement.",
+        "2c. Describe what the Scouts BSA ranks are and how they are earned.",
+        "2d. Describe what merit badges are and how they are earned.",
+        "3a. Explain the patrol method. Describe the types of patrols that are used in your troop.",
+        "3b. Become familiar with your patrol name, emblem, flag, and yell. Explain how these items create patrol spirit.",
+        "4a. Show how to tie a square knot, two half-hitches, and a taut-line hitch. Explain how each knot is used.",
+        "4b. Show the proper care of a rope by learning how to whip and fuse the ends of different kinds of rope. ",
+        "5. Tell what you need to know about pocketknife safety. ",
+        "6. With your parent or guardian, complete the exercises in the pamphlet How to Protect Your Children From Child Abuse: A Parent’s Guide and earn the Cyber Chip Award for your grade.",
+        "7. Since joining the troop and while working on the Scout rank, participate in a Scoutmaster conference."),
+    "tenderfoot": (
+        "1a. Present yourself to your leader, prepared for an overnight camping trip. Show the personal and camping gear you will use. Show the right way to pack and carry it.",
+        "1b. Spend at least one night on a patrol or troop campout. Sleep in a tent you have helped pitch.",
+        "1c. Tell how you practiced the Outdoor Code on a campout or outing.",
+        "2a. On the campout, assist in preparing one of the meals. Tell why it is important for each patrol member to share in meal preparation and cleanup.",
+        "2b. While on a campout, demonstrate the appropriate method of safely cleaning items used to prepare, serve, and eat a meal.",
+        "2c. Explain the importance of eating together as a patrol.",
+        "3a. Demonstrate a practical use of the square knot.",
+        "3b. Demonstrate a practical use of two half-hitches.",
+        "3c. Demonstrate a practical use of the taut-line hitch.",
+        "3d. Demonstrate proper care, sharpening, and use of the knife, saw, and ax. Describe when each should be used.",
+        "4a. Show first aid for the following: \n• Simple cuts and scrapes\n• Blisters on the hand and foot\n• Minor (thermal/heat) burns or scalds (superficial, or first-degree)\n• Bites or stings of insects and ticks\n• Venomous snakebite\n• Nosebleed\n• Frostbite and sunburn\n• Choking",
+        "4b. Describe common poisonous or hazardous plants; identify any that grow in your local area or campsite location. Tell how to treat for exposure to them.",
+        "4c. Tell what you can do while on a campout or other outdoor activity to prevent or reduce the occurrence of injuries or exposure listed in Tenderfoot requirements 4a and 4b.",
+        "4d. Assemble a personal first-aid kit to carry with you on future campouts and hikes. Tell how each item in the kit would be used.",
+        "5a. Explain the importance of the buddy system as it relates to your personal safety on outings and in your neighborhood. Use the buddy system while on a troop or patrol outing.",
+        "5b. Describe what to do if you become lost on a hike or campout.",
+        "5c. Explain the rules of safe hiking, both on the highway and cross-country, during the day and at night.",
+        "6a. Record your best in the following tests:\n• Pushups (Record the number done correctly in 60 seconds.)\n• Situps or curl-ups (Record the number done correctly in 60 seconds.)\n• Back-saver sit-and-reach (Record the distance stretched.)\n• 1-mile walk/run (Record the time.)",
+        "6b. Develop and describe a plan for improvement in each of the activities listed in Tenderfoot requirement 6a. Keep track of your activity for at least 30 days.",
+        "6c. Show improvement (of any degree) in each activity listed in Tenderfoot requirement 6a after practicing for 30 days.\n• Pushups (Record the number done correctly in 60 seconds.)\n• Situps or curl-ups (Record the number done correctly in 60 seconds.)\n• Back-saver sit-and-reach (Record the distance stretched.)\n• 1-mile walk/run (Record the time.)",
+        "7a. Demonstrate how to display, raise, lower, and fold the U.S. flag.",
+        "7b. Participate in a total of one hour of service in one or more service projects approved by your Scoutmaster. Explain how your service to others relates to the Scout slogan and Scout motto.",
+        "8. Describe the steps in Scouting’s Teaching EDGE method. Use the Teaching EDGE method to teach another person how to tie the square knot.",
+        "9. Demonstrate Scout spirit by living the Scout Oath and Scout Law. Tell how you have done your duty to God and how you have lived four different points of the Scout Law in your everyday life.",
+        "10. While working toward the Tenderfoot rank, and after completing Scout rank requirement 7, participate in a Scoutmaster conference.",
+        "11. Successfully complete your board of review for the Tenderfoot rank."),
+    "second class": (
+        "1a. Since joining Scouts BSA, participate in five separate troop/patrol activities, at least three of which must be held outdoors. Of the outdoor activities, at least two must include overnight camping. These activities do not include troop or patrol meetings. On campouts, spend the night in a tent that you pitch or other structure that you help erect, such as a lean-to, snow cave, or tepee.",
+        "1b. Explain the principles of Leave No Trace and tell how you practiced them on a campout or outing. This outing must be different from the one used for Tenderfoot requirement 1c.",
+        "1c. On one of these campouts, select a location for your patrol site and recommend it to your patrol leader, senior patrol leader, or troop guide. Explain what factors you should consider when choosing a patrol site and where to pitch a tent.",
+        "2a. Explain when it is appropriate to use a fire for cooking or other purposes and when it would not be appropriate to do so.",
+        "2b. Use the tools listed in Tenderfoot requirement 3d to prepare tinder, kindling, and fuel wood for a cooking fire.",
+        "2c. At an approved outdoor location and time, use the tinder, kindling, and fuel wood from Second Class requirement 2b to demonstrate how to build a fire. Unless prohibited by local fire restrictions, light the fire. After allowing the flames to burn safely for at least two minutes, safely extinguish the flames with minimal impact to the fire site.",
+        "2d. Explain when it is appropriate to use a lightweight stove and when it is appropriate to use a propane stove. Set up a lightweight stove or propane stove. Light the stove, unless prohibited by local fire restrictions. Describe the safety procedures for using these types of stoves.",
+        "2e. On one campout, plan and cook one hot breakfast or lunch, selecting foods from MyPlate or the current USDA nutritional model. Explain the importance of good nutrition. Demonstrate how to transport, store, and prepare the foods you selected.",
+        "2f. Demonstrate tying the sheet bend knot. Describe a situation in which you would use this knot.",
+        "2g. Demonstrate tying the bowline knot. Describe a situation in which you would use this knot.",
+        "3a. Demonstrate how a compass works and how to orient a map. Use a map to point out and tell the meaning of five map symbols.",
+        "3b. Using a compass and map together, take a 5-mile hike (or 10 miles by bike) approved by your adult leader and your parent or guardian.",
+        "3c. Describe some hazards or injuries that you might encounter on your hike and what you can do to help prevent them.",
+        "3d. Demonstrate how to find directions during the day and at night without using a compass or an electronic device.",
+        "4. Identify or show evidence of at least 10 kinds of wild animals (such as birds, mammals, reptiles, fish, or mollusks) found in your local area or camping location. You may show evidence by tracks, signs, or photographs you have taken.",
+        "5a. Tell what precautions must be taken for a safe swim.",
+        "5b. Demonstrate your ability to pass the BSA beginner test: Jump feet first into water over your head in depth, level off and swim 25 feet on the surface, stop, turn sharply, resume swimming, then return to your starting place.",
+        "5c. Demonstrate water rescue methods by reaching with your arm or leg, by reaching with a suitable object, and by throwing lines and objects.",
+        "5d. Explain why swimming rescues should not be attempted when a reaching or throwing rescue is possible. Explain why and how a rescue swimmer should avoid contact with the victim.",
+        "6a. Demonstrate first aid for the following:\n• Object in the eye\n• Bite of a warm-blooded animal\n• Puncture wounds from a splinter, nail, and fishhook\n• Serious burns (partial thickness, or second-degree)\n• Heat exhaustion\n• Shock\n• Heatstroke, dehydration, hypothermia, and hyperventilation",
+        "6b. Show what to do for “hurry” cases of stopped breathing, stroke, severe bleeding, and ingested poisoning.",
+        "6c. Tell what you can do while on a campout or hike to prevent or reduce the occurrence of the injuries listed in Second Class requirements 6a and 6b.",
+        "6d. Explain what to do in case of accidents that require emergency response in the home and backcountry. Explain what constitutes an emergency and what information you will need to provide to a responder.",
+        "6e. Tell how you should respond if you come upon the scene of a vehicular accident.",
+        "7a. After completing Tenderfoot requirement 6c, be physically active at least 30 minutes each day for five days a week for four weeks. Keep track of your activities.",
+        "7b. Share your challenges and successes in completing Second Class requirement 7a. Set a goal for continuing to include physical activity as part of your daily life and develop a plan for doing so.",
+        "7c. Participate in a school, community, or troop program on the dangers of using drugs, alcohol, and tobacco and other practices that could be harmful to your health. Discuss your participation in the program with your family, and explain the dangers of substance addictions. Report to your Scoutmaster or other adult leader in your troop about which parts of the Scout Oath and Scout Law relate to what you learned. ",
+        "8a. Participate in a flag ceremony for your school, religious institution,chartered organization, community, or Scouting activity.",
+        "8b. Explain what respect is due the flag of the United States.",
+        "8c. With your parents or guardian, decide on an amount of money that you would like to earn, based on the cost of a specific item you would like to purchase. Develop a written plan to earn the amount agreed upon and follow that plan; it is acceptable to make changes to your plan along the way. Discuss any changes made to your original plan and whether you met your goal.",
+        "8d. At a minimum of three locations, compare the cost of the item for which you are saving to determine the best place to purchase it. After completing Second Class requirement 8c, decide if you will use the amount that you earned as originally intended, save all or part of it, or use it for another purpose.",
+        "8e. Participate in two hours of service through one or more service projects approved by your Scoutmaster. Tell how your service to others relates to the Scout Oath.",
+        "9a. Explain the three R’s of personal safety and protection.",
+        "9b. Describe bullying; tell what the appropriate response is to someone who is bullying you or another person.",
+        "10. Demonstrate Scout spirit by living the Scout Oath and Scout Law. Tell how you have done your duty to God and how you have lived four different points of the Scout Law (not to include those used for Tenderfoot requirement 9) in your everyday life.",
+        "11. While working toward the Second Class rank, and after completing Tenderfoot requirement 10, participate in a Scoutmaster conference.",
+        "12. Successfully complete your board of review for the Second Class rank."),
+    "first class": (
+        "1a. Since joining Scouts BSA, participate in 10 separate troop/patrol activities, at least six of which must be held outdoors. Of the outdoor activities, at least three must include overnight camping. These activities do not include troop or patrol meetings. On campouts, spend the night in a tent that you pitch or other structure that you help erect, such as a lean-to, snow cave, or tepee.",
+        "1b. Explain each of the principles of Tread Lightly! and tell how you practiced them on a campout or outing. This outing must be different from the ones used for Tenderfoot requirement 1c and Second Class requirement 1b. 2a. Help plan a menu for one of the above campouts that includes at least one breakfast, one lunch, and one dinner, and that requires cooking at least two of the meals. Tell how the menu includes the foods from MyPlate or the current USDA nutritional model and how it meets nutritional needs for the planned activity or campout.",
+        "2b. Using the menu planned in First Class requirement 2a, make a list showing a budget and the food amounts needed to feed three or more youth. Secure the ingredients.",
+        "2c. Show which pans, utensils, and other gear will be needed to cook and serve these meals.",
+        "2d. Demonstrate the procedures to follow in the safe handling and storage of fresh meats, dairy products, eggs, vegetables, and other perishable food products. Show how to properly dispose of camp garbage, cans, plastic containers, and other rubbish.",
+        "2e. On one campout, serve as cook. Supervise your assistant(s) in using a stove or building a cooking fire. Prepare the breakfast, lunch, and dinner planned in First Class requirement 2a. Supervise the cleanup.",
+        "3a. Discuss when you should and should not use lashings.",
+        "3b. Demonstrate tying the timber hitch and clove hitch.",
+        "3c. Demonstrate tying the square, shear, and diagonal lashings by joining two or more poles or staves together.",
+        "3d. Use lashings to make a useful camp gadget or structure.",
+        "4a. Using a map and compass, complete an orienteering course that covers at least one mile and requires measuring the height and/or width of designated items (tree, tower, canyon, ditch, etc.).",
+        "4b. Demonstrate how to use a handheld GPS unit, GPS app on a smartphone, or other electronic navigation system while on a campout or hike. Use GPS to find your current location, a destination of your choice, and the route you will take to get there. Follow that route to arrive at your destination.",
+        "5a. Identify or show evidence of at least 10 kinds of native plants found in your local area or campsite location. You may show evidence by identifying fallen leaves or fallen fruit that you find in the field, or as part of a collection you have made, or by photographs you have taken.",
+        "5b. Identify two ways to obtain a weather forecast for an upcoming activity. Explain why weather forecasts are important when planning for an event.",
+        "5c. Describe at least three natural indicators of impending hazardous weather, the potential dangerous events that might result from such weather conditions, and the appropriate actions to take.",
+        "5d. Describe extreme weather conditions you might encounter in the outdoors in your local geographic area. Discuss how you would determine ahead of time the potential risk of these types of weather dangers, alternative planning considerations to avoid such risks, and how you would prepare for and respond to those weather conditions.",
+        "6a. Successfully complete the BSA swimmer test.",
+        "6b. Tell what precautions must be taken for a safe trip afloat.",
+        "6c. Identify the basic parts of a canoe, kayak, or other boat. Identify the parts of a paddle or an oar.",
+        "6d. Describe proper body positioning in a watercraft, depending on the type and size of the vessel. Explain the importance of proper body position in the boat.",
+        "6e. With a helper and a practice victim, show a line rescue both as tender and as rescuer. (The practice victim should be approximately 30 feet from shore in deep water.)",
+        "7a. Demonstrate bandages for a sprained ankle and for injuries on the head, the upper arm, and the collarbone.",
+        "7b. By yourself and with a partner, show how to:",
+        "• Transport a person from a smoke-filled room.",
+        "• Transport for at least 25 yards a person with a sprained ankle.",
+        "7c. Tell the five most common signals of a heart attack. Explain the steps (procedures) in cardiopulmonary resuscitation (CPR)."
+        "7d. Tell what utility services exist in your home or meeting place. Describe potential hazards associated with these utilities and tell how to respond in emergency situations.",
+        "7e. Develop an emergency action plan for your home that includes what to do in case of fire, storm, power outage, and water outage."
+        "7f. Explain how to obtain potable water in an emergency.",
+        "8a. After completing Second Class requirement 7a, be physically active at least 30 minutes each day for five days a week for four weeks. Keep track of your activities.",
+        "8b. Share your challenges and successes in completing First Class requirement 8a. Set a goal for continuing to include physical activity as part of your daily life.",
+        "9a. Visit and discuss with a selected individual approved by your leader (for example, an elected official, judge, attorney, civil servant, principal, or teacher) the constitutional rights and obligations of a U.S. citizen.",
+        "9b. Investigate an environmental issue affecting your community. Share what you learned about that issue with your patrol or troop. Tell what, if anything, could be done by you or your community to address the concern.",
+        "9c. On a Scouting or family outing, take note of the trash and garbage you produce. Before your next similar outing, decide how you can reduce, recycle, or repurpose what you take on that outing, and then put those plans into action. Compare your results.",
+        "9d. Participate in three hours of service through one or more service projects approved by your Scoutmaster. The project(s) must not be the same service project(s) used for Tenderfoot requirement 7b and Second Class requirement 8e. Explain how your service to others relates to the Scout Law.",
+        "10. Tell someone who is eligible to join Scouts BSA, or an inactive Scout, about your Scouting activities. Invite this person to an outing, activity, service project, or meeting. Provide information on how to join, or encourage the inactive Scout to become active. Share your efforts with your Scoutmaster or other adult leader.",
+        '11. Demonstrate Scout spirit by living the Scout Oath and Scout Law. Tell how you have done your duty to God and how you have lived four different points of the Scout Law (different from those points used for previous ranks) in your everyday life.',
+        "12. While working toward the First Class rank, and after completing Second Class requirement 11, participate in a Scoutmaster conference.",
+        "13. Successfully complete your board of review for the First Class rank."),
+    "star": (
+        "1. Be active in your troop for at least four months as a First Class Scout.",
+        "2. As a First Class Scout, demonstrate Scout spirit by living the Scout Oath and Scout Law. Tell how you have done your duty to God and how you have lived the Scout Oath and Scout Law in your everyday life.",
+        "3. Earn six merit badges, including any four from the required list for Eagle. You may choose any of the 17 merit badges on the required list for Eagle to fulfill this requirement. See Eagle rank requirement 3 for this list.\n"
+        "Name of Merit Badge Date Earned\n"
+        "(Eagle-required) _________________________________________\n"
+        "(Eagle-required) _________________________________________\n"
+        "(Eagle-required) _________________________________________\n"
+        "(Eagle-required) _________________________________________\n"
+        "_______________________________________________________\n"
+        "_______________________________________________________"
+        "4. While a First Class Scout, participate in six hours of service through one or more service projects approved by your Scoutmaster.",
+        "5. While a First Class Scout, serve actively in your troop for four months in one or more of the following positions of responsibility (or carry out a Scoutmaster-approved leadership project to help the troop): Scout troop. Patrol leader, assistant senior patrol leader, senior patrol leader, troop guide, Order of the Arrow troop representative, den chief, scribe, librarian, historian, quartermaster, bugler, junior assistant Scoutmaster, chaplain aide, instructor, webmaster, or outdoor ethics guide."
+        "6. With your parent or guardian, complete the exercises in the pamphlet How to Protect Your Children From Child Abuse: A Parent’s Guide and earn the Cyber Chip award for your grade.",
+        "7. While a First Class Scout, participate in a Scoutmaster conference.",
+        "8. Successfully complete your board of review for the Star rank."),
+    "life": (
+        "1. Be active in your troop for at least six months as a Star Scout.",
+        "2. As a Star Scout, demonstrate Scout spirit by living the Scout Oath and Scout Law. Tell how you have done your duty to God and how you have lived the Scout Oath and Scout Law in your everyday life.",
+        "3. Earn five more merit badges (so that you have 11 in all) including any number more from the list for Eagle so that you have a total of seven from the required list of Eagle in that total number of 11 merit badges. You may choose any of the 17 merit badges on the required list for Eagle to fulfill this requirement. See Eagle rank requirement 3 for this list.\n"
+        "Name of Merit Badge Date Earned\n"
+        "(Eagle-required) _________________________________________\n"
+        "(Eagle-required) _________________________________________\n"
+        "(Eagle-required) _________________________________________\n"
+        "_______________________________________________________\n"
+        "_______________________________________________________"
+        "4. While a Star Scout, participate in six hours of service through one or more service projects approved by your Scoutmaster. At least three hours of this service must be conservation-related.",
+        "5. While a Star Scout, serve actively in your troop for six months in one or more of the following troop positions of responsibility (or carry out a Scoutmaster-approved leadership project to help the troop).  Scout troop. Patrol leader, assistant senior patrol leader, senior patrol leader, troop guide, Order of the Arrow troop representative, den chief, scribe, librarian, historian, quartermaster, bugler, junior assistant Scoutmaster, chaplain aide, instructor, webmaster, or outdoor ethics guide.",
+        "6. While a Star Scout, use the Teaching EDGE method to teach another Scout (preferably younger than you) the skills from ONE of the following choices, so that the Scout is prepared to pass those requirements to their Scoutmaster’s satisfaction.\n"
+        "a. Tenderfoot 4a and 4b (first aid)\n"
+        "b. Second Class 2b, 2c, and 2d (cooking/tools)\n"
+        "c. Second Class 3a and 3d (navigation)\n"
+        "d. First Class 3a, 3b, 3c, and 3d (tools)\n"
+        "e. First Class 4a and 4b (navigation)\n"
+        "f. Second Class 6a and 6b (first aid)\n"
+        "g. First Class 7a and 7b (first aid)\n"
+        "h. Three requirements from one of the required Eagle merit badges, as approved by your Scoutmaster",
+        "7. While a Star Scout, participate in a Scoutmaster conference.",
+        "8. Successfully complete your board of review for the Life rank."),
+    "eagle": (
+        "1. Be active in your troop for at least six months as a Life Scout.",
+        "2. As a Life Scout, demonstrate Scout Spirit by living the Scout Oath and Scout Law. Tell how you have done your duty to God, how you have lived the Scout Oath and Scout Law in your everyday life, and how your understanding of the Scout Oath and Scout Law will guide your life in the future. List on your Eagle Scout Rank Application the names of individuals who know you personally and would be willing to provide a recommendation on your behalf, including parents/guardians, religious (if not affiliated with an organized religion, then the parent or guardian provides this reference), educational, employer (if employed), and two other references.",
+        "3. Earn a total of 21 merit badges (10 more than required for the Life rank), including these 13 merit badges: (a) First Aid, (b) Citizenship in the Community, (c) Citizenship in the Nation, (d) Citizenship in the World, (e) Communication, (f) Cooking, (g) Personal Fitness, (h) Emergency Preparedness OR Lifesaving, (i) Environmental Science OR Sustainability, (j) Personal Management, (k) Swimming OR Hiking OR Cycling, (l) Camping, and (m) Family Life.  You must choose only one of the merit badges listed in categories i, j, and l. Any additional merit badge(s) earned in those categories may be counted as one of your eight optional merit badges used to make your total of 21.\n"
+        "Name of Merit Badge Date Earned \n"
+        "1. ____________________________________________________ \n"
+        "2. ____________________________________________________\n"
+        "3. ____________________________________________________\n"
+        "4. ____________________________________________________\n"
+        "5. ____________________________________________________\n"
+        "6. ____________________________________________________\n"
+        "7. ____________________________________________________\n"
+        "8. ____________________________________________________\n"
+        "9. ____________________________________________________\n"
+        "10.____________________________________________________",
+        "4. While a Life Scout, serve actively in your troop for six months in one or more of the following positions of responsibility: Scout troop. Patrol leader, assistant senior patrol leader, senior patrol leader, troop guide, Order of the Arrow troop representative, den chief, scribe, librarian, historian, quartermaster, junior assistant Scoutmaster, chaplain aide, instructor, webmaster, or outdoor ethics guide.",
+        "5. While a Life Scout, plan, develop, and give leadership to others in a service project helpful to any religious institution, any school, or your community. (The project must benefit an organization other than the Boy Scouts of America.) A project proposal must be approved by the organization benefiting from the effort, your Scoutmaster and unit committee, and the council or district before you start. You must use the Eagle Scout Service Project Workbook, BSA publication No. 512-927, in meeting this requirement. (To learn more about the Eagle Scout service project, see the Guide to Advancement, topics 9.0.2.0 through 9.0.2.16.)",
+        "6. While a Life Scout, participate in a Scoutmaster conference.",
+        "7. Successfully complete your board of review for the Eagle Scout Rank")}
+
 # Abilities for non-specialized possessions.
 # Computer: Allows for online shopping (0 travel time for all stores)
 # Cell phone: -25% chance of being late and oversleeping, and an option for recreation.
@@ -46,9 +235,16 @@ possession_attributes = {"computer": "ScoutRPG.online_shopping = True",
 # Game console: +25% chance of being late and oversleeping, and an option for recreation.
 # Camera: +5% chance of being late and oversleeping. Memories saved in game files.
 # Full uniform (Pants/Shorts, Shirt, Socks, belt, optional cap) + handbook REQUIRED for troop meetings. If not present, player will be scolded. FUTURE: Will decrease reputation.
+"""* SYNCED LIST * means the list of objects associated with this class has one of each item in their respective list above."""
 
 
 class Statistics:
+    """
+    Class Statistics
+    Creates an object that stores every statistic that the player needs.
+    * SYNCED LIST (sort of) *
+    """
+
     def __init__(self, stats=None):
         self.health = self.hunger = self.thirst = self.money = self.reputation = None
         if stats:
@@ -62,6 +258,7 @@ class Statistics:
             self.hunger = 50.0
             self.thirst = 50.0
             self.money = 0.0
+            self.reputation = 0
 
     @staticmethod
     def __iter__():
@@ -69,6 +266,11 @@ class Statistics:
 
 
 class Food:
+    """
+    Class Food
+    Creates an object to store food. Stores the name (str), count (int), fuel (int), and duration (int).
+    """
+
     def __init__(self, name=None, count=None):
         self.name = name if name else None
         match self.name:
@@ -83,7 +285,7 @@ class Food:
             case 'tofu teriyaki':
                 (self.count, self.fuel, self.duration) = (0, 30, 35)
             case _:
-                (self.count, self.fuel, self.duration) = (100, 100, 100)
+                (self.count, self.fuel, self.duration) = (0, 0, 0)
         self.count = int(count) if count else self.count
 
     def __repr__(self):
@@ -94,13 +296,22 @@ class Food:
 
 
 class Drink:
+    """
+    Class Drink
+    Creates an object to store a drink. Stores the name (str), count (int), fuel (int), and duration (int).
+    """
+
     def __init__(self, name=None, count=None):
         self.name = name if name else None
         match self.name:
             case 'water':
                 (self.count, self.fuel, self.duration) = (24, 20, 5)
             case 'soda':
-                (self.count, self.fuel, self.duration) = (0, 100, 10)
+                (self.count, self.fuel, self.duration) = (0, 30, 10)
+            case 'tea':
+                (self.count, self.fuel, self.duration) = (0, 40, 720)
+            case 'pee':
+                (self.count, self.fuel, self.duration) = (0, 50, 1)
             case _:
                 (self.count, self.fuel, self.duration) = (0, 0, 0)
         self.count = int(count) if count else self.count
@@ -113,6 +324,12 @@ class Drink:
 
 
 class Location:
+    """
+    Class Location
+    Creates an object to store a location. Stores the name (str) and distance duration (int).
+    * SYNCED LIST *
+    """
+
     def __init__(self, name=None, duration=None):
         self.name = name
         self.duration = int(duration)
@@ -122,6 +339,12 @@ class Location:
 
 
 class Chore:
+    """
+    Class Chore
+    Creates an object to store a chore. Stores the name (str) and cooldown status (boolean).
+    * SYNCED LIST *
+    """
+
     def __init__(self, name=None, cooldown=False):
         self.name = name
         match self.name:
@@ -146,6 +369,12 @@ class Chore:
 
 
 class Possession:
+    """
+    Class Possession
+    Creates an object to store a possession. Stores the name (str) and attempts to execute the specific attribute.
+    * SYNCED LIST *
+    """
+
     def __init__(self, name=None):
         self.name = name
         try:
@@ -158,32 +387,95 @@ class Possession:
 
 
 class Event:
+    """
+    Class Event.
+    Creates an object to store an event. Stores the name (str), date (datetime object), and importance (int)
+    """
+
     def __init__(self, name=None, date=None, importance=None):
         self.name = name
-        self.date = dt.strptime(date, '%m%d%Y%H%M')
+        if "datetime" in date.__repr__():
+            self.date = date
+        else:
+            self.date = dt.strptime(date, '%m%d%Y%H%M')
         self.importance = importance
 
     def __repr__(self):
         return self.name + ',' + self.date.strftime('%m%d%Y%H%M') + ',' + str(self.importance)
 
+    def alert_message(self):
+        """
+        Method to summarize the event.
+        :return: Name, readable date and time, and importance.
+        """
+        return "EVENT: {} on {} at {}. Importance: {}".format(self.name, self.date.strftime("%m/%d/%y"), self.date.strftime("%H:%M"), self.importance)
+
+    @DeprecationWarning
     def str_date(self):
+        """
+        Method to return a readable date.
+        :return: Readable date.
+        """
         return self.date.strftime("%m-%d-%Y")
 
+    @DeprecationWarning
     def str_time(self):
+        """
+        Method to return a readable time.
+        :return: Readable time.
+        """
         return self.date.strftime("%H:%M")
 
 
+class Rank:
+    """
+    Class Rank.
+    Creates an object to store a rank. Stores the name (str) and a list of its respective requirements (Requirement).
+    * Requirements are SYNCED *
+    """
+
+    def __init__(self, rank, info):
+        self.rank = rank
+        self.requirement_list = [Requirement(i, (info[ranks[rank].index(i)] if info else False)) for i in ranks[rank]]
+
+    def __repr__(self):
+        return self.rank + '\t' + ','.join([str(i.status) for i in self.requirement_list])
+
+
+class Requirement:
+    """
+    Class Requirement.
+    Creates an object to store a requirement. Stores the name (str) and the completion status (boolean).
+    """
+
+    def __init__(self, name, status=None):
+        self.name = name
+        self.status = status == "True" if status else False
+
+    def __repr__(self):
+        return self.status.upper() + '\t' + self.name
+
+
 class ScoutRPG:
+    """
+    Class ScoutRPG.
+    Houses all the methods pertaining to the main game. This is the good stuff.
+    """
     category = "games"
-    version = 'alpha1.4.1'
+    version = 'alpha1.5'
     sleep_weight = [0, 0, 1, 1, 1, 2, 3, 3, 3, 3, 4, 4, 4]
     choices = {'self.eat()': "eat", 'self.drink()': "drink", 'self.sleep()': "sleep", 'self.heal()': "heal",
-               'self.house_chores()': "chores", 'self.travel()': "travel", 'self.agenda()': "agenda"}
+               'self.house_chores()': "chores", 'self.travel()': "travel", 'self.agenda()': "agenda", 'self.show_rank()': "rank"}
     memories = False
     online_shopping = False
 
     @staticmethod
     def boot(path='\\'):
+        """
+        This method regulates the bootup sequence of the game and helps it connect to Cerberus.
+        :param path: Path for game files.
+        :return: Nothing.
+        """
         scout_rpg = ScoutRPG(path)
         if not scout_rpg.filename == "exit":
             scout_rpg.main()
@@ -199,16 +491,17 @@ class ScoutRPG:
             # Decrypting everything and cutting off the new line at the end!
             try:
                 version = Loading.caesar_decrypt(game_info[0]).split('\n')[0]
-                if version not in ("prealpha", "alpha1.0", "alpha1.1", "alpha1.2", "alpha1.3", "alpha1.4", "alpha1.4.1"):
+                # UPDATE Add versions here after updates!!!
+                if version not in ("prealpha", "alpha1.0", "alpha1.1", "alpha1.2", "alpha1.3", "alpha1.4", "alpha1.4.1", "alpha1.5"):
                     raise IndexError
             except IndexError:
-                input("There is no version in the selected game file. Press ENTER to delete it, or stop the program now "
-                      "to attempt to recover progress by yourself.")
-                os.remove(self.path + '\\' + self.filename)
+                if input("There is no version in the selected game file. Type ENTER to delete it, or stop the program now "
+                         "to attempt to recover progress by yourself.") == "ENTER":
+                    os.remove(self.path + '\\' + self.filename)
                 return
             try:
                 # Checking for update and unpacking...
-                (version, stats, food, drinks, time, locations, chores, possessions, events) = self.update_check(version, [Loading.caesar_decrypt(i).split('\n')[0] for i in game_info])
+                (version, stats, food, drinks, time, locations, chores, possessions, events, rank) = self.update_check(version, [Loading.caesar_decrypt(i).split('\n')[0] for i in game_info])
                 # Deprecated.
                 # self.stats = None
                 # self.food = []
@@ -226,17 +519,22 @@ class ScoutRPG:
                 self.chores = [Chore(i.split(',')[0], i.split(',')[1]) for i in chores.split('\t')] if chores else []
                 self.possessions = [Possession(i) for i in possessions.split('\t')] if possessions else []
                 self.events = [Event(i.split(',')[0], i.split(',')[1], i.split(',')[2]) for i in events.split('\t')] if events else []
+                self.rank = Rank(rank.split('\t')[0], rank.split('\t')[1].split(',')) if rank else Rank("scout", [])
             except (KeyError, IndexError, ValueError):
                 # If the element doesn't exist.
-                input("This game save is corrupted! Nooooo...\nPress ENTER to delete it, or stop the program now "
-                      "to attempt to recover progress by yourself.")
-                os.remove(self.path + '\\' + self.filename)
+                if input("This game save is corrupted! Nooooo...\nType ENTER to delete it, or stop the program now "
+                         "to attempt to recover progress by yourself.") == "ENTER":
+                    os.remove(self.path + '\\' + self.filename)
                 return
 
     def quit(self):
+        """
+        Regulates the rewriting of game files and quitting the game.
+        :return: Nothing.
+        """
         if self.new_file:
             self.filename = input("File name?\n") + '.sct'
-        stats = '\t'.join(str(self.stats.__getattribute__(i)) for i in self.stats.__iter__()) + '\t' + self.stats.reputation
+        stats = '\t'.join(str(self.stats.__getattribute__(i)) for i in self.stats.__iter__()) + '\t' + str(self.stats.reputation)
         food = '\t'.join(i.__repr__() for i in self.food)
         drinks = '\t'.join(i.__repr__() for i in self.drinks)
         time = self.time.strftime("%m%d%Y%H%M")
@@ -244,9 +542,10 @@ class ScoutRPG:
         chores = '\t'.join(i.__repr__() for i in self.chores)
         possessions = '\t'.join(i.__repr__() for i in self.possessions)
         events = '\t'.join(i.__repr__() for i in self.events)
+        rank = self.rank.__repr__()
         try:
             game = open(self.path + '\\' + self.filename, 'w')
-            for i in (ScoutRPG.version, stats, food, drinks, time, locations, chores, possessions, events):
+            for i in (ScoutRPG.version, stats, food, drinks, time, locations, chores, possessions, events, rank):
                 game.write(Loading.caesar_encrypt(i) + '\n')
             game.close()
         except (FileNotFoundError, FileExistsError):
@@ -255,6 +554,12 @@ class ScoutRPG:
         return
 
     def refresh(self, element=None, value=None):
+        """
+        Updates the clock. Can add time or simply update it.
+        :param element: Specifies what element of time to add.
+        :param value: Specifies how much of element to add.
+        :return: Code 0 if player doesn't want to try again, and Code 1 if they do.
+        """
         previous_time = self.time
         # Check if we're modifying time or updating it.
         if element and value:
@@ -313,7 +618,7 @@ class ScoutRPG:
                 if self.time.weekday() == 0 and sum([i.name == "Troop Meeting" for i in self.events]) < 0:
                     troop_meeting = Event("Troop Meeting", self.time.month + str(int(self.time.day) + 1) + self.time.year + '1900', 3)
                     self.events.append(troop_meeting)
-                    Loading.returning("EVENT: Troop Meeting on {} at {}. Importance: {}".format(troop_meeting.str_date(), troop_meeting.str_time(), troop_meeting.importance), 3)
+                    Loading.returning(troop_meeting.alert_message())
         # Daily stuff
         if self.time.day > previous_time.day:
             for i in self.chores:
@@ -327,8 +632,16 @@ class ScoutRPG:
                 return 1
 
     def update_check(self, version, datapack):
+        """
+        Checks the game file for an update.
+        Checks the version of the game file against multiple options and updates the file recursively (sort of). The version is redefined as the next version, so that the next check works. Then the next check runs and does it again.
+        :param version: This is the version of the game file.
+        :param datapack: This is the variable to unpack all the game file data.
+        :return: Returns the updated data pack.
+        """
         # "Recursive" method to upgrade game files saved in previous versions.
         if version == 'prealpha':
+            # Adding money, locations, chores, possessions, and renaming food and drinks.
             version = 'alpha1.0'
             (stats, food, drinks, time) = datapack[1:]
             stats = '\t'.join(stats.split(',')) + '\t0.0'
@@ -359,6 +672,7 @@ class ScoutRPG:
             possessions = ''
             datapack = [version, stats, food, drinks, time, locations, chores, possessions]
         if version == 'alpha1.0':
+            # Filtering removed possessions.
             version = 'alpha1.1'
             (stats, food, drinks, time, locations, chores, possessions) = datapack[1:]
             if possessions:
@@ -369,6 +683,7 @@ class ScoutRPG:
                 possessions = '\t'.join(possessions)
             datapack = [version, stats, food, drinks, time, locations, chores, possessions]
         if version == 'alpha1.1':
+            # Adding the day to the time.
             version = 'alpha1.2'
             (stats, food, drinks, time, locations, chores, possessions) = datapack[1:]
             time = time.split(',')
@@ -376,6 +691,7 @@ class ScoutRPG:
             time = ','.join(time)
             datapack = [version, stats, food, drinks, time, locations, chores, possessions, '']
         if version == 'alpha1.2':
+            # Changing from list to datetime object.
             version = 'alpha1.3'
             (stats, food, drinks, time, locations, chores, possessions, events) = datapack[1:]
             time = time.split(',')
@@ -388,13 +704,20 @@ class ScoutRPG:
                         new_possessions.append(possessions[i])
             new_possessions = '\t'.join(new_possessions)
             datapack = [version, stats, food, drinks, time, locations, chores, new_possessions, events]
-        if version == 'alpha1.3':
+        if version == 'alpha1.3' or version == 'alpha1.4':
+            # Adding Reputation.
             version = ScoutRPG.version
             (stats, food, drinks, time, locations, chores, possessions, events) = datapack[1:]
             stats += '\t0'
             datapack = [version, stats, food, drinks, time, locations, chores, possessions, events]
+        if version == 'alpha1.4.1':
+            # Adding Rank.
+            version = ScoutRPG.version
+            (stats, food, drinks, time, locations, chores, possessions, events) = datapack[1:]
+            rank = ("scout\t" + ','.join([str(False)] * len(ranks["scout"])))
+            datapack = [version, stats, food, drinks, time, locations, chores, possessions, events, rank]
             # Now to quit and rewrite the game files.
-            # TODO THIS SHOULD BE MOVED TO THE BOTTOM OF THE UPGRADE TREE
+            # UPDATE THIS SHOULD BE MOVED TO THE BOTTOM OF THE UPGRADE TREE!
             file = open(self.path + '\\' + self.filename, 'w')
             for i in datapack:
                 file.write(Loading.caesar_encrypt(i) + '\n')
@@ -403,6 +726,10 @@ class ScoutRPG:
         return datapack
 
     def main(self):
+        """
+        Main method loop for gameplay.
+        :return: Nothing.
+        """
         # Setup logic
         if self.new_file:
             self.setup()
@@ -412,13 +739,11 @@ class ScoutRPG:
             # Status report. Date, time, all stats.
             print(self.time.strftime("\nDate: %A, %m/%d/%Y\nTime: %H:%M"))
             print('\n'.join(i + (": $" if i == "Money" else ": ") + str(self.stats.__getattribute__(i.lower())) for i in stats_list))
+            print("Rank: " + self.rank.rank.capitalize())
             action = input('What would you like to do? Type "help" for help').lower()
             if action == "help":
-                input('Here is a list of common actions:\n1. Eat\n2. Drink\n3. Sleep\n4. Heal\n5. Chores\n6. Travel\n7. Agenda\n'
+                input('Here is a list of common actions:\n1. Eat\n2. Drink\n3. Sleep\n4. Heal\n5. Chores\n6. Travel\n7. Agenda\n8. Rank'
                       'You can type "exit" to exit')
-            # Deprecated.
-            # choices = {self.eat: "eat", self.drink: "drink", self.sleep: "sleep", self.heal: "heal",
-            #            self.house_chores: "chores", self.travel: "travel", self.agenda: "agenda"}
             if action in ('quit', 'exit', 'leave', 'save'):
                 self.quit()
                 return
@@ -429,6 +754,10 @@ class ScoutRPG:
                     break
 
     def setup(self):
+        """
+        Setup method to set all variables up for a new game.
+        :return: Nothing.
+        """
         if 'yes' in input("Would you like to view the premise?").lower():
             input("Welcome to Scouting!\nYou have embarked on a journey far beyond any other. Your physical and mental skills "
                   "will be tested. Your memory will be trained. Your survival instinct will be brought to life.\nPress ENTER "
@@ -462,8 +791,13 @@ class ScoutRPG:
         self.chores = [Chore(i) for i in chore_list]
         self.possessions = []
         self.events = []
+        self.rank = Rank("scout", [])
 
     def eat(self):
+        """
+        Method to EAT THINGS
+        :return: Nothing.
+        """
         print("Here's the food you have:")
         print('\n'.join("{} {} meals".format(str(i.count).title(), i.name) for i in self.food if i.count > 0))
         while True:
@@ -485,6 +819,10 @@ class ScoutRPG:
         pass
 
     def drink(self):
+        """
+        Method to DRINK THINGS
+        :return: Nothing.
+        """
         print("Here are the beverages you have:")
         print('\n'.join("{} bottles of {}".format(str(i.count).title(), i.name) for i in self.drinks if i.count > 0))
         while True:
@@ -506,6 +844,10 @@ class ScoutRPG:
         pass
 
     def sleep(self):
+        """
+        Method to SLEEP
+        :return: Nothing
+        """
         if 8 >= int(self.time.hour) >= 21:
             self.refresh("day", 1)
             self.time = self.time.replace(hour=8, minute=00)
@@ -541,6 +883,10 @@ class ScoutRPG:
                     Loading.returning("Oops! You oversleep a lot and are quite hungry.", 3)
 
     def heal(self):
+        """
+        Method to HEAL the player back up to 100.
+        :return: Nothing.
+        """
         if self.stats.health < 100.0:
             self.stats.health = 100.0
             Loading.returning("You use a small first aid kit, food, and water to replenish yourself.", 3)
@@ -549,6 +895,10 @@ class ScoutRPG:
             Loading.returning("You don't need to heal!", 2)
 
     def house_chores(self):
+        """
+        Method to do chores and earn money.
+        :return: Nothing.
+        """
         print('\n'.join(str(i.name.title()) + " - +$" + str(i.earnings) + ' --> ' + str(i.duration) + ' minutes' + (", READY" if not i.cooldown else '') for i in self.chores))
         while True:
             action = input("Which chore do you want to do?")
@@ -569,6 +919,10 @@ class ScoutRPG:
                 Loading.returning("Please enter a valid chore or press ENTER to return.", 2)
 
     def travel(self):
+        """
+        Method to travel to other destinations.
+        :return: Nothing.
+        """
         stores = (self.groceries, self.department, self.scout_store)
         if ScoutRPG.online_shopping:
             print("You have a computer! Welcome to Online Shopping.\nType the store you want to buy from.")
@@ -595,6 +949,10 @@ class ScoutRPG:
                 Loading.returning("Please pick a valid destination.", 2)
 
     def groceries(self):
+        """
+        Method for buying Groceries (Foods and Drinks)
+        :return: Nothing.
+        """
         print("\n\nWelcome to the grocery store!")
         Loading.returning("Here you can buy food and drinks.", 2)
         print('\nFOOD')
@@ -616,6 +974,10 @@ class ScoutRPG:
                 Loading.returning("Please type a valid food/drink.")
 
     def department(self):
+        """
+        Method to buy departmental possessions.
+        :return: Nothing.
+        """
         print("\n\nWelcome to the Department store!")
         Loading.returning("Here you can buy various utilities to add to your lifestyle.", 3)
         print("\nOUTDOORS")
@@ -642,18 +1004,22 @@ class ScoutRPG:
         pass
 
     def scout_store(self):
+        """
+        Method to buy Scout possessions.
+        :return: Nothing.
+        """
         exec("print('\nWelcome to the Scout Store!') ; Loading.returning('Here you can buy your various scouting equipment.', 2) ; print('\nSCOUT-BRANDED CLOTHING')")
         i = 0
         while i < 10:
-            print("{}. {}: ${}".format(i + 1, scout_store_list[i].title(), scout_store_costs[i]) + ('\t' * int(math.ceil((20-len(scout_store_list[i])) / 4))) + "{}. {}: ${}".format(i+2, scout_store_list[i+1].title(), scout_store_costs[i+1]))
+            print("{}. {}: ${}".format(i + 1, scout_store_list[i].title(), scout_store_costs[i]) + ('\t' * int(math.ceil((20 - len(scout_store_list[i])) / 4))) + "{}. {}: ${}".format(i + 2, scout_store_list[i + 1].title(), scout_store_costs[i + 1]))
             i += 2
         exec('print("{}. {}: ${}".format(11, scout_store_list[10].title(), scout_store_costs[10])) ; i+= 1 ; print("\nOUTDOORS")')
         # print('\n'.join(str(scout_store_list.index(i) + 1) + '. ' + i.title() + ': $' + str(scout_store_costs[scout_store_list.index(i)]) for i in scout_store_list[0:11]))
         while 10 < i < 24:
-            print("{}. {}: ${}".format(i - 10, scout_store_list[i].title(), scout_store_costs[i]) + ('\t' * int(((24-len(scout_store_list[i])) / 4))) + "{}. {}: ${}".format(i - 9, scout_store_list[i+1].title(), scout_store_costs[i+1]))
+            print("{}. {}: ${}".format(i - 10, scout_store_list[i].title(), scout_store_costs[i]) + ('\t' * int(((24 - len(scout_store_list[i])) / 4))) + "{}. {}: ${}".format(i - 9, scout_store_list[i + 1].title(), scout_store_costs[i + 1]))
             i += 2
         print("{}. {}: ${}".format(15, scout_store_list[25].title(), scout_store_costs[25]))
-    # print('\n'.join(str(i - 10) + '. ' + scout_store_list[i].title() + ': $' + str(scout_store_costs[i]) for i in range(len(scout_store_list))[11:]))
+        # print('\n'.join(str(i - 10) + '. ' + scout_store_list[i].title() + ': $' + str(scout_store_costs[i]) for i in range(len(scout_store_list))[11:]))
         while True:
             print("Wallet: ${}0".format(self.stats.money))
             buy = input('What would you like to buy? Type "exit" to exit.').lower()
@@ -666,6 +1032,15 @@ class ScoutRPG:
                 Loading.returning("Please type a valid item.")
 
     def buy(self, buy, stat, store_list, store_costs, item):
+        """
+        Universal method to buy things!
+        :param buy: What the player wants to buy.
+        :param stat: List to add objects to.
+        :param store_list: List to check buy against.
+        :param store_costs: List to get costs from.
+        :param item: Object type to add.
+        :return: Nothing.
+        """
         while True:
             quantity = input('How many {} would you like? Type "exit" to exit.'.format(buy))
             if quantity == 'exit':
@@ -693,13 +1068,28 @@ class ScoutRPG:
                 Loading.returning("Please type a number between 0 and 100.", 2)
 
     def agenda(self):
+        """
+        Method to show current events.
+        :return: Nothing.
+        """
         print('\n'.join([i.name + " on " + i.date.strftime("%A, %m/%d/%Y at %H:%M") + ". Importance: " + str(i.importance) for i in self.events]) if self.events else "No events.")
         print(self.time.strftime("\nToday's date: %B %d, %Y\n") + calendar.TextCalendar(6).formatmonth(int(self.time.year), int(self.time.month)))
         if input('Type "add event" to add a custom event or Press ENTER to continue.') == 'add event':
             self.events.append(Event(input("What is the event name?"), input("Date and time of the event? E.g. 030120221900"), int(input("Importance of the event?"))))
 
     def troop_meeting(self):
+        """
+        Method to simulate a Troop Meeting.
+        :return: Nothing.
+        """
+
         class MeetingEvent:
+            """
+            Class MeetingEvent.
+            Creates an object that stores a MeetingEvent. This is an event specific to a Troop meeting that only happens here.
+            Stores the name, response for typing Yes, response for typing No, the reputation associated, and the follow-up messages for typing yes or no.
+            """
+
             def __init__(self, event, yes_msg, no_msg, reputation, follow_up_yes, follow_up_no):
                 self.event = event
                 self.yes_msg = yes_msg
@@ -719,7 +1109,9 @@ class ScoutRPG:
         if required_uniform:
             Loading.returning(["Your Scoutmaster was outside the door ", "An adult leader saw you walk in ", "Your friend was at your table "][random.randint(0, 2)] +
                               ["and noticed you didn't have your ", "and commented on your lack of ", "and scolded you for not having your "][random.randint(0, 2)] +
-                              ', '.join(required_uniform) + '. Make sure you have it next meeting!', 5)
+                              ', '.join(required_uniform) + '. Make sure you have it next meeting! -{} Reputation'.format(5 * len(required_uniform)), 5)
+            self.stats.reputation -= 5 * len(required_uniform)
+
         Loading.returning("The flag ceremony has begun.", 2)
         for i in ('"Color Guard, Attention!"', '"Troop, Attention!"', '"Color Guard, forward march!"', '"Color Guard, halt!"',
                   '"Color Guard, prepare to post the colors!"', '"Scout hand salute!"', '"Please join me in the pledge of allegiance."',
@@ -742,18 +1134,14 @@ class ScoutRPG:
                                                                              "Your friend scoffs at you and puts it away. An adult leader comes by later, and your friend thanks you for the advice.",
                                                                              "Your friend continues to play and an adult leader comes by. They scold your friend and take away his phone.", 5,
                                                                              "Your friend pulls his phone out again, but looks at you and puts it away.", "The adult leader comes back with your friend's phone and gives him a stern talk."),
-                                                                            ("The weekly meeting game has begun. Are you going to participate? Yes or no?", "The game goes well. Your team wins and you are glad you participated.",
+                                                                            ("The weekly meeting game has begun. Are you going to participate? Yes or no?", ("The game goes well. Your team wins and you are glad you participated.",
+                                                                                                                                                             "The game goes awry. Your team loses but you are glad you participated.")[random.randint(0, 1)],
                                                                              "The game goes well, and everyone has fun. Everyone except you.", 20, "", ""),
                                                                             ("You had a long day today and you are just about to fall asleep. Slap yourself awake? Yes or no?",
                                                                              "You slap yourself and your patrol looks at you. You explain it and they understand.",
                                                                              "You fall asleep and have a good dream. Thankfully, your patrol notices and wake you up before a leader comes by.", 10,
                                                                              "You almost fall asleep again when your patrol wakes you up.",
                                                                              "You fall asleep again but your patrol rolls their eyes and you later get scolded by a leader."),
-                                                                            # Removed. This event has a reversed reputation, which was too difficult to implement.
-                                                                            # ("You're getting bored and want to head to another table to socialize. Yes or no?",
-                                                                            #  "You head to another table and start socializing. It goes well until a leader comes by and sends you back.",
-                                                                            #  "You stay at your table and socialize with your own patrol.", -15, "Your patrol is being very boring and you think about socializing. Yes or no?",
-                                                                            #  "You think about socializing with another patrol and decide against it."),
                                                                             ("Your friend is going for a scoutmaster conference and asks for good luck. Yes or no?", "He thanks you for your wishes and heads off, feeling confident.",
                                                                              "Your friend walks away annoyed at you.", 5, "Your friend returns from the conference with a happy face and thanks you for the confidence.",
                                                                              "Your friend comes back from the conference and looks down the whole time. He gives you a glare before walking away.")]], 3):
@@ -762,16 +1150,15 @@ class ScoutRPG:
                     print(i.event)
                     choice = input().lower()
                     if "yes" in choice:
-                        exec("Loading.returning(i.yes_msg, 3) ; Loading.returning('+{} Reputation.'.format(i.reputation), 2) ; self.stats.reputation += i.reputation ; i.answer = True ; events.append(i)")
+                        exec("Loading.returning(i.yes_msg + ' +{} Reputation.'.format(i.reputation), 3) ; self.stats.reputation += i.reputation ; i.answer = True ; events.append(i)")
                         break
                     elif "no" in choice:
-                        exec("Loading.returning(i.no_msg, 3) ; Loading.returning('-{} Reputation.'.format(i.reputation), 2) ; self.stats.reputation -= i.reputation ; i.answer = False ; events.append(i)")
+                        exec("Loading.returning(i.no_msg + ' -{} Reputation.'.format(i.reputation), 3) ; self.stats.reputation -= i.reputation ; i.answer = False ; events.append(i)")
                         break
                     else:
                         Loading.returning("Invalid response. {} attempts remaining. Please try again.".format(2 - j), 2)
                 else:
-                    Loading.returning("3 attempts exceeded. Moving on...", 3)
-                    Loading.returning("+0 Reputation", 2)
+                    Loading.returning("3 attempts exceeded. Moving on... +0 Reputation", 3)
             else:
                 Loading.returning(i.event, 3)
         random.shuffle(events)
@@ -783,21 +1170,49 @@ class ScoutRPG:
                         print(follow_up)
                         choice = input().lower()
                         if "yes" in choice:
-                            exec("Loading.returning(i.yes_msg, 3) ; Loading.returning('+{} Reputation.'.format(i.reputation), 2) ; self.stats.reputation += i.reputation")
+                            exec("Loading.returning(i.yes_msg + ' +{} Reputation.'.format(i.reputation), 3) ; self.stats.reputation += i.reputation")
                             break
                         elif "no" in choice:
-                            exec("Loading.returning(i.no_msg, 3) ; Loading.returning('-{} Reputation.'.format(i.reputation), 2) ; self.stats.reputation -= i.reputation")
+                            exec("Loading.returning(i.no_msg + ' -{} Reputation.'.format(i.reputation), 3) ; self.stats.reputation -= i.reputation")
                             break
                         else:
                             Loading.returning("Invalid response. {} attempts remaining. Please try again.".format(2 - j), 2)
                     else:
-                        Loading.returning("3 attempts exceeded. Moving on...", 3)
-                        Loading.returning("+0 Reputation", 2)
+                        Loading.returning("3 attempts exceeded. Moving on... +0 Reputation.", 3)
+                        # Loading.returning("", 2)
                 else:
-                    Loading.returning(follow_up, 3)
-                    Loading.returning(('+' if i.answer else '-') + str(i.reputation) + ' Reputation.')
+                    Loading.returning(follow_up + (' +' if i.answer else ' -') + str(i.reputation) + ' Reputation.', 3)
+                    # Loading.returning(, 2)
                     self.stats.reputation += (i.reputation if i.answer else -i.reputation)
-
+        for i in events:
+            if "outing" in i.event and i.answer:
+                match (3, 3, 3)[random.randint(0, 2)]:
+                    case 1:
+                        # Importance 1, easy to plan, quick event. Same month, within a week, 0.5-1 hours, simple.
+                        # (day, hour, minute) = (, , )
+                        self.events.append(Event("Small Outing", self.time + td(days=random.randint(self.time.day, self.time.day + 7), hours=random.randint(8, 16) - self.time.hour, minutes=[0, 15, 30, 45][random.randint(0, 3)]), 1))
+                        Loading.returning(self.events[len(self.events) - 1].alert_message(), 3)
+                    case 2:
+                        # Importance 2, meh to plan, decent-sized event. Same month, within 2-3 week, 1-3 hours.
+                        self.events.append(Event("Outing", self.time + td(days=random.randint(self.time.day + 7, self.time.day + 21), hours=random.randint(8, 16) - self.time.hour, minutes=[0, 15, 30, 45][random.randint(0, 3)]), 2))
+                        Loading.returning(self.events[len(self.events) - 1].alert_message(), 3)
+                    case 3:
+                        # Importance 3, hard to plan, long event. Within 2 month, 3-8 hours, simple.
+                        self.events.append(Event("Large Outing", self.time +
+                                                 td(days=random.randint(self.time.day, self.time.day + 30) + random.randint(1, 2) * 30, hours=random.randint(8, 16) - self.time.hour, minutes=[0, 15, 30, 45][random.randint(0, 3)]), 3))
+                        Loading.returning(self.events[len(self.events) - 1].alert_message())
+            elif "phone" in i.event and i.answer:
+                Loading.returning("Your friend thanks you for giving him advice, and gifts you $5! +$5", 3)
+                self.stats.money += 5
+            elif "game" in i.event and i.answer:
+                if "well" in i.yes_msg:
+                    Loading.returning("Your friends awarded you $10 for helping them win the game. +$10", 3)
+                    self.stats.money += 10
+                elif "awry" in i.no_msg:
+                    Loading.returning("Your friends awarded you $5 for helping out during the game. +$5", 3)
+                    self.stats.money += 5
+            elif "conference" in i.event and i.answer:
+                Loading.returning("Your friend puts in a good word for you with the Scoutmaster.", 3)
         input("The troop meeting has ended." + (" Don't forget to purchase the remaining uniform articles!" if required_uniform else "") + " Press ENTER to head back home.")
         self.events.pop(self.events.index([i for i in self.events if i.name == 'Troop Meeting'][0]))
         self.time = self.time.replace(hour=20, minute=00)
@@ -805,6 +1220,10 @@ class ScoutRPG:
         self.stats.thirst = 40 if self.stats.thirst > 40 else self.stats.thirst
 
     def phone(self):
+        """
+        Method for playing on your phone for recreation.
+        :return: Nothing
+        """
         phone_time = (random.randint(0, 3) + 1) * 15
         if self.stats.hunger <= 0 or self.stats.thirst <= 0:
             Loading.returning("ALERT: Your Health is getting low. Eat or drink something after you use the phone.", 3)
@@ -815,6 +1234,10 @@ class ScoutRPG:
                            "Oops! You overspend your phone time and use up an hour."][int(phone_time / 15) - 1], 3)
 
     def console(self):
+        """
+        Method for playing on your game console for recreation.
+        :return: Nothing
+        """
         console_time = (random.randint(0, 3) + 1) * 20
         if self.stats.hunger <= 0 or self.stats.thirst <= 0:
             Loading.returning("ALERT: Your Health is getting low. Eat or drink something after you play games.", 3)
@@ -822,10 +1245,36 @@ class ScoutRPG:
         print("GAME CONSOLE: {} Minutes".format(console_time))
         Loading.returning(["You take a quick break and play some games.", "You play for quite a bit and have some good fun.",
                            "You spend an hour playing with friends and having a great time.",
-                           "Oops! You lose track of time and play for a while. It was still fun"
+                           "Oops! You lose track of time and play for a while. It was still fun."
                            "."][int(console_time / 20) - 1], 3)
 
+    def show_rank(self):
+        """
+        Method to show ranks and requirements.
+        :return: Nothing.
+        """
+        print("Current Rank: " + self.rank.rank.capitalize())
+        print("Requirements:\n" + '\n'.join(("COMPLETE" if i.status else "INCOMPLETE") + ':\t' + i.name for i in self.rank.requirement_list))
+        if input("Press ENTER to continue.") == 'debug':
+            oath = (input("The Scout Oath.\n_______, I will do my best...").lower() == 'on my honor', input("To _____ to God and my country...").lower() == 'do my duty',
+                    input("To ______...").lower() == "obey the scout law", input("To help other people ________").lower() == "at all times",
+                    input("To keep myself ______, ______, and _______").lower() in ("physically strong mentally awake morally straight", "physically strong, mentally awake, and morally straight",
+                                                                                    "physically strong mentally awake and morally straight", "physically strong, mentally awake, morally straight"))
+            if all(oath):
+                Loading.returning("Great Job!", 2)
+            else:
+                Loading.returning("Oops! You got some wrong. Try again later.", 2)
+            if (input("The Scout law.\nType all the tenets of the Scout law in order, separated by commas, like this: \"Lorem, Ipsum, Dolor, Sit, Amet\"").lower() ==
+                    "trustworthy, loyal, helpful, friendly, courteous, kind, obedient, cheerful, thrifty, brave, clean, friendly"):
+                Loading.returning("Great Job!", 2)
+            else:
+                Loading.returning("Oops! You got some wrong. Try again later.", 2)
+
     def defeat(self):
+        """
+        Method for 0 Health! Oh no!
+        :return: Nothing.
+        """
         Loading.returning("Oh no!", 2)
         Loading.returning("Your health is very low.", 2)
         if self.stats.hunger == 0.0:
