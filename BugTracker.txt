@@ -53,3 +53,6 @@ alpha1.4.1
 SCT-036 - Soda replenishes 100 Thirst.
 SCT-037 - Passing a datetime object to the Event constructor crashes the game.
 SCT-038 - Quitting the game produces a corrupt game file.
+
+alpha1.5
+SCT-039 - Pee is a valid drink.

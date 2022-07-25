@@ -3,6 +3,8 @@ SCOUTRPG
 This is a new game I've developed that simulates the life of a Boy Scout and their journey towards Eagle.
 """
 import math
+import time
+
 import os
 from Applications import bagels
 from System import Loading
@@ -19,8 +21,8 @@ import random
 stats_list = ("Health", "Hunger", "Thirst", "Money")
 food_list = ("peanuts", "breakfast burrito", "pancake", "mac and cheese", "tofu teriyaki")
 food_costs = (0.49, 3.49, 2.49, 9.49, 14.99)
-drinks_list = ("water", "soda", "tea", "pee")
-drinks_cost = (0.25, 1.49, 1.99, 4.99)
+drinks_list = ("water", "soda", "tea")
+drinks_cost = (0.25, 1.49, 1.99)
 locations_list = ("grocery store", "department store", "scout store")
 chore_list = ("unload dishwasher", "load dishwasher", "clean up bedroom", "clean up kitchen", "clean up dining room",
               "clean up living room", "collect the trash")
@@ -36,12 +38,15 @@ scout_store_costs = (59.99, 23.99, 37.99, 26.99, 14.99, 19.99, 24.99, 19.99,
                      23.99, 14.99, 29.99, 27.49, 149.99, 49.99, 42.49, 34.99,
                      19.99, 34.99, 14.99, 9.99, 9.99, 14.99,
                      19.99, 24.99, 14.99, 7.49)
-event_list = {"troop meeting": "self.troop_meeting()"}
 possession_attributes = {"computer": "ScoutRPG.online_shopping = True",
                          "cell phone": "ScoutRPG.sleep_weight.extend([0] * 2 + [1] * 2) ; ScoutRPG.choices['self.phone()'] = 'phone'",
                          "digital watch": "ScoutRPG.sleep_weight.extend([0] * 6 + [1] * 7)",
                          "game console": "ScoutRPG.sleep_weight.extend([3] * 3 + [4] * 2) ; ScoutRPG.choices['self.console()'] = 'console'",
                          "camera": "ScoutRPG.sleep_weight.extend([4]) ; ScoutRPG.memories = True"}
+event_list = { "small hike": "self.hike('small')", "first aid": "self.first_aid()", "orienteering": "self.orienteering()", "knot training": "self.knot_training()",
+              "hike": "self.hike('big')", "rock climbing": "self.rock_climbing()", "coastal cleanup": "self.coastal_cleanup()", "bowling": "self.bowling()", "escape room": "self.escape_room()",
+              "cert outing": "self.cert_outing()", "kids against hunger": "self.kids_against_hunger()", "conservation outing": "self.conservation_outing()"}
+# "troop meeting": "self.troop_meeting()",
 
 # noinspection LongLine
 ranks = {
@@ -310,8 +315,6 @@ class Drink:
                 (self.count, self.fuel, self.duration) = (0, 30, 10)
             case 'tea':
                 (self.count, self.fuel, self.duration) = (0, 40, 720)
-            case 'pee':
-                (self.count, self.fuel, self.duration) = (0, 50, 1)
             case _:
                 (self.count, self.fuel, self.duration) = (0, 0, 0)
         self.count = int(count) if count else self.count
@@ -378,7 +381,7 @@ class Possession:
     def __init__(self, name=None):
         self.name = name
         try:
-            exec([possession_attributes[i] for i in department_list if i == name][0])
+            exec(possession_attributes[name])
         except (KeyError, IndexError):
             pass
 
@@ -409,22 +412,6 @@ class Event:
         :return: Name, readable date and time, and importance.
         """
         return "EVENT: {} on {} at {}. Importance: {}".format(self.name, self.date.strftime("%m/%d/%y"), self.date.strftime("%H:%M"), self.importance)
-
-    @DeprecationWarning
-    def str_date(self):
-        """
-        Method to return a readable date.
-        :return: Readable date.
-        """
-        return self.date.strftime("%m-%d-%Y")
-
-    @DeprecationWarning
-    def str_time(self):
-        """
-        Method to return a readable time.
-        :return: Readable time.
-        """
-        return self.date.strftime("%H:%M")
 
 
 class Rank:
@@ -472,13 +459,14 @@ class ScoutRPG:
     @staticmethod
     def boot(path='\\'):
         """
-        This method regulates the bootup sequence of the game and helps it connect to Cerberus.
+        This method regulates the bootup sequence of the game and helps it connect to Cerberus
         :param path: Path for game files.
         :return: Nothing.
         """
         scout_rpg = ScoutRPG(path)
         if not scout_rpg.filename == "exit":
             scout_rpg.main()
+        return
 
     def __init__(self, path):
         # Default game setup code, pulled from sonar.py.
@@ -492,7 +480,7 @@ class ScoutRPG:
             try:
                 version = Loading.caesar_decrypt(game_info[0]).split('\n')[0]
                 # UPDATE Add versions here after updates!!!
-                if version not in ("prealpha", "alpha1.0", "alpha1.1", "alpha1.2", "alpha1.3", "alpha1.4", "alpha1.4.1", "alpha1.5"):
+                if version not in ("prealpha", "alpha1.0", "alpha1.1", "alpha1.2", "alpha1.3", "alpha1.4", "alpha1.4.1", "alpha1.5", "alpha1.6"):
                     raise IndexError
             except IndexError:
                 if input("There is no version in the selected game file. Type ENTER to delete it, or stop the program now "
@@ -501,20 +489,14 @@ class ScoutRPG:
                 return
             try:
                 # Checking for update and unpacking...
-                (version, stats, food, drinks, time, locations, chores, possessions, events, rank) = self.update_check(version, [Loading.caesar_decrypt(i).split('\n')[0] for i in game_info])
-                # Deprecated.
-                # self.stats = None
-                # self.food = []
-                # self.drinks = []
-                # self.locations = []
-                # self.possessions = []
+                (version, stats, food, drinks, game_time, locations, chores, possessions, events, rank) = self.update_check(version, [Loading.caesar_decrypt(i).split('\n')[0] for i in game_info])
                 # stats will look something like "100.0\t50.0\t50.0\t0.0"
                 self.stats = Statistics(stats.split('\t')) if stats else Statistics()
                 # Food data looks like peanuts,5,5,5\tpancake10,10,15
                 self.food = [Food(i.split(',')[0], i.split(',')[1]) for i in food.split('\t')] if food else []
                 self.drinks = [Drink(i.split(',')[0], i.split(',')[1]) for i in drinks.split('\t')] if drinks else []
                 self.locations = [Location(i.split(',')[0], i.split(',')[1]) for i in locations.split('\t')] if locations else []
-                self.time = dt.strptime(time, "%m%d%Y%H%M") if time else None
+                self.time = dt.strptime(game_time, "%m%d%Y%H%M") if game_time else None
                 self.difference = [0, 0, 0, 0]
                 self.chores = [Chore(i.split(',')[0], i.split(',')[1]) for i in chores.split('\t')] if chores else []
                 self.possessions = [Possession(i) for i in possessions.split('\t')] if possessions else []
@@ -526,6 +508,7 @@ class ScoutRPG:
                          "to attempt to recover progress by yourself.") == "ENTER":
                     os.remove(self.path + '\\' + self.filename)
                 return
+        return
 
     def quit(self):
         """
@@ -537,7 +520,7 @@ class ScoutRPG:
         stats = '\t'.join(str(self.stats.__getattribute__(i)) for i in self.stats.__iter__()) + '\t' + str(self.stats.reputation)
         food = '\t'.join(i.__repr__() for i in self.food)
         drinks = '\t'.join(i.__repr__() for i in self.drinks)
-        time = self.time.strftime("%m%d%Y%H%M")
+        game_time = self.time.strftime("%m%d%Y%H%M")
         locations = '\t'.join(i.__repr__() for i in self.locations)
         chores = '\t'.join(i.__repr__() for i in self.chores)
         possessions = '\t'.join(i.__repr__() for i in self.possessions)
@@ -545,7 +528,7 @@ class ScoutRPG:
         rank = self.rank.__repr__()
         try:
             game = open(self.path + '\\' + self.filename, 'w')
-            for i in (ScoutRPG.version, stats, food, drinks, time, locations, chores, possessions, events, rank):
+            for i in (ScoutRPG.version, stats, food, drinks, game_time, locations, chores, possessions, events, rank):
                 game.write(Loading.caesar_encrypt(i) + '\n')
             game.close()
         except (FileNotFoundError, FileExistsError):
@@ -555,10 +538,10 @@ class ScoutRPG:
 
     def refresh(self, element=None, value=None):
         """
-        Updates the clock. Can add time or simply update it.
-        :param element: Specifies what element of time to add.
-        :param value: Specifies how much of element to add.
-        :return: Code 0 if player doesn't want to try again, and Code 1 if they do.
+        Updates the clock. Can add time or simply update it
+        :param element: Specifies what element of time to add
+        :param value: Specifies how much of element to add
+        :return: Code 0 if player doesn't want to try again, and Code 1 if they do
         """
         previous_time = self.time
         # Check if we're modifying time or updating it.
@@ -613,7 +596,6 @@ class ScoutRPG:
                         exec(event_list[i.name.lower()])
                     except KeyError:
                         pass
-            else:
                 # Adding the weekly troop meeting.
                 if self.time.weekday() == 0 and sum([i.name == "Troop Meeting" for i in self.events]) < 0:
                     troop_meeting = Event("Troop Meeting", self.time.month + str(int(self.time.day) + 1) + self.time.year + '1900', 3)
@@ -630,20 +612,21 @@ class ScoutRPG:
                 self.setup()
             else:
                 return 1
+        return
 
     def update_check(self, version, datapack):
         """
         Checks the game file for an update.
-        Checks the version of the game file against multiple options and updates the file recursively (sort of). The version is redefined as the next version, so that the next check works. Then the next check runs and does it again.
-        :param version: This is the version of the game file.
-        :param datapack: This is the variable to unpack all the game file data.
+        Checks the version of the game file against multiple options and updates the file recursively (sort of). The version is redefined as the next version, so that the next check works. Then the next check runs and does it again
+        :param version: This is the version of the game file
+        :param datapack: This is the variable to unpack all the game file data
         :return: Returns the updated data pack.
         """
         # "Recursive" method to upgrade game files saved in previous versions.
         if version == 'prealpha':
             # Adding money, locations, chores, possessions, and renaming food and drinks.
             version = 'alpha1.0'
-            (stats, food, drinks, time) = datapack[1:]
+            (stats, food, drinks, game_time) = datapack[1:]
             stats = '\t'.join(stats.split(',')) + '\t0.0'
             food = food.split('\t')
             for i in range(len(food)):
@@ -670,32 +653,32 @@ class ScoutRPG:
             locations = 'grocery store,10\tdepartment store,20\tscout store,30'
             chores = '\t'.join(i + ',False' for i in chore_list)
             possessions = ''
-            datapack = [version, stats, food, drinks, time, locations, chores, possessions]
+            datapack = [version, stats, food, drinks, game_time, locations, chores, possessions]
         if version == 'alpha1.0':
             # Filtering removed possessions.
             version = 'alpha1.1'
-            (stats, food, drinks, time, locations, chores, possessions) = datapack[1:]
+            (stats, food, drinks, game_time, locations, chores, possessions) = datapack[1:]
             if possessions:
                 possessions = possessions.split('\t')
                 for i in range(len(possessions)):
                     (name, quantity) = possessions[i].split(',')
                     possessions[i] = '\t'.join([name] * int(quantity))
                 possessions = '\t'.join(possessions)
-            datapack = [version, stats, food, drinks, time, locations, chores, possessions]
+            datapack = [version, stats, food, drinks, game_time, locations, chores, possessions]
         if version == 'alpha1.1':
             # Adding the day to the time.
             version = 'alpha1.2'
-            (stats, food, drinks, time, locations, chores, possessions) = datapack[1:]
-            time = time.split(',')
-            time = [list(calendar.day_name)[dt.strptime('{} {} {}'.format(time[0], time[1], time[2]), '%m %d %Y').weekday()]] + time
-            time = ','.join(time)
-            datapack = [version, stats, food, drinks, time, locations, chores, possessions, '']
+            (stats, food, drinks, game_time, locations, chores, possessions) = datapack[1:]
+            game_time = game_time.split(',')
+            game_time = [list(calendar.day_name)[dt.strptime('{} {} {}'.format(game_time[0], game_time[1], game_time[2]), '%m %d %Y').weekday()]] + game_time
+            game_time = ','.join(game_time)
+            datapack = [version, stats, food, drinks, game_time, locations, chores, possessions, '']
         if version == 'alpha1.2':
             # Changing from list to datetime object.
             version = 'alpha1.3'
-            (stats, food, drinks, time, locations, chores, possessions, events) = datapack[1:]
-            time = time.split(',')
-            time = time[1] + time[2] + time[3] + time[4] + time[5]
+            (stats, food, drinks, game_time, locations, chores, possessions, events) = datapack[1:]
+            game_time = game_time.split(',')
+            game_time = game_time[1] + game_time[2] + game_time[3] + game_time[4] + game_time[5]
             new_possessions = []
             if possessions:
                 possessions = possessions.split('\t')
@@ -703,19 +686,19 @@ class ScoutRPG:
                     if possessions[i] not in ("reusable plastic box", "reusable liquid flask", "kitchen cabinets", "refrigerator"):
                         new_possessions.append(possessions[i])
             new_possessions = '\t'.join(new_possessions)
-            datapack = [version, stats, food, drinks, time, locations, chores, new_possessions, events]
+            datapack = [version, stats, food, drinks, game_time, locations, chores, new_possessions, events]
         if version == 'alpha1.3' or version == 'alpha1.4':
             # Adding Reputation.
-            version = ScoutRPG.version
-            (stats, food, drinks, time, locations, chores, possessions, events) = datapack[1:]
+            version = 'alpha1.4.1'
+            (stats, food, drinks, game_time, locations, chores, possessions, events) = datapack[1:]
             stats += '\t0'
-            datapack = [version, stats, food, drinks, time, locations, chores, possessions, events]
+            datapack = [version, stats, food, drinks, game_time, locations, chores, possessions, events]
         if version == 'alpha1.4.1':
             # Adding Rank.
             version = ScoutRPG.version
-            (stats, food, drinks, time, locations, chores, possessions, events) = datapack[1:]
+            (stats, food, drinks, game_time, locations, chores, possessions, events) = datapack[1:]
             rank = ("scout\t" + ','.join([str(False)] * len(ranks["scout"])))
-            datapack = [version, stats, food, drinks, time, locations, chores, possessions, events, rank]
+            datapack = [version, stats, food, drinks, game_time, locations, chores, possessions, events, rank]
             # Now to quit and rewrite the game files.
             # UPDATE THIS SHOULD BE MOVED TO THE BOTTOM OF THE UPGRADE TREE!
             file = open(self.path + '\\' + self.filename, 'w')
@@ -785,13 +768,13 @@ class ScoutRPG:
         self.food = [Food(i) for i in ("peanuts", "pancake")]
         self.drinks = [Drink("water")]
         self.time = dt.strptime("0301" + str(dt.today().year) + "0800", "%m%d%Y%H%M")
-        # [list(calendar.day_name)[dt.strptime('03 01 {}'.format(dt.today().year), '%m %d %Y').weekday()], "3", "1", dt.today().year, "08", "00"]
         self.difference = [0, 0, 0, 0]
         self.locations = [Location(i, 10 * (self.locations.index(i) + 1)) for i in self.locations]
         self.chores = [Chore(i) for i in chore_list]
         self.possessions = []
         self.events = []
         self.rank = Rank("scout", [])
+        return
 
     def eat(self):
         """
@@ -816,7 +799,7 @@ class ScoutRPG:
                 break
             except (IndexError, ValueError):
                 Loading.returning("You don't have any {} meals!".format(action), 2)
-        pass
+        return
 
     def drink(self):
         """
@@ -841,7 +824,7 @@ class ScoutRPG:
                 break
             except (IndexError, ValueError):
                 Loading.returning("You do not have any bottles of {}!".format(action), 2)
-        pass
+        return
 
     def sleep(self):
         """
@@ -881,6 +864,7 @@ class ScoutRPG:
                     self.refresh("hour", 4)
                     print("SLEEP: 4 Hours")
                     Loading.returning("Oops! You oversleep a lot and are quite hungry.", 3)
+        return
 
     def heal(self):
         """
@@ -893,6 +877,7 @@ class ScoutRPG:
             Loading.returning("Make sure to eat and drink regularly!", 2)
         else:
             Loading.returning("You don't need to heal!", 2)
+        return
 
     def house_chores(self):
         """
@@ -947,6 +932,7 @@ class ScoutRPG:
                     break
             else:
                 Loading.returning("Please pick a valid destination.", 2)
+        return
 
     def groceries(self):
         """
@@ -972,6 +958,7 @@ class ScoutRPG:
                     break
             else:
                 Loading.returning("Please type a valid food/drink.")
+        return
 
     def department(self):
         """
@@ -1001,7 +988,7 @@ class ScoutRPG:
         # Computer: $450 - Reduces time to study for ranks + Ability to purchase things online! - ONE TIME
         # Kitchen Cabinets: $350 - +20 Food space, +10 Drinks space - ONE TIME
         # Refrigerator: $550 - +15 drinks space, +10 food space - ONE TIME
-        pass
+        return
 
     def scout_store(self):
         """
@@ -1030,15 +1017,16 @@ class ScoutRPG:
                     break
             else:
                 Loading.returning("Please type a valid item.")
+        return
 
     def buy(self, buy, stat, store_list, store_costs, item):
         """
-        Universal method to buy things!
-        :param buy: What the player wants to buy.
-        :param stat: List to add objects to.
-        :param store_list: List to check buy against.
-        :param store_costs: List to get costs from.
-        :param item: Object type to add.
+        Universal method to buy things
+        :param buy: What the player wants to buy
+        :param stat: List to add objects to
+        :param store_list: List to check buy against
+        :param store_costs: List to get costs from
+        :param item: Object type to add
         :return: Nothing.
         """
         while True:
@@ -1066,6 +1054,7 @@ class ScoutRPG:
                     break
             else:
                 Loading.returning("Please type a number between 0 and 100.", 2)
+        return
 
     def agenda(self):
         """
@@ -1076,6 +1065,7 @@ class ScoutRPG:
         print(self.time.strftime("\nToday's date: %B %d, %Y\n") + calendar.TextCalendar(6).formatmonth(int(self.time.year), int(self.time.month)))
         if input('Type "add event" to add a custom event or Press ENTER to continue.') == 'add event':
             self.events.append(Event(input("What is the event name?"), input("Date and time of the event? E.g. 030120221900"), int(input("Importance of the event?"))))
+        return
 
     def troop_meeting(self):
         """
@@ -1185,22 +1175,26 @@ class ScoutRPG:
                     # Loading.returning(, 2)
                     self.stats.reputation += (i.reputation if i.answer else -i.reputation)
         for i in events:
-            if "outing" in i.event and i.answer:
-                match (3, 3, 3)[random.randint(0, 2)]:
+            if "outing" in i.event:
+                match (1, 1, 2, 2, 3, 3)[random.randint(0, 2)]:
                     case 1:
                         # Importance 1, easy to plan, quick event. Same month, within a week, 0.5-1 hours, simple.
-                        # (day, hour, minute) = (, , )
-                        self.events.append(Event("Small Outing", self.time + td(days=random.randint(self.time.day, self.time.day + 7), hours=random.randint(8, 16) - self.time.hour, minutes=[0, 15, 30, 45][random.randint(0, 3)]), 1))
+                        self.events.append(Event(["Small Hike", "First Aid", "Orienteering", "Knot Training"][random.randint(0, 3)],
+                                                 self.time + td(days=random.randint(self.time.day, self.time.day + 7), hours=random.randint(8, 16) - self.time.hour, minutes=[0, 15, 30, 45][random.randint(0, 3)]), 1))
                         Loading.returning(self.events[len(self.events) - 1].alert_message(), 3)
                     case 2:
                         # Importance 2, meh to plan, decent-sized event. Same month, within 2-3 week, 1-3 hours.
-                        self.events.append(Event("Outing", self.time + td(days=random.randint(self.time.day + 7, self.time.day + 21), hours=random.randint(8, 16) - self.time.hour, minutes=[0, 15, 30, 45][random.randint(0, 3)]), 2))
+                        self.events.append(Event([["Hike", "Rock Climbing", "Coastal Cleanup"] + (["Bowling", "Escape Room"] if not i.answer else [])][random.randint(0, 3)],
+                                                 self.time + td(days=random.randint(self.time.day + 7, self.time.day + 21), hours=random.randint(8, 16) - self.time.hour, minutes=[0, 15, 30, 45][random.randint(0, 3)]), 2))
                         Loading.returning(self.events[len(self.events) - 1].alert_message(), 3)
                     case 3:
                         # Importance 3, hard to plan, long event. Within 2 month, 3-8 hours, simple.
-                        self.events.append(Event("Large Outing", self.time +
+                        self.events.append(Event(["Kids Against Hunger", "Conservation Outing"], self.time +
                                                  td(days=random.randint(self.time.day, self.time.day + 30) + random.randint(1, 2) * 30, hours=random.randint(8, 16) - self.time.hour, minutes=[0, 15, 30, 45][random.randint(0, 3)]), 3))
                         Loading.returning(self.events[len(self.events) - 1].alert_message())
+                    case 4:
+                        self.events.append(Event("Campout", self.time + td(days=random.randint())))
+
             elif "phone" in i.event and i.answer:
                 Loading.returning("Your friend thanks you for giving him advice, and gifts you $5! +$5", 3)
                 self.stats.money += 5
@@ -1208,7 +1202,7 @@ class ScoutRPG:
                 if "well" in i.yes_msg:
                     Loading.returning("Your friends awarded you $10 for helping them win the game. +$10", 3)
                     self.stats.money += 10
-                elif "awry" in i.no_msg:
+                elif "awry" in i.yes_msg:
                     Loading.returning("Your friends awarded you $5 for helping out during the game. +$5", 3)
                     self.stats.money += 5
             elif "conference" in i.event and i.answer:
@@ -1218,6 +1212,7 @@ class ScoutRPG:
         self.time = self.time.replace(hour=20, minute=00)
         self.stats.hunger = 40 if self.stats.hunger > 40 else self.stats.hunger
         self.stats.thirst = 40 if self.stats.thirst > 40 else self.stats.thirst
+        return
 
     def phone(self):
         """
@@ -1232,6 +1227,7 @@ class ScoutRPG:
         Loading.returning(["You play on your phone for a bit.", "You have a nice phone session looking at memes.",
                            "You spend 45 whole minutes scrolling on social media.",
                            "Oops! You overspend your phone time and use up an hour."][int(phone_time / 15) - 1], 3)
+        return
 
     def console(self):
         """
@@ -1247,6 +1243,7 @@ class ScoutRPG:
                            "You spend an hour playing with friends and having a great time.",
                            "Oops! You lose track of time and play for a while. It was still fun."
                            "."][int(console_time / 20) - 1], 3)
+        return
 
     def show_rank(self):
         """
@@ -1267,8 +1264,554 @@ class ScoutRPG:
             if (input("The Scout law.\nType all the tenets of the Scout law in order, separated by commas, like this: \"Lorem, Ipsum, Dolor, Sit, Amet\"").lower() ==
                     "trustworthy, loyal, helpful, friendly, courteous, kind, obedient, cheerful, thrifty, brave, clean, friendly"):
                 Loading.returning("Great Job!", 2)
+                [i.status for i in self.rank.requirement_list if "scout oath" in i][0] = True
             else:
                 Loading.returning("Oops! You got some wrong. Try again later.", 2)
+        return
+
+    def hike(self, size):
+        """
+        Method for both of the hiking events
+        :param size: Size of the outing. String
+        :return: Nothing.
+        """
+
+        class HikingEvent:
+            """
+            Class HikingEvent.
+            Creates an object to store an event during the hiking outing. Stores similar to MeetingEvent: event name, yes and no messages, and stat changes for yes and no.
+            """
+
+            def __init__(self, event, yes_msg='', no_msg='', event_yes='', event_no=''):
+                self.event = event
+                self.yes_msg = yes_msg
+                self.no_msg = no_msg
+                self.event_yes = event_yes
+                self.event_no = event_no
+                return
+
+        Loading.returning("Welcome to the hike!")
+        shoes = False
+        if [i for i in self.possessions if 'shoes' in i.name]:
+            shoes = True
+        else:
+            if input("The outing leader strongly recommends shoes on this outing. Proceed or stay back?").lower() in ("proceed", "yes", "y", "ok"):
+                Loading.returning("You proceed with the hike...", 2)
+            else:
+                Loading.returning("You decide to stay back on the outing.", 2)
+                return
+        events = [HikingEvent(i[0], i[1], i[2], i[3], i[4]) for i in [
+            ("You spot some three-leaved clover-looking plants that are dripping some sort of sap. Touch it?", "Oh no! You touch it and your finger becomes very itchy. -5 Health",
+             "Good job. Three-leaved clover plants are usually poison oak.", "self.stats.health -= 5", "pass"),
+            ("You get hungry and want to eat something. Pull a bar out of your pack to eat or no?", "You pull out a bar and eat, but you hold the group up. -5 Reputation.",
+             "You continue on the hike but you get more hungry. -10 Hunger", "self.stats.reputation -= 5", "self.stats.hunger -= 10"),
+            ("There's a hill coming up. Run up it to get to the front?", "You run up the hill and get to the top, but you're very tired. -5 Hunger, -10 Thirst.", "You stay in the middle and keep your pace.",
+             "self.stats.hunger -= 5 ; self.stats.thirst -= 10", "pass"),
+            ("You see a down hill section ahead. Run down it and have some fun?", "You run down the hill until you trip on a rock and scrape yourself. -5 Health.",
+             "You decide against it and stick with the group. +5 Reputation", "self.stats.health -= 5", "self.stats.reputation += 5"),
+            ("The leader asks you if you think the hike is going well. Yes or no?", "The leader is glad you're enjoying yourself.", "The leader is sad you don't like it.", "pass", "pass"),
+            ("You're getting thirsty. Pull out your water bottle to drink some water?", "Your leader sees you pull your bottle out and calls for a water break. +10 Thirst.",
+             "You keep hiking and get more thirsty. -10 Thirst.", "self.stats.thirst += 10", "self.stats.thirst -= 10")]]
+        if shoes:
+            events.append(("There is a large muddy spot that looks shallow to you. Jump in it for the fun?", "You happily jump in the mud puddle, however it turns out to be a pool. - 1 pair of Shoes",
+                           "You decide against jumping in the puddle and walk around it.", "self.possessions.remove([i for i in self.possessions if 'shoes' in i.name][0])", "pass"))
+        for i in random.sample(events, (6 if size == "big" else 3)):
+            for j in range(3):
+                if i.event:
+                    choice = input(i.event)
+                    if "yes" in choice:
+                        Loading.returning(i.yes_msg, 2)
+                        exec(i.event_yes)
+                        break
+                    elif "no" in choice:
+                        Loading.returning(i.no_msg, 2)
+                        exec(i.event_no)
+                        break
+                    else:
+                        Loading.returning("Invalid response. {} attempts remaining. Please try again.".format(2 - j), 2)
+                else:
+                    break
+            else:
+                Loading.returning("3 attempts exceeded. Moving on...", 3)
+        input("The hike is finished. Well done. Press ENTER to return home.")
+        self.refresh("minute", (30 if size == "small" else 90))
+        return
+
+    def first_aid(self):
+        """
+        Method for the First Aid Outing.
+        :return: Nothing.
+        """
+
+        class FirstAidQuestion:
+            """
+            Class FirstAidQuestion.
+            Creates an object to store a question during this outing. Stores the question, multiple choice options, and the correct answer.
+            """
+
+            def __init__(self, question, options, answer):
+                self.question = question
+                self.options = options
+                random.shuffle(self.options)
+                self.answer = answer
+
+        Loading.returning("Welcome to the first aid outing.", 2)
+        Loading.returning("Here you will be tested on your first aid. Good Luck!", 3)
+        score = 0
+        for i in random.sample([FirstAidQuestion(i[0], i[1], i[2]) for i in [
+                ("What does AED stand for?", [": Automated Emergency Drill", ": Automatic Excess Drainer", ": Automated External Defibrillator", ": Autocratic Extrinsic Deoscillator"], ": Automated External Defibrillator"),
+                ("What do you do in the event of a severe allergic reaction?", [": Run around", ": Use an Epi-Pen", ": Inject epinephrine into your system while doing push-ups.", ": Do nothing."], ": Use an Epi-Pen"),
+                ("What happens if you break a bone in an outing?", [": Use a tourniquet to reduce movement of the limb.", ": Flee from the scene", ": Amputate the limb.", ": Cry out for help"], ": Use a tourniquet to reduce movement of the limb."),
+                ("Put the steps for alleviating a cut or scrape in order.", [": Wash, Sanitize, Cover", ": Sanitize, Cover, Wash", ": Cover, Wash, Sanitize", ": Sanitize, Wash, Cover"], ": Wash, Sanitize, Cover"),
+                ("Why do we wear mask during an airborne pandemic?", [": To protect ourselves and others.", ": To protect others", ": To look cool by buying your favorite design.", ": To scare the virus."], ": To protect ourselves and others.")]], 3):
+            choice = input('\n' + i.question + '\n' + '\n'.join([["A", "B", "C", "D"][j] + i.options[j] for j in range(len(i.options))]) + '\n')
+            if choice in i.answer or choice in ["A", "B", "C", "D"][i.options.index(i.answer)]:
+                Loading.returning("Great Job!", 2)
+                score += 1
+            else:
+                Loading.returning("Sorry, that's incorrect. The correct answer was{}".format(i.answer), 5)
+        input("The First Aid outing is over. You scored {}/3. +{} Reputation\nPress ENTER to return home.".format(score, score * 5))
+        self.refresh("minute", 15)
+        return
+
+    def orienteering(self):
+        """
+        Method for the orienteering outing.
+        :return: Nothing.
+        """
+        Loading.returning("Welcome to Orienteering!", 2)
+        print("State the sequence of aligning a compass.")
+        sequence = (input("Rotate the dial to _____").lower() == "north", input("Align the _____ with north.").lower() == "needle", input("_____ the dial to the specified degree").lower() == "rotate",
+                    input("Align with _____").lower() == "north")
+        if all(sequence):
+            Loading.returning("Great job!", 2)
+        else:
+            Loading.returning("Oops! You got some wrong.", 2)
+        input("The orienteering outing is over. Well done. Press ENTER to return home.")
+        self.refresh("minute", 15)
+        return
+
+    def knot_training(self):
+        """
+        Method to train the player in knots.
+        :return: Nothing.
+        """
+
+        def valid_move(message, knot_list):
+            """
+            Method to make sure the user input is a valid move
+            :param message: User Input
+            :param knot_list: List of knot steps
+            :return: Boolean if the move is valid or not
+            """
+            message = message.split(' ')
+            if len(message) == 2:
+                return (message[0] in ''.join([str(i) for i in range(1, len(knot_list) + 1)]) and message[1] in ('up', 'down')) and ((message[1] == 'up' and '1' not in message[0]) or (message[1] == 'down' and str(len(knot_list)) not in message[0]))
+            else:
+                return False
+
+        Loading.returning("Welcome to Knot Training!", 2)
+        square_knot = ['right over left', 'tie around', 'left over right', 'tie around']
+        shuffle = square_knot.copy()
+        while square_knot == shuffle:
+            random.shuffle(shuffle)
+        print("Move the items up and down to display the correct way to make a square knot.")
+        while square_knot != shuffle:
+            print('\n'.join(str(i + 1) + '. ' + shuffle[i].capitalize() for i in range(len(shuffle))))
+            action = input("What would you like to move? Type the number of the step and either \"up\" or \"down\" (E.g. \"2 up\", \"3 down\"")
+            if valid_move(action, shuffle):
+                action = action.split(' ')
+                action = (int(action[0]) - 1, action[1])
+                buffer = shuffle[action[0]]
+                shuffle[action[0]] = shuffle[action[0] - 1 if action[1] == 'up' else action[0] + 1]
+                shuffle[action[0] - 1 if action[1] == 'up' else action[0] + 1] = buffer
+            else:
+                Loading.returning("Please type a valid move.", 2)
+        Loading.returning("Well done!", 2)
+        # UPDATE Add more knots
+        input("The knot training outing has ended. Press ENTER to return home.")
+        self.refresh("minute", 20)
+        return
+
+    def rock_climbing(self):
+        """
+        Method for the rock climbing outing.
+        :return: Nothing.
+        """
+        Loading.returning("Welcome to the rock climbing outing.", 2)
+        if 'yes' in input("Would you like to view the instructions? \"yes\" or \"no\"").lower():
+            input("Rock climbing is easy! \nThe X's at the bottom of the screen are your feet.\nThere will rocks in front of you and all you have to do is type \"left\" or \"right\"!\n"
+                  "Once you make it to the top, you can ring the bell and then come on down. \n\nPress ENTER to continue.")
+        board = [
+            """
+
+   __
+  |__|    __
+         |__|
+
+""", """
+   __
+  |__|   
+          __
+         |__|
+
+""", """
+
+          __
+   __    |__|
+  |__|
+  
+""", """
+          __
+         |__|
+   __
+  |__|
+"""]
+        height = 1
+        frame = random.randint(0, 3)
+        while height <= 10:
+            print(board[frame])
+            print("   X       X   ")
+            print("Height: " + str(height))
+            action = input("Left or right?").lower()
+            if action in ("left", "right"):
+                match frame:
+                    case 0:
+                        if action == "left":
+                            height -= (1 if height > 1 else 0)
+                            Loading.returning("Oh no! You almost make it, but you slip.", 2)
+                        elif action == "right":
+                            height += 1
+                        frame = random.randint(2, 3) if height > 1 else frame
+                    case 1:
+                        if action == "left":
+                            height -= (1 if height > 1 else 0)
+                            Loading.returning("Oh no! You slip and fall down.", 2)
+                        elif action == "right":
+                            height += 1
+                        frame = random.randint(2, 3) if height > 1 else frame
+                    case 2:
+                        if action == "left":
+                            height += 1
+                        elif action == "right":
+                            height -= (1 if height > 1 else 0)
+                            Loading.returning("Oh no! You almost make it, but you slip.", 2)
+                        frame = random.randint(0, 1) if height > 1 else frame
+                    case 3:
+                        if action == "left":
+                            height += 1
+                        elif action == "right":
+                            height -= (1 if height > 1 else 0)
+                            Loading.returning("Oh no! You slip and fall down.", 2)
+                        frame = random.randint(0, 1) if height > 1 else frame
+        Loading.returning("DING DING DING! Hooray! You have climbed to the top.", 2)
+        input("The Rock Climbing outing has finished. Well done. Press ENTER to return home.")
+        self.refresh("minutes", 90)
+        return
+
+    def coastal_cleanup(self):
+        """
+        Method for the Coastal Cleanup outing.
+        :return: Nothing.
+        """
+        # First, generate a new board.
+        Loading.returning("Welcome to the Coastal Cleanup.", 2)
+        if 'yes' in input("Would you like to view the instructions? \"yes\" or \"no\"").lower():
+            input("The coasts are littered with trash! Your job is to clean the coast of its filthy litter and restore it to a life-fulfilling utopia.\n"
+                  "Sand and Rocks are marked with \"S\" and \"R\". Trash is marked with \"T\", \"X\", \"B\", and \"G\".\nCount the pieces of trash, "
+                  "and take back your coast!\n\nPress ENTER to continue.")
+        score = 0
+        for _ in range(5):
+            board = [["S" if random.randint(0, 1) == 0 else "R" for _ in range(20)] for _ in range(10)]
+            pieces = random.randint(1, 5)
+            for (x, y) in [[random.randint(0, 9), random.randint(0, 19)] for _ in range(pieces)]:
+                board[x][y] = ["T", "X", "B", "G"][random.randint(0, 3)]
+            print('\n'.join(' '.join(y for y in x) for x in board))
+            action = input("How many pieces of trash do you see?")
+            while True:
+                if action in '0123456789':
+                    if int(action) == pieces:
+                        Loading.returning("Well done!", 2)
+                        score += 1
+                    else:
+                        Loading.returning("Sorry, there were {} pieces of trash.".format(pieces), 2)
+                    break
+                else:
+                    Loading.returning("Please type a valid response.")
+        input("The coastal cleanup outing has ended. " + ("Excellent Work! " if score == 10 else "Well done! ") + "Press ENTER to return home.")
+        self.refresh("minute", 150)
+        return
+
+    def bowling(self):
+        """
+        Method for the Bowling outing.
+        :return: Nothing.
+        """
+        Loading.returning("Welcome to the Bowling Outing.", 2)
+        if 'yes' in input("Would you like to view the instructions? \"yes\" or \"no\""):
+            input("It's time to bowl! Type the number of the lane with the pin to score a strike, minding the angle.\nGet the highest score!\n\nPress ENTER to continue.")
+        pin = """
+{}.o.
+{}|_|
+"""
+        score = 0
+        for i in range(5):
+            space = random.randint(0, 6)
+            angle = random.randint(-3, 3)
+            print(pin.format(' ' * space, ' ' * space))
+            print(" ^^^^^^^\n 1234567\nAngle: {}".format(angle))
+            action = input("Which lane?")
+            if action in "0123456789":
+                if int(action) == space + 1 + angle:
+                    Loading.returning("Great job!", 2)
+                    score += 1
+                elif int(action) == space + angle or int(action) == space + 2 + angle:
+                    Loading.returning("So close!", 2)
+                else:
+                    Loading.returning("Oh no! Miss!", 2)
+        input("The Bowling outing has ended. " + ("Extraordinary Bowling! " if score == 5 else "Well done. ") + "Press ENTER to return home.")
+        self.refresh("minute", 120)
+        return
+
+    def escape_room(self):
+        """
+        Method for the Escape Room Outing.
+        :return: Nothing.
+        """
+        Loading.returning("Welcome to the Escape Room.", 2)
+        if 'yes' in input("Would you like to view the instructions? \"yes\" or \"no\""):
+            input("Escape! Your objective is to solve puzzles to escape the dungeon.\nYou will solve puzzles such as: Color Sequence match, Laser Maze, and Circuit Fix.\n"
+                  "For the Color Sequence Match, just type in the colors stated on screen. Copy the pattern to escape.\n"
+                  "For the Laser Maze, you must maneuver around the lasers on screen. Your body size is 3, and you must move in and out to escape.\n"
+                  "For the Circuit Fix, you must identify which wires connect by typing in the numbers of the terminals to connect them. Fix the board and you're out!\n\n"
+                  "Press ENTER to continue.")
+        # Color Sequence Match first.
+        colors = ["red", "yellow", "green", "blue", "purple", "orange"]
+        display = [colors[random.randint(0, 5)]]
+        i = 0
+        while i < 5:
+            for j in display:
+                print(j.capitalize() + '\r', end='')
+                time.sleep(1)
+            print('\r')
+            action = input("What was the sequence?\r").lower()
+            if action == ' '.join(display):
+                Loading.returning("Well done!", 2)
+                i += 1
+            else:
+                Loading.returning("Try again!", 2)
+                continue
+            display.append(colors[random.randint(0, 5)])
+        Loading.returning("Great Job!", 2)
+
+        # Now for the laser maze.
+        Loading.returning("Now for the laser maze. Remember not to hit the laser!")
+
+        def get_board():
+            """
+            Method to generate a new laser board.
+            :return: Nothing.
+            """
+            new_space = random.randint(1, 5)
+            new_board = ('\n' * new_space) + '--------------------' + ('\n' * (7 - new_space))
+            return new_board, new_space
+
+        score = 0
+        i = 0
+        while i < 5:
+            board, space = get_board()
+            print(board)
+            action = input("Which direction? \"down\" or \"up\"")
+            if action in ('down', 'up'):
+                if action == "down" and space <= 3:
+                    score += 1
+                elif action == "up" and space >= 3:
+                    score += 1
+                else:
+                    Loading.returning("Oh no! You hit a laser.", 2)
+                    break
+                i += 1
+            else:
+                Loading.returning("Type a valid answer.", 2)
+        Loading.returning("Great Job!" if score == 5 else "Good effort." if score > 0 else "Moving on...", 2)
+
+        # Now for the circuit fix.
+        def valid_move(user_input):
+            """
+            Method to make sure the user input is a valid move
+            :param user_input: User input to check
+            :return: Boolean if the move is valid or not.
+            """
+            user_input = user_input.split(' ')
+            if len(user_input) == 3:
+                return all([element[0] in '123' and element[1] in 'abc' for element in user_input])
+            else:
+                return False
+
+        # UPDATE Add more circuits
+        circuits = ["""
+1 o--,    ,-,    ,--o a
+     '--, | '--, |     
+2 o-----|-' ,--|-',-o b
+        '---|-,'--'    
+3 o---------' '-----o c
+""", """
+1 o-, ,-----,    ,--o a
+    | |     | ,--'     
+2 o-|-',----|-'   ,-o b
+    '--|----|-----'    
+3 o----'    '-------o c
+""", """
+1 o-, ,----,    ,---o a
+    '-|--, | ,--|-,     
+2 o---',-|-|-',-' '-o b
+       | '-|--',--,    
+3 o----'   '---'  '-o c
+"""]
+        selection = random.randint(0, 2)
+        while True:
+            print(circuits[selection])
+            action = input("Type the connections out in numerical order. E.g. \"1a 2b 3c\".")
+            if valid_move(action):
+                if action == ['1c 2b 3a', '1b 2c 3a', '1a 2c 3b'][selection]:
+                    break
+                else:
+                    Loading.returning("Sorry, that's incorrect.", 2)
+                    continue
+            else:
+                Loading.returning("Type a valid answer.", 2)
+        Loading.returning("Excellent Work! You escaped.", 2)
+        input("The Escape Room outing has ended. Press ENTER to return home.")
+        self.refresh("minute", 180)
+        return
+
+    @DeprecationWarning
+    def cert_outing(self):
+        """
+        Method for the CERT Outing.
+        Brainstorming: What happened on the CERT Outing? Uhhhh Let's see... We put on make-up, go into the fake building, and wait for the starting bell to ring. Then we wait
+        for the "officials" to walk in, and then we shout and scream in agony. This whole thing isn't exactly for us, it's for the "officials". Maybe I'll scrap this one...
+        :return: Nothing.
+        """
+        Loading.returning("Welcome to the CERT Outing.", 2)
+        if 'yes' in input("Would you like to view the instructions? \"yes\" or \"no\""):
+            input("")
+
+    def kids_against_hunger(self):
+        """
+        Method for the Kids Against Hunger Outing.
+        :return: Nothing.
+        """
+        class Meal:
+            """
+            Class Meal.
+            Creates an object to store a Meal. Stores the name and creates and stores the count and the progress towards the next meal.
+            """
+            def __init__(self, name):
+                self.name = name
+                self.count = 0
+                match self.name:
+                    case 'breakfast':
+                        self.current = {"grain": False, "orange": False, "powdered milk": False}
+                    case 'lunch':
+                        self.current = {"bread": False, "peanut butter": False, "jelly": False}
+                    case 'dinner':
+                        self.current = {"rice": False, "carrot": False, "peach": False}
+
+            def add(self, name, add_back):
+                """
+                Method to change the status of present foods in the meal object
+                :param name: Name of the meal
+                :param add_back: If the meal is complete, add the foods back to the pool
+                :return: Nothing.
+                """
+                self.current[name] = True
+                if all([self.current[food] for food in self.current]):
+                    self.count += 1
+                    self.current.update((i, False) for i in self.current)
+                    Loading.returning("Well done!", 1)
+                    add_back.extend([i for i in self.current])
+
+            def __repr__(self):
+                return ("{} - Meals: {}" + ('\t' if self.name == "breakfast" else '\t\t') + "{} ").format(self.name.capitalize(), ('|' * self.count if self.count > 0 else "0"), ','.join([i.capitalize() for i in self.current if self.current[i]]))
+
+        Loading.returning("Welcome to Kids Against Hunger.", 2)
+        if 'yes' in input("Would you like to view the instructions? \"yes\" or \"no\""):
+            input("Here at KAH, we package food to be eaten by kids all across the world, mainly those without access to a stable food supply.\n"
+                  "Today during your visit, you'll also be packaging food. Select the correct meal for the shown foods.\n"
+                  "A Breakfast needs some GRANOLA, a ORANGE, and a pack of POWDERED MILK.\n"
+                  "A Lunch needs BREAD, a packet of PEANUT BUTTER, and a packet of JELLY\n"
+                  "A Dinner needs a box of RICE, a full CARROT, and a PEACH.\n\n"
+                  "Good Luck! Press ENTER to continue.")
+        foods = ["grain", "orange", "powdered milk", "bread", "peanut butter", "jelly", "rice", "carrot", "peach"]
+        meals = [Meal(i) for i in ('breakfast', 'lunch', 'dinner')]
+        population = foods.copy()
+        random_food = population[random.randint(0, len(population) - 1)]
+        i = 0
+        while i < 25:
+            print('\n' + '\n'.join([j.__repr__() for j in meals]))
+            action = input("Where does {} go?".format(random_food))
+            if action in ('breakfast', 'lunch', 'dinner'):
+                action = [j for j in meals if j.name == action][0]
+                if random_food in action.current:
+                    population.remove(random_food)
+                    action.add(random_food, population)
+                    if not population:
+                        population = foods.copy()
+                    random_food = population[random.randint(0, len(population) - 1)]
+                    i += 1
+                else:
+                    Loading.returning("That's the wrong meal pack.", 2)
+            else:
+                Loading.returning("Enter a meal name.", 2)
+        Loading.returning("Well done! Your grand total was {} breakfast{}, {} lunch{}, and {} dinner{}.".format(
+            meals[0].count, 's' if meals[0].count != 1 else '', meals[1].count, 's' if meals[1].count != 1 else '', meals[2].count, 's' if meals[2].count != 1 else ''))
+        input("The KAH Outing has ended. Press ENTER to return home.")
+        self.refresh("hour", 5)
+        return
+
+    def conservation_outing(self):
+        """
+        Method for the Conservation Outing.
+        :return: Nothing.
+        """
+        class Bin:
+            """
+            Class Bin.
+            Creates an object to store a Bin. Stores the name and count of how many things are in it.
+            """
+            def __init__(self, name):
+                self.name = name
+                self.count = 0
+
+            def __repr__(self):
+                return "{} - \t{} ".format(self.name.capitalize(), ('|' * self.count if self.count > 0 else "0"))
+        Loading.returning("Welcome to the conservation outing.")
+        if 'yes' in input("Would you like to view the instructions? \"yes\" or \"no\""):
+            input("Reduce, Reuse, Recycle! Here we're going to learn where to place what item of waste. Specifically which bin (trash, recycle, compost).\n"
+                  "We need to preserve our environment and the first way we can do that is to limit our contribution to the city landfill. Recycling and composting is the way to go!\n"
+                  "Make your best guess as to what goes in the trash, recycle, and compost, and type it in. The item will be sorted.")
+        bins = [Bin(i) for i in ('garbage', 'recycle', 'compost')]
+        garbage = ["battery", "broken plate", "diaper"]
+        recycle = ["paper plate", "used phonebook", "old envelopes"]
+        compost = ["broken egg", "apple core", "dead leaf"]
+        random_item = (garbage + recycle + compost)[random.randint(0, len(garbage + recycle + compost) - 1)]
+        i = 0
+        while i < 20:
+            print('\n' + '\n'.join([j.__repr__() for j in bins]))
+            action = input("Where does {} go?".format(random_item))
+            if action in [j.name for j in bins]:
+                if (random_item in garbage and action == 'garbage') or (random_item in recycle and action == 'recycle') or (random_item in compost and action == 'compost'):
+                    [j for j in bins if j.name == action][0].count += 1
+                    Loading.returning("Great work!", 1)
+                    random_item = (garbage + recycle + compost)[random.randint(0, len(garbage + recycle + compost) - 1)]
+                    i += 1
+                else:
+                    Loading.returning("That's the wrong pile.", 2)
+            else:
+                Loading.returning("Type a valid pile.", 2)
+        input("The Conservation outing is finished. Well done. Press ENTER to return home.")
+        self.refresh("hour", 5)
 
     def defeat(self):
         """
