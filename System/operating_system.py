@@ -2,6 +2,7 @@ import time
 
 import os
 import random
+import wsgiref.simple_server
 from System import Loading
 from System.User import *
 from System import system_recovery
@@ -24,7 +25,11 @@ dirty = []
 
 
 # noinspection PyBroadException
-def boot():
+def boot(environ, start_response):
+    headers = [('Content-Type', 'text/plain; charset=utf-8')]
+    start_response('200 OK', headers)
+    page = '''<!DOCTYPE html><html><head><meta charset=utf-8/><title>SONAR</title></head><body>'''
+
     global dirty
     running = True
     start = time.time()
@@ -38,7 +43,7 @@ def boot():
                 Loading.returning("Entering Recovery...", 1)
                 system_recovery.SystemRecovery.boot(cerberus.error)
                 Loading.returning("Saving changes and booting...", 3)
-                print('\n\n\n\n\n')
+                page += '\n\n\n\n\n'
             cerberus.reload()
             # Logic to run setup
 
@@ -53,6 +58,7 @@ def boot():
             for i in range(20):
                 print("\n")
             Loading.log("{} encountered a fatal error. Reboot is required. Stacktrace: {}".format(cerberus.name, e))
+            page += '<form action='
             if input('!!! {} encountered a fatal error. Reboot is required. !!! \nWhat failed: {}\n\nStacktrace: \n{}'.format(
                     cerberus.name, str(traceback.format_exc()).split('\n')[len(traceback.format_exc().split('\n'))-4].split('"')[1], str(traceback.format_exc())) + '\nType "REBOOT" to reboot.') == "REBOOT":
                 pass
@@ -60,6 +66,7 @@ def boot():
                 print("Goodbye")
                 running = False
         Loading.log("System Shutdown. {} seconds have elapsed.".format(str(time.time() - start)))
+    return page.encode()
 
 
 # noinspection PyTypeChecker
