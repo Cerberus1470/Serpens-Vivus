@@ -1,3 +1,7 @@
+"""
+Bagels. The game about a secret number.
+Player gets to select conditions for a secret number and then attempt to guess the number!
+"""
 import time
 import os
 from System import Loading
@@ -5,6 +9,12 @@ import random
 
 
 def delete(path, extension):
+    """
+    Method to delete a game file
+    :param path: Path to search in
+    :param extension: File extension to filter to.
+    :return: Nothing.
+    """
     while True:
         for subdir, dirs, files in os.walk(path):
             count = 0
@@ -29,6 +39,13 @@ def delete(path, extension):
 
 
 def init_game(self, path, extension):
+    """
+    Method to select a game file
+    :param self: Game object
+    :param path: Path to search in
+    :param extension: File extension to filter to.
+    :return: Either raw game data or translated game data
+    """
     while True:
         count = 0
         for subdir, dirs, files in os.walk(path):
@@ -63,17 +80,28 @@ def init_game(self, path, extension):
             bruh = list(game)
             if extension == "snr" or extension == "sct":
                 return bruh
+            if extension == "sdu":
+                return [Loading.caesar_decrypt(i) for i in bruh]
             return (Loading.caesar_decrypt(bruh[0].split('\n')[0])).split('\t')
 
 
 class Bagels:
+    """
+    Bagels Game. Adapted from BYU CS Part 1 and made to work with Cerberus.
+    """
     category = "games"
 
     @staticmethod
     def boot(path="\\"):
+        """
+        Used to regulate the bootup sequence for the game
+        :param path: Path to pass on to everything
+        :return: Nothing
+        """
         bagels = Bagels(path)
         if not bagels.filename == 'exit':
             bagels.main()
+        return
 
     def __init__(self, path="\\"):
         self.new_file = False
@@ -90,6 +118,12 @@ class Bagels:
 
     @staticmethod
     def get_secret_num(num_digits, base_number):
+        """
+        Method to obtain the secret number
+        :param num_digits: How many digits in the secret number
+        :param base_number: Base system for the secret number
+        :return: The new secret number
+        """
         # Returns a string that is num_digits long, made up of unique random digits.
         numbers = list(range(num_digits))
         for i in range(num_digits):
@@ -102,6 +136,11 @@ class Bagels:
 
     @staticmethod
     def is_only_digits(num):
+        """
+        Method to evaluate a valid number
+        :param num: The number to check
+        :return: True or False depending on the validity of the number.
+        """
         # Returns True if num is a string made up only of digits. Otherwise, returns False.
         if not num:
             return False
@@ -111,6 +150,12 @@ class Bagels:
         return True
 
     def get_clues(self, guess, secret_num):
+        """
+        Method to obtain clues from the guessed number
+        :param guess: The guessed number
+        :param secret_num: The secret number
+        :return: Return the clues!
+        """
         # Returns a string with the pico, fermi, bagels clues to the user.
         # Make sure the lengths match.
         if len(guess) != len(secret_num):
@@ -122,7 +167,6 @@ class Bagels:
         if guess == secret_num:
             print("You got it!")
             return
-
         clue = []
         for i in range(len(guess)):
             if guess[i] == secret_num[i]:
@@ -136,17 +180,25 @@ class Bagels:
         return ' '.join(clue)
 
     def setup(self):
+        """
+        Method to set everything up.
+        :return: Nothing.
+        """
         self.new_file = True
         self.prev_guesses = []
         self.num_guesses = 1
         self.num_digits = int(input('Enter the number of digits in the secret number:'))
         self.max_guesses = int(input('Enter the number of guesses you would like to try:'))
-        basenumber = int(input('Enter a base number system from 5 to 10 to use.\n'
-                               'The base number decides what range of digits to choose the secret number from.'))
-        self.secret_num = self.get_secret_num(self.num_digits, basenumber)
+        base_number = int(input('Enter a base number system from 5 to 10 to use.\n'
+                                'The base number decides what range of digits to choose the secret number from.'))
+        self.secret_num = self.get_secret_num(self.num_digits, base_number)
         return
 
     def startup(self):
+        """
+        Method to regulate startup and show previous clues.
+        :return: Nothing.
+        """
         if self.new_file:
             self.setup()
         else:
@@ -156,8 +208,13 @@ class Bagels:
             for i in self.prev_guesses:
                 print("Guess: {}, Clue: {}".format(i, self.get_clues(i, self.secret_num)))
             time.sleep(3)
+        return
 
     def quit(self):
+        """
+        Method to regulate quitting and saving progress
+        :return: Nothing.
+        """
         if self.new_file:
             self.filename = input("File name?\n") + '.bgl'
         prev_guesses = ','.join(self.prev_guesses)
@@ -167,8 +224,13 @@ class Bagels:
             game.close()
         except (FileNotFoundError, FileExistsError):
             Loading.returning("The path or file was not found.", 2)
+        return
 
     def main(self):
+        """
+        Main loop method for the game.
+        :return: Nothing.
+        """
         print('WELCOME TO BAGELS\n')
         self.startup()
         print('I am thinking of a %s-digit number. Try to guess what it is.' % self.num_digits)

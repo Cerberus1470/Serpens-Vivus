@@ -1,8 +1,22 @@
+"""
+The simplest program ever. A joke-teller! This is the first program I constructed from scratch. I keep it for sentiment.
+"""
+
+
 class Jokes:
+    """
+    The main class for everything.
+    """
     category = "games"
 
+    # noinspection WHAT BRUH
     @staticmethod
     def boot(os_object):
+        """
+        Used to regulate the bootup sequence for the game
+        :param os_object: Cerberus passed from function call.
+        :return: Nothing
+        """
         Jokes.main()
 
     def __init__(self):
@@ -13,7 +27,11 @@ class Jokes:
 
     @staticmethod
     def main():
-        #The original jokes program from Unit 1 of BYU CS Part 1. Takes input and simply prints statements.
+        """
+        The main method for the Jokes program.
+        :return: Nothing.
+        """
+        # The original jokes program from Unit 1 of BYU CS Part 1. Takes input and simply prints statements.
         print("What do sprinters eat before a race?")
         input()
         fast = "fast"

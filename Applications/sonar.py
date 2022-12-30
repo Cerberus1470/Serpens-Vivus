@@ -1,4 +1,6 @@
-# Sonar Treasure Hunt
+"""
+Sonar Treasure Hunt
+"""
 
 import random
 import math
@@ -8,10 +10,18 @@ from Applications import bagels
 
 
 class Sonar:
+    """
+    The class that contains all.
+    """
     category = 'games'
 
     @staticmethod
     def boot(path="\\"):
+        """
+        Used to regulate the bootup sequence for the game
+        :param path: Path to pass on to everything
+        :return: Nothing
+        """
         sonar = Sonar(path)
         if not sonar.filename == 'exit':
             sonar.main()
@@ -25,10 +35,10 @@ class Sonar:
             (devices, board, chests, previous_moves) = game_info
             self.devices = Loading.caesar_decrypt(devices.split('\n')[0])
             self.devices = int(self.devices)
-            self.board = Loading.caesar_decrypt(board[0:len(board)-1]).split('\t')
+            self.board = Loading.caesar_decrypt(board[0:len(board) - 1]).split('\t')
             for i in range(len(self.board)):
                 self.board[i] = self.board[i].split(',')
-            self.chests = Loading.caesar_decrypt(chests[0:len(chests)-1]).split('\t')
+            self.chests = Loading.caesar_decrypt(chests[0:len(chests) - 1]).split('\t')
             for i in range(len(self.chests)):
                 self.chests[i] = self.chests[i].split(',')
             for i in range(len(self.chests)):
@@ -43,10 +53,14 @@ class Sonar:
         return
 
     def __repr__(self):
-        return "< I am a sonar class named " + self.__class__.__name__  + ">"
+        return "< I am a sonar class named " + self.__class__.__name__ + ">"
 
     @staticmethod
     def get_new_board():
+        """
+        Method to get a new board.
+        :return:
+        """
         # Create a new 10x40 board data structure.
         board = []
         # The main list is a list of 10 lists.
@@ -62,6 +76,10 @@ class Sonar:
         return board
 
     def draw_board(self):
+        """
+        Method to display the board.
+        :return: Nothing.
+        """
         # Draw the board data structure.
         tensDigitsLine = '   '
         # Initial space for the numbers down the left side of the board
@@ -87,6 +105,11 @@ class Sonar:
 
     @staticmethod
     def get_random_chests(num_chests):
+        """
+        Method to generate chests
+        :param num_chests: Number of chests to generate.
+        :return: The list of generated chests.
+        """
         # Create a list of chest data structures (two-item lists of x, y int coordinates).
         chests = []
         while len(chests) < num_chests:
@@ -98,10 +121,22 @@ class Sonar:
 
     @staticmethod
     def is_on_board(x, y):
+        """
+        Method to verify if the move is on the board
+        :param x: X-coordinate
+        :param y: Y-coordinate
+        :return: True if position is on the board, False if not.
+        """
         # Return True if the coordinates are on the board; otherwise, return False.
-        return 0 <= x <= 9 and 0 <= y <= 39
+        return
 
     def make_move(self, x, y):
+        """
+        Method to make move on the board
+        :param x: X-coordinate
+        :param y: Y-coordinate
+        :return: A clue!
+        """
         # Change the board data structure with a sonar device character. Remove treasure chests from the chests list as they are found.
         # Return False if this is an invalid move.
         # Otherwise, return the string of the result of this move.
@@ -128,6 +163,10 @@ class Sonar:
                 return 'Sonar did not detect anything. All treasure chests out of range.'
 
     def enter_player_move(self):
+        """
+        Method to ask for a player move. Filters literally every incorrect input.
+        :return: The move, if valid.
+        """
         # Let the player enter their move. Return a two-item list of int xy coordinates.
         print('Where do you want to drop the next sonar device? (0-9 0-39) (or type quit)')
         while True:
@@ -137,7 +176,7 @@ class Sonar:
                 return ['quit', 'quit']
 
             move = move.split()
-            if len(move) == 2 and move[0].isdigit() and move[1].isdigit() and self.is_on_board(int(move[0]), int(move[1])):
+            if len(move) == 2 and move[0].isdigit() and move[1].isdigit() and 0 <= int(move[0]) <= 9 and 0 <= int(move[1]) <= 39:
                 if [int(move[0]), int(move[1])] in self.previous_moves:
                     print('You already moved there.')
                     continue
@@ -147,6 +186,10 @@ class Sonar:
 
     @staticmethod
     def show_instructions():
+        """
+        Method to show instructions on prompt.
+        :return: Nothing.
+        """
         input('''Instructions:
                 You are the captain of the Simon, a treasure-hunting ship. Your current mission
                 is to use sonar devices to find three sunken treasure chests at the bottom of
@@ -195,6 +238,10 @@ class Sonar:
                 Press enter to continue...''')
 
     def setup(self):
+        """
+        Method to regulate setup of a new game file.
+        :return:
+        """
         self.new_file = True
         print('Would you like to view the instructions? (yes/no)')
         if input().lower().startswith('y'):
@@ -210,11 +257,15 @@ class Sonar:
 
     @DeprecationWarning
     def delete(self):
+        """
+        Method to delete a game file properly.
+        :return: Nothing.
+        """
         while True:
             for subdir, dirs, files in os.walk(self.path):
                 count = 0
                 for file in files:
-                    if file[len(file)-3:len(file)] == 'snr':
+                    if file[len(file) - 3:len(file)] == 'snr':
                         count += 1
                         print(str(count) + '. ' + file)
             delete_game = input("Which game would you like to delete?\n")
@@ -235,33 +286,41 @@ class Sonar:
         return
 
     def quit(self):
+        """
+        Method to regulate quitting the game and saving the game file.
+        :return: Nothing.
+        """
         if self.new_file:
             self.filename = input("File name?\n") + '.snr'
         board = chests = previous_moves = ''
         for i in self.board:
             for j in i:
                 board += '{},'.format(j)
-            board = '{}\t'.format(board[0:len(board)-1])
+            board = '{}\t'.format(board[0:len(board) - 1])
         for i in self.chests:
             for j in i:
                 chests += '{},'.format(j)
-            chests = '{}\t'.format(chests[0:len(chests)-1])
+            chests = '{}\t'.format(chests[0:len(chests) - 1])
         for i in self.previous_moves:
             for j in i:
                 previous_moves += '{},'.format(j)
-            previous_moves = '{}\t'.format(previous_moves[0:len(previous_moves)-1])
+            previous_moves = '{}\t'.format(previous_moves[0:len(previous_moves) - 1])
         try:
             game = open(self.path + '\\' + self.filename, 'w')
             game.write(Loading.caesar_encrypt(str(self.devices)) + '\n')
-            game.write(Loading.caesar_encrypt(board[0:len(board)-1]) + '\n')
-            game.write(Loading.caesar_encrypt(chests[0:len(chests)-1]) + '\n')
-            game.write(Loading.caesar_encrypt(previous_moves[0:len(previous_moves)-1]) + '\n')
+            game.write(Loading.caesar_encrypt(board[0:len(board) - 1]) + '\n')
+            game.write(Loading.caesar_encrypt(chests[0:len(chests) - 1]) + '\n')
+            game.write(Loading.caesar_encrypt(previous_moves[0:len(previous_moves) - 1]) + '\n')
             game.close()
         except (FileNotFoundError, FileExistsError):
             Loading.returning("The path or file was not found.", 2)
         Loading.returning("Saving game progress...", 2)
 
     def main(self):
+        """
+        Main method for all gameplay.
+        :return: Nothing.
+        """
         print('S O N A R !\n')
         if self.new_file:
             self.setup()

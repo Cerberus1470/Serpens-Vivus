@@ -5,9 +5,9 @@ import random
 from System import Loading
 from System.User import *
 from System import system_recovery
-from System.task_manager import TaskManager
+from Applications.task_manager import TaskManager
 from System.reset import Reset
-from System.event_viewer import EventViewer
+from Applications.event_viewer import EventViewer
 from Applications.jokes import Jokes
 from Applications.notepad import Notepad
 from Applications.speed_up_or_slow_down import SpeedSlow

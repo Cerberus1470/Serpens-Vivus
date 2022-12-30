@@ -1,5 +1,5 @@
-from System.task_manager import TaskManager
-from System.event_viewer import EventViewer
+from Applications.task_manager import TaskManager
+from Applications.event_viewer import EventViewer
 from Applications.jokes import Jokes
 from Applications.notepad import Notepad
 from Applications.speed_up_or_slow_down import SpeedSlow

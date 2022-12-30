@@ -1,5 +1,7 @@
-# This program is a game of hangman! It will randomly select a word from 4 different categories, displays what category was chosen, and gives the player 5 incorrect guesses before the potato man is hung. Dark, I know right? The fate of a man lies in
-# your ability to guess a word. Good luck! Side note: I thought we were supposed to have a working program, so I just fixed the broken code. Everything works :)
+"""
+This program is a game of hangman! It will randomly select a word from 4 different categories, displays what category was chosen, and gives the player 5 incorrect guesses before the potato man is hung. Dark, I know right? The fate of a man lies in
+your ability to guess a word. Good luck! Side note: I thought we were supposed to have a working program, so I just fixed the broken code. Everything works :)
+"""
 import os
 from System import Loading
 import random
@@ -84,10 +86,18 @@ words = {  # this is the word bank
 
 
 class Hangman:
+    """
+    The main class to house everything.
+    """
     category = "games"
 
     @staticmethod
     def boot(path="\\"):
+        """
+        Used to regulate the bootup sequence for the game
+        :param path: Path to pass on to everything
+        :return: Nothing
+        """
         hangman = Hangman(path)
         if not hangman.filename == 'exit':
             hangman.main()
@@ -106,6 +116,11 @@ class Hangman:
 
     @staticmethod
     def get_random_word(word_dict):
+        """
+        Method to get a random word
+        :param word_dict: Words to limit selection to
+        :return: Random word
+        """
         # This function returns a random string from the passed dictionary of lists of strings, and the key also.
         # First, randomly select a key from the dictionary:
         word_key = random.choice(list(word_dict.keys()))
@@ -114,6 +129,10 @@ class Hangman:
         return [word_dict[word_key][word_index], word_key]
 
     def display_board(self):
+        """
+        Method to display the Hangman Board
+        :return: Nothing
+        """
         # this function displays the selected category, the hangman, the past incorrect and correct guesses, and the blanks.
         print("The secret word is in this set: " + self.secret_key)
         print(HANGMAN_PICS[len(self.missed_letters)])
@@ -131,9 +150,15 @@ class Hangman:
         for letter in blanks:  # show the secret word with spaces in between each letter
             print(letter.upper(), end=' ')
         print()
+        return
 
     @staticmethod
     def get_guess(already_guessed):
+        """
+        Method to get a guess from the player
+        :param already_guessed: Characters already guessed
+        :return: The player's guess
+        """
         # Returns the letter the player entered. This function makes sure the player entered a single letter, and not something else.
         while True:
             print('Guess a letter, or type "quit" to exit the app.')
@@ -150,6 +175,10 @@ class Hangman:
                 return guess
 
     def setup(self):
+        """
+        Method to set everything up.
+        :return: Nothing.
+        """
         self.new_file = True
         self.missed_letters = ''
         self.correct_letters = ''
@@ -157,6 +186,10 @@ class Hangman:
         return
 
     def quit(self):
+        """
+        Method to regulate quitting and saving progress
+        :return: Nothing.
+        """
         if self.new_file:
             self.filename = input("File name?\n") + '.hng'
         try:
@@ -167,6 +200,10 @@ class Hangman:
             Loading.returning("The path or file was not found.", 2)
 
     def main(self):
+        """
+        Main loop method for the game.
+        :return: Nothing.
+        """
         # This section prints the first message, resets the correct and incorrect letters, assigns secret words and keys, and sets the game to be running.
         print('H A N G M A N')
         game_is_done = False
@@ -185,7 +222,7 @@ class Hangman:
                 Loading.returning("Saving game progress...", 2)
                 return
             elif guess in self.secret_word:  # This adds the correct letter to the blanks.
-                self.correct_letters = self.correct_letters + guess
+                self.correct_letters += guess
 
                 # Check if the player has won
                 found_all_letters = True
@@ -197,7 +234,7 @@ class Hangman:
                     print('Yes! The secret word is "' + self.secret_word + '"! You have won!')
                     game_is_done = True
             else:  # This just loops the player, adding their incorrect letter to the list of incorrect guesses.
-                self.missed_letters = self.missed_letters + guess
+                self.missed_letters += guess
 
                 # Check if player has guessed too many times and lost
                 if len(self.missed_letters) == len(HANGMAN_PICS) - 1:

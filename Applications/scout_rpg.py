@@ -1193,7 +1193,7 @@ class ScoutRPG:
                                                  td(days=random.randint(self.time.day, self.time.day + 30) + random.randint(1, 2) * 30, hours=random.randint(8, 16) - self.time.hour, minutes=[0, 15, 30, 45][random.randint(0, 3)]), 3))
                         Loading.returning(self.events[len(self.events) - 1].alert_message())
                     case 4:
-                        self.events.append(Event("Campout", self.time + td(days=random.randint())))
+                        self.events.append(Event("Campout", self.time + td(days=random.randint(self.time.day + 7, self.time.day + 28))))
 
             elif "phone" in i.event and i.answer:
                 Loading.returning("Your friend thanks you for giving him advice, and gifts you $5! +$5", 3)
@@ -1315,7 +1315,7 @@ class ScoutRPG:
         if shoes:
             events.append(("There is a large muddy spot that looks shallow to you. Jump in it for the fun?", "You happily jump in the mud puddle, however it turns out to be a pool. - 1 pair of Shoes",
                            "You decide against jumping in the puddle and walk around it.", "self.possessions.remove([i for i in self.possessions if 'shoes' in i.name][0])", "pass"))
-        for i in random.sample(events, (6 if size == "big" else 3)):
+        for i in random.sample(events, (6 if size == "big" else 3)):x
             for j in range(3):
                 if i.event:
                     choice = input(i.event)
@@ -1740,7 +1740,7 @@ class ScoutRPG:
             input("Here at KAH, we package food to be eaten by kids all across the world, mainly those without access to a stable food supply.\n"
                   "Today during your visit, you'll also be packaging food. Select the correct meal for the shown foods.\n"
                   "A Breakfast needs some GRANOLA, a ORANGE, and a pack of POWDERED MILK.\n"
-                  "A Lunch needs BREAD, a packet of PEANUT BUTTER, and a packet of JELLY\n"
+                  "A Lunch needs BREAD, a packet of PEANUT BUTTER, and a packet of JELLY.\n"
                   "A Dinner needs a box of RICE, a full CARROT, and a PEACH.\n\n"
                   "Good Luck! Press ENTER to continue.")
         foods = ["grain", "orange", "powdered milk", "bread", "peanut butter", "jelly", "rice", "carrot", "peach"]

@@ -1,3 +1,6 @@
+"""
+A note-writing application featuring note selection and deletion but no editing (yet).
+"""
 import time
 from System import Loading
 import os
@@ -5,10 +8,20 @@ import os
 
 # noinspection PyTypeChecker
 class Notepad:
+    """
+    Class Notepad.
+    Regulates the connections with Cerberus and organizes methods.
+    """
+
     category = "utilities"
 
     @staticmethod
     def boot(os_object):
+        """
+        Used to regulate the bootup sequence for the game
+        :param os_object: OS Object passed from Cerberus.
+        :return: Nothing
+        """
         while True:
             notepad = Notepad(os_object.current_user.username)
             if notepad.filename == 'exit':
@@ -47,7 +60,7 @@ class Notepad:
                     except FileNotFoundError:
                         try:
                             note = open('Users\\%s\\%s' % (self.username, self.filename + '.txt'), 'r')
-                            self.filename = self.filename + '.txt'
+                            self.filename += '.txt'
                         except FileNotFoundError:
                             print("Choose a valid option.")
                             time.sleep(1)
@@ -64,6 +77,11 @@ class Notepad:
 
     @staticmethod
     def delete_note(current_username):
+        """
+        Method to regulate deleting notes
+        :param current_username: String to define the path to look.
+        :return: Nothing.
+        """
         while True:
             for subdir, dirs, files in os.walk('Users\\%s' % current_username):
                 count = 0
@@ -89,19 +107,24 @@ class Notepad:
                 return
 
     def main(self, current_username):
+        """
+        Main method for the notepad program
+        :param current_username: String to define the path to look in
+        :return: 1 if the user wants to create or add to another note, 0 if they don't.
+        """
         # Simple notes program that allows one to enter notes and save them to memory. Soon to be saved to disk.
         notes_temp = ''
         while True:
             print("\nType something!")
             notes_temp_section = input()
-            neworsave = input('New line or Save the text file? Type "New Line" for a new line and "Save" to save the text and return to the homepage.')
+            new_or_save = input('New line or Save the text file? Type "New Line" for a new line and "Save" to save the text and return to the homepage.')
             if notes_temp:
                 notes_temp += '\n' + notes_temp_section
                 pass
             else:
                 notes_temp = notes_temp_section
                 pass
-            if neworsave.lower() in 'save file':
+            if new_or_save.lower() in 'save file':
                 break
         if self.new_file:
             filename = input("File name?\n")

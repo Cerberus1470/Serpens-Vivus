@@ -66,39 +66,43 @@ class UserSettings:
         for i in users:
             if user == i.username:
                 return i
-        print("Sorry, the username was not in the list.")
+        Loading.returning("Sorry, the username was not in the list.", 2)
         return
 
     def edit_uname(self, os_object):
         user = os_object.current_user
         if os_object.current_user.elevated:
             user = self.print_all_users("Choose the user whose username you want to edit", os_object.users)
-        print("New Username for " + user.username + ":")
-        new_uname = input()
-        # Find the current user (or the specified user) and change their name to the new name.
-        if Loading.modify_user(user.username, 1, new_uname) == 1:
-            Loading.returning("New Username successfully set!", 2)
+        if user:
+            print("New Username for " + user.username + ":")
+            new_uname = input()
+            if new_uname == "Default" or new_uname in [i.username for i in os_object.users]:
+                Loading.returning("That username is taken.", 3)
+            else:
+                # Find the current user (or the specified user) and change their name to the new name.
+                if Loading.modify_user(user.username, 1, new_uname) == 1:
+                    os_object.users[os_object.index([i for i in os_object.users if i == user])].username = new_uname
+                    Loading.returning("New Username successfully set!", 2)
 
     def edit_pwd(self, os_object):
         user = os_object.current_user
         if os_object.current_user.elevated:
             user = self.print_all_users("Choose the user whose password you want to edit.", os_object.users)
-        print("Old Password for " + user.username + ":")
-        old_pwd = input()
-        if old_pwd == user.password:
-            print("New Password:")
-            new_pwd = input()
-            print("Enter the new password again:")
-            if new_pwd == input():
-                if Loading.modify_user(user.username, 2, new_pwd) == 1:
-                    Loading.returning("New Password successfully set!", 2)
+        if user:
+            print("Old Password for " + user.username + ":")
+            old_pwd = input()
+            if old_pwd == user.password:
+                new_pwd = input("New Password:")
+                if new_pwd == input("Enter the new password again:"):
+                    if Loading.modify_user(user.username, 2, new_pwd) == 1:
+                        Loading.returning("New Password successfully set!", 2)
+                    else:
+                        Loading.returning("An error occurred. Please reboot the system safely.", 2)
                 else:
-                    Loading.returning("An error occurred. Please reboot the system safely.", 2)
+                    Loading.returning("The passwords did not match.", 2)
             else:
-                Loading.returning("The passwords did not match.", 2)
-        else:
-            print("The password is incorrect.")
-        return
+                Loading.returning("The password is incorrect.", 3)
+            return
 
     @staticmethod
     def add_user(os_object):
@@ -112,7 +116,8 @@ class UserSettings:
             print('Would you like this user to be a Standard User or an Administrator?\nType "info" for descriptions, or "exit" to leave.')
             user_type = input()
             if user_type == "info":
-                print("1. Standard Users have limited privileges. More description coming soon.\n2. Administrators can do anything.\n")
+                print("1. Standard Users can perform simple system tasks and have access to all utilities and games."
+                      "\n2. Administrators can perform simple and complex system tasks and have access to utilities, games, and administrative tools.\n")
             elif user_type.lower() in ("standard", "standard user", "regular", "normal"):
                 user_type = "StandardUser"
                 break

@@ -1263,3 +1263,414 @@
 [22/07/2022 17:09:46] System Startup.
 [23/07/2022 11:18:44] Boot complete.
 [23/07/2022 11:18:44] System Startup.
+[29/08/2022 13:28:36] Boot complete.
+[29/08/2022 13:28:36] System Startup.
+[30/08/2022 18:38:22] Boot complete.
+[30/08/2022 18:38:22] System Startup.
+[31/08/2022 15:54:02] Boot complete.
+[31/08/2022 15:54:02] System Startup.
+[01/09/2022 10:45:44] Boot complete.
+[01/09/2022 10:45:44] System Startup.
+[01/09/2022 15:40:09] Boot complete.
+[01/09/2022 15:40:09] System Startup.
+[06/09/2022 18:05:07] Boot complete.
+[06/09/2022 18:05:07] System Startup.
+[06/09/2022 18:05:24] Boot complete.
+[06/09/2022 18:05:24] System Startup.
+[06/09/2022 18:05:34] Boot complete.
+[06/09/2022 18:05:34] System Startup.
+[06/09/2022 18:36:25] Boot complete.
+[06/09/2022 18:36:25] System Startup.
+[29/09/2022 18:15:01] Boot complete.
+[29/09/2022 18:15:01] System Startup.
+[29/09/2022 18:15:31] Boot complete.
+[29/09/2022 18:15:31] System Startup.
+[04/10/2022 18:20:40] Boot complete.
+[04/10/2022 18:20:40] System Startup.
+[04/10/2022 18:27:21] Boot complete.
+[04/10/2022 18:27:21] System Startup.
+[04/10/2022 18:37:06] Boot complete.
+[04/10/2022 18:37:06] System Startup.
+[04/10/2022 18:46:30] Boot complete.
+[04/10/2022 18:46:30] System Startup.
+[04/10/2022 18:52:29] Boot complete.
+[04/10/2022 18:52:29] System Startup.
+[04/10/2022 18:55:06] Boot complete.
+[04/10/2022 18:55:06] System Startup.
+[04/10/2022 18:55:06] Cerberus encountered a fatal error. Reboot is required. Stacktrace: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte
+[04/10/2022 18:55:39] Boot complete.
+[04/10/2022 18:55:39] System Startup.
+[05/10/2022 10:59:27] Boot complete.
+[05/10/2022 10:59:27] System Startup.
+[05/10/2022 11:03:49] Boot complete.
+[05/10/2022 11:03:49] System Startup.
+[05/10/2022 11:07:50] Boot complete.
+[05/10/2022 11:07:50] System Startup.
+[05/10/2022 11:11:29] Boot complete.
+[05/10/2022 11:11:29] System Startup.
+[05/10/2022 11:11:46] Boot complete.
+[05/10/2022 11:11:46] System Startup.
+[05/10/2022 11:19:33] Boot complete.
+[05/10/2022 11:19:33] System Startup.
+[05/10/2022 11:19:36] Tejas logged in.
+[05/10/2022 11:19:39] Tejas opened sudoku
+[05/10/2022 11:19:39] Cerberus encountered a fatal error. Reboot is required. Stacktrace: type object 'Sudoku' has no attribute 'category'
+[05/10/2022 11:19:58] Boot complete.
+[05/10/2022 11:19:58] System Startup.
+[05/10/2022 11:20:01] Tejas logged in.
+[05/10/2022 11:20:04] Tejas opened sudoku
+[05/10/2022 11:20:04] Cerberus encountered a fatal error. Reboot is required. Stacktrace: type object 'Sudoku' has no attribute 'category'
+[05/10/2022 11:20:18] Boot complete.
+[05/10/2022 11:20:18] System Startup.
+[05/10/2022 11:20:20] Tejas logged in.
+[05/10/2022 11:20:21] Tejas opened sudoku
+[05/10/2022 11:20:41] Tejas opened shutdown
+[05/10/2022 11:20:41] Tejas logged out and shutdown.
+[05/10/2022 11:20:41] Preparing to shut down...
+[05/10/2022 11:20:47] All apps closed.
+[05/10/2022 11:20:47] Updating user files...
+[05/10/2022 11:20:47] Updating user files...
+[05/10/2022 11:20:47] Updating user files...
+[05/10/2022 11:20:47] Updating user files...
+[05/10/2022 11:20:47] Shutdown complete.
+[05/10/2022 11:20:47] Code 4 returned. Executing task.
+[05/10/2022 11:20:51] System Shutdown. 33.21885848045349 seconds have elapsed.
+[05/10/2022 11:20:51] System Startup.
+[05/10/2022 11:20:51] Cerberus encountered a fatal error. Reboot is required. Stacktrace: Multiple fatal errors occurred. Please reboot the system.
+[05/10/2022 11:20:57] System Shutdown. 39.35130310058594 seconds have elapsed.
+[05/10/2022 11:20:57] System Startup.
+[05/10/2022 11:20:58] A fatal internal error has occurred. The system has entered Recovery.
+[05/10/2022 11:27:35] Boot complete.
+[05/10/2022 11:27:35] System Startup.
+[05/10/2022 11:27:35] Cerberus encountered a fatal error. Reboot is required. Stacktrace: Multiple fatal errors occurred. Please reboot the system.
+[05/10/2022 11:27:43] Boot complete.
+[05/10/2022 11:27:43] System Startup.
+[05/10/2022 11:28:01] Boot complete.
+[05/10/2022 11:28:01] System Startup.
+[05/10/2022 11:32:06] Boot complete.
+[05/10/2022 11:32:06] System Startup.
+[05/10/2022 11:32:12] Tejas logged in.
+[05/10/2022 11:32:13] Tejas opened shutdown
+[05/10/2022 11:32:13] Tejas logged out and shutdown.
+[05/10/2022 11:32:13] Preparing to shut down...
+[05/10/2022 11:32:15] Updating user files...
+[05/10/2022 11:32:15] Updating user files...
+[05/10/2022 11:32:15] Updating user files...
+[05/10/2022 11:32:15] Updating user files...
+[05/10/2022 11:32:15] Shutdown complete.
+[05/10/2022 11:32:17] Code 3 returned. Executing task.
+[05/10/2022 11:32:17] System Shutdown. 10.981396198272705 seconds have elapsed.
+[05/10/2022 11:32:22] Boot complete.
+[05/10/2022 11:32:22] System Startup.
+[05/10/2022 11:32:25] Tejas logged in.
+[05/10/2022 11:32:26] Tejas opened restart
+[05/10/2022 11:32:29] Tejas opened power
+[05/10/2022 11:32:29] Tejas logged out and shutdown.
+[05/10/2022 11:32:29] Preparing to shut down...
+[05/10/2022 11:32:30] Updating user files...
+[05/10/2022 11:32:30] Updating user files...
+[05/10/2022 11:32:30] Updating user files...
+[05/10/2022 11:32:30] Updating user files...
+[05/10/2022 11:32:30] Shutdown complete.
+[05/10/2022 11:32:30] Code 4 returned. Executing task.
+[05/10/2022 11:32:34] System Shutdown. 12.156089067459106 seconds have elapsed.
+[05/10/2022 11:32:34] System Startup.
+[05/10/2022 11:33:11] Dhilip logged in.
+[05/10/2022 11:33:12] Dhilip opened sudoku
+[05/10/2022 11:33:35] Dhilip opened lock
+[05/10/2022 11:33:35] Dhilip logged out.
+[05/10/2022 11:33:35] Code regular returned. Executing task.
+[05/10/2022 11:33:48] Tejas logged in.
+[05/10/2022 11:33:51] Tejas opened user settings
+[05/10/2022 11:34:10] Cerberus encountered a fatal error. Reboot is required. Stacktrace: 'NoneType' object has no attribute 'username'
+[05/10/2022 11:41:49] Boot complete.
+[05/10/2022 11:41:49] System Startup.
+[05/10/2022 11:41:52] Tejas logged in.
+[05/10/2022 11:41:55] Tejas opened user settings
+[05/10/2022 11:42:18] Boot complete.
+[05/10/2022 11:42:18] System Startup.
+[05/10/2022 11:42:21] Tejas logged in.
+[05/10/2022 11:42:22] Tejas opened user settings
+[11/10/2022 15:45:51] Boot complete.
+[11/10/2022 15:45:51] System Startup.
+[11/10/2022 15:45:54] Tejas logged in.
+[11/10/2022 15:45:58] Tejas opened user settings
+[11/10/2022 15:46:28] Boot complete.
+[11/10/2022 15:46:28] System Startup.
+[11/10/2022 15:46:31] Tejas logged in.
+[11/10/2022 15:46:35] Tejas opened user settings
+[11/10/2022 15:48:42] Boot complete.
+[11/10/2022 15:48:42] System Startup.
+[11/10/2022 15:48:46] Tejas logged in.
+[11/10/2022 15:48:47] Tejas opened user settings
+[16/10/2022 18:52:41] Boot complete.
+[16/10/2022 18:52:41] System Startup.
+[16/10/2022 21:00:38] Boot complete.
+[16/10/2022 21:00:38] System Startup.
+[16/10/2022 21:00:41] Preparing to shut down...
+[16/10/2022 21:00:44] Updating user files...
+[16/10/2022 21:00:44] Updating user files...
+[16/10/2022 21:00:44] Updating user files...
+[16/10/2022 21:00:44] Updating user files...
+[16/10/2022 21:00:44] Shutdown complete.
+[16/10/2022 21:00:45] System Shutdown. 6.673194169998169 seconds have elapsed.
+[16/10/2022 21:00:50] Boot complete.
+[16/10/2022 21:00:50] System Startup.
+[16/10/2022 21:01:23] Boot complete.
+[16/10/2022 21:01:23] System Startup.
+[16/10/2022 21:03:06] Boot complete.
+[16/10/2022 21:03:06] System Startup.
+[16/10/2022 21:03:11] Preparing to shut down...
+[16/10/2022 21:03:42] Updating user files...
+[16/10/2022 21:03:42] Updating user files...
+[16/10/2022 21:03:42] Updating user files...
+[16/10/2022 21:03:42] Updating user files...
+[16/10/2022 21:03:42] Shutdown complete.
+[16/10/2022 21:03:47] Boot complete.
+[16/10/2022 21:03:47] System Startup.
+[16/10/2022 21:04:06] Boot complete.
+[16/10/2022 21:04:06] System Startup.
+[20/10/2022 10:58:00] Boot complete.
+[20/10/2022 10:58:00] System Startup.
+[20/10/2022 11:07:09] Boot complete.
+[20/10/2022 11:07:09] System Startup.
+[27/11/2022 14:40:50] Boot complete.
+[27/11/2022 14:40:50] System Startup.
+[27/11/2022 14:44:49] Boot complete.
+[27/11/2022 14:44:49] System Startup.
+[27/11/2022 14:46:38] Tejas logged in.
+[27/11/2022 14:46:43] Tejas opened bagels
+[27/11/2022 14:47:22] Tejas opened power
+[27/11/2022 14:47:22] Tejas logged out and shutdown.
+[27/11/2022 14:47:22] Preparing to shut down...
+[27/11/2022 14:47:27] All apps closed.
+[27/11/2022 14:47:27] Updating user files...
+[27/11/2022 14:47:27] Updating user files...
+[27/11/2022 14:47:27] Updating user files...
+[27/11/2022 14:47:27] Updating user files...
+[27/11/2022 14:47:27] Shutdown complete.
+[27/11/2022 14:48:01] Code 3 returned. Executing task.
+[27/11/2022 14:48:01] System Shutdown. 191.20536351203918 seconds have elapsed.
+[27/11/2022 14:48:03] Boot complete.
+[27/11/2022 14:48:03] System Startup.
+[27/11/2022 14:48:06] Tejas logged in.
+[27/11/2022 14:48:09] Tejas opened bagels
+[27/11/2022 14:48:35] Tejas opened power
+[27/11/2022 14:48:35] Tejas logged out and shutdown.
+[27/11/2022 14:48:35] Preparing to shut down...
+[27/11/2022 14:48:53] Boot complete.
+[27/11/2022 14:48:53] System Startup.
+[27/11/2022 14:49:27] Boot complete.
+[27/11/2022 14:49:27] System Startup.
+[27/11/2022 14:50:03] Boot complete.
+[27/11/2022 14:50:03] System Startup.
+[27/11/2022 14:50:06] Tejas logged in.
+[27/11/2022 14:50:13] Tejas opened bagels
+[27/11/2022 14:50:40] Tejas opened shutdown
+[27/11/2022 14:50:40] Tejas logged out and shutdown.
+[27/11/2022 14:50:40] Preparing to shut down...
+[27/11/2022 14:51:00] Boot complete.
+[27/11/2022 14:51:00] System Startup.
+[27/11/2022 14:51:02] Preparing to shut down...
+[27/11/2022 14:51:48] Updating user files...
+[27/11/2022 14:51:50] Updating user files...
+[27/11/2022 14:51:51] Updating user files...
+[27/11/2022 14:51:52] Updating user files...
+[27/11/2022 14:51:53] Shutdown complete.
+[27/11/2022 14:51:59] System Shutdown. 58.66850304603577 seconds have elapsed.
+[27/11/2022 14:52:06] Boot complete.
+[27/11/2022 14:52:06] System Startup.
+[27/11/2022 14:52:08] Preparing to shut down...
+[27/11/2022 14:52:35] Boot complete.
+[27/11/2022 14:52:35] System Startup.
+[27/11/2022 14:56:59] Boot complete.
+[27/11/2022 14:56:59] System Startup.
+[27/11/2022 14:57:05] Sentiens Anguis encountered a fatal error. Reboot is required. Stacktrace: Multiple fatal errors occurred. Please reboot the system.
+[27/11/2022 14:57:18] Boot complete.
+[27/11/2022 14:57:18] System Startup.
+[27/11/2022 15:39:41] Boot complete.
+[27/11/2022 15:39:41] System Startup.
+[27/11/2022 15:41:11] Boot complete.
+[27/11/2022 15:41:11] System Startup.
+[27/11/2022 15:41:14] Preparing to shut down...
+[27/11/2022 15:41:20] Boot complete.
+[27/11/2022 15:41:20] System Startup.
+[27/11/2022 15:41:35] Preparing to shut down...
+[27/11/2022 15:41:49] Boot complete.
+[27/11/2022 15:41:49] System Startup.
+[27/11/2022 15:41:51] Preparing to shut down...[27/11/2022 15:46:25] Boot complete.
+[27/11/2022 15:46:25] System Startup.
+[27/11/2022 15:46:28] Preparing to shut down...
+[27/11/2022 15:46:45] Boot complete.
+[27/11/2022 15:46:45] System Startup.
+[27/11/2022 15:50:47] Preparing to shut down...
+[27/11/2022 15:50:58] Boot complete.
+[27/11/2022 15:50:58] System Startup.
+[27/11/2022 15:51:01] Preparing to shut down...
+[27/11/2022 15:51:19] Boot complete.
+[27/11/2022 15:51:19] System Startup.
+[27/11/2022 15:51:43] Boot complete.
+[27/11/2022 15:51:43] System Startup.
+[27/11/2022 15:51:45] Preparing to shut down...
+[27/11/2022 15:51:48] System Shutdown. 5.063536882400513 seconds have elapsed.
+[27/11/2022 15:51:55] Boot complete.
+[27/11/2022 15:51:55] System Startup.
+[27/11/2022 15:52:02] Boot complete.
+[27/11/2022 15:52:02] System Startup.
+[27/11/2022 15:52:04] Preparing to shut down...
+[27/11/2022 15:52:20] Boot complete.
+[27/11/2022 15:52:20] System Startup.
+[27/11/2022 15:52:23] Preparing to shut down...
+[27/11/2022 15:53:32] Boot complete.
+[27/11/2022 15:53:32] System Startup.
+[27/11/2022 15:53:36] Preparing to shut down...
+[27/11/2022 15:53:46] Boot complete.
+[27/11/2022 15:53:46] System Startup.
+[27/11/2022 15:53:48] Preparing to shut down...
+[27/11/2022 15:54:08] System Shutdown. 21.748313665390015 seconds have elapsed.
+[27/11/2022 15:54:11] Boot complete.
+[27/11/2022 15:54:11] System Startup.
+[27/11/2022 15:54:14] Preparing to shut down...
+[27/11/2022 15:54:21] Boot complete.
+[27/11/2022 15:54:21] System Startup.
+[27/11/2022 15:54:24] Preparing to shut down...
+[27/11/2022 15:54:51] Boot complete.
+[27/11/2022 15:54:51] System Startup.
+[27/11/2022 15:54:56] Preparing to shut down...
+[27/11/2022 15:57:48] Boot complete.
+[27/11/2022 15:57:48] System Startup.
+[27/11/2022 15:57:50] Preparing to shut down...
+[27/11/2022 15:58:22] Boot complete.
+[27/11/2022 15:58:22] System Startup.
+[27/11/2022 15:58:24] Preparing to shut down...
+[27/11/2022 15:58:40] Boot complete.
+[27/11/2022 15:58:40] System Startup.
+[27/11/2022 15:58:43] Preparing to shut down...
+[27/11/2022 15:59:06] Boot complete.
+[27/11/2022 15:59:06] System Startup.
+[27/11/2022 15:59:11] Preparing to shut down...
+[27/11/2022 15:59:14] System Shutdown. 8.673015356063843 seconds have elapsed.
+[27/11/2022 16:02:04] Boot complete.
+[27/11/2022 16:02:04] System Startup.
+[27/11/2022 16:02:07] Preparing to shut down...
+[27/11/2022 16:02:17] Boot complete.
+[27/11/2022 16:02:17] System Startup.
+[27/11/2022 16:02:20] Preparing to shut down...
+[29/11/2022 14:57:31] Boot complete.
+[29/11/2022 14:57:31] System Startup.
+[29/11/2022 14:57:34] Preparing to shut down...
+[29/12/2022 13:06:21] Boot complete.
+[29/12/2022 13:06:21] System Startup.
+[29/12/2022 13:06:24] Preparing to shut down...
+[29/12/2022 13:06:25] System Shutdown. 4.851143836975098 seconds have elapsed.
+[29/12/2022 13:06:28] Boot complete.
+[29/12/2022 13:06:28] System Startup.
+[29/12/2022 13:06:31] Preparing to shut down...
+[29/12/2022 13:11:05] Boot complete.
+[29/12/2022 13:11:05] System Startup.
+[29/12/2022 13:11:18] Preparing to shut down...
+[29/12/2022 13:11:24] System Shutdown. 19.531951665878296 seconds have elapsed.
+[29/12/2022 13:11:33] Boot complete.
+[29/12/2022 13:11:33] System Startup.
+[29/12/2022 13:11:36] Preparing to shut down...
+[29/12/2022 13:13:56] Boot complete.
+[29/12/2022 13:13:56] System Startup.
+[29/12/2022 13:14:38] Boot complete.
+[29/12/2022 13:14:38] System Startup.
+[29/12/2022 13:14:52] Preparing to shut down...
+[29/12/2022 13:16:23] Boot complete.
+[29/12/2022 13:16:23] System Startup.
+[29/12/2022 13:16:38] Preparing to shut down...
+[29/12/2022 13:18:52] Boot complete.
+[29/12/2022 13:18:52] System Startup.
+[29/12/2022 13:19:12] Preparing to shut down...
+[29/12/2022 13:20:54] Boot complete.
+[29/12/2022 13:20:54] System Startup.
+[29/12/2022 13:20:56] Preparing to shut down...
+[29/12/2022 13:22:23] Boot complete.
+[29/12/2022 13:22:23] System Startup.
+[29/12/2022 13:22:26] Preparing to shut down...
+[29/12/2022 13:24:00] Boot complete.
+[29/12/2022 13:24:00] System Startup.
+[29/12/2022 13:24:02] Preparing to shut down...
+[29/12/2022 13:26:22] Boot complete.
+[29/12/2022 13:26:22] System Startup.
+[29/12/2022 13:26:30] Preparing to shut down...
+[29/12/2022 13:26:32] System Shutdown. 10.432803630828857 seconds have elapsed.
+[29/12/2022 13:27:06] Boot complete.
+[29/12/2022 13:27:06] System Startup.
+[29/12/2022 13:27:10] Preparing to shut down...
+[29/12/2022 13:27:11] System Shutdown. 5.174256086349487 seconds have elapsed.
+[29/12/2022 13:30:40] Boot complete.
+[29/12/2022 13:30:40] System Startup.
+[29/12/2022 13:30:43] Preparing to shut down...
+[29/12/2022 13:30:46] System Shutdown. 5.997198581695557 seconds have elapsed.
+[29/12/2022 13:32:04] Boot complete.
+[29/12/2022 13:32:04] System Startup.
+[29/12/2022 13:32:08] Preparing to shut down...
+[29/12/2022 13:32:10] System Shutdown. 5.294992208480835 seconds have elapsed.
+[29/12/2022 13:33:44] Boot complete.
+[29/12/2022 13:33:44] System Startup.
+[29/12/2022 13:33:47] Preparing to shut down...
+[29/12/2022 13:33:49] System Shutdown. 5.479841947555542 seconds have elapsed.
+[29/12/2022 13:34:48] Boot complete.
+[29/12/2022 13:34:48] System Startup.
+[29/12/2022 13:34:52] Preparing to shut down...
+[29/12/2022 13:34:54] System Shutdown. 5.537859916687012 seconds have elapsed.
+[29/12/2022 13:35:57] Boot complete.
+[29/12/2022 13:35:57] System Startup.
+[29/12/2022 13:36:00] Preparing to shut down...
+[29/12/2022 13:36:13] Boot complete.
+[29/12/2022 13:36:13] System Startup.
+[29/12/2022 13:36:15] Preparing to shut down...
+[29/12/2022 13:36:17] System Shutdown. 3.7755954265594482 seconds have elapsed.
+[29/12/2022 13:36:32] Boot complete.
+[29/12/2022 13:36:32] System Startup.
+[29/12/2022 13:36:36] Preparing to shut down...
+[29/12/2022 13:37:16] Boot complete.
+[29/12/2022 13:37:16] System Startup.
+[29/12/2022 13:37:18] Preparing to shut down...
+[29/12/2022 13:37:20] System Shutdown. 4.945008039474487 seconds have elapsed.
+[29/12/2022 13:37:31] Boot complete.
+[29/12/2022 13:37:31] System Startup.
+[29/12/2022 13:37:35] Preparing to shut down...
+[29/12/2022 13:37:45] Boot complete.
+[29/12/2022 13:37:45] System Startup.
+[29/12/2022 13:37:46] Preparing to shut down...
+[29/12/2022 13:37:48] System Shutdown. 3.5265440940856934 seconds have elapsed.
+[29/12/2022 13:38:14] Boot complete.
+[29/12/2022 13:38:14] System Startup.
+[29/12/2022 13:38:36] Preparing to shut down...
+[29/12/2022 13:38:43] All apps closed.
+[29/12/2022 13:38:50] System Shutdown. 35.21695852279663 seconds have elapsed.
+[29/12/2022 13:39:48] Boot complete.
+[29/12/2022 13:39:48] System Startup.
+[29/12/2022 13:40:12] Boot complete.
+[29/12/2022 13:40:12] System Startup.
+[29/12/2022 13:40:14] Preparing to shut down...
+[29/12/2022 13:40:15] System Shutdown. 2.731606960296631 seconds have elapsed.
+[29/12/2022 13:40:20] Boot complete.
+[29/12/2022 13:40:20] System Startup.
+[29/12/2022 13:40:22] Preparing to shut down...
+[29/12/2022 13:40:52] Boot complete.
+[29/12/2022 13:40:52] System Startup.
+[29/12/2022 13:40:53] Preparing to shut down...
+[29/12/2022 13:40:55] System Shutdown. 3.033496141433716 seconds have elapsed.
+[29/12/2022 13:41:02] Boot complete.
+[29/12/2022 13:41:02] System Startup.
+[29/12/2022 13:41:05] Preparing to shut down...
+[29/12/2022 18:28:03] Boot complete.
+[29/12/2022 18:28:03] System Startup.
+[29/12/2022 18:30:29] Boot complete.
+[29/12/2022 18:30:29] System Startup.
+[29/12/2022 18:31:54] Boot complete.
+[29/12/2022 18:31:54] System Startup.
+[29/12/2022 18:37:44] Boot complete.
+[29/12/2022 18:37:44] System Startup.
+[29/12/2022 18:37:49] Preparing to shut down...
+[29/12/2022 18:37:51] System Shutdown. 6.873497247695923 seconds have elapsed.
+[29/12/2022 19:33:16] Boot complete.
+[29/12/2022 19:33:49] Boot complete.
+[30/12/2022 09:16:09] Boot complete.
+[30/12/2022 09:16:15] Boot complete.
+[30/12/2022 09:16:15] System Startup.
