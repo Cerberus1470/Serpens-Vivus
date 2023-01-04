@@ -1,7 +1,6 @@
 """
 A note-writing application featuring note selection and deletion but no editing (yet).
 """
-import time
 from System import Loading
 import os
 
@@ -62,8 +61,7 @@ class Notepad:
                             note = open('Users\\%s\\%s' % (self.username, self.filename + '.txt'), 'r')
                             self.filename += '.txt'
                         except FileNotFoundError:
-                            print("Choose a valid option.")
-                            time.sleep(1)
+                            Loading.returning("Choose a valid option.", 1)
                             continue
                     print("Here is your note:")
                     for i in note:

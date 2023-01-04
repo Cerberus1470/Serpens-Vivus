@@ -43,7 +43,7 @@ possession_attributes = {"computer": "ScoutRPG.online_shopping = True",
                          "digital watch": "ScoutRPG.sleep_weight.extend([0] * 6 + [1] * 7)",
                          "game console": "ScoutRPG.sleep_weight.extend([3] * 3 + [4] * 2) ; ScoutRPG.choices['self.console()'] = 'console'",
                          "camera": "ScoutRPG.sleep_weight.extend([4]) ; ScoutRPG.memories = True"}
-event_list = { "small hike": "self.hike('small')", "first aid": "self.first_aid()", "orienteering": "self.orienteering()", "knot training": "self.knot_training()",
+event_list = {"small hike": "self.hike('small')", "first aid": "self.first_aid()", "orienteering": "self.orienteering()", "knot training": "self.knot_training()",
               "hike": "self.hike('big')", "rock climbing": "self.rock_climbing()", "coastal cleanup": "self.coastal_cleanup()", "bowling": "self.bowling()", "escape room": "self.escape_room()",
               "cert outing": "self.cert_outing()", "kids against hunger": "self.kids_against_hunger()", "conservation outing": "self.conservation_outing()"}
 # "troop meeting": "self.troop_meeting()",
@@ -443,7 +443,7 @@ class Requirement:
         return self.status.upper() + '\t' + self.name
 
 
-class ScoutRPG:
+class ScoutRpg:
     """
     Class ScoutRPG.
     Houses all the methods pertaining to the main game. This is the good stuff.
@@ -463,7 +463,7 @@ class ScoutRPG:
         :param path: Path for game files.
         :return: Nothing.
         """
-        scout_rpg = ScoutRPG(path)
+        scout_rpg = ScoutRpg(path)
         if not scout_rpg.filename == "exit":
             scout_rpg.main()
         return
@@ -528,7 +528,7 @@ class ScoutRPG:
         rank = self.rank.__repr__()
         try:
             game = open(self.path + '\\' + self.filename, 'w')
-            for i in (ScoutRPG.version, stats, food, drinks, game_time, locations, chores, possessions, events, rank):
+            for i in (ScoutRpg.version, stats, food, drinks, game_time, locations, chores, possessions, events, rank):
                 game.write(Loading.caesar_encrypt(i) + '\n')
             game.close()
         except (FileNotFoundError, FileExistsError):
@@ -598,7 +598,7 @@ class ScoutRPG:
                         pass
                 # Adding the weekly troop meeting.
                 if self.time.weekday() == 0 and sum([i.name == "Troop Meeting" for i in self.events]) < 0:
-                    troop_meeting = Event("Troop Meeting", self.time.month + str(int(self.time.day) + 1) + self.time.year + '1900', 3)
+                    troop_meeting = Event("Troop Meeting", str(self.time.month) + str(int(self.time.day) + 1) + str(self.time.year) + '1900', 3)
                     self.events.append(troop_meeting)
                     Loading.returning(troop_meeting.alert_message())
         # Daily stuff
@@ -695,7 +695,7 @@ class ScoutRPG:
             datapack = [version, stats, food, drinks, game_time, locations, chores, possessions, events]
         if version == 'alpha1.4.1':
             # Adding Rank.
-            version = ScoutRPG.version
+            version = ScoutRpg.version
             (stats, food, drinks, game_time, locations, chores, possessions, events) = datapack[1:]
             rank = ("scout\t" + ','.join([str(False)] * len(ranks["scout"])))
             datapack = [version, stats, food, drinks, game_time, locations, chores, possessions, events, rank]
@@ -730,8 +730,8 @@ class ScoutRPG:
             if action in ('quit', 'exit', 'leave', 'save'):
                 self.quit()
                 return
-            for i in ScoutRPG.choices:
-                if action == ScoutRPG.choices[i]:
+            for i in ScoutRpg.choices:
+                if action == ScoutRpg.choices[i]:
                     print()
                     exec(i)
                     break
@@ -840,7 +840,7 @@ class ScoutRPG:
             Loading.returning("It's getting late, so you turn in for the day.", 3)
             Loading.returning("Zzzzzzz...", 3)
         else:
-            sleep_time = ScoutRPG.sleep_weight[random.randint(0, len(ScoutRPG.sleep_weight) - 1)]
+            sleep_time = ScoutRpg.sleep_weight[random.randint(0, len(ScoutRpg.sleep_weight) - 1)]
             if self.stats.hunger <= 0 or self.stats.thirst <= 0:
                 Loading.returning("ALERT: Your Health is getting low. Eat or drink something after you sleep.", 3)
             match sleep_time:
@@ -909,7 +909,7 @@ class ScoutRPG:
         :return: Nothing.
         """
         stores = (self.groceries, self.department, self.scout_store)
-        if ScoutRPG.online_shopping:
+        if ScoutRpg.online_shopping:
             print("You have a computer! Welcome to Online Shopping.\nType the store you want to buy from.")
             print('\n'.join(str(i.name.title()) + ' --> 0 minutes' for i in self.locations))
             destination = input("Where would you like to go?").lower()
@@ -1313,9 +1313,9 @@ class ScoutRPG:
             ("You're getting thirsty. Pull out your water bottle to drink some water?", "Your leader sees you pull your bottle out and calls for a water break. +10 Thirst.",
              "You keep hiking and get more thirsty. -10 Thirst.", "self.stats.thirst += 10", "self.stats.thirst -= 10")]]
         if shoes:
-            events.append(("There is a large muddy spot that looks shallow to you. Jump in it for the fun?", "You happily jump in the mud puddle, however it turns out to be a pool. - 1 pair of Shoes",
-                           "You decide against jumping in the puddle and walk around it.", "self.possessions.remove([i for i in self.possessions if 'shoes' in i.name][0])", "pass"))
-        for i in random.sample(events, (6 if size == "big" else 3)):x
+            events.append(HikingEvent("There is a large muddy spot that looks shallow to you. Jump in it for the fun?", "You happily jump in the mud puddle, however it turns out to be a pool. - 1 pair of Shoes",
+                                      "You decide against jumping in the puddle and walk around it.", "self.possessions.remove([i for i in self.possessions if 'shoes' in i.name][0])", "pass"))
+        for i in random.sample(events, (6 if size == "big" else 3)):
             for j in range(3):
                 if i.event:
                     choice = input(i.event)

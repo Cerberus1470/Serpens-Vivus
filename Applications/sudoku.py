@@ -14,6 +14,7 @@ class Sudoku:
     Main class to hold all the methods and things.
     """
     category = "games"
+
     @staticmethod
     def boot(path='\\'):
         """
@@ -38,7 +39,6 @@ class Sudoku:
             self.board = [[int(j) for j in i.split('.')] for i in game_info[0].split('\n')[0].split(',')]
             self.solution = [[int(j) for j in i.split('.')] for i in game_info[1].split(',')]
 
-
     def new_board(self, n, k):
         """
         Method to make a new board.
@@ -54,17 +54,17 @@ class Sudoku:
 
         self.board = [[0 for _ in range(9)] for _ in range(9)]
 
-    def unused_in_box(self, rowstart, colstart, num):
+    def unused_in_box(self, row_start, col_start, num):
         """
         Method to determine whether num is unused in the box specified
-        :param rowstart: Row to check
-        :param colstart: Column to check
+        :param row_start: Row to check
+        :param col_start: Column to check
         :param num: Number to find
         :return: True if the number is not used, False if it is.
         """
         for i in range(self.SRN):
             for j in range(self.SRN):
-                if self.board[rowstart + i][colstart + j] == num:
+                if self.board[row_start + i][col_start + j] == num:
                     return False
         return True
 
@@ -93,36 +93,54 @@ class Sudoku:
         return self.unused_in_row(i, num) and self.unused_in_col(j, num) and self.unused_in_box(i - i % self.SRN, j - j % self.SRN, num)
 
     def unused_in_row(self, i, num):
+        """
+        Method to determine if a number is not used in a row.
+        :param i: Row Number.
+        :param num: The number to check.
+        :return: True if the number is not used, False if it is.
+        """
         for j in range(self.N):
             if self.board[i][j] == num:
                 return False
         return True
 
     def unused_in_col(self, j, num):
+        """
+        Method to determine if a number is not used in a column.
+        :param j: Column Number.
+        :param num: The number to check.
+        :return: True if the number is not used, False if it is.
+        """
         for i in range(self.N):
             if self.board[i][j] == num:
                 return False
         return True
 
     def fill_remaining(self, i, j):
+        """
+        Recursive method to fill the remaining squares.
+        :param i: Row number.
+        :param j: Column number.
+        :return: True if out of bounds, False if the function finishes.
+        """
         # System.out.println(i+" "+j)
         if j >= 9 and i < 9 - 1:
-            i = i + 1
+            i += 1
             j = 0
-        if (i >= 9 and j >= 9):
+        if i >= 9 and j >= 9:
             return True
 
-        if (i < 3):
-            if (j < 3):
+        if i < 3:
+            if j < 3:
                 j = 3
-        elif (i < 9 - 3):
+        elif i < 9 - 3:
             if j == (int(i / 3)) * 3:
-                j = j + 3
+                j += 3
         else:
-            if (j == 9 - 3):
-                i = i + 1
+            if j == 9 - 3:
+                i += 1
                 j = 0
-                if (i >= 9):
+                if i >= 9:
                     return True
         for num in range(1, self.N + 1):
             if self.check_if_safe(i, j, num):
@@ -133,6 +151,10 @@ class Sudoku:
         return False
 
     def remove_k_digits(self):
+        """
+        Removes K number of digits from the board.
+        :return: Nothing.
+        """
         count = self.K
         while count != 0:
             cellID = random.randint(1, self.N * self.N - 1)
@@ -144,13 +166,32 @@ class Sudoku:
                 count -= 1
                 self.board[i][j] = 0
 
+    @DeprecationWarning
     def get_row(self, row):
+        """
+        Returns a row.
+        :param row: The specified row.
+        :return: The specified row.
+        """
         return self.board[row]
 
+    @DeprecationWarning
     def get_column(self, column):
+        """
+        Returns a row.
+        :param column: The specified column.
+        :return: The specified column.
+        """
         return [self.board[i][column] for i in range(len(self.board))]
 
     def get_square(self, row, col, status='square'):
+        """
+        Returns an entire square of board data.
+        :param row: The specified row.
+        :param col: The specified column.
+        :param status: This specifies whether to return a 3x3 or a 1x9 list matrix.
+        :return: List matrix of the specified row and column.
+        """
         if status == "list":
             return self.board[row * 3][col * 3: col * 3 + 3] + \
                    self.board[row * 3 + 1][col * 3: col * 3 + 3] + \
@@ -160,34 +201,45 @@ class Sudoku:
                    [self.board[row * 3 + 1][col * 3: col * 3 + 3]] + \
                    [self.board[row * 3 + 2][col * 3: col * 3 + 3]]
 
-    def get_value_square(self, sqrow, sqcol, row, col):
-        square = self.get_square(sqrow, sqcol)
-        return square[row][col]
+    @DeprecationWarning
+    def get_value_square(self, sq_row, sq_col, row, col):
+        """
+        This gets a specific value in a square.
+        :param sq_row: Specified square row.
+        :param sq_col: Specified square column.
+        :param row: Specified row within the square.
+        :param col: Specified column within the square.
+        :return: The specified value.
+        """
+        return self.get_square(sq_row, sq_col)[row][col]
 
-    def set_value_square(self, sqrow, sqcol, row, col, value):
-        self.board[sqrow * 3 + row][sqcol * 3 + col] = value
+    @DeprecationWarning
+    def set_value_square(self, sq_row, sq_col, row, col, value):
+        """
+        This method sets a specific value inside a specific square.
+        :param sq_row: Specified square row.
+        :param sq_col: Specified square column.
+        :param row: Specified row within the square.
+        :param col: Specified column within the square.
+        :param value: The new value to set.
+        :return: Nothing.
+        """
+        self.board[sq_row * 3 + row][sq_col * 3 + col] = value
         return
 
-    def full(self, row=None, col=None):
-        # full_board = [[False] * 3] * 3
-        # if row and col:
-        #     square = self.get_square(row, col)
-        #     for k in [1, 2, 3, 4, 5, 6, 7, 8, 9]:
-        #         if k not in square:
-        #             return False
-        #     else:
-        #         return True
-        # for i in range(0, 3):
-        #     for j in range(0, 3):
-        #         square = self.get_square(0, 0)
-        #         for k in [1, 2, 3, 4, 5, 6, 7, 8, 9]:
-        #             if k not in square:
-        #                 break
-        #         else:
-        #             full_board[i][j] = True
+    @DeprecationWarning
+    def full(self):
+        """
+        Method to determine whether a square is full.
+        :return: True if it's full, False if it's not.
+        """
         return [all([all([j != 0 for j in i]) for i in self.board])]
 
     def enter_player_move(self):
+        """
+        Method to collect the player's move.
+        :return: The player's move.
+        """
         while True:
             coordinates = input("Enter a coordinate by giving the row and the column, separated by a space. Type \"exit\" to exit.").split()
             if 'exit' in coordinates or 'quit' in coordinates or 'bruh' in coordinates:
@@ -216,6 +268,10 @@ class Sudoku:
         return coordinates, int(number)
 
     def main(self):
+        """
+        The main application screen.
+        :return: Nothing.
+        """
         if self.new_file:
             self.setup()
         print("\nWelcome to Sudoku.")
@@ -238,12 +294,15 @@ class Sudoku:
                     Loading.returning("An error occurred.", 2)
 
     def setup(self):
+        """
+        Screen to set up a new game.
+        :return:
+        """
         print("Welcome to Sudoku!")
         if input("Would you like to view the instructions?").startswith('y'):
             input("Sudoku is a game of logic.\nThe goal is to fill the board with numbers. How, you might ask? There are a few simple rules. Press ENTER to continue.")
             input("Rule 1: Each box only has one of each number.\nRule 2: Each row only has one of each number\nRule 3: Each column only has one of each number.")
             input("There will be numbers provided at the beginning of each game. These cannot be changed.\nNo guessing is necessary. Every Sudoku puzzle can be solved with logic.")
-        # [[str(random.randint(1, 9)) for _ in range(9)] for _ in range(9)
         # Create a new board
         self.new_board(9, 20)
         for i in range(self.SRN):
@@ -251,41 +310,7 @@ class Sudoku:
         self.fill_remaining(0, self.SRN)
         self.solution = [i.copy() for i in self.board]
         self.remove_k_digits()
-        # for i in range(0, 3):
-        #     numbers = random.sample([1, 2, 3, 4, 5, 6, 7, 8, 9], 9)
-        #     for j in numbers:
-        #         self.set_value_square(i, i, math.floor(numbers.index(j) / 3), numbers.index(j) % 3, j)
-        # self.fillRemaining(0, 3)
         return
-        # for h in range(1, 10):
-        #     placements = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
-        #     for i in range(0, 3):
-        #         for j in range(0, 3):
-        #             while self.get_value_square(i, j, math.floor(placements[i][j] / 3), placements[i][j] % 3) != 0:
-        #                 placements[i][j] = random.randint(0, 8)
-        #             while h in self.get_row(math.floor(placements[i][j] / 3) + i * 3) or h in self.get_column((placements[i][j] % 3) + j * 3):
-        #                 placements[i][j] = random.randint(0, 8)
-        #             self.set_value_square(i, j, math.floor(placements[i][j] / 3), placements[i][j] % 3, h)
-        # if not self.full():
-        #     for i in range(0, 3):
-        #         for j in range(0, 3):
-        #             if not self.full(i, j):
-        #                 missing = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        #                 for k in range(0, 9):
-        #                     try:
-        #                         missing.pop(missing.index(self.get_value_square(i, j, math.floor(k / 3), k % 3)))
-        #                     except ValueError:
-        #                         continue
-        #                 for k in missing:
-        #                     for x in range(0, 9):
-        #                         if self.get_value_square(i, j, math.floor(x / 3), x % 3) == 0:
-        #                             if k not in self.get_row(math.floor(x / 3) + i * 3) and k not in self.get_column((x % 3) + j * 3):
-        #                                 self.set_value_square(i, j, math.floor(x / 3), x % 3, k)
-        #                 pass
-
-        # two_placements = random.sample([0, 1, 2, 3, 4, 5, 6, 7, 8], 9)
-        # for i in range(len(self.board)):
-        #     self.board[i][two_placements[i]] = 2 if self.board[i] == 0 else self.board[i]
 
     def quit(self):
         """
@@ -294,7 +319,6 @@ class Sudoku:
         """
         if self.new_file:
             self.filename = input("File name?\n") + '.sdu'
-        board = chests = previous_moves = ''
         try:
             game = open(self.path + '\\' + self.filename, 'w')
             game.write(Loading.caesar_encrypt(','.join('.'.join(str(j) for j in i) for i in self.board)) + '\n')

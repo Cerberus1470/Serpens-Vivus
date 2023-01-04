@@ -1,34 +1,55 @@
-from Applications.task_manager import TaskManager
-from Applications.event_viewer import EventViewer
-from Applications.jokes import Jokes
-from Applications.notepad import Notepad
-from Applications.speed_up_or_slow_down import SpeedSlow
-from Applications.bagels import Bagels
-from Applications.tictactoe import TicTacToe
-from Applications.hangman import Hangman
-from Applications.sonar import Sonar
-from Applications.scout_rpg import ScoutRPG
-from Applications.system_info import SystemInfo
-from Applications.user_settings import UserSettings
+"""
+Module User. Contains all the User Classes and methods within.
+"""
+import importlib
+import os
+
+apps = []
+
+
+#     globals()["Applications." + i.split('.')[0]] = importlib.import_module("Applications." + i.split('.')[0])
+#     module_class = [cls_name for cls_name, cls_obj in inspect.getmembers(sys.modules["Applications." + i.split('.')[0]])
+#                     if inspect.isclass(cls_obj)]
+#     print(module_class)
 
 
 class User:
+    """
+    Class User. Child class that houses the code for a default user.
+    """
 
-    def __init__(self, username="Default", password="Default", current=True, saved_state=None):
-
+    def __init__(self, username="Default", password="Default", current=True, saved_state=None, elevation=False):
+        for i in [files for subdir, dirs, files in os.walk("Applications")][0]:
+            if i in ("settings.py", "bruh.py"):
+                continue
+            name = i.split('.')[0].replace('_', ' ').title().replace(' ', '')
+            globals()[name] = (importlib.__import__("Applications.{}".format(i.split('.')[0]), globals(), locals(), name)).__getattribute__(name)
+            if i not in ("event_viewer.py", "task_manager.py"):
+                apps.append(globals()[name])
+        if saved_state is None:
+            saved_state = {}
         self.username = username
         self.password = password
         self.current = current
         self.saved_state = {}
-        # Alphabetical order
-        apps = (Bagels, Hangman, Jokes, Notepad, ScoutRPG, Sonar, SpeedSlow, SystemInfo, TicTacToe, UserSettings)
-        for j in apps:
-            if saved_state is None:
-                self.saved_state[j] = False
-            else:
-                self.saved_state[j] = saved_state[apps.index(j)] == "True"
+        self.elevated = elevation
+        # First, setting the existing program statuses.
+        for j in saved_state:
+            if len(j) == 2:
+                self.saved_state[globals()[j[0]]] = j[1] == "True"
+        # Now to check if any statuses are missing.
+        for n in [m for m in [k.__name__ for k in apps] if m not in [j[0] for j in saved_state]]:
+            self.saved_state[globals()[n]] = False
+        if self.elevated:
+            # Add more elevated apps here.
+            for j in ("EventViewer", "TaskManager"):
+                if j not in [k[0] for k in saved_state]:
+                    self.saved_state[globals()[j]] = False
+            # if saved_state is None:
+            #     self.saved_state[j] = False
+            # else:
+            #     self.saved_state[j] = saved_state[apps.index(j)] == "True"
 
-        self.elevated = False
         return
 
     def __repr__(self):
@@ -36,6 +57,10 @@ class User:
 
 
 class StandardUser(User):
+    """
+    Parent class of User that houses the code for a Standard User.
+    """
+
     # Remove a space after a comma to reformat the file.
     def __init__(self, username="Default", password="Default", current=True, saved_state=None):
         if saved_state == ['\n'] or not saved_state:
@@ -50,16 +75,16 @@ class StandardUser(User):
 
 # noinspection PyTypeChecker
 class Administrator(User):
+    """
+    Parent class of User that houses the code for an Administrative User (Administrator, Admin).
+    """
+
     def __init__(self, username="Default", password="Default", current=True, saved_state=None):
+        self.elevated = True
         if saved_state == ['\n'] or not saved_state:
             super().__init__(username, password, current)
-            self.saved_state[EventViewer] = False
-            self.saved_state[TaskManager] = False
         else:
-            super().__init__(username, password, current, saved_state)
-            self.saved_state[EventViewer] = saved_state[9] == "True"
-            self.saved_state[TaskManager] = saved_state[10] == "True"
-        self.elevated = True
+            super().__init__(username, password, current, saved_state, True)
         return
 
     def __repr__(self):

@@ -1,0 +1,12 @@
+BUG TRACKER - Updated 10/16/2022
+Revision 1.0 - Classic - 10/15/2021 11:29
+No Bugs
+Revision 1.1 - 10/17/2021 10:17
+PAD-001 - Typing "\n" would result in a corrupted user note and an system crash on the next application startup.
+Revision 2.0_alpha1.0 - 3/13/2022 22:48
+PAD-002 - Attempting to exit the notepad would add an extra new line to the file.
+PAD-003 - Saving to a user who has no notes would result in a system crash.
+Revision 2.0 - The Filesystem Update - 3/22/2022 12:19
+No perceivable bugs
+Revision 2.1 - 4/22/2022 23:17
+PAD-004 - Counts of files were incorrectly shown.

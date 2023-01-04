@@ -1,25 +1,44 @@
-
-
+"""
+Module event_viewer. This module houses the application and a global function.
+"""
 from System import Loading
 
 time1 = time2 = 0
 
 
 def update_time(events, index):
+    """
+    Function to update global variables time1 and time2. Very useful for sorting events based on time.
+    :param events: The list of events from the text file.
+    :param index: The index to identify which event we are talking about.
+    :return: Nothing. Updates global variables.
+    """
     global time1, time2
     time1 = (int(events[len(events)-index][12:14]) * 3600) + (int(events[len(events)-index][15:17]) * 60) + int(events[len(events)-index][18:20])
     time2 = (int(events[len(events)-index-1][12:14]) * 3600) + (int(events[len(events)-index-1][15:17]) * 60) + int(events[len(events)-index-1][18:20])
 
 
 class EventViewer:
+    """
+    Class EventViewer. This class houses the main application.
+    """
     category = "admin"
 
     @staticmethod
-    def boot(os_object):
+    def boot(_):
+        """
+        This method regulates booting and
+        :param _: The unused OS Object, passed due to the iterative nature of the application home screen.
+        :return: 4 if the user reset the event log.
+        """
         return EventViewer.main()
 
     @staticmethod
     def main():
+        """
+        The main application screen.
+        :return: 4 if the user reset the event log.
+        """
         global time1, time2
         event_log = open('System\\event_log.info', 'r')
         events = list(event_log)
@@ -71,4 +90,3 @@ class EventViewer:
             else:
                 Loading.returning_to_apps()
                 return
-

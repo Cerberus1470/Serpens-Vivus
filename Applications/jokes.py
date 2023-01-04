@@ -9,12 +9,11 @@ class Jokes:
     """
     category = "games"
 
-    # noinspection WHAT BRUH
     @staticmethod
-    def boot(os_object):
+    def boot(_):
         """
         Used to regulate the bootup sequence for the game
-        :param os_object: Cerberus passed from function call.
+        :param _: Unused cerberus passed from function call.
         :return: Nothing
         """
         Jokes.main()

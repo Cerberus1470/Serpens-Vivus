@@ -1,10 +1,16 @@
+"""
+Module system_recovery. Contains every custom error class and the System Recovery app.
+"""
 from System import Loading
 import os
 
 
 class CorruptedFileSystem(Exception):
+    """
+    Class CorruptedFileSystem. This is an error created when the file system is detected to be corrupt.
+    """
     def __init__(self, element):
-        self.code = 0
+        self.code = 1
         self.element = element
 
     def __repr__(self):
@@ -13,36 +19,54 @@ class CorruptedFileSystem(Exception):
 
 @DeprecationWarning
 class EmptyUserFolder(Exception):
+    """
+    Class EmptyUserFolder. This is an error created when the user folder is empty. Recently deprecated due to changes within
+    operating_system.py that prevents this from happening.
+    """
     def __init__(self):
-        self.code = 1
+        self.code = 2
 
     def __repr__(self):
         return "The User folder is empty."
 
 
 class NoCurrentUser(Exception):
+    """
+    Class NoCurrentUser. This is an error created when there is no current user.
+    """
     def __init__(self):
-        self.code = 2
+        self.code = 3
 
     def __repr__(self):
         return "There is no current user."
 
 
 class NoAdministrator(Exception):
+    """
+    Class NoAdministrator. This is an error created when there is no administrator in the system.
+    """
     def __init__(self):
-        self.code = 3
+        self.code = 4
 
     def __repr__(self):
         return "There is no administrator."
 
 
 class SystemRecovery:
-    code = -1
+    """
+    Class SystemRecovery. This is the application to recover from fatal system crashes.
+    """
+    code = 0
     file = list(open("System\\recovery.info"))
     password = Loading.caesar_decrypt(file[0]).split('\t\t')[1]
 
     @staticmethod
     def boot(error=None):
+        """
+        This method regulates the startup of the System Recovery app.
+        :param error: The list of errors sent from the error screen in operating_system.py.
+        :return: Nothing.
+        """
         if error is None:
             error = []
         Loading.log("A fatal internal error has occurred. The system has entered Recovery.")
@@ -56,25 +80,35 @@ class SystemRecovery:
         return
 
     def main(self):
+        """
+        This method is the main application screen.
+        :return: Nothing.
+        """
         for i in range(10):
             print('\n')
-        if SystemRecovery.code == -1 and not self.error:
+        if SystemRecovery.code == 0 and not self.error:
             Loading.returning("Hey! It seems you were mistakenly sent here. There are no fatal errors to report! Have a great day.", 3)
         Loading.returning("Welcome to System Recovery.")
         Loading.returning("If you are here, it is because an internal error occurred and the system could not recover from it.", 5)
         for i in self.error:
             match i.code:
-                case 0:
+                case 1:
                     self.corrupt_user()
-                case 2:
-                    self.no_current_user()
                 case 3:
+                    self.no_current_user()
+                case 4:
                     self.no_admin()
-            # Add more recovery codes here
+            # UPDATE Add more recovery codes here
         return
 
     @staticmethod
     def choice(msg, responses):
+        """
+        This is a widely-used method to provide the user a yes or no choice based on their error.
+        :param msg: Alternative choice to learning more.
+        :param responses: Possible user responses to the alternative choice.
+        :return: 1 if the user wants to learn more, 2 if they don't.
+        """
         choice = input("Would you like to learn more or {}".format(msg)).lower()
         if choice in ("learn more", "learn", "more info", "info"):
             return 1
@@ -84,6 +118,11 @@ class SystemRecovery:
             Loading.returning("Please choose a valid option.")
 
     def corrupt_user(self):
+        """
+        This method corrects the CorruptedFileSystem error. Since these errors are only brought up when a user's info file is
+        corrupt and unreadable, this is only called when a user is corrupt or unreadable.
+        :return: Nothing.
+        """
         Loading.returning("In this case, the error was a corrupt user.", 3)
         Loading.returning("This is the user that is corrupted:")
         cfs_count = 0
@@ -183,6 +222,10 @@ class SystemRecovery:
 
     @DeprecationWarning
     def empty_users(self):
+        """
+        This method fixes the empty user folder.
+        :return:
+        """
         Loading.returning("In this case, the User folder is empty or contains incorrect data.", 3)
         while True:
             if self.choice("delete the folder?", ("delete", "delete folder", "delete users", "fix the issue")) == 1:
@@ -204,6 +247,10 @@ class SystemRecovery:
                 return
 
     def no_current_user(self):
+        """
+        This method fixes the NoCurrentUser error.
+        :return:
+        """
         Loading.returning("In this case, the current user was not defined, which would lead to an empty login.", 3)
         while True:
             if self.choice("set a new current user?", ("set a new", "set current user", "set a current user", "set a new current user", "continue")) == 1:
@@ -231,6 +278,10 @@ class SystemRecovery:
                 return
 
     def no_admin(self):
+        """
+        This method fixes the NoAdministrator error.
+        :return:
+        """
         Loading.returning("In this case, there is no administrator on the system.", 3)
         while True:
             choice = input("Would you like to learn more, proceed with booting, or set a new admin?").lower()

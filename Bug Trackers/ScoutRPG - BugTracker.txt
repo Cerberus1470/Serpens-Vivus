@@ -1,0 +1,62 @@
+BUG TRACKER
+preprealpha - Classic:
+SCT-001 - Certain corrupted values of Food and Drink objects would crash the game.
+SCT-002 - Repr's of Food and Drink objects did not contain names.
+SCT-003 - Random dictionary is saved when initializing any Drink object.
+SCT-004 - File extension is "spc" instead of "sct".
+SCT-005 - Corrupted files crash the game and are not handled.
+SCT-006 - Negative health is obtainable.
+SCT-007 - Food and Drink names with multiple words do not capitalize properly.
+SCT-008 - Game forces you to eat or drink before returning to the main screen.
+
+prealpha - The Outdoor Update:
+SCT-009 - Chores do not display their names properly.
+SCT-010 - Location attributes can be overwritten when passing all 3 variables to __init__().
+SCT-011 - Unpacking errors are not handled.
+SCT-012 - Certain actions would cause a repeating decimal value to occur in player statistics.
+SCT-013 - Location distances not reflected in travel time.
+SCT-014 - Traveling back home does not add travel time.
+SCT-015a - New foods/drinks/possessions are always Food objects.
+SCT-015b - Any purchased item that isn't a food restores 100 of a statistic (hunger/thirst), and takes 100 minutes to eat.
+
+alpha1.0 - The Chore Update:
+SCT-016 - Updating files doesn't work.
+SCT-017 - Sleeping after 12AM doesn't skip to 8AM.
+SCT-018 - Reducing Hunger and Thirst to 25 can happen even if they are under 25, resulting in an increase.
+SCT-019 - Traveling to locations other than the first in the list don't work.
+SCT-020 - Buying something when you have exactly enough doesn't work.
+
+alpha1.1 - The Optimization Update:
+SCT-021 - Drink quantities are strings, causing drinking to not work.
+SCT-022 - If self attributes broke, they would not be updated or handled properly.
+SCT-023 - Months do not rollover and add years.
+SCT-024 - Negative Health is still attainable.
+SCT-025 - Negative quantities of food and drinks are attainable.
+SCT-026 - Only one 0 was shown after buying something.
+
+alpha1.2 - The Event Update:
+SCT-027 - During defeat, the message for being hungry has no delay.
+
+alpha1.3 - The Time and Date Update:
+SCT-028 - No events in the agenda would show an incomprehensive new line.
+SCT-029 - Finishing a troop meeting crashes the game.
+
+alpha1.4 - The Possession Update
+SCT-030 - Reading corrupted statistics from game files crash the game because of mishandled errors.
+SCT-031 - Possessing things other than computer, cell phone, digital watch, camera, and game console will crash the game.
+SCT-032 - A file without a version header would result in a "corrupted game file" message instead of a "no version header" message.
+SCT-033 - Saving and exiting the game would cause a corrupted game file.
+SCT-034 - Negative money was possible with game file manipulation.
+SCT-035 - Typing a non-integer quantity when buying things crashes the game.
+
+alpha1.4.1
+SCT-036 - Soda replenishes 100 Thirst.
+SCT-037 - Passing a datetime object to the Event constructor crashes the game.
+SCT-038 - Quitting the game produces a corrupt game file.
+
+alpha1.5 - The Rank Update
+SCT-039 - Pee is a valid drink.
+
+alpha1.6 - The Outing Update
+SCT-040 - Having shoes during a hiking causes a game crash.
+SCT-041 - Going on a hike crashes the game.

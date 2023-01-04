@@ -1,3 +1,6 @@
+"""
+Module tictactoe. Contains the classes and methods for the TTT game.
+"""
 import os
 import random
 from System import Loading
@@ -5,12 +8,20 @@ from Applications import bagels
 
 
 # noinspection PyTypeChecker
-class TicTacToe:
+class Tictactoe:
+    """
+    Class Tictactoe. Contains the core code for the game.
+    """
     category = "games"
 
     @staticmethod
     def boot(path='\\'):
-        ttt = TicTacToe(path)
+        """
+        Regulates the startup of the game.
+        :param path: Path to the game files.
+        :return: Nothing.
+        """
+        ttt = Tictactoe(path)
         if not ttt.filename == 'exit':
             ttt.main()
 
@@ -38,7 +49,10 @@ class TicTacToe:
         return "< I am a tictactoe class named " + self.__class__.__name__ + ">"
 
     def draw_board(self):
-        # This function prints out the board that it was passed.
+        """
+        This function prints out the board that it was passed.
+        :return: Nothing.
+        """
         for i in range(3):
             print('   |   |')
             print(' ' + self.board[i * 3] + ' | ' + self.board[i * 3 + 1] + ' | ' + self.board[i * 3 + 2])
@@ -49,8 +63,10 @@ class TicTacToe:
 
     @staticmethod
     def input_player_letter():
-        # Lets the player type which letter they want to be.
-        # Returns a list with the player's letter as the first item, and the computer's letter as the second.
+        """
+        Lets the player type which letter they want to be.
+        :return:  A list with the player's letter as the first item, and the computer's letter as the second.
+        """
         letter = ''
         while not (letter == 'X' or letter == 'O'):
             print('Do you want to be X or O?')
@@ -64,30 +80,52 @@ class TicTacToe:
 
     @staticmethod
     def who_goes_first():
-        # Randomly choose the player who goes first.
+        """
+        Randomly choose the player who goes first.
+        :return: Who goes first.
+        """
         if random.randint(0, 1) == 0:
             return 'computer'
         else:
             return 'player'
 
     @staticmethod
+    @DeprecationWarning
     def make_move(board, letter, move):
+        """
+        Deprecated method to make the move on the board.
+        :param board: Board to use.
+        :param letter: Whose letter?
+        :param move: Where on the board to make the move.
+        :return: Nothing.
+        """
         board[move] = letter
 
     @staticmethod
-    def is_winner(bo, le):
+    def is_winner(board, letter):
+        """
+        Method used to check if a letter has won?
+        :param board: Which board to check.
+        :param letter: Whose letter?
+        :return:
+        """
         # Given a board and a player's letter, this function returns True if that player has won.
-        # We use bo instead of board and le instead of letter so we don't have to type as much.
-        return ((bo[6] == le and bo[7] == le and bo[8] == le) or  # across the top
-                (bo[3] == le and bo[4] == le and bo[5] == le) or  # across the middle
-                (bo[0] == le and bo[1] == le and bo[2] == le) or  # across the bottom
-                (bo[6] == le and bo[3] == le and bo[0] == le) or  # down the left side
-                (bo[7] == le and bo[4] == le and bo[1] == le) or  # down the middle
-                (bo[8] == le and bo[5] == le and bo[2] == le) or  # down the right side
-                (bo[6] == le and bo[4] == le and bo[2] == le) or  # diagonal
-                (bo[8] == le and bo[4] == le and bo[0] == le))  # diagonal
+        # We use bo instead of board and le instead of letter, so we don't have to type as much.
+        return ((board[6] == letter and board[7] == letter and board[8] == letter) or  # across the top
+                (board[3] == letter and board[4] == letter and board[5] == letter) or  # across the middle
+                (board[0] == letter and board[1] == letter and board[2] == letter) or  # across the bottom
+                (board[6] == letter and board[3] == letter and board[0] == letter) or  # down the left side
+                (board[7] == letter and board[4] == letter and board[1] == letter) or  # down the middle
+                (board[8] == letter and board[5] == letter and board[2] == letter) or  # down the right side
+                (board[6] == letter and board[4] == letter and board[2] == letter) or  # diagonal
+                (board[8] == letter and board[4] == letter and board[0] == letter))  # diagonal
 
+    @DeprecationWarning
     def get_board_copy(self):
+        """
+        Deprecated method to create a duplicate board.
+        :return: The duplicate board
+        """
         # Make a duplicate of the board list and return it.
         dupe_board = []
 
@@ -97,29 +135,49 @@ class TicTacToe:
         return dupe_board
 
     @staticmethod
+    @DeprecationWarning
     def is_space_free(board, move):
+        """
+        Deprecated method to check if a spot is free on the board.
+        :param board: Board to check.
+        :param move: Where on the board to check.
+        :return: True if the spot is free. False if it is not.
+        """
         # Return true if the passed move is free on the passed board.
         return board[move] == ' '
 
-    def get_player_move(self, board):
+    @staticmethod
+    def get_player_move(board):
+        """
+        Method to collect the player's move.
+        :param board: Board to play on.
+        :return: The player's move.
+        """
         # Let the player type in his move.
         while True:
             print('Enter your move from 1-9! Or type "exit" to exit.')
             move = input()
             if move in ('1', '2', '3', '4', '5', '6', '7', '8', '9'):
-                if self.is_space_free(board, int(move)-1):
+                if board[int(move)-1] == ' ':
                     return int(move)-1
                 else:
                     print("That move is taken!")
             elif move in ('quit', 'exit', 'get me out of here'):
                 return 'quit'
 
-    def choose_random_move_from_list(self, board, moves_list):
+    @staticmethod
+    def choose_random_move_from_list(board, moves_list):
+        """
+        Method to choose random moves from a specific given list.
+        :param board: Board to choose from.
+        :param moves_list: Specific list of moves given.
+        :return: The random move.
+        """
         # Returns a valid move from the passed list on the passed board.
         # Returns None if there is no valid move.
         possible_moves = []
         for i in moves_list:
-            if self.is_space_free(board, i):
+            if board[i] == ' ':
                 possible_moves.append(i)
 
         if len(possible_moves) != 0:
@@ -128,6 +186,10 @@ class TicTacToe:
             return None
 
     def get_computer_move(self):
+        """
+        Method to collect a computer move.
+        :return: The computer's move.
+        """
         # Given a board and the computer's letter, determine where to move and return that move.
         if self.computer_letter == 'X':
             player_letter = 'O'
@@ -137,17 +199,19 @@ class TicTacToe:
         # Here is our algorithm for our Tic Tac Toe AI:
         # First, check if we can win in the next move
         for i in range(1, 9):
-            copy = self.get_board_copy()
-            if self.is_space_free(copy, i):
-                self.make_move(copy, self.computer_letter, i)
+            copy = self.board.copy()
+            if copy[i] == ' ':
+                copy[i] = self.computer_letter
+                # self.make_move(copy, self.computer_letter, i)
                 if self.is_winner(copy, self.computer_letter):
                     return i
 
         # Check if the player could win on his next move, and block them.
         for i in range(1, 9):
-            copy = self.get_board_copy()
-            if self.is_space_free(copy, i):
-                self.make_move(copy, player_letter, i)
+            copy = self.board.copy()
+            if copy[i] == ' ':
+                copy[i] = self.computer_letter
+                # self.make_move(copy, player_letter, i)
                 if self.is_winner(copy, player_letter):
                     return i
 
@@ -157,21 +221,28 @@ class TicTacToe:
             return move
 
         # Try to take the center, if it is free.
-        if self.is_space_free(self.board, 4):
+        if self.board[4] == ' ':
             return 4
 
         # Move on one of the sides.
         return self.choose_random_move_from_list(self.board, [1, 3, 5, 7])
 
     def is_board_full(self):
-        # Return True if every space on the board has been taken. Otherwise return False.
+        """
+        Method to find out whether the board is full.
+        :return: True if every space on the board has been taken. Otherwise, return False.
+        """
         for i in range(1, 9):
-            if self.is_space_free(self.board, i):
+            if self.board[i] == ' ':
                 return False
         return True
 
     @DeprecationWarning
     def delete(self):
+        """
+        Method to regulate deletion of game files.
+        :return:
+        """
         while True:
             for subdir, dirs, files in os.walk(self.path):
                 count = 0
@@ -197,6 +268,11 @@ class TicTacToe:
 
     @staticmethod
     def startup(turn):
+        """
+        Method to regulate startup of an existing game.
+        :param turn: Whose turn?
+        :return: Nothing.
+        """
         print("Welcome back!")
         if turn == 'player':
             print("It is your turn. Here is your board:")
@@ -208,6 +284,10 @@ class TicTacToe:
         return
 
     def quit(self):
+        """
+        Method to quit the game and save progress.
+        :return: Nothing.
+        """
         translated_board = ','.join(self.board)
         if self.new_file:
             self.filename = input("File name?\n") + '.ttt'
@@ -219,6 +299,10 @@ class TicTacToe:
             Loading.returning("The path or file was not found.", 2)
 
     def main(self):
+        """
+        The main application screen.
+        :return: Nothing.
+        """
         print('Welcome to Tic Tac Toe!')
         # Use the previous values!
         empty = True
@@ -251,7 +335,8 @@ class TicTacToe:
                         Loading.returning("Saving game progress...", 2)
                         return
                     else:
-                        self.make_move(self.board, self.player_letter, int(move))
+                        self.board[int(move)] = self.player_letter
+                        # self.make_move(self.board, self.player_letter, int(move))
                     if self.is_winner(self.board, self.player_letter):
                         self.draw_board()
                         print('Hooray! You have won the game!')
@@ -268,7 +353,8 @@ class TicTacToe:
                     # Computer's turn.
                     # self.draw_board(self.board)
                     move = self.get_computer_move()
-                    self.make_move(self.board, self.computer_letter, int(move))
+                    self.board[int(move)] = self.computer_letter
+                    # self.make_move(self.board, self.computer_letter, int(move))
 
                     if self.is_winner(self.board, self.computer_letter):
                         self.draw_board()

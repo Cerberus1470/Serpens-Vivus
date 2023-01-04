@@ -1,15 +1,30 @@
+"""
+Module speed_up_or_slow_down. This module contains the app to speed up or slow down clips in video editing.
+"""
 from System import Loading
 
 
-class SpeedSlow:
+class SpeedUpOrSlowDown:
+    """
+    Class SpeedUpOrSlowDown. Contains the application.
+    """
     category = "utilities"
 
     @staticmethod
-    def boot(os_object):
-        SpeedSlow.main()
+    def boot(_):
+        """
+        This method regulates the startup process for this application.
+        :param _: The unused OS Object, passed due to the iterative nature of the application home screen.
+        :return: Nothing
+        """
+        SpeedUpOrSlowDown.main()
 
     @staticmethod
     def main():
+        """
+        This method is the main application screen.
+        :return:
+        """
         print('Welcome! Default values are 1. Type "help" for more info.')
         speed = fps = f_sec = f_frames = o_sec = o_frames = 1
         while True:

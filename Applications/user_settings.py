@@ -1,16 +1,31 @@
-from System import User, Loading
+"""
+Module user_settings. Contains the application and pertinent classes.
+"""
+from System import Loading
 import os
 
 
 def returning():
+    """
+    Widely used function to display that the system is returning to the main menu.
+    :return: Nothing.
+    """
     Loading.returning("Returning to User Settings...", 2)
 
 
 class UserSettings:
+    """
+    Class UserSettings. Contains all the functions and application info.
+    """
     category = "utilities"
 
     @staticmethod
     def boot(os_object):
+        """
+        Method to regulate startup of the application.
+        :param os_object: The OS object with all its info.
+        :return: "regular".
+        """
         # os_object.current_user.saved_state["User Settings"] = "running"
         if UserSettings.main(UserSettings(), os_object) == 1:
             return 'regular'
@@ -22,6 +37,11 @@ class UserSettings:
         return "< This is a UserSettings class named " + self.__class__.__name__ + ">"
 
     def main(self, os_object):
+        """
+        The main application screen.
+        :param os_object: The OS object to get info from.
+        :return: 1 if the user was switched, Nothing otherwise.
+        """
         print("Welcome to User Settings!")
         print("Here you can edit the username and password of the current user!")
 
@@ -59,6 +79,12 @@ class UserSettings:
 
     @staticmethod
     def print_all_users(message, users):
+        """
+        Widely-used method that prints all users and collects an input.
+        :param message: Message to display first.
+        :param users: The list of users.
+        :return: The selected user if the selection was valid, Nothing otherwise.
+        """
         print(message)
         for i in users:
             print(str(users.index(i) + 1) + ": " + i.username)
@@ -70,6 +96,12 @@ class UserSettings:
         return
 
     def edit_uname(self, os_object):
+        """
+        The sub-program to edit the username of a selected user.
+        Defaults to changing the current_user, but if the current user is an Admin, allows you to choose whose username to change.
+        :param os_object: The OS Object to get info from.
+        :return: Nothing.
+        """
         user = os_object.current_user
         if os_object.current_user.elevated:
             user = self.print_all_users("Choose the user whose username you want to edit", os_object.users)
@@ -85,6 +117,12 @@ class UserSettings:
                     Loading.returning("New Username successfully set!", 2)
 
     def edit_pwd(self, os_object):
+        """
+        The sub-program to edit the password of a selected user.
+        Defaults to changing the current_user, but if the current user is an Admin, allows you to choose whose password to change.
+        :param os_object: The OS Object to get info from.
+        :return: Nothing.
+        """
         user = os_object.current_user
         if os_object.current_user.elevated:
             user = self.print_all_users("Choose the user whose password you want to edit.", os_object.users)
@@ -106,6 +144,12 @@ class UserSettings:
 
     @staticmethod
     def add_user(os_object):
+        """
+        Sub-program to add a new user to the OS. Requires Elevation.
+        :param os_object: The OS Object to get info from.
+        :return: Nothing.
+        """
+        from System import User
         # Adding a new user!
         if not os_object.current_user.elevated:
             print("You do not have sufficient privileges to add users.")
@@ -168,6 +212,11 @@ class UserSettings:
         return
 
     def delete_user(self, os_object):
+        """
+        Sub-program to delete users.
+        :param os_object: The OS Object to get info from.
+        :return: Nothing.
+        """
         if not os_object.current_user.elevated:
             print("You do not have sufficient privileges to delete users.")
             returning()
@@ -207,6 +256,11 @@ class UserSettings:
 
     @staticmethod
     def restore_user(os_object):
+        """
+        Sub-program to restore a recently deleted user. This list clears with every reboot.
+        :param os_object: The OS Object to get info from.
+        :return: Nothing.
+        """
         if not os_object.current_user.elevated:
             print("You do not have sufficient privileges to restore users.")
             returning()
@@ -234,6 +288,11 @@ class UserSettings:
 
     @staticmethod
     def switch_user(os_object):
+        """
+        Sub-program to switch the current user.
+        :param os_object: The OS Object to get info from.
+        :return: Nothing.
+        """
         if len(os_object.users) > 1:
             print("Current User: " + os_object.current_user.username)
             for i in os_object.users:
