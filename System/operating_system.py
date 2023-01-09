@@ -1,7 +1,8 @@
 """
 Module operating_system. This module contains the Core Python OS functions and classes. Probably the most complex file in the system.
 """
-import random, time, traceback, requests
+import random, time, traceback, requests, maskpass
+
 try:
     from Applications.bagels import Bagels
     from Applications.event_viewer import EventViewer
@@ -63,8 +64,7 @@ def boot():
                 Loading.returning("Saving changes and booting...", 3)
                 print('\n\n\n\n\n')
             cerberus.reload()
-            # Logic to run setup
-
+            # Logic to run setup - Moved to reload()
             # Logic for restarting.
             if cerberus.startup() == 4:
                 Loading.returning("Restarting system...", 2)
@@ -73,16 +73,22 @@ def boot():
                 running = False
                 return "Code 0. Execution successful."
         # Screen for fatal errors. Catches all exceptions and prints the stacktrace. Allows for a reboot.
+        # except (KeyboardInterrupt, console_thrift.KeyboardInterruptException):
+        #     print("bruh")
         except Exception as f:
-            for j in range(20):
+            for _ in range(20):
                 print("\n")
             Loading.log("{} encountered a fatal error. Reboot is required. Stacktrace: {}".format(cerberus.name, f))
-            if input('!!! {} encountered a fatal error. Reboot is required. !!! \nWhat failed: {}\n\nStacktrace: \n{}'.format(
-                    cerberus.name, str(traceback.format_exc()).split('\n')[len(traceback.format_exc().split('\n'))-4].split('"')[1], str(traceback.format_exc())) + '\nType "REBOOT" to reboot.') == "REBOOT":
-                pass
+            if traceback.format_exc():
+                if input('!!! {} encountered a fatal error. Reboot is required. !!! \nWhat failed: {}\n\nStacktrace: \n{}'
+                         ''.format(cerberus.name, str(traceback.format_exc()).split('\n')[len(traceback.format_exc().split('\n'))-4].split('"')[1],
+                                   str(traceback.format_exc())) + '\nType "REBOOT" to reboot.') == "REBOOT":
+                    continue
             else:
-                print("Goodbye")
-                return "Code {}. A system error has occurred.".format(','.join([i for i in cerberus.error]))
+                if input('!!! {} encountered a fatal error. Reboot is required. !!! Type "REBOOT" to reboot'.format(cerberus.name)):
+                    continue
+            print("Goodbye")
+            return "Code {}. A system error has occurred.".format(','.join([i for i in cerberus.error]))
         Loading.log("System Shutdown. {} seconds have elapsed.".format(str(time.time() - start)))
 
 
@@ -95,13 +101,13 @@ class OperatingSystem:
     def __init__(self):
         # User list, name, and versions. All inherent settings.
         self.users = []
-        self.name = "Cerberus"
+        self.name = "Serpens Vivus"
         self.error = []
         self.recently_deleted_users = []
         self.utilities = ["User Settings", "System Info\t", "Notepad\t\t", "SpeedSlow\t", "\t\t\t", "\t\t\t"]
         self.games = ["Bagels\t", "Tictactoe", "Hangman ", "Sonar", "Joke Teller", "ScoutRPG"]
         self.admin = ["Reset\t\t", "Event Viewer\t", "Task Manager", "\t\t", "\t\t", "\t\t"]
-        self.versions = {"Main": 5.6, "Bagels": 4.5, "Event Viewer": 1.1, "Hangman": 3.5, "Joke Teller": 1.4, "Notepad": 3.4, "ScoutRPG": 1.2,
+        self.versions = {"Main": "4.0alpha02", "Bagels": 4.5, "Event Viewer": 1.1, "Hangman": 3.5, "Joke Teller": 2.4, "Notepad": 2.2, "ScoutRPG": "alpha1.6",
                          "Sonar": 2.1, "SpeedUpOrSlowDown": 1.2, "Sudoku": 1.0, "System Info": 1.6, "System Recovery": 1.3, "Tictactoe": 5.7,
                          "User Settings": 2.9}
         self.path = "Users\\{}"
@@ -130,12 +136,14 @@ class OperatingSystem:
                 return
             if "info.usr" in files:
                 user_file = list(open("{}\\info.usr".format(subdir), 'r'))
-                info = Loading.caesar_decrypt(user_file[0]).split('\t\t')
-                programs = Loading.caesar_decrypt(user_file[1]).split('\t\t')
-                length = len([files for files in os.walk("Applications")][0][2])
-                if len(info) == 5 and (len(programs) == length or len(programs) == length - 2):
+                info = Loading.caesar_decrypt(user_file[0]).split('(U)')
+                programs = Loading.caesar_decrypt(user_file[1]).split('\n')[0].split('(P)')
+                # length = len([files for files in os.walk("Applications")][0][2])
+                if len(info) == 5:
+                    # and (len(programs) == length or len(programs) == length - 2):
                     try:
-                        new_users.append(globals()[info[0]](info[1], info[2], info[3] == "True", [j.split('\t') for j in programs]))
+                        new_users.append(globals()[info[0]](info[1], info[2], info[3] == "True", programs, self.path.format(self.current_user.username)))
+                        # , [j.split('\t') for j in programs]))
                     except (AttributeError, IndexError):
                         self.error.append(system_recovery.CorruptedFileSystem([subdir, info, programs]))
                 else:
@@ -179,7 +187,7 @@ class OperatingSystem:
                         return 4
                     print("\nCurrent user: " + self.current_user.username + ". Type \"switch\" to switch users or \"power\" to shut down the system.")
                     # Ask for password
-                    pwd = input("Enter password.\n")
+                    pwd = maskpass.advpass(prompt="Enter password.\n", ide=True)
                     if pwd == self.current_user.password:
                         Loading.returning("Welcome!", 1)
                         # Move to the system screen.
@@ -238,53 +246,62 @@ class OperatingSystem:
         Loading.log(self.current_user.username + " logged in.")
         print("Hello! I am {}, running POCS v{}".format(self.name, self.versions["Main"]))
         while True:
-            # Main while loop for applications.
-            if self.current_user.elevated:
-                print("\nAPPLICATIONS\nUTILITIES\t\t\tGAMES\t\t\tADMIN")
-                for j in range(len(self.games)):
-                    print(self.utilities[j] + '\t\t' + self.games[j] + '\t\t' + self.admin[j])
-            else:
-                print("\nAPPLICATIONS\nUTILITIES\t\t\tGAMES")
-                for j in range(len(self.games)):
-                    print(self.utilities[j] + '\t\t' + self.games[j])
-            print("\nLock Computer\tPower")
-            choice = input().lower()
-            # This logs what app the user opened, but the number codes still work.
-            Loading.log(self.current_user.username + " opened " + choice)
-            choices_list = {Jokes: ('jokes', 'joke', '1', 'joke teller'), Notepad: ('notepad', 'notes', 'note', '2')
-                            , SpeedUpOrSlowDown: ('speedslow', 'speed up', 'slow down', 'speed up or slow down')
-                            , Bagels: ('bagels', 'bagels', '3'), Tictactoe: ('tictactoe', 'tic-tac-toe', 'ttt', '4')
-                            , Hangman: ('hangman', '5'), Sonar: ('sonar', '6'), ScoutRpg: ("scout rpg", "scout", "rpg", "scout_rpg", "scoutrpg")
-                            , UserSettings: ('user settings', 'usersettings', '8'), SystemInfo: ('system info', 'sys info', '9')
-                            , TaskManager: ('task manager', '7'), EventViewer: ('event viewer', 'events'), Reset: ('reset', '10')}
-            if choice in ('exit', 'lock computer', 'lock', '11'):
-                Loading.log(self.current_user.username + " logged out.")
-                print("Computer has been locked.")
-                return 'regular'
-            elif choice in ('shutdown', '12', 'power'):
-                Loading.log(self.current_user.username + " logged out and shutdown.")
-                return self.shutdown()
-            elif choice in ('debugexit', 'debug'):
-                return 'regular'
-            for j in choices_list:
-                if choice in choices_list[j]:
-                    self.current_user.saved_state[j] = True
-                    if list(choices_list.keys()).index(j) >= len(choices_list) - 3:
-                        if self.current_user.elevated:
-                            if j.boot(self) == 4:
-                                return 4
-                    else:
-                        if j.category == "games":
-                            if j.boot(self.path.format(self.current_user.username)) == 'regular':
-                                print("Hello! I am {}, running POCS v{}".format(self.name, self.versions["Main"]))
-                                return 'regular'
-                        elif j.category == "utilities":
-                            if j.boot(self) == 'regular':
-                                print("Hello! I am {}, running POCS v{}".format(self.name, self.versions["Main"]))
-                                return 'regular'
-                    break
-            else:
-                Loading.returning("Please choose from the list of applications.", 1)
+            try:
+                # Main while loop for applications.
+                if self.current_user.elevated:
+                    print("\nAPPLICATIONS\nUTILITIES\t\t\tGAMES\t\t\tADMIN")
+                    for j in range(len(self.games)):
+                        print(self.utilities[j] + '\t\t' + self.games[j] + '\t\t' + self.admin[j])
+                else:
+                    print("\nAPPLICATIONS\nUTILITIES\t\t\tGAMES")
+                    for j in range(len(self.games)):
+                        print(self.utilities[j] + '\t\t' + self.games[j])
+                print("\nLock Computer\tPower")
+                choice = input().lower()
+                # This logs what app the user opened, but the number codes still work.
+                Loading.log(self.current_user.username + " opened " + choice)
+                choices_list = {Jokes: ('jokes', 'joke', '1', 'joke teller'), Notepad: ('notepad', 'notes', 'note', '2')
+                                , SpeedUpOrSlowDown: ('speedslow', 'speed up', 'slow down', 'speed up or slow down')
+                                , Bagels: ('bagels', 'bagels', '3'), Tictactoe: ('tictactoe', 'tic-tac-toe', 'ttt', '4')
+                                , Hangman: ('hangman', '5'), Sonar: ('sonar', '6'), ScoutRpg: ("scout rpg", "scout", "rpg", "scout_rpg", "scoutrpg")
+                                , UserSettings: ('user settings', 'usersettings', '8'), SystemInfo: ('system info', 'sys info', '9')
+                                , TaskManager: ('task manager', '7'), EventViewer: ('event viewer', 'events'), Reset: ('reset', '10')}
+                if choice in ('exit', 'lock computer', 'lock', '11'):
+                    Loading.log(self.current_user.username + " logged out.")
+                    print("Computer has been locked.")
+                    return 'regular'
+                elif choice in ('shutdown', '12', 'power'):
+                    Loading.log(self.current_user.username + " logged out and shutdown.")
+                    return self.shutdown()
+                elif choice in ('debugexit', 'debug'):
+                    return 'regular'
+                for j in choices_list:
+                    if choice in choices_list[j]:
+                        # self.current_user.saved_state[j] = True
+                        if j in [k.__class__ for k in self.current_user.saved_state]:
+                            [k for k in self.current_user.saved_state if k.__class__ == j][0].main()
+                            self.current_user.saved_state.remove([k for k in self.current_user.saved_state if k.__class__ == j][0])
+                            break
+                        if list(choices_list.keys()).index(j) >= len(choices_list) - 3:
+                            if self.current_user.elevated:
+                                if j.boot(self) == 4:
+                                    return 4
+                        else:
+                            if j.category == "games":
+                                if j.boot(self.path.format(self.current_user.username)) == 'regular':
+                                    print("Hello! I am {}, running POCS v{}".format(self.name, self.versions["Main"]))
+                                    return 'regular'
+                            elif j.category == "utilities":
+                                if j.boot(self) == 'regular':
+                                    print("Hello! I am {}, running POCS v{}".format(self.name, self.versions["Main"]))
+                                    return 'regular'
+                        break
+                else:
+                    Loading.returning("Please choose from the list of applications.", 1)
+            except Loading.HomeInterrupt as f:
+                if f.args[0] and f.args[0].__class__ not in [k.__class__ for k in self.current_user.saved_state]:
+                    self.current_user.saved_state.append(f.args[0])
+                pass
 
     def shutdown(self):
         """
@@ -301,7 +318,9 @@ class OperatingSystem:
             print("Choose an option.")
             print("1. Sleep\n2. Hibernate\n3. Shutdown\n4. Restart\nType \"info\" for details.")
             shutdown_choice = input().lower()
-            if shutdown_choice == "info":
+            if shutdown_choice == "":
+                return 0
+            elif shutdown_choice == "info":
                 # Show info
                 print("1. Sleep\nSleep does not close the python shell. It logs out the current user and saves the session to RAM. Forcibly closing "
                       "the shell will result in lost data.\n2. Hibernate\nHibernate saves the current session to disk and exits the python shell. "
@@ -336,16 +355,17 @@ class OperatingSystem:
                     for i in self.users:
                         for j in i.saved_state:
                             if i.current:
-                                if self.current_user.saved_state[j]:
-                                    program_count += 1
-                            elif i.saved_state[j]:
-                                i.saved_state[j] = False
+                                program_count += 1
+                            else:
+                                i.saved_state.remove(j)
                     if program_count > 0:
-                        print("Waiting for {} programs to close.".format(program_count))
-                        for i in self.current_user.saved_state:
-                            if self.current_user.saved_state[i]:
-                                self.current_user.saved_state[i] = False
-                                Loading.returning("Closing {}.".format(str(i.__name__)), 2)
+                        if input('Programs are running. Would you like to force quit them? All progress will be lost. '
+                                 'Type "yes" or "no".').lower() not in ("yes", "y", "of course", "absolutely"):
+                            return 0
+                        print("Waiting for {} {} to close.".format(program_count, "programs" if program_count > 0 else "program"))
+                        for _ in range(len(self.current_user.saved_state)):
+                            Loading.returning("Closing {}.".format(str(self.current_user.saved_state[0].__class__.__name__)), 2)
+                            self.current_user.saved_state.pop(0)
                         if shutdown_choice in ('shutdown', '3'):
                             print("Shutting down...")
                         else:
@@ -353,16 +373,13 @@ class OperatingSystem:
                         Loading.log("All apps closed.")
                     else:
                         print("No apps are open.")
-                for i in self.users:
-                    # Running Programs!
-                    i.saved_state = '\t\t'.join(["{}\t{}".format(j.__name__, k) for (j, k) in i.saved_state.items()]) + '\t\t\n'
                 # Now write each user's info to their respective info files.
                 for i in self.users:
                     # Open their file, write encrypted data and close the file.
                     Loading.log("Updating user files...")
                     user_file = open(self.path.format(i.username) + "\\info.usr", 'w')
-                    user_file.write(Loading.caesar_encrypt(i.__class__.__name__ + '\t\t' + i.username + '\t\t' + i.password + "\t\t" + str(i.current) + '\t\t\n'))
-                    user_file.write(Loading.caesar_encrypt(i.saved_state))
+                    user_file.write(Loading.caesar_encrypt(i.__class__.__name__ + '(U)' + i.username + '(U)' + i.password + "(U)" + str(i.current) + '(U)\n'))
+                    user_file.write(Loading.caesar_encrypt("(P)".join(j.__repr__() for j in i.saved_state) + '\n'))
                     user_file.close()
                 # Finishing with some print statements.
                 Loading.log("Shutdown complete.")
@@ -416,14 +433,14 @@ class OperatingSystem:
             self.current_user = Administrator(setup_user, setup_pwd)
             Loading.returning("Password set successfully.", 2)
             Loading.returning("One last thing!", 1)
-            recovery_pwd = ''.join(str(random.choice(Loading.alphabet)) for _ in range(1000)) + '\t\t' + input("Please enter a recovery password.") + '\t\t' + ''.join(str(random.choice(Loading.alphabet)) for _ in range(1000))
+            recovery_pwd = ''.join(str(random.choice(Loading.alphabet)) for _ in range(1000)) + '(R)' + input("Please enter a recovery password.") + '(R)' + ''.join(str(random.choice(Loading.alphabet)) for _ in range(1000))
             recovery_file = open("System\\recovery.info", 'w')
             recovery_file.write(Loading.caesar_encrypt(recovery_pwd))
             recovery_file.close()
             self.users.append(self.current_user)
             os.mkdir(self.path.format(self.current_user.username))
             user_file = open(self.path.format(self.current_user.username) + "\\info.usr", 'w')
-            user_file.write(Loading.caesar_encrypt(self.current_user.__class__.__name__ + '\t\t' + self.current_user.username + '\t\t' + self.current_user.password + "\t\t" + str(self.current_user.current) + '\t\t\n\n'))
+            user_file.write(Loading.caesar_encrypt(self.current_user.__class__.__name__ + '(R)' + self.current_user.username + '(R)' + self.current_user.password + "(R)" + str(self.current_user.current) + '(R)\n\n'))
             user_file.close()
             Loading.returning("Entering startup in 3 seconds.", 3)
         else:

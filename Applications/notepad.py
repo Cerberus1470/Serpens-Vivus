@@ -31,44 +31,44 @@ class Notepad:
 
     def __init__(self, username):
         self.username = username
-        print("Welcome to notepad!\n")
+        print("Welcome to Notepad!\n")
+        self.new_file = False
         while True:
-            self.new_file = False
-            while True:
-                for subdir, dirs, files in os.walk('Users\\%s' % self.username):
-                    count = 1
-                    for file in files:
-                        if file[len(file) - 3:len(file)] == 'txt':
-                            print(str(count) + '. ' + file)
-                            count += 1
-                    print(str(count) + '. New Note')
-                    print(str(count + 1) + '. Delete Note')
-                self.filename = input('Which file would you like to open? Type "exit" to exit.\n').lower()
-                if self.filename == 'exit':
-                    self.filename = "exit"
-                    Loading.returning_to_apps()
-                    return
-                if self.filename == 'new note':
-                    self.new_file = True
-                    break
-                elif self.filename == 'delete note':
-                    self.delete_note(self.username)
-                else:
+            for subdir, dirs, files in os.walk('Users\\%s' % self.username):
+                count = 1
+                for file in files:
+                    if file[len(file) - 3:len(file)] == 'txt':
+                        print(str(count) + '. ' + file)
+                        count += 1
+                print(str(count) + '. New Note')
+                print(str(count + 1) + '. Delete Note')
+            self.filename = input('Which file would you like to open? Type "exit" to exit.\n').lower()
+            if self.filename == 'exit':
+                self.filename = "exit"
+                Loading.returning_to_apps()
+                return
+            if self.filename == 'new note':
+                self.new_file = True
+                break
+            elif self.filename == 'delete note':
+                self.delete_note(self.username)
+            else:
+                try:
+                    note = open('Users\\%s\\%s' % (self.username, self.filename), 'r')
+                except FileNotFoundError:
                     try:
-                        note = open('Users\\%s\\%s' % (self.username, self.filename), 'r')
+                        note = open('Users\\%s\\%s' % (self.username, self.filename + '.txt'), 'r')
+                        self.filename += '.txt'
                     except FileNotFoundError:
-                        try:
-                            note = open('Users\\%s\\%s' % (self.username, self.filename + '.txt'), 'r')
-                            self.filename += '.txt'
-                        except FileNotFoundError:
-                            Loading.returning("Choose a valid option.", 1)
-                            continue
-                    print("Here is your note:")
-                    for i in note:
-                        print(Loading.caesar_decrypt(i.split('\n')[0]))
-                    note.close()
-                    break
-            return
+                        Loading.returning("Choose a valid option.", 1)
+                        continue
+                print("Here is your note:")
+                for i in note:
+                    print(Loading.caesar_decrypt(i.split('\n')[0]))
+                note.close()
+                break
+        self.notes_temp = self.notes_temp_section = ''
+        return
 
     def __repr__(self):
         return "< I am a Notepad class called " + self.__class__.__name__ + ">"
@@ -111,16 +111,17 @@ class Notepad:
         :return: 1 if the user wants to create or add to another note, 0 if they don't.
         """
         # Simple notes program that allows one to enter notes and save them to memory. Soon to be saved to disk.
-        notes_temp = ''
+        self.notes_temp = ''
         while True:
-            print("\nType something!")
-            notes_temp_section = input()
-            new_or_save = input('New line or Save the text file? Type "New Line" for a new line and "Save" to save the text and return to the homepage.')
-            if notes_temp:
-                notes_temp += '\n' + notes_temp_section
+            if not self.notes_temp_section:
+                print("\nType something!")
+                self.notes_temp_section = Loading.pocs_input("", self)
+            new_or_save = Loading.pocs_input('New line or Save the text file? Type "New Line" for a new line and "Save" to save the text and return to the homepage.')
+            if self.notes_temp:
+                self.notes_temp += '\n' + self.notes_temp_section
                 pass
             else:
-                notes_temp = notes_temp_section
+                self.notes_temp = self.notes_temp_section
                 pass
             if new_or_save.lower() in 'save file':
                 break
@@ -129,7 +130,7 @@ class Notepad:
             note = open('Users\\%s\\%s.txt' % (current_username, filename), 'w')
         else:
             note = open('Users\\%s\\%s' % (current_username, self.filename), 'a')
-        for i in notes_temp.split('\n'):
+        for i in self.notes_temp.split('\n'):
             note.write(Loading.caesar_encrypt(i) + '\n')
         note.close()
         if input('Type another note? Type "yes" to write something else or "no" to return to the applications screen.').lower() == 'yes':

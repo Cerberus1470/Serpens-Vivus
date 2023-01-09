@@ -820,6 +820,7 @@
           <option value="str.__setitem__" />
           <option value="str.values" />
           <option value="str.items" />
+          <option value="console_thrift" />
         </list>
       </option>
     </inspection_tool>

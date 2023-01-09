@@ -98,23 +98,118 @@ class Hangman:
         :param path: Path to pass on to everything
         :return: Nothing
         """
-        hangman = Hangman(path)
-        if not hangman.filename == 'exit':
-            hangman.main()
+        while True:
+            hangman = Hangman(path)
+            if not hangman.filename == 'exit':
+                if not hangman.main() == "again":
+                    return
+            else:
+                return
 
-    def __init__(self, path="\\"):
+    def __init__(self, path="\\", game_info=""):
         self.new_file = False
         self.path = path
         self.filename = ''
-        game_info = bagels.init_game(self, path, 'hng')
-        if game_info:
-            (self.missed_letters, self.correct_letters, self.secret_word, self.secret_key) = game_info
+        if not game_info:
+            game_info = bagels.init_game(self, path, 'hng')
+        if self.new_file:
+            self.new_file = True
+            self.missed_letters = ''
+            self.correct_letters = ''
+            self.secret_word = random.choice(random.choice(list(words.values())))
+        elif game_info:
+            (self.missed_letters, self.correct_letters, self.secret_word) = game_info
+            self.new_file = True if self.filename == '' else False
         return
 
     def __repr__(self):
-        return "< I am a hangman class named " + self.__class__.__name__ + ">"
+        return "Hangman(SS1){}(SS2){}(SS2){}".format(self.missed_letters, self.correct_letters, self.secret_word)
+
+    def main(self):
+        """
+        Main loop method for the game.
+        :return: Nothing.
+        """
+        # This section prints the first message, resets the correct and incorrect letters, assigns secret words and keys, and sets the game to be running.
+        print('H A N G M A N')
+        game_is_done = False
+        # if self.new_file:
+        #     self.setup()
+        if not self.new_file:
+            print('Welcome back! Your progress has been restored.')
+        # This while loop continues the guessing until the guesses are up or if the word was correctly guessed.
+        while True:
+            print("The secret word is in this set: " + [i for i in words.keys() if self.secret_word in words[i]][0])
+            print(HANGMAN_PICS[len(self.missed_letters)])
+            print('\nMissed letters: {}'.format(','.join(i.upper() for i in self.missed_letters)))
+            print(' '.join([i if i in self.correct_letters else '_' for i in self.secret_word]))
+            # Let the player type in a letter.
+            while True:
+                print('Guess a letter, or type "quit" to exit the app.')
+                guess = Loading.pocs_input("", self).lower()
+                if guess in ('quit', 'exit', 'get me outta here bruh'):
+                    self.quit()
+                    Loading.returning("Saving game progress...", 2)
+                    return
+                elif len(guess) != 1:
+                    print('Please enter a single letter.')
+                elif guess in (self.correct_letters + self.missed_letters):
+                    print('You have already guessed that letter. Choose again.')
+                elif guess not in 'abcdefghijklmnopqrstuvwxyz':
+                    print('Please enter a LETTER.')
+                else:
+                    break
+            if guess in self.secret_word:  # This adds the correct letter to the blanks.
+                self.correct_letters += guess
+
+                # Check if the player has won
+                found_all_letters = True
+                for i in range(len(self.secret_word)):
+                    if self.secret_word[i] not in self.correct_letters:
+                        found_all_letters = False
+                        break
+                if found_all_letters:
+                    print('Yes! The secret word is "' + self.secret_word + '"! You have won!')
+                    game_is_done = True
+            else:  # This just loops the player, adding their incorrect letter to the list of incorrect guesses.
+                self.missed_letters += guess
+
+                # Check if player has guessed too many times and lost
+                if len(self.missed_letters) == len(HANGMAN_PICS) - 1:
+                    print("The secret word is in this set: " + [i for i in words.keys() if self.secret_word in words[i]][0])
+                    print(HANGMAN_PICS[len(self.missed_letters)])
+                    print('\nMissed letters: {}'.format(','.join(i.upper() for i in self.missed_letters)))
+                    print(' '.join([i if i in self.correct_letters else '_' for i in self.secret_word]))
+                    print('You have run out of guesses!\nAfter ' + str(len(self.missed_letters)) + ' missed guesses and ' +
+                          str(len(self.correct_letters)) + ' correct guesses, the word was "' + self.secret_word + '"')
+                    game_is_done = True
+
+            # Ask the player if they want to play again (but only if the game is done).
+            if game_is_done:
+                if not self.new_file:
+                    os.remove(self.path + self.filename)
+                if Loading.pocs_input('Do you want to play again? (yes or no)\n', self).lower().startswith('y'):
+                    return "again"
+                else:
+                    Loading.returning_to_apps()
+                    return
+
+    def quit(self):
+        """
+        Method to regulate quitting and saving progress
+        :return: Nothing.
+        """
+        if self.new_file:
+            self.filename = input("File name?\n") + '.hng'
+        try:
+            game = open(self.path + "\\" + self.filename, 'w')
+            game.write(Loading.caesar_encrypt("{}(G){}(G){}".format(self.missed_letters, self.correct_letters, self.secret_word)))
+            game.close()
+        except (FileNotFoundError, FileExistsError):
+            Loading.returning("The path or file was not found.", 2)
 
     @staticmethod
+    @DeprecationWarning
     def get_random_word(word_dict):
         """
         Method to get a random word
@@ -128,19 +223,19 @@ class Hangman:
         word_index = random.randint(0, len(word_dict[word_key]) - 1)
         return [word_dict[word_key][word_index], word_key]
 
+    @DeprecationWarning
     def display_board(self):
         """
-        Method to display the Hangman Board
+        Method to display the Hangman Board, the selected category, the hangman, the past incorrect and correct guesses, and the blanks.
         :return: Nothing
         """
         # this function displays the selected category, the hangman, the past incorrect and correct guesses, and the blanks.
-        print("The secret word is in this set: " + self.secret_key)
+        print("The secret word is in this set: " + [i for i in words.keys() if self.secret_word in words[i]][0])
         print(HANGMAN_PICS[len(self.missed_letters)])
         print()
-        print('Missed letters:', end=' ')
-        for letter in self.missed_letters:
-            print(letter.upper(), end=',')
-        print()
+        print('Missed letters: {}'.format(','.join(i.upper() for i in self.missed_letters)))
+        # for letter in self.missed_letters:
+        #     print(letter.upper(), end=',')
         print("Word: ", end='')
         blanks = '_' * len(self.secret_word)
         for i in range(len(self.secret_word)):  # replace blanks with correctly guessed letters
@@ -153,6 +248,7 @@ class Hangman:
         return
 
     @staticmethod
+    @DeprecationWarning
     def get_guess(already_guessed):
         """
         Method to get a guess from the player
@@ -174,6 +270,7 @@ class Hangman:
             else:
                 return guess
 
+    @DeprecationWarning
     def setup(self):
         """
         Method to set everything up.
@@ -182,73 +279,5 @@ class Hangman:
         self.new_file = True
         self.missed_letters = ''
         self.correct_letters = ''
-        (self.secret_word, self.secret_key) = self.get_random_word(words)
+        # self.secret_word = self.get_random_word(words)
         return
-
-    def quit(self):
-        """
-        Method to regulate quitting and saving progress
-        :return: Nothing.
-        """
-        if self.new_file:
-            self.filename = input("File name?\n") + '.hng'
-        try:
-            game = open(self.path + "\\" + self.filename, 'w')
-            game.write(Loading.caesar_encrypt("{}\t{}\t{}\t{}".format(self.missed_letters, self.correct_letters, self.secret_word, self.secret_key)))
-            game.close()
-        except (FileNotFoundError, FileExistsError):
-            Loading.returning("The path or file was not found.", 2)
-
-    def main(self):
-        """
-        Main loop method for the game.
-        :return: Nothing.
-        """
-        # This section prints the first message, resets the correct and incorrect letters, assigns secret words and keys, and sets the game to be running.
-        print('H A N G M A N')
-        game_is_done = False
-        if self.new_file:
-            self.setup()
-        else:
-            print('Welcome back! Your progress has been restored.')
-        # This while loop continues the guessing until the guesses are up or if the word was correctly guessed.
-        while True:
-            self.display_board()
-
-            # Let the player type in a letter.
-            guess = self.get_guess(self.missed_letters + self.correct_letters)
-            if guess == 'quit':
-                self.quit()
-                Loading.returning("Saving game progress...", 2)
-                return
-            elif guess in self.secret_word:  # This adds the correct letter to the blanks.
-                self.correct_letters += guess
-
-                # Check if the player has won
-                found_all_letters = True
-                for i in range(len(self.secret_word)):
-                    if self.secret_word[i] not in self.correct_letters:
-                        found_all_letters = False
-                        break
-                if found_all_letters:
-                    print('Yes! The secret word is "' + self.secret_word + '"! You have won!')
-                    game_is_done = True
-            else:  # This just loops the player, adding their incorrect letter to the list of incorrect guesses.
-                self.missed_letters += guess
-
-                # Check if player has guessed too many times and lost
-                if len(self.missed_letters) == len(HANGMAN_PICS) - 1:
-                    self.display_board()
-                    print('You have run out of guesses!\nAfter ' + str(len(self.missed_letters)) + ' missed guesses and ' +
-                          str(len(self.correct_letters)) + ' correct guesses, the word was "' + self.secret_word + '"')
-                    game_is_done = True
-
-            # Ask the player if they want to play again (but only if the game is done).
-            if game_is_done:
-                os.remove(self.path + self.filename)
-                if input('Do you want to play again? (yes or no)\n').lower().startswith('y'):
-                    self.setup()
-                    game_is_done = False
-                else:
-                    Loading.returning_to_apps()
-                    return

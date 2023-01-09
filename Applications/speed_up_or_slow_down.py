@@ -17,60 +17,67 @@ class SpeedUpOrSlowDown:
         :param _: The unused OS Object, passed due to the iterative nature of the application home screen.
         :return: Nothing
         """
-        SpeedUpOrSlowDown.main()
+        speed_slow = SpeedUpOrSlowDown()
+        SpeedUpOrSlowDown.main(speed_slow)
 
-    @staticmethod
-    def main():
+    def __init__(self, data=None):
+        if data is None:
+            data = [1, 1, 1]
+        self.fps = int(data[0])
+        self.f_frames = int(data[1])
+        self.o_frames = int(data[2])
+        self.speed = round((100 * (self.o_frames / self.f_frames)), 2)
+
+    def __repr__(self):
+        return "SpeedUpOrSlowDown(SS1){}(SS2){}(SS2){}".format(self.fps, self.f_frames, self.o_frames)
+
+    def main(self):
         """
         This method is the main application screen.
         :return:
         """
-        print('Welcome! Default values are 1. Type "help" for more info.')
-        speed = fps = f_sec = f_frames = o_sec = o_frames = 1
+        print('Welcome! Type "help" for more info.')
+        # speed = fps = f_sec = f_frames = o_sec = o_frames = 1
         while True:
-            print('Set clip speed to: {}%'.format(str(speed)))
-            print('Type an option to change.\n1. Frames per second = {}\n2. Initial Length (seconds:frames) = {}:{}'
-                  '\n3. Final Length = {}:{}\n4. Quit'.format(str(fps), str(o_sec), str(o_frames), str(f_sec), str(f_frames)))
-            option = input().lower()
-            if option == '':
-                print("Please choose an option from the list.")
-            elif option in ('1', 'fps', 'frames per second'):
-                print('Frames per second?')
-                fps = int(input())
-                pass
-            elif option in ('2', 'initial', 'initial length'):
-                print('Initial number of seconds?')
-                o_sec = input()
-                try:
-                    o_frames = int(o_sec.split(':')[1])
-                    o_sec = int(o_sec.split(':')[0])
+            try:
+                self.speed = round((100 * (self.o_frames / self.f_frames)), 2)
+                print('Set clip speed to: {}%'.format(str(self.speed)))
+                print('Type an option to change.\n1. Frames per second = {}\n2. Initial Length (seconds:frames) = {}:{}'
+                      '\n3. Final Length = {}:{}\n4. Quit'.format(str(self.fps),
+                                                                  str(int(self.o_frames / self.fps)), str(self.o_frames - (int(self.o_frames / self.fps) * self.fps)),
+                                                                  str(int(self.f_frames / self.fps)), str(self.f_frames - (int(self.f_frames / self.fps) * self.fps))))
+                option = Loading.pocs_input("", self).lower()
+                if option == '':
+                    print("Please choose an option from the list.")
+                elif option in ('1', 'fps', 'frames per second'):
+                    print('Frames per second?')
+                    self.fps = int(input())
                     pass
-                except (ValueError, IndexError):
-                    o_sec = int(o_sec)
-                    print('Initial number of frames?')
-                    o_frames = int(input())
-                pass
-            elif option in ('3', 'final', 'final length'):
-                print('Final number of seconds?')
-                f_sec = input()
-                try:
-                    f_frames = int(f_sec.split(':')[1])
-                    f_sec = int(f_sec.split(':')[0])
+                elif option in ('2', 'initial', 'initial length'):
+                    o_sec = input('Initial number of seconds?')
+                    try:
+                        self.o_frames = int(o_sec.split(':')[1]) + (int(o_sec.split(':')[0]) * self.fps)
+                        pass
+                    except (ValueError, IndexError):
+                        self.o_frames = int(input('Initial number of frames?')) + (int(o_sec) * self.fps)
                     pass
-                except (ValueError, IndexError):
-                    f_sec = int(f_sec)
-                    print('Final number of frames?')
-                    f_frames = int(input())
-                pass
-            elif option in ('4', 'quit'):
-                Loading.returning_to_apps()
-                return
-            elif option == 'help':
-                print("1. Frames per second is the number of frames rendered in a given second.\n2. Initial Length (seconds:frames) "
-                      "is the length of the clip to be slowed down or sped up, and is given in seconds and frames.\n3. Final "
-                      "length is the length of the clip after speeding up or slowing down, also given in seconds and frames.\n"
-                      "The clip speed at the top is the speed to set the video clip to.")
-            else:
-                print("Please choose an option from the list.")
-
-            speed = round((100*((fps*o_sec+o_frames)/(fps*f_sec+f_frames))), 2)
+                elif option in ('3', 'final', 'final length'):
+                    f_sec = input('Final number of seconds?')
+                    try:
+                        self.f_frames = int(f_sec.split(':')[1]) + (int(f_sec.split(':')[0]) * self.fps)
+                        pass
+                    except (ValueError, IndexError):
+                        self.f_frames = int(input('Final number of frames?')) + (int(f_sec) * self.fps)
+                    pass
+                elif option in ('4', 'quit'):
+                    Loading.returning_to_apps()
+                    return
+                elif option == 'help':
+                    print("1. Frames per second is the number of frames rendered in a given second.\n2. Initial Length (seconds:frames) "
+                          "is the length of the clip to be slowed down or sped up, and is given in seconds and frames.\n3. Final "
+                          "length is the length of the clip after speeding up or slowing down, also given in seconds and frames.\n"
+                          "The clip speed at the top is the speed to set the video clip to.")
+                else:
+                    print("Please choose an option from the list.")
+            except (ValueError, IndexError):
+                Loading.returning("Incorrect values were entered. Please try again.", 2)

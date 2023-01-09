@@ -22,40 +22,116 @@ class Sonar:
         :param path: Path to pass on to everything
         :return: Nothing
         """
-        sonar = Sonar(path)
-        if not sonar.filename == 'exit':
-            sonar.main()
+        while True:
+            sonar = Sonar(path)
+            if not sonar.filename == 'exit':
+                if not sonar.main() == "again":
+                    return
+            else:
+                return
 
-    def __init__(self, path="\\"):
+    def __init__(self, path="\\", game_info=""):
         self.new_file = False
         self.filename = ''
         self.path = path
-        game_info = bagels.init_game(self, path, 'snr')
-        if game_info:
-            (devices, board, chests, previous_moves) = game_info
-            self.devices = Loading.caesar_decrypt(devices.split('\n')[0])
-            self.devices = int(self.devices)
-            self.board = Loading.caesar_decrypt(board[0:len(board) - 1]).split('\t')
-            for i in range(len(self.board)):
-                self.board[i] = self.board[i].split(',')
-            self.chests = Loading.caesar_decrypt(chests[0:len(chests) - 1]).split('\t')
-            for i in range(len(self.chests)):
-                self.chests[i] = self.chests[i].split(',')
-            for i in range(len(self.chests)):
-                for j in range(len(self.chests[i])):
-                    self.chests[i][j] = int(self.chests[i][j])
-            self.previous_moves = Loading.caesar_decrypt(previous_moves.split('\n')[0]).split('\t')
-            for i in range(len(self.previous_moves)):
-                self.previous_moves[i] = self.previous_moves[i].split(',')
-            for i in range(len(self.previous_moves)):
-                for j in range(len(self.previous_moves[i])):
-                    self.previous_moves[i][j] = int(self.previous_moves[i][j])
+        if not game_info:
+            game_info = bagels.init_game(self, path, 'snr')
+        self.board = [['-' if random.randint(0, 1) == 0 else '~' for _ in range(40)] for _ in range(10)]
+        if self.new_file:
+            self.new_file = True
+            print('Would you like to view the instructions? (yes/no)')
+            if input().lower().startswith('y'):
+                self.show_instructions()
+            print('How many sonar devices would you like?')
+            self.devices = int(input())
+            print('How many treasure chests should there be?')
+            chests = int(input())
+            self.chests = self.get_random_chests(chests)
+            self.previous_moves = []
+        elif game_info:
+            (devices, chests, previous_moves) = game_info
+            self.devices = int(devices)
+            # self.board = Loading.caesar_decrypt(board[0:len(board) - 1]).split('\t')
+            # for i in range(len(self.board)):
+            #     self.board[i] = self.board[i].split(',')
+            self.chests = [[int(j), int(k)] for j, k in [i.split(',') for i in chests.split('(C)')]]
+            self.previous_moves = previous_moves.split('(P)')
+            if self.previous_moves == [""]:
+                self.previous_moves = []
+            self.previous_moves = [[int(j), int(k)] for j, k in [i.split(',') for i in self.previous_moves]]
+            self.new_file = True if self.filename == '' else False
+            self.board = [['-' if random.randint(0, 1) == 0 else '~' for _ in range(40)] for _ in range(10)]
+            for x, y in self.previous_moves:
+                self.make_move(x, y)
         return
 
     def __repr__(self):
-        return "< I am a sonar class named " + self.__class__.__name__ + ">"
+        return "Sonar(SS1){}(SS2){}(SS2){}".format(str(self.devices), '(C)'.join([(','.join(str(j) for j in i)) for i in self.chests]),
+                                                   '(P)'.join([(','.join(str(j) for j in i)) for i in self.previous_moves]))
+
+    def main(self):
+        """
+        Main method for all gameplay.
+        :return: Nothing.
+        """
+        print('S O N A R !\n')
+        if not self.new_file:
+            print("Welcome back!")
+        while True:
+            self.draw_board()
+            while self.devices > 0:
+                # Show sonar device and chest statuses.
+                print('You have {} sonar device(s) left. {} treasure chest(s) remaining.'.format(self.devices, len(self.chests)))
+                print('Where do you want to drop the next sonar device? (0-9 0-39) (or type quit)')
+                while True:
+                    move = Loading.pocs_input("", self)
+                    if move.lower() == 'quit':
+                        self.quit()
+                        return
+                    move = move.split()
+                    if len(move) == 2 and move[0].isdigit() and move[1].isdigit() and 0 <= int(move[0]) <= 9 and 0 <= int(move[1]) <= 39:
+                        if [int(move[0]), int(move[1])] in self.previous_moves:
+                            print('There is already a sonar device placed there.')
+                        else:
+                            x, y = [int(move[0]), int(move[1])]
+                            break
+                    else:
+                        print('Enter a number from 0 to 9, a space, then a number from 0 to 39.')
+                # x, y = self.enter_player_move()
+                # if x == 'quit' and y == 'quit':
+                #     return
+                # We must track all moves so that sonar devices can be updated.
+                self.previous_moves.append([x, y])
+
+                moveResult = self.make_move(x, y)
+                if moveResult == 'You have found a sunken treasure chest!':
+                    # Update all the sonar devices currently on the map.
+                    for x, y in self.previous_moves:
+                        self.make_move(x, y)
+                self.draw_board()
+                print(moveResult)
+
+                if len(self.chests) == 0:
+                    print('You have found all the sunken treasure chests! Congratulations and good game!')
+                    break
+
+                self.devices -= 1
+
+            if self.devices == 0:
+                print("We've run out of sonar devices! Now we have to turn the ship around and head\nfor home with treasure chests still out there! Game over.")
+                print(' The remaining chests were here:')
+                for x, y in self.chests:
+                    print(' {}, {}'.format(x, y))
+            if not self.new_file:
+                os.remove(self.path + '\\' + self.filename)
+            if Loading.pocs_input('Do you want to play again? (yes or no)', self).lower().startswith('y'):
+                return "again"
+            else:
+                Loading.returning_to_apps()
+                return
 
     @staticmethod
+    @DeprecationWarning
     def get_new_board():
         """
         Method to get a new board.
@@ -120,6 +196,7 @@ class Sonar:
         return chests
 
     @staticmethod
+    @DeprecationWarning
     def is_on_board(x, y):
         """
         Method to verify if the move is on the board
@@ -162,6 +239,7 @@ class Sonar:
                 self.board[x][y] = 'X'
                 return 'Sonar did not detect anything. All treasure chests out of range.'
 
+    @DeprecationWarning
     def enter_player_move(self):
         """
         Method to ask for a player move. Filters literally every incorrect input.
@@ -237,6 +315,7 @@ class Sonar:
                 
                 Press enter to continue...''')
 
+    @DeprecationWarning
     def setup(self):
         """
         Method to regulate setup of a new game file.
@@ -250,7 +329,7 @@ class Sonar:
         self.devices = int(input())
         print('How many treasure chests should there be?')
         chests = int(input())
-        self.board = self.get_new_board()
+        # self.board = self.get_new_board()
         self.chests = self.get_random_chests(chests)
         self.previous_moves = []
         return
@@ -307,64 +386,12 @@ class Sonar:
             previous_moves = '{}\t'.format(previous_moves[0:len(previous_moves) - 1])
         try:
             game = open(self.path + '\\' + self.filename, 'w')
-            game.write(Loading.caesar_encrypt(str(self.devices)) + '\n')
-            game.write(Loading.caesar_encrypt(board[0:len(board) - 1]) + '\n')
-            game.write(Loading.caesar_encrypt(chests[0:len(chests) - 1]) + '\n')
-            game.write(Loading.caesar_encrypt(previous_moves[0:len(previous_moves) - 1]) + '\n')
+            game.write(Loading.caesar_encrypt("{}(G){}(G){}".format(str(self.devices), '(C)'.join([(','.join(str(j) for j in i)) for i in self.chests]),
+                                                                    '(P)'.join([(','.join(str(j) for j in i)) for i in self.previous_moves]) + '\n')))
+            # game.write(Loading.caesar_encrypt(board[0:len(board) - 1]) + '\n')
+            # game.write(Loading.caesar_encrypt(chests[0:len(chests) - 1]) + '\n')
+            # game.write(Loading.caesar_encrypt(previous_moves[0:len(previous_moves) - 1]) + '\n')
             game.close()
         except (FileNotFoundError, FileExistsError):
             Loading.returning("The path or file was not found.", 2)
         Loading.returning("Saving game progress...", 2)
-
-    def main(self):
-        """
-        Main method for all gameplay.
-        :return: Nothing.
-        """
-        print('S O N A R !\n')
-        if self.new_file:
-            self.setup()
-        else:
-            print("Welcome back!")
-        while True:
-            self.draw_board()
-            while self.devices > 0:
-                # Show sonar device and chest statuses.
-                print('You have {} sonar device(s) left. {} treasure chest(s) remaining.'.format(self.devices, len(self.chests)))
-
-                x, y = self.enter_player_move()
-                if x == 'quit' and y == 'quit':
-                    return
-                # We must track all moves so that sonar devices can be updated.
-                self.previous_moves.append([x, y])
-
-                moveResult = self.make_move(x, y)
-                if not moveResult:
-                    self.draw_board()
-                    continue
-                else:
-                    if moveResult == 'You have found a sunken treasure chest!':
-                        # Update all the sonar devices currently on the map.
-                        for x, y in self.previous_moves:
-                            self.make_move(x, y)
-                    self.draw_board()
-                    print(moveResult)
-
-                if len(self.chests) == 0:
-                    print('You have found all the sunken treasure chests! Congratulations and good game!')
-                    break
-
-                self.devices -= 1
-
-            if self.devices == 0:
-                print('We\'ve run out of sonar devices! Now we have to turn the ship around and head')
-                print('for home with treasure chests still out there! Game over.')
-                print(' The remaining chests were here:')
-                for x, y in self.chests:
-                    print(' {}, {}'.format(x, y))
-
-            os.remove(self.path + '\\' + self.filename)
-            print('Do you want to play again? (yes or no)')
-            if input().lower().startswith('y'):
-                self.setup()
-                return

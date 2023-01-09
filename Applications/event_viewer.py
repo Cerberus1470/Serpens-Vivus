@@ -24,6 +24,12 @@ class EventViewer:
     """
     category = "admin"
 
+    def __init__(self, page=0):
+        self.page = int(page)
+
+    def __repr__(self):
+        return "EventViewer(SS1){}".format(self.page)
+
     @staticmethod
     def boot(_):
         """
@@ -31,10 +37,10 @@ class EventViewer:
         :param _: The unused OS Object, passed due to the iterative nature of the application home screen.
         :return: 4 if the user reset the event log.
         """
-        return EventViewer.main()
+        event_viewer = EventViewer()
+        return EventViewer.main(event_viewer)
 
-    @staticmethod
-    def main():
+    def main(self):
         """
         The main application screen.
         :return: 4 if the user reset the event log.
@@ -66,20 +72,19 @@ class EventViewer:
                 break
         print("This is the event viewer.")
         print("The events are split into chunks based on time. Chunks are split based on 10-minute gaps between events.")
-        i = 0
         while True:
-            print("\nEVENTS\tPage {} of {}".format(i+1, len(event_chunks)))
-            print("Time period: {} to {}".format(event_chunks[i][len(event_chunks[i])-1][1:20], event_chunks[i][0][1:20]))
-            for j in event_chunks[i]:
+            print("\nEVENTS\tPage {} of {}".format(self.page + 1, len(event_chunks)))
+            print("Time period: {} to {}".format(event_chunks[self.page][len(event_chunks[self.page]) - 1][1:20], event_chunks[self.page][0][1:20]))
+            for j in event_chunks[self.page]:
                 print(j, end='')
-            choice = input('Press [ENTER] or [return] for the next page. Type "prev" for the previous page. Type "exit" to quit. Type "reset" to reset.').lower()
+            choice = Loading.pocs_input('Press [ENTER] or [return] for the next page. Type "prev" for the previous page. Type "exit" to quit. Type "reset" to reset.', self).lower()
             if choice == '':
-                if i < len(event_chunks)-1:
-                    i += 1
+                if self.page < len(event_chunks)-1:
+                    self.page += 1
                 continue
             elif choice == 'prev':
-                if i != 0:
-                    i -= 1
+                if self.page != 0:
+                    self.page -= 1
             elif choice == 'reset':
                 if input('Are you sure? Type "RESET" to reset the event log.'):
                     Loading.returning("Resetting event log...", 2)

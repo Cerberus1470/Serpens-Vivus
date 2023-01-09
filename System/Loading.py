@@ -11,7 +11,7 @@ import threading
 import datetime
 import sys
 
-alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 1234567890!@#$%^&*()`~-_=+[{]}|;:\'\",<.>/?\t'
+alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 1234567890!@#$%^&*()`~-_=+[{]}|;:,<.>/?'
 
 
 class LoadingClass:
@@ -62,6 +62,28 @@ class LoadingClass:
         for i in range(10):
             self.results += 1
             time.sleep(self.interval)
+
+
+class HomeInterrupt(Exception):
+    """
+    Class HomeInterrupt. Houses the error to raise if the user wants to go home.
+    """
+    # def __init__(self, app_object=None):
+    #     self.app_object = app_object.get_saved_state() if app_object else None
+
+
+def pocs_input(message, app_object=None):
+    """
+    This method collects an input and checks for universal commands.
+    :param message: Input message to use. The same as putting a message in an input statement.
+    :param app_object: Object to pass back to store in the current user's saved_state. Leave blank to store no object.
+    :return: The HomeInterrupt Object if the user typed "_home", and the input collection otherwise.
+    """
+    temp = input(message)
+    if temp == "_home":
+        raise HomeInterrupt(app_object)
+    else:
+        return temp
 
 
 def animated_loading():
@@ -131,33 +153,33 @@ def modify_user(username='', element=-1, value=''):
     """
     This method is used to permanently modify a user's info.usr file.
     :param username: The name of the user to modify.
-    :param element: The element to change. Integer from 0-14.
+    :param element: The element to change. Integer from 0-3.
     :param value: What value to set the element to.
-    :return: 1 if successful, 0 if unsuccessful.
+    :return: 0 if successful, 1 if unsuccessful.
     """
-    if element < 0 or element > 14:
+    if element < 0 or element > 3:
         return 0
     for subdir, dirs, files in os.walk("Users"):
         if subdir == "Users\\" + username:
             file = list(open("{}\\info.usr".format(subdir), 'r'))
-            info = caesar_decrypt(file[0]).split('\t\t')
-            programs = caesar_decrypt(file[1]).split('\n')[0].split('.')
+            info = caesar_decrypt(file[0]).split('(U)')
+            # programs = caesar_decrypt(file[1]).split('\n')[0].split('(P)')
             if element < 4:
                 info[element] = value
-            else:
-                try:
-                    programs[element - 4] = value
-                except IndexError:
-                    break
+            # else:
+            #     try:
+            #         programs[element - 4] = value
+            #     except IndexError:
+            #         break
             file = open("{}\\info.usr".format(subdir), 'w')
-            file.write(caesar_encrypt('\t\t'.join(info)))
-            file.write(caesar_encrypt('.'.join(programs) + '\n'))
+            file.write(caesar_encrypt('(U)'.join(info)))
+            # file.write(caesar_encrypt('(P)'.join(programs) + '\n'))
             file.close()
             if element == 1:
                 os.rename(subdir, "Users\\{}".format(value))
-            return 1
+            return 0
     returning("An error occurred. Please reboot the system safely.", 2)
-    return 0
+    return 1
 
 
 def display_user(username=""):
@@ -173,15 +195,17 @@ def display_user(username=""):
             print(caesar_decrypt(file[1]))
 
 
-def caesar_encrypt(message=''):
+def caesar_encrypt(message='', priority=1):
     """
     This is an advanced method to encrypt a string using a custom caesar cypher.
     :param message: The message to encrypt.
+    :param priority: The priority with which to encrypt. This modifies the key to use so that different elements use a
+    different encryption algorithm.
     :return: The encrypted message.
     """
     encrypted_h = ''
     message = str(message)
-    key = [10, 4, 3, 5, 7, 8, 1, 2, 9, 6]
+    key = [i * priority for i in [10, 4, 3, 5, 7, 8, 1, 2, 9, 6]]
     if len(key) <= len(message):
         key *= int(len(message))
     for i in range(len(message)):
@@ -191,19 +215,21 @@ def caesar_encrypt(message=''):
             try:
                 encrypted_h += alphabet[alphabet.index(message[i]) + key[i]]
             except IndexError:
-                encrypted_h += alphabet[alphabet.index(message[i]) + key[i] - 95]
+                encrypted_h += alphabet[alphabet.index(message[i]) + key[i] - 92]
     return encrypted_h
 
 
-def caesar_decrypt(encrypted_h=''):
+def caesar_decrypt(encrypted_h='', priority=1):
     """
     This is the inverse of caesar_encrypt. This advanced method decrypts the message using the same custom
     caesar cypher.
     :param encrypted_h: The message to decrypt.
+    :param priority: The priority with which to encrypt. This modifies the key to use so that different elements use a
+    different encryption algorithm.
     :return: The decrypted message.
     """
     decrypted_h = ''
-    key = [10, 4, 3, 5, 7, 8, 1, 2, 9, 6]
+    key = [i * priority for i in [10, 4, 3, 5, 7, 8, 1, 2, 9, 6]]
     if len(key) <= len(encrypted_h):
         key *= int(len(encrypted_h))
     for i in range(len(encrypted_h)):
@@ -213,7 +239,9 @@ def caesar_decrypt(encrypted_h=''):
             try:
                 decrypted_h += alphabet[alphabet.index(encrypted_h[i]) - key[i]]
             except IndexError:
-                decrypted_h += alphabet[alphabet.index(encrypted_h[i]) - key[i] + 95]
+                decrypted_h += alphabet[alphabet.index(encrypted_h[i]) - key[i] + 92]
+            except ValueError:
+                return encrypted_h[i]
     return decrypted_h
 
 
@@ -250,7 +278,6 @@ def caesar_decrypt_hex(encrypted_h=''):
         pass
 
 
-# noinspection PyTypeChecker
 async def test():
     print("Hello world!")
     return 42

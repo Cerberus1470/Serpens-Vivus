@@ -57,10 +57,12 @@ TODO - Advanced
         > - Just handle the FileNotFound error and tell the user that the message will show up.
     > - Implement recovery password
     > - Change Saved State to Booleans
-    - Change number of program statuses to reflect how many applications are there, in operating_system.reload().
-    - Create error to upgrade user info files to reflect how many applications there are.
+    > - Change number of program statuses to reflect how many applications are there, in operating_system.reload().
+    X - Create error to upgrade user info files to reflect how many applications there are. - REJECTED after the Saved_State Update.
     - Handle application errors.
         - This will be separate from system crashes (BSOD), and will basically boot you back to the home screen.
+    - Mid-method home button action and saved_state restoring.
+    - Lock "button". This will do the same as the home button, but taken back to the lock screen.
 
 TODO - Really advanced
     - Add user personalization. See documentation below.

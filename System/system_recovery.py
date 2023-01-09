@@ -58,7 +58,7 @@ class SystemRecovery:
     """
     code = 0
     file = list(open("System\\recovery.info"))
-    password = Loading.caesar_decrypt(file[0]).split('\t\t')[1]
+    password = Loading.caesar_decrypt(file[0]).split('(R)')[1]
 
     @staticmethod
     def boot(error=None):
