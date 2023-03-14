@@ -33,13 +33,17 @@ class User:
         self.current = current
         self.saved_state = []
         self.elevated = False
+        # FUTURE REFERENCE: Bagels, Hangman, Sonar, Sudoku, and TTT have path variables. EventViewer and SpeedSlow do not use path variables. Every other app has no saved_state.
         for i in saved_state:
-            if globals()[i.split("(SS1)")[0]].category == "games":
-                self.saved_state.append(globals()[i.split("(SS1)")[0]](path, i.split("(SS1)")[1].split("(SS2)")))
-            elif globals()[i.split("(SS1)")[0]].category == "utilities":
-                self.saved_state.append(globals()[i.split("(SS1)")[0]](i.split("(SS1)")[1].split("(SS2)")))
-            else:
-                self.saved_state.append(globals()[i.split("(SS1)")[0]](i.split("(SS1)")[1]))
+            temp = [j.split(k) for j, k in ((i.split("(SS1)")[0], "(Interrupt)"), (i.split("(SS1)")[1], "(SS2)"))]
+            # temp's elements are as follows: 1st list has InterruptType and Class Name. 2nd List hsa game info.
+            self.saved_state.append(globals()[temp[0][0]](globals()[temp[0][1]](path, temp[1])))
+            # if globals()[temp[0].split("(Interrupt)")[0]].category == "games":
+            #     self.saved_state.append(globals()[temp[0].split("(Interrupt)")[0]](path, temp[1].split("(SS2)")))
+            # elif globals()[temp[0].split("(Interrupt)")[0]].category == "utilities":
+            #     self.saved_state.append(globals()[temp[0].split("(Interrupt)")[0]](temp[1].split("(SS2)")))
+            # else:
+            #     self.saved_state.append(globals()[i.split("(SS1)")[0]](i.split("(SS1)")[1]))
 
         # First, setting the existing program statuses.
         # for j in saved_state:

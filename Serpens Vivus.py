@@ -19,4 +19,4 @@ The main file for any bootup. Very simple, but contains some setup and file prot
 
 
 from System import operating_system
-one = operating_system.boot()
+one = operating_system.boot(False, True)

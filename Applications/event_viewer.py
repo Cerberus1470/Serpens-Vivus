@@ -24,7 +24,7 @@ class EventViewer:
     """
     category = "admin"
 
-    def __init__(self, page=0):
+    def __init__(self, _, page=0):
         self.page = int(page)
 
     def __repr__(self):
@@ -37,7 +37,7 @@ class EventViewer:
         :param _: The unused OS Object, passed due to the iterative nature of the application home screen.
         :return: 4 if the user reset the event log.
         """
-        event_viewer = EventViewer()
+        event_viewer = EventViewer(_)
         return EventViewer.main(event_viewer)
 
     def main(self):

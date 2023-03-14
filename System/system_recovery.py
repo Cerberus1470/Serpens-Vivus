@@ -67,10 +67,13 @@ class SystemRecovery:
         :param error: The list of errors sent from the error screen in operating_system.py.
         :return: Nothing.
         """
+        Loading.returning("Entering Recovery...", 1)
         if error is None:
             error = []
         Loading.log("A fatal internal error has occurred. The system has entered Recovery.")
         SystemRecovery.main(SystemRecovery(error))
+        Loading.returning("Saving changes and booting...", 3)
+        print('\n\n\n\n\n')
 
     def __init__(self, error):
         self.error = error

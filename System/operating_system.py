@@ -20,49 +20,46 @@ try:
     from System import system_recovery
     from System.User import *
     from System.reset import Reset
-except ImportError as e:
+except ImportError:
     Bagels = EventViewer = Hangman = Jokes = Notepad = ScoutRpg = Sonar = SpeedUpOrSlowDown = SystemInfo = TaskManager = \
         Tictactoe = UserSettings = system_recovery = Reset = None
     # If any file is missing, code will come here.
     # UPDATE Change whenever the token changes!
     token = "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"
-    for sys_file in ("Loading.py", "operating_system.py", "reset.py", "system_recovery.py", "User.py"):
-        try:
-            file = open("System/" + sys_file, 'x', encoding='utf-8')
-            download = requests.get("https://raw.githubusercontent.com/Cerberus1470/Sentiens-Anguis/Tejas/System/{}".format(sys_file),
-                                    headers={'accept': 'application/vnd.github.v3.raw', 'authorization': 'token {}'.format(token)})
-            file.write(download.content.decode())
-            file.close()
-        except (FileExistsError, FileNotFoundError):
-            pass
+    for folder in (("System/", ("Loading.py", "operating_system.py", "reset.py", "system_recovery.py", "User.py")),
+                   ("Applications/", ("bagels.py", "event_viewer.py", "hangman.py", "jokes.py", "notepad.py", "scout_rpg.py", "settings.py",
+                                      "sonar.py", "speed_up_or_slow_down.py", "sudoku.py", "system_info.py", "task_manager.py",
+                                      "tictactoe.py", "user_settings.py"))):
+        for filename in folder[1]:
+            try:
+                file = open("{}/{}".format(folder[0], filename), 'x', encoding='utf-8')
+                download = requests.get("https://raw.githubusercontent.com/Cerberus1470/Sentiens-Anguis/Tejas/{}/{}".format(folder[0], filename),
+                                        headers={'accept': 'application/vnd.github.v3.raw', 'authorization': 'token {}'.format(token)})
+                file.write(download.content.decode())
+                file.close()
+            except FileExistsError:
+                pass
     from System import Loading
     Loading.returning("The system is missing files. It will now re-download them from GitHub. Please wait.", 4)
     Loading.progress_bar("Downloading Files", 5)
     Loading.returning("The system has finished downloading/updating files and will now reboot", 5)
 
-dirty = []
-
 
 # noinspection PyBroadException
-def boot():
+def boot(error=True, stacktrace=False):
     """
     Method boot(). This method regulates the boot process of the Core OS. It is responsible for allowing one-line startup.
     :return: 0 if no crashes occur. Code 1-4 if an error occurs.
     """
-    global dirty
     running = True
     start = time.time()
-    dirty = []
     cerberus = OperatingSystem()
+    Loading.log("System Startup.")
     while running:
         try:
             # Initialization reads all files and data from disk and loads it into memory.
-            Loading.log("System Startup.")
             if cerberus.error:
-                Loading.returning("Entering Recovery...", 1)
                 system_recovery.SystemRecovery.boot(cerberus.error)
-                Loading.returning("Saving changes and booting...", 3)
-                print('\n\n\n\n\n')
             cerberus.reload()
             # Logic to run setup - Moved to reload()
             # Logic for restarting.
@@ -70,29 +67,33 @@ def boot():
                 Loading.returning("Restarting system...", 2)
                 Loading.returning("Booting...", 2)
             else:
-                running = False
                 return "Code 0. Execution successful."
         # Screen for fatal errors. Catches all exceptions and prints the stacktrace. Allows for a reboot.
         # except (KeyboardInterrupt, console_thrift.KeyboardInterruptException):
         #     print("bruh")
         except Exception as f:
+            if not error:
+                raise f
             for _ in range(20):
                 print("\n")
-            Loading.log("{} encountered a fatal error. Reboot is required. Stacktrace: {}".format(cerberus.name, f))
-            if traceback.format_exc():
-                if input('!!! {} encountered a fatal error. Reboot is required. !!! \nWhat failed: {}\n\nStacktrace: \n{}'
-                         ''.format(cerberus.name, str(traceback.format_exc()).split('\n')[len(traceback.format_exc().split('\n'))-4].split('"')[1],
-                                   str(traceback.format_exc())) + '\nType "REBOOT" to reboot.') == "REBOOT":
-                    continue
-            else:
-                if input('!!! {} encountered a fatal error. Reboot is required. !!! Type "REBOOT" to reboot'.format(cerberus.name)):
-                    continue
+            Loading.log("{} encountered a fatal error. Reboot is required. Stacktrace: {}".format(cerberus.name, f if stacktrace else "Stacktrace disabled"))
+            if stacktrace:
+                try:
+                    if input('!!! {} encountered a fatal error. Reboot is required. !!! \nWhat failed: {}\n\nStacktrace: \n{}'
+                             ''.format(cerberus.name, str(traceback.format_exc()).split('\n')[len(traceback.format_exc().split('\n'))-4].split('"')[1],
+                                       str(traceback.format_exc())) + '\nType "REBOOT" to reboot.') == "REBOOT":
+                        continue
+                    break
+                except IndexError:
+                    pass
+            if input('!!! {} encountered a fatal error. Reboot is required. !!! Type "REBOOT" to reboot'.format(cerberus.name)):
+                continue
             print("Goodbye")
-            return "Code {}. A system error has occurred.".format(','.join([i for i in cerberus.error]))
         Loading.log("System Shutdown. {} seconds have elapsed.".format(str(time.time() - start)))
+        return "Code {}. A system error has occurred.".format(','.join([str(i.code) for i in cerberus.error]) if cerberus.error else "-1")
 
 
-# noinspection PyTypeChecker
+# noinspection PyTypeChecker,PyBroadException
 class OperatingSystem:
     """
     Class Operating System. Houses all the core functions aside from boot.
@@ -107,7 +108,7 @@ class OperatingSystem:
         self.utilities = ["User Settings", "System Info\t", "Notepad\t\t", "SpeedSlow\t", "\t\t\t", "\t\t\t"]
         self.games = ["Bagels\t", "Tictactoe", "Hangman ", "Sonar", "Joke Teller", "ScoutRPG"]
         self.admin = ["Reset\t\t", "Event Viewer\t", "Task Manager", "\t\t", "\t\t", "\t\t"]
-        self.versions = {"Main": "4.0alpha02", "Bagels": 4.5, "Event Viewer": 1.1, "Hangman": 3.5, "Joke Teller": 2.4, "Notepad": 2.2, "ScoutRPG": "alpha1.6",
+        self.versions = {"Main": "4.0alpha03", "Bagels": 4.5, "Event Viewer": 1.1, "Hangman": 3.5, "Joke Teller": 2.4, "Notepad": 2.2, "ScoutRPG": "alpha1.6",
                          "Sonar": 2.1, "SpeedUpOrSlowDown": 1.2, "Sudoku": 1.0, "System Info": 1.6, "System Recovery": 1.3, "Tictactoe": 5.7,
                          "User Settings": 2.9}
         self.path = "Users\\{}"
@@ -127,7 +128,6 @@ class OperatingSystem:
         python shell.
         :return:
         """
-        global dirty
         self.error = []
         new_users = []
         for subdir, dirs, files in os.walk("Users"):
@@ -142,7 +142,7 @@ class OperatingSystem:
                 if len(info) == 5:
                     # and (len(programs) == length or len(programs) == length - 2):
                     try:
-                        new_users.append(globals()[info[0]](info[1], info[2], info[3] == "True", programs, self.path.format(self.current_user.username)))
+                        new_users.append(globals()[info[0]](info[1], info[2], info[3] == "True", programs, self.path.format(info[1])))
                         # , [j.split('\t') for j in programs]))
                     except (AttributeError, IndexError):
                         self.error.append(system_recovery.CorruptedFileSystem([subdir, info, programs]))
@@ -177,65 +177,67 @@ class OperatingSystem:
         """
         # The main startup and login screen, housed within a while loop to keep the user here unless specific circumstances are met.
         while True:
-            print("\nHello! I am {}.".format(self.name))
-            if self.current_user.username != 'Guest':
-                # Separate while loop for users. Guest users head down.
-                incorrect_pwd = 0
-                while True:
-                    if incorrect_pwd >= 3:
-                        Loading.returning("You have incorrectly entered the password 3 times. The computer will now restart.", 5)
-                        return 4
-                    print("\nCurrent user: " + self.current_user.username + ". Type \"switch\" to switch users or \"power\" to shut down the system.")
-                    # Ask for password
-                    pwd = maskpass.advpass(prompt="Enter password.\n", ide=True)
-                    if pwd == self.current_user.password:
-                        Loading.returning("Welcome!", 1)
-                        # Move to the system screen.
-                        os_rv = self.operating_system()
-                        Loading.log("Code {} returned. Executing task.".format(os_rv))
-                        # Logic for returning from the OS screen.
-                        if os_rv == 1:
-                            print("\n" * 10)
-                            print("The System is sleeping. Press [ENTER] or [return] to wake.")
-                            input()
+            try:
+                print("\nHello! I am {}.".format(self.name))
+                if self.current_user.username != 'Guest':
+                    # Separate while loop for users. Guest users head down.
+                    incorrect_pwd = 0
+                    while True:
+                        if incorrect_pwd >= 3:
+                            Loading.returning("You have incorrectly entered the password 3 times. The computer will now restart.", 5)
+                            return 4
+                        print("\nCurrent user: " + self.current_user.username + ". Type \"switch\" to switch users or \"power\" to shut down the system.")
+                        # Ask for password
+                        pwd = maskpass.advpass(prompt="Enter password.\n", ide=True)
+                        if pwd == self.current_user.password:
+                            Loading.returning("Welcome!", 1)
+                            # Move to the system screen.
+                            os_rv = self.operating_system()
+                            Loading.log("Code {} returned. Executing task.".format(os_rv))
+                            # Logic for returning from the OS screen.
+                            if os_rv == 1:
+                                input("{}The System is sleeping. Press [ENTER] or [return] to wake.".format("\n" * 10))
+                                break
+                            elif os_rv == 'regular':
+                                pass
+                            else:
+                                return os_rv
+                        elif pwd == 'switch':
+                            # Switch users!
+                            UserSettings.switch_user(self)
                             break
-                        elif os_rv == 'regular':
+                        elif pwd in ('shutdown', 'power'):
+                            # Shutting down...
+                            shutdown = self.shutdown()
+                            if shutdown == 1:
+                                input("{}The System is sleeping. Press [ENTER] or [return] to wake.".format("\n" * 10))
+                                break
+                            elif shutdown == 0:
+                                pass
+                            else:
+                                return shutdown
+                        elif pwd == 'debugexit':
+                            # Carryover from original code :)
+                            Loading.log("Returned code debug.")
+                            return
+                        else:
+                            print("Sorry, that's the wrong password. Try again.")
+                            incorrect_pwd += 1
                             pass
-                        else:
-                            return os_rv
-                    elif pwd == 'switch':
-                        # Switch users!
-                        UserSettings.switch_user(self)
-                        break
-                    elif pwd in ('shutdown', 'power'):
-                        # Shutting down...
-                        shutdown = self.shutdown()
-                        if shutdown == 1:
-                            print("\n" * 10)
-                            Loading.log("System asleep.")
-                            print("The System is sleeping. Press [ENTER] or [return] to wake.")
-                            input()
-                            break
-                        else:
-                            return shutdown
-                    elif pwd == 'debugexit':
-                        # Carryover from original code :)
-                        Loading.log("Returned code debug.")
-                        return
-                    else:
-                        print("Sorry, that's the wrong password. Try again.")
-                        incorrect_pwd += 1
-                        pass
-            else:
-                while True:
-                    # The guest account, housed in its own while loop. The only way to exit is to use debugexit, or when the user shuts down.
-                    print("WARNING: The Guest account will boot into the main screen, but any user settings or games will have no effect. \nThis includes usernames, passwords, game progress, saved notes, etc.")
-                    print("All games will say that the file or path is not found, this is normal. The Guest User doesn't have a user folder.\nPress [ENTER] or [return] to login.")
-                    if input() == 'debugexit':
-                        return
-                    Loading.log("Guest user logged in")
-                    self.operating_system()
-                    return 3
+                else:
+                    while True:
+                        # The guest account, housed in its own while loop. The only way to exit is to use debugexit, or when the user shuts down.
+                        print("WARNING: The Guest account will boot into the main screen, but any user settings or games will have no effect. \nThis includes usernames, passwords, game progress, saved notes, etc.")
+                        print("All games will say that the file or path is not found, this is normal. The Guest User doesn't have a user folder.\nPress [ENTER] or [return] to login.")
+                        if input() == 'debugexit':
+                            return
+                        Loading.log("Guest user logged in")
+                        self.operating_system()
+                        return 3
+            except Loading.LockInterrupt as lock:
+                if lock.args[0] and lock.args[0].__class__ not in [k.__class__ for k in self.current_user.saved_state]:
+                    self.current_user.saved_state.append(lock)
+                pass
 
     def operating_system(self):
         """
@@ -244,9 +246,13 @@ class OperatingSystem:
         """
         # The main OS window. Contains the list of apps and choices. Stored in a while loop to keep them inside.
         Loading.log(self.current_user.username + " logged in.")
-        print("Hello! I am {}, running POCS v{}".format(self.name, self.versions["Main"]))
         while True:
             try:
+                if [i for i in self.current_user.saved_state if i.__class__.__name__ == "LockInterrupt"]:
+                    swap = [i for i in self.current_user.saved_state if i.__class__.__name__ == "LockInterrupt"][0]
+                    self.current_user.saved_state.remove(swap)
+                    swap.args[0].main()
+                print("Hello! I am {}, running POCS v{}".format(self.name, self.versions["Main"]))
                 # Main while loop for applications.
                 if self.current_user.elevated:
                     print("\nAPPLICATIONS\nUTILITIES\t\t\tGAMES\t\t\tADMIN")
@@ -272,15 +278,20 @@ class OperatingSystem:
                     return 'regular'
                 elif choice in ('shutdown', '12', 'power'):
                     Loading.log(self.current_user.username + " logged out and shutdown.")
-                    return self.shutdown()
+                    code = self.shutdown()
+                    if code == 0:
+                        pass
+                    else:
+                        return code
                 elif choice in ('debugexit', 'debug'):
                     return 'regular'
                 for j in choices_list:
                     if choice in choices_list[j]:
                         # self.current_user.saved_state[j] = True
-                        if j in [k.__class__ for k in self.current_user.saved_state]:
-                            [k for k in self.current_user.saved_state if k.__class__ == j][0].main()
-                            self.current_user.saved_state.remove([k for k in self.current_user.saved_state if k.__class__ == j][0])
+                        if j in [k.args[0].__class__ for k in self.current_user.saved_state]:
+                            swap = [k for k in self.current_user.saved_state if k.args[0].__class__ == j][0]
+                            self.current_user.saved_state.remove(swap)
+                            swap.args[0].main()
                             break
                         if list(choices_list.keys()).index(j) >= len(choices_list) - 3:
                             if self.current_user.elevated:
@@ -298,9 +309,15 @@ class OperatingSystem:
                         break
                 else:
                     Loading.returning("Please choose from the list of applications.", 1)
-            except Loading.HomeInterrupt as f:
-                if f.args[0] and f.args[0].__class__ not in [k.__class__ for k in self.current_user.saved_state]:
-                    self.current_user.saved_state.append(f.args[0])
+            except Loading.HomeInterrupt as home:
+                if home.args[0]:
+                    self.current_user.saved_state.append(home)
+                pass
+            except Loading.LockInterrupt as lock:
+                Loading.returning("Locking Computer", 1)
+                raise lock
+            except Exception:
+                input("The application has encountered a fatal error and has crashed.\nThis could be a result of a corrupted save file, or a damaged application. Try running System Recovery.")
                 pass
 
     def shutdown(self):

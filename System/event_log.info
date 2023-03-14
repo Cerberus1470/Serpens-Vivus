@@ -3195,3 +3195,427 @@
 [08/01/2023 15:41:38] Boot complete.
 [08/01/2023 15:41:38] System Startup.
 [08/01/2023 15:41:59] Tejas logged in.
+[25/01/2023 16:08:48] Boot complete.
+[25/01/2023 16:08:48] System Startup.
+[25/01/2023 16:08:54] Tejas logged in.
+[25/01/2023 16:09:46] Boot complete.
+[25/01/2023 16:09:46] System Startup.
+[25/01/2023 16:09:50] Tejas logged in.
+[25/01/2023 16:53:49] Boot complete.
+[25/01/2023 16:53:49] System Startup.
+[25/01/2023 16:53:52] Tejas logged in.
+[25/01/2023 16:54:10] Tejas opened bagels
+[27/01/2023 16:00:55] Boot complete.
+[27/01/2023 16:00:55] System Startup.
+[27/01/2023 16:00:59] Tejas logged in.
+[27/01/2023 16:00:59] Tejas opened bagels
+[27/01/2023 16:01:23] System Shutdown. 27.48785376548767 seconds have elapsed.
+[27/01/2023 16:01:23] System Startup.
+[27/01/2023 16:01:56] Boot complete.
+[27/01/2023 16:01:56] System Startup.
+[27/01/2023 16:02:01] Tejas logged in.
+[27/01/2023 16:03:06] Boot complete.
+[27/01/2023 16:03:06] System Startup.
+[27/01/2023 16:03:10] Tejas logged in.
+[27/01/2023 16:03:11] Tejas opened bagels
+[27/01/2023 16:03:19] Tejas logged in.
+[27/01/2023 16:03:24] Tejas opened power
+[27/01/2023 16:03:24] Tejas logged out and shutdown.
+[27/01/2023 16:03:24] Preparing to shut down...
+[27/01/2023 16:03:26] Updating user files...
+[27/01/2023 16:03:26] Updating user files...
+[27/01/2023 16:03:26] Updating user files...
+[27/01/2023 16:03:26] Updating user files...
+[27/01/2023 16:03:26] Shutdown complete.
+[27/01/2023 16:03:26] Code 2 returned. Executing task.
+[27/01/2023 16:14:25] Boot complete.
+[27/01/2023 16:14:25] System Startup.
+[27/01/2023 16:14:26] Preparing to shut down...
+[27/01/2023 16:23:48] Boot complete.
+[27/01/2023 16:23:48] System Startup.
+[27/01/2023 16:23:53] Preparing to shut down...
+[27/01/2023 16:24:05] Boot complete.
+[27/01/2023 16:24:05] System Startup.
+[27/01/2023 16:25:17] Boot complete.
+[27/01/2023 16:25:17] System Startup.
+[27/01/2023 16:25:18] Preparing to shut down...
+[27/01/2023 16:25:25] Tejas logged in.
+[27/01/2023 16:25:28] Tejas opened bagels
+[27/01/2023 16:25:42] Tejas opened task manager
+[27/01/2023 16:25:56] Tejas opened shutdown
+[27/01/2023 16:25:56] Tejas logged out and shutdown.
+[27/01/2023 16:25:56] Preparing to shut down...
+[27/01/2023 16:25:57] Updating user files...
+[27/01/2023 16:25:57] Updating user files...
+[27/01/2023 16:25:57] Updating user files...
+[27/01/2023 16:25:57] Updating user files...
+[27/01/2023 16:25:57] Shutdown complete.
+[27/01/2023 16:26:03] Code 3 returned. Executing task.
+[27/01/2023 16:34:21] Boot complete.
+[27/01/2023 16:34:21] System Startup.
+[27/01/2023 16:34:24] Tejas logged in.
+[27/01/2023 16:34:25] Tejas opened bagels
+[27/01/2023 16:36:14] Boot complete.
+[27/01/2023 16:36:14] System Startup.
+[27/01/2023 16:36:16] Tejas logged in.
+[27/01/2023 16:36:17] Tejas opened bagels
+[27/01/2023 16:36:44] Tejas opened bagels
+[27/01/2023 16:37:12] Boot complete.
+[27/01/2023 16:37:12] System Startup.
+[27/01/2023 16:38:07] Boot complete.
+[27/01/2023 16:38:07] System Startup.
+[27/01/2023 16:38:10] Tejas logged in.
+[27/01/2023 16:40:02] Tejas opened bagels
+[27/01/2023 16:41:38] Boot complete.
+[27/01/2023 16:41:38] System Startup.
+[27/01/2023 16:41:43] Tejas logged in.
+[27/01/2023 16:41:53] Tejas opened bagels
+[27/01/2023 16:42:07] Serpens Vivus encountered a fatal error. Reboot is required. Stacktrace: 'Bagels' object is not iterable
+[30/01/2023 13:44:22] Boot complete.
+[30/01/2023 13:44:22] System Startup.
+[30/01/2023 13:44:25] Tejas logged in.
+[30/01/2023 13:44:26] Tejas opened lock
+[30/01/2023 13:44:26] Tejas logged out.
+[30/01/2023 13:44:26] Code regular returned. Executing task.
+[30/01/2023 13:44:29] Tejas logged in.
+[30/01/2023 13:44:31] Tejas opened bagels
+[30/01/2023 13:45:13] Tejas logged in.
+[30/01/2023 13:46:18] Boot complete.
+[30/01/2023 13:46:18] System Startup.
+[30/01/2023 13:46:21] Tejas logged in.
+[30/01/2023 13:46:40] Tejas opened bagels
+[30/01/2023 13:46:53] Serpens Vivus encountered a fatal error. Reboot is required. Stacktrace: 'Bagels' object is not iterable
+[30/01/2023 13:48:26] Boot complete.
+[30/01/2023 13:48:26] System Startup.
+[30/01/2023 13:48:30] Tejas logged in.
+[30/01/2023 13:48:30] Tejas opened bagels
+[30/01/2023 13:57:12] Boot complete.
+[30/01/2023 13:57:12] System Startup.
+[30/01/2023 13:57:14] Tejas logged in.
+[30/01/2023 13:57:15] Tejas opened bagels
+[30/01/2023 13:57:55] Tejas opened bagels
+[30/01/2023 13:58:40] Boot complete.
+[30/01/2023 13:58:40] System Startup.
+[30/01/2023 13:58:42] Tejas logged in.
+[30/01/2023 13:58:43] Tejas opened bagels
+[30/01/2023 13:58:49] Tejas opened bagels
+[30/01/2023 13:59:01] Serpens Vivus encountered a fatal error. Reboot is required. Stacktrace: invalid literal for int() with base 10: '1-0'
+[30/01/2023 13:59:05] Boot complete.
+[30/01/2023 13:59:05] System Startup.
+[30/01/2023 13:59:08] Tejas logged in.
+[30/01/2023 13:59:16] Tejas opened bagels
+[30/01/2023 13:59:41] Tejas opened bagels
+[30/01/2023 14:00:33] Boot complete.
+[30/01/2023 14:00:33] System Startup.
+[30/01/2023 14:00:38] Tejas logged in.
+[30/01/2023 14:00:39] Tejas opened bagels
+[30/01/2023 14:00:52] Tejas opened bagels
+[30/01/2023 14:02:00] Serpens Vivus encountered a fatal error. Reboot is required. Stacktrace: list index out of range
+[30/01/2023 14:02:24] Boot complete.
+[30/01/2023 14:02:24] System Startup.
+[30/01/2023 14:02:30] Tejas logged in.
+[30/01/2023 14:02:31] Tejas opened bagels
+[30/01/2023 14:02:41] Tejas opened bagels
+[30/01/2023 14:02:53] Tejas logged in.
+[30/01/2023 16:59:48] Boot complete.
+[30/01/2023 16:59:48] System Startup.
+[30/01/2023 16:59:50] Tejas logged in.
+[30/01/2023 16:59:51] Tejas opened bagels
+[30/01/2023 17:00:00] Tejas opened bagels
+[30/01/2023 17:00:15] Boot complete.
+[30/01/2023 17:00:15] System Startup.
+[30/01/2023 17:00:19] Tejas logged in.
+[30/01/2023 17:00:25] Tejas opened bagels
+[30/01/2023 17:00:49] Tejas logged in.
+[30/01/2023 17:05:30] Boot complete.
+[30/01/2023 17:05:30] System Startup.
+[30/01/2023 17:05:34] Tejas logged in.
+[30/01/2023 17:05:38] Tejas opened bagels
+[30/01/2023 17:05:48] Tejas opened shutdown
+[30/01/2023 17:05:48] Tejas logged out and shutdown.
+[30/01/2023 17:05:48] Preparing to shut down...
+[30/01/2023 17:05:50] Updating user files...
+[30/01/2023 17:05:50] Updating user files...
+[30/01/2023 17:05:50] Updating user files...
+[30/01/2023 17:05:50] Updating user files...
+[30/01/2023 17:05:50] Shutdown complete.
+[30/01/2023 17:05:51] Code 2 returned. Executing task.
+[30/01/2023 17:05:53] Boot complete.
+[30/01/2023 17:05:53] System Startup.
+[30/01/2023 17:05:53] Serpens Vivus encountered a fatal error. Reboot is required. Stacktrace: 'HomeInterrupt(HI)Bagels'
+[30/01/2023 17:14:02] Boot complete.
+[30/01/2023 17:14:02] System Startup.
+[30/01/2023 17:14:02] Serpens Vivus encountered a fatal error. Reboot is required. Stacktrace: Multiple fatal errors occurred. Please reboot the system.
+[30/01/2023 17:14:17] Boot complete.
+[30/01/2023 17:14:17] System Startup.
+[30/01/2023 17:14:47] Boot complete.
+[30/01/2023 17:14:47] System Startup.
+[30/01/2023 17:14:57] Serpens Vivus encountered a fatal error. Reboot is required. Stacktrace: Multiple fatal errors occurred. Please reboot the system.
+[30/01/2023 17:15:05] Boot complete.
+[30/01/2023 17:15:05] System Startup.
+[30/01/2023 17:15:32] Boot complete.
+[30/01/2023 17:15:32] System Startup.
+[30/01/2023 17:31:13] Boot complete.
+[30/01/2023 17:31:13] System Startup.
+[30/01/2023 17:31:37] Boot complete.
+[30/01/2023 17:31:37] System Startup.
+[30/01/2023 17:38:03] Boot complete.
+[30/01/2023 17:38:03] System Startup.
+[30/01/2023 17:42:43] Boot complete.
+[30/01/2023 17:42:43] System Startup.
+[30/01/2023 17:42:43] Serpens Vivus encountered a fatal error. Reboot is required. Stacktrace: expected str, bytes or os.PathLike object, not list
+[30/01/2023 17:42:49] Boot complete.
+[30/01/2023 17:42:49] System Startup.
+[30/01/2023 17:43:25] Boot complete.
+[30/01/2023 17:43:25] System Startup.
+[30/01/2023 17:43:34] Tejas logged in.
+[30/01/2023 17:43:42] Tejas opened bagels
+[30/01/2023 17:47:23] Boot complete.
+[30/01/2023 17:47:23] System Startup.
+[30/01/2023 17:47:35] Boot complete.
+[30/01/2023 17:47:35] System Startup.
+[30/01/2023 17:47:47] Boot complete.
+[30/01/2023 17:47:47] System Startup.
+[01/02/2023 15:54:17] Boot complete.
+[01/02/2023 15:54:17] System Startup.
+[01/02/2023 15:55:56] Boot complete.
+[01/02/2023 15:55:56] System Startup.
+[01/02/2023 15:58:11] Boot complete.
+[01/02/2023 15:58:11] System Startup.
+[01/02/2023 15:59:51] Boot complete.
+[01/02/2023 15:59:51] System Startup.
+[01/02/2023 16:00:38] Boot complete.
+[01/02/2023 16:00:38] System Startup.
+[01/02/2023 16:00:57] Tejas logged in.
+[01/02/2023 16:01:29] Boot complete.
+[01/02/2023 16:01:29] System Startup.
+[01/02/2023 16:11:46] Boot complete.
+[01/02/2023 16:11:46] System Startup.
+[01/02/2023 16:11:49] Tejas logged in.
+[01/02/2023 16:12:13] Tejas opened bagels
+[01/02/2023 16:12:20] Tejas logged in.
+[07/02/2023 18:59:53] Boot complete.
+[07/02/2023 18:59:53] System Startup.
+[07/02/2023 18:59:56] Tejas logged in.
+[07/02/2023 19:00:02] Tejas opened bagels
+[07/02/2023 19:00:43] Boot complete.
+[07/02/2023 19:00:43] System Startup.
+[07/02/2023 19:00:56] Tejas logged in.
+[07/02/2023 19:00:57] Tejas opened bagels
+[10/02/2023 14:28:46] Boot complete.
+[10/02/2023 14:28:46] System Startup.
+[10/02/2023 14:28:52] Tejas logged in.
+[10/02/2023 14:29:02] Tejas opened bagels
+[03/03/2023 15:59:03] Boot complete.
+[03/03/2023 15:59:03] System Startup.
+[03/03/2023 15:59:07] Tejas logged in.
+[03/03/2023 15:59:12] Tejas opened breh
+[03/03/2023 15:59:18] Tejas opened power
+[03/03/2023 15:59:18] Tejas logged out and shutdown.
+[03/03/2023 15:59:18] Preparing to shut down...
+[03/03/2023 15:59:19] Updating user files...
+[03/03/2023 15:59:19] Updating user files...
+[03/03/2023 15:59:19] Updating user files...
+[03/03/2023 15:59:19] Updating user files...
+[03/03/2023 15:59:19] Shutdown complete.
+[03/03/2023 15:59:20] Code 2 returned. Executing task.
+[12/03/2023 19:52:50] Boot complete.
+[12/03/2023 19:52:50] System Startup.
+[12/03/2023 19:52:55] Tejas logged in.
+[13/03/2023 18:45:25] Boot complete.
+[13/03/2023 18:45:25] System Startup.
+[13/03/2023 18:45:29] Tejas logged in.
+[13/03/2023 18:45:43] Boot complete.
+[13/03/2023 18:45:43] System Startup.
+[13/03/2023 18:45:46] Tejas logged in.
+[13/03/2023 18:48:54] Boot complete.
+[13/03/2023 18:48:54] System Startup.
+[13/03/2023 18:48:57] Tejas logged in.
+[13/03/2023 18:49:13] Boot complete.
+[13/03/2023 18:49:13] System Startup.
+[13/03/2023 18:49:16] Tejas logged in.
+[13/03/2023 19:37:24] Boot complete.
+[13/03/2023 19:37:24] System Startup.
+[13/03/2023 19:37:27] Tejas logged in.
+[13/03/2023 19:37:35] Tejas opened tictactoe
+[13/03/2023 19:37:46] Preparing to shut down...
+[13/03/2023 19:37:48] Updating user files...
+[13/03/2023 19:37:48] Updating user files...
+[13/03/2023 19:37:48] Updating user files...
+[13/03/2023 19:37:48] Updating user files...
+[13/03/2023 19:37:48] Shutdown complete.
+[13/03/2023 19:38:56] Boot complete.
+[13/03/2023 19:38:56] System Startup.
+[13/03/2023 19:39:00] Tejas logged in.
+[13/03/2023 19:40:15] Tejas logged in.
+[13/03/2023 19:47:38] Boot complete.
+[13/03/2023 19:47:38] System Startup.
+[13/03/2023 19:47:41] Tejas logged in.
+[13/03/2023 19:48:03] Serpens Vivus encountered a fatal error. Reboot is required. Stacktrace: Tictactoe(SS1)X, ,O, , , , , , (SS2)player(SS2)X
+[13/03/2023 19:51:24] Boot complete.
+[13/03/2023 19:51:24] System Startup.
+[13/03/2023 19:51:26] Tejas logged in.
+[13/03/2023 20:12:28] Boot complete.
+[13/03/2023 20:12:28] System Startup.
+[13/03/2023 20:12:28] Serpens Vivus encountered a fatal error. Reboot is required. Stacktrace: Stacktrace disabled
+[13/03/2023 20:12:36] Serpens Vivus encountered a fatal error. Reboot is required. Stacktrace: Stacktrace disabled
+[13/03/2023 20:13:46] Boot complete.
+[13/03/2023 20:13:46] System Startup.
+[13/03/2023 20:13:53] Boot complete.
+[13/03/2023 20:13:53] System Startup.
+[13/03/2023 20:14:07] Boot complete.
+[13/03/2023 20:14:07] System Startup.
+[13/03/2023 20:14:07] Serpens Vivus encountered a fatal error. Reboot is required. Stacktrace: list index out of range
+[13/03/2023 20:15:29] Boot complete.
+[13/03/2023 20:15:29] System Startup.
+[13/03/2023 20:15:29] Serpens Vivus encountered a fatal error. Reboot is required. Stacktrace: Stacktrace disabled
+[13/03/2023 20:15:35] Boot complete.
+[13/03/2023 20:15:35] System Startup.
+[13/03/2023 20:15:35] Serpens Vivus encountered a fatal error. Reboot is required. Stacktrace: Stacktrace disabled
+[13/03/2023 20:16:01] Boot complete.
+[13/03/2023 20:16:01] System Startup.
+[13/03/2023 20:16:01] Serpens Vivus encountered a fatal error. Reboot is required. Stacktrace: list index out of range
+[13/03/2023 20:16:36] Boot complete.
+[13/03/2023 20:16:36] System Startup.
+[13/03/2023 20:16:36] Serpens Vivus encountered a fatal error. Reboot is required. Stacktrace: list index out of range
+[13/03/2023 20:17:10] Boot complete.
+[13/03/2023 20:17:10] System Startup.
+[13/03/2023 20:17:17] Boot complete.
+[13/03/2023 20:17:17] System Startup.
+[13/03/2023 20:17:21] Tejas logged in.
+[13/03/2023 20:17:28] Tejas logged in.
+[13/03/2023 20:18:33] Tejas opened ttt
+[13/03/2023 20:18:44] Code None returned. Executing task.
+[13/03/2023 20:18:44] System Shutdown. 86.33511590957642 seconds have elapsed.
+[13/03/2023 20:19:08] Tejas logged in.
+[13/03/2023 20:19:38] Code None returned. Executing task.
+[13/03/2023 20:19:38] System Shutdown. 140.80049228668213 seconds have elapsed.
+[13/03/2023 20:19:42] Tejas logged in.
+[13/03/2023 20:20:27] Code None returned. Executing task.
+[13/03/2023 20:20:30] System Shutdown. 192.8281533718109 seconds have elapsed.
+[13/03/2023 20:20:53] Tejas logged in.
+[13/03/2023 20:21:20] Code None returned. Executing task.
+[13/03/2023 20:22:38] Boot complete.
+[13/03/2023 20:22:38] System Startup.
+[13/03/2023 20:22:41] Tejas logged in.
+[13/03/2023 20:23:01] Tejas opened ttt
+[13/03/2023 20:23:12] Tejas logged in.
+[13/03/2023 20:23:15] Tejas opened power
+[13/03/2023 20:23:15] Tejas logged out and shutdown.
+[13/03/2023 20:23:15] Preparing to shut down...
+[13/03/2023 20:23:17] Updating user files...
+[13/03/2023 20:23:17] Updating user files...
+[13/03/2023 20:23:17] Updating user files...
+[13/03/2023 20:23:17] Updating user files...
+[13/03/2023 20:23:17] Shutdown complete.
+[13/03/2023 20:23:18] Code 2 returned. Executing task.
+[13/03/2023 20:23:18] System Shutdown. 39.90371251106262 seconds have elapsed.
+[13/03/2023 20:23:32] Preparing to shut down...
+[13/03/2023 20:23:46] Updating user files...
+[13/03/2023 20:23:46] Updating user files...
+[13/03/2023 20:23:46] Updating user files...
+[13/03/2023 20:23:46] Updating user files...
+[13/03/2023 20:23:46] Shutdown complete.
+[13/03/2023 20:24:00] System Shutdown. 81.90107941627502 seconds have elapsed.
+[13/03/2023 20:24:04] Preparing to shut down...
+[13/03/2023 20:24:11] Updating user files...
+[13/03/2023 20:24:11] Updating user files...
+[13/03/2023 20:24:11] Updating user files...
+[13/03/2023 20:24:11] Updating user files...
+[13/03/2023 20:24:11] Shutdown complete.
+[13/03/2023 20:25:48] Boot complete.
+[13/03/2023 20:25:48] System Startup.
+[13/03/2023 20:25:50] Preparing to shut down...
+[13/03/2023 20:25:51] Updating user files...
+[13/03/2023 20:25:51] Updating user files...
+[13/03/2023 20:25:51] Updating user files...
+[13/03/2023 20:25:51] Updating user files...
+[13/03/2023 20:25:51] Shutdown complete.
+[13/03/2023 20:26:00] Boot complete.
+[13/03/2023 20:26:00] System Startup.
+[13/03/2023 20:26:03] Tejas logged in.
+[13/03/2023 20:26:04] Tejas opened ttt
+[13/03/2023 20:26:07] Tejas opened power
+[13/03/2023 20:26:07] Tejas logged out and shutdown.
+[13/03/2023 20:26:07] Preparing to shut down...
+[13/03/2023 20:26:09] Updating user files...
+[13/03/2023 20:26:09] Updating user files...
+[13/03/2023 20:26:09] Updating user files...
+[13/03/2023 20:26:09] Updating user files...
+[13/03/2023 20:26:09] Shutdown complete.
+[13/03/2023 20:26:10] Code 2 returned. Executing task.
+[13/03/2023 20:26:14] Boot complete.
+[13/03/2023 20:26:14] System Startup.
+[13/03/2023 20:26:17] Tejas logged in.
+[13/03/2023 20:26:22] Tejas opened ttt
+[13/03/2023 20:26:27] Preparing to shut down...
+[13/03/2023 20:26:29] Updating user files...
+[13/03/2023 20:26:29] Updating user files...
+[13/03/2023 20:26:29] Updating user files...
+[13/03/2023 20:26:29] Updating user files...
+[13/03/2023 20:26:29] Shutdown complete.
+[13/03/2023 20:26:32] Boot complete.
+[13/03/2023 20:26:32] System Startup.
+[13/03/2023 20:26:35] Tejas logged in.
+[13/03/2023 20:27:19] Boot complete.
+[13/03/2023 20:27:19] System Startup.
+[13/03/2023 20:29:58] Boot complete.
+[13/03/2023 20:29:58] System Startup.
+[13/03/2023 20:30:07] Boot complete.
+[13/03/2023 20:30:07] System Startup.
+[13/03/2023 20:31:26] Boot complete.
+[13/03/2023 20:31:26] System Startup.
+[13/03/2023 20:31:35] Tejas logged in.
+[13/03/2023 20:31:59] Tejas opened ttt
+[13/03/2023 21:53:03] Boot complete.
+[13/03/2023 21:53:03] System Startup.
+[13/03/2023 21:53:03] The system has entered SETUP.
+[13/03/2023 21:53:34] Boot complete.
+[13/03/2023 21:53:34] System Startup.
+[13/03/2023 21:53:34] The system has entered SETUP.
+[13/03/2023 21:54:18] SETUP is complete. Entering startup.
+[13/03/2023 21:54:30] Tejas logged in.
+[13/03/2023 21:54:32] Tejas opened power
+[13/03/2023 21:54:32] Tejas logged out and shutdown.
+[13/03/2023 21:54:32] Preparing to shut down...
+[13/03/2023 21:54:34] Updating user files...
+[13/03/2023 21:54:34] Shutdown complete.
+[13/03/2023 21:54:35] Code 3 returned. Executing task.
+[14/03/2023 10:35:57] Boot complete.
+[14/03/2023 10:35:57] System Startup.
+[14/03/2023 10:36:01] Boot complete.
+[14/03/2023 10:36:01] System Startup.
+[14/03/2023 10:36:07] Boot complete.
+[14/03/2023 10:36:07] System Startup.
+[14/03/2023 10:36:47] Boot complete.
+[14/03/2023 10:36:47] System Startup.
+[14/03/2023 10:36:47] Serpens Vivus encountered a fatal error. Reboot is required. Stacktrace: Stacktrace disabled
+[14/03/2023 10:38:05] Boot complete.
+[14/03/2023 10:38:05] System Startup.
+[14/03/2023 10:39:37] Boot complete.
+[14/03/2023 10:39:37] System Startup.
+[14/03/2023 10:39:41] Serpens Vivus encountered a fatal error. Reboot is required. Stacktrace: Stacktrace disabled
+[14/03/2023 10:40:21] Boot complete.
+[14/03/2023 10:40:21] System Startup.
+[14/03/2023 10:40:21] Serpens Vivus encountered a fatal error. Reboot is required. Stacktrace: Stacktrace disabled
+[14/03/2023 10:40:33] Boot complete.
+[14/03/2023 10:40:33] System Startup.
+[14/03/2023 10:40:33] Serpens Vivus encountered a fatal error. Reboot is required. Stacktrace: Stacktrace disabled
+[14/03/2023 10:40:58] Boot complete.
+[14/03/2023 10:40:58] System Startup.
+[14/03/2023 10:40:58] Serpens Vivus encountered a fatal error. Reboot is required. Stacktrace: Multiple fatal errors occurred. Please reboot the system.
+[14/03/2023 10:54:33] Boot complete.
+[14/03/2023 10:54:33] System Startup.
+[14/03/2023 10:54:33] Serpens Vivus encountered a fatal error. Reboot is required. Stacktrace: Multiple fatal errors occurred. Please reboot the system.
+[14/03/2023 10:54:47] Boot complete.
+[14/03/2023 10:54:47] System Startup.
+[14/03/2023 10:54:57] Boot complete.
+[14/03/2023 10:54:57] System Startup.
+[14/03/2023 10:54:57] Serpens Vivus encountered a fatal error. Reboot is required. Stacktrace: Stacktrace disabled
+[14/03/2023 10:55:06] System Shutdown. 8.54501724243164 seconds have elapsed.
+[14/03/2023 10:55:16] Boot complete.
+[14/03/2023 10:55:16] System Startup.
+[14/03/2023 10:55:16] Serpens Vivus encountered a fatal error. Reboot is required. Stacktrace: Multiple fatal errors occurred. Please reboot the system.
+[14/03/2023 10:55:21] A fatal internal error has occurred. The system has entered Recovery.
+[14/03/2023 10:55:28] Boot complete.
+[14/03/2023 10:55:28] System Startup.

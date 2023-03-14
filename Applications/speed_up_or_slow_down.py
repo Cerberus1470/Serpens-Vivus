@@ -17,10 +17,10 @@ class SpeedUpOrSlowDown:
         :param _: The unused OS Object, passed due to the iterative nature of the application home screen.
         :return: Nothing
         """
-        speed_slow = SpeedUpOrSlowDown()
+        speed_slow = SpeedUpOrSlowDown(_)
         SpeedUpOrSlowDown.main(speed_slow)
 
-    def __init__(self, data=None):
+    def __init__(self, _, data=None):
         if data is None:
             data = [1, 1, 1]
         self.fps = int(data[0])

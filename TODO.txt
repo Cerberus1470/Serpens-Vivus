@@ -39,7 +39,8 @@ TODO - Advanced
         > - Admin specific apps, standard users cannot see them
     > ! - Rework startup method completely
     > - Add parent-child hierarchy
-    X ! - Encrypt typed password - REJECTED. This turned out to be a LOT harder than I thought. I seriously have no idea how this works.
+    > X ! - Encrypt typed password - REJECTED. This turned out to be a LOT harder than I thought. I seriously have no idea how this works.
+        - Just had to use a different library to make it work in IDE and in terminal.
     > - Rework Cerberus.py into operating_system.py
         I just figured out that restart actually does nothing! It's supposed to shut down the OS and read from disk storage again from scratch... But it doesn't...
         New function: boot. Boot will read everything from disk storage. Basically what goes on in Cerberus.py now goes
@@ -59,10 +60,11 @@ TODO - Advanced
     > - Change Saved State to Booleans
     > - Change number of program statuses to reflect how many applications are there, in operating_system.reload().
     X - Create error to upgrade user info files to reflect how many applications there are. - REJECTED after the Saved_State Update.
-    - Handle application errors.
+    > - Handle application errors.
         - This will be separate from system crashes (BSOD), and will basically boot you back to the home screen.
     - Mid-method home button action and saved_state restoring.
     - Lock "button". This will do the same as the home button, but taken back to the lock screen.
+    - Revamp Setup to ask which apps to download. This will go well with the game store idea.
 
 TODO - Really advanced
     - Add user personalization. See documentation below.
