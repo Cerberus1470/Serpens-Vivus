@@ -46,7 +46,7 @@ class SpeedUpOrSlowDown:
                       '\n3. Final Length = {}:{}\n4. Quit'.format(str(self.fps),
                                                                   str(int(self.o_frames / self.fps)), str(self.o_frames - (int(self.o_frames / self.fps) * self.fps)),
                                                                   str(int(self.f_frames / self.fps)), str(self.f_frames - (int(self.f_frames / self.fps) * self.fps))))
-                option = Loading.pocs_input("", self).lower()
+                option = Loading.pocs_input(app_object=self).lower()
                 if option == '':
                     print("Please choose an option from the list.")
                 elif option in ('1', 'fps', 'frames per second'):

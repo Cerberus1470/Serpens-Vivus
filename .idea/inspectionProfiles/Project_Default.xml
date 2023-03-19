@@ -822,6 +822,7 @@
           <option value="str.values" />
           <option value="str.items" />
           <option value="console_thrift" />
+          <option value="colorama.just_fix_windows_console" />
         </list>
       </option>
     </inspection_tool>

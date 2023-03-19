@@ -10,14 +10,72 @@ import random
 import threading
 import datetime
 import sys
+import itertools
 
-alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 1234567890!@#$%^&*()`~-_=+[{]}|;:,<.>/?'
+# MARKERS: GLOBAL VARIABLES
+ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 1234567890!@#$%^&*()`~-_=+[{]}|;:,<.>/?'
+
+ATTRIBUTES = {
+    "bold": 1,
+    "dark": 2,
+    "underline": 4,
+    "blink": 5,
+    "reverse": 7,
+    "concealed": 8,
+}
+
+HIGHLIGHTS = {
+    "on_black": 40,
+    "on_grey": 40,  # Actually black but kept for backwards compatibility
+    "on_red": 41,
+    "on_green": 42,
+    "on_yellow": 43,
+    "on_blue": 44,
+    "on_magenta": 45,
+    "on_cyan": 46,
+    "on_light_grey": 47,
+    "on_dark_grey": 100,
+    "on_light_red": 101,
+    "on_light_green": 102,
+    "on_light_yellow": 103,
+    "on_light_blue": 104,
+    "on_light_magenta": 105,
+    "on_light_cyan": 106,
+    "on_white": 107,
+}
+
+COLORS = {
+    "black": 30,
+    "grey": 30,  # Actually black but kept for backwards compatibility
+    "red": 31,
+    "green": 32,
+    "yellow": 33,
+    "blue": 34,
+    "magenta": 35,
+    "cyan": 36,
+    "light_grey": 37,
+    "dark_grey": 90,
+    "light_red": 91,
+    "light_green": 92,
+    "light_yellow": 93,
+    "light_blue": 94,
+    "light_magenta": 95,
+    "light_cyan": 96,
+    "white": 97,
+    "default": 0
+}
+
+BACKGROUNDS = [k for k in itertools.chain.from_iterable([j for j in [[i for i in files if i.split('.')[1] == "bg"] for subdir, dirs, files in os.walk("System")] if j] +
+                                                        [j for j in [[i for i in files if i.split('.')[1] == "bg"] for subdir, dirs, files in os.walk("Users")] if j])]
+
+SPEED = 1
 
 
 class LoadingClass:
     """
     Class LoadingClass. This is a tester class for threaded processes.
     """
+
     def __init__(self, results, interval=1):
         self.results = results
         self.interval = interval
@@ -64,6 +122,7 @@ class LoadingClass:
             time.sleep(self.interval)
 
 
+# MARKER: INTERRUPTS
 class HomeInterrupt(Exception):
     """
     Class HomeInterrupt. Houses the error to raise if the user wants to go home.
@@ -71,8 +130,6 @@ class HomeInterrupt(Exception):
 
     def __repr__(self):
         return "HomeInterrupt(Interrupt){}".format(self.args[0])
-    # def __init__(self, app_object=None):
-    #     self.app_object = app_object.get_saved_state() if app_object else None
 
 
 class LockInterrupt(Exception):
@@ -84,7 +141,19 @@ class LockInterrupt(Exception):
         return "LockInterrupt(Interrupt){}".format(self.args[0])
 
 
-def pocs_input(message, app_object=None):
+# MARKER: CUSTOM PRINT/INPUT
+def pocs_print(message="", color=0):
+    """
+    Custom Print Method to print things with the correct color.
+    :param message:
+    :param color:
+    :return:
+    """
+    print("\033[{}m{}".format((COLORS["red"] if color else 0), message))
+    return
+
+
+def pocs_input(message="", app_object=None):
     """
     This method collects an input and checks for universal commands.
     :param message: Input message to use. The same as putting a message in an input statement.
@@ -114,7 +183,7 @@ def pass_input(prompt="Enter Password: ", mask="*", suppress=False):
         DESCRIPTION. The default is "Enter Password: ".
     mask : The masking character, use "" for max security, optional
         DESCRIPTION. The default is "*".
-    suppress : Pass True to stop QTConsole from jumping when Spacebar is pressed
+    suppress : Pass True to stop QTConsole from jumping when Space bar is pressed
         DESCRIPTION. Default is True
     Raises
     ------
@@ -136,18 +205,6 @@ def pass_input(prompt="Enter Password: ", mask="*", suppress=False):
     count = 0
     mask_length = len(mask)
     password_input = ""
-    # try:
-    #     # Checking if we're running in IPython/QtConsole/Spyder
-    #     __IPYTHON__
-    #     import IPython
-    #     if(type(get_ipython())==IPython.terminal.interactiveshell.TerminalInteractiveShell):
-    #         # Means its IPython but in terminal, so tty_check is set to True
-    #         tty_check = True and not ide
-    #     else:
-    #         tty_check = False
-    #
-    # except NameError:
-    #     tty_check = True and not ide
     shift_hold = False
 
     def on_press(key):
@@ -162,14 +219,6 @@ def pass_input(prompt="Enter Password: ", mask="*", suppress=False):
             if key.char in ["\x03"]:
                 # CTRL+C character
                 raise KeyboardInterrupt
-            #
-            # elif ctrl_hold and key.char.lower() == "c":
-            #     # When using suppressed, CTRL+C doesn't get caught, so
-            #     # this is a hacky way to detect that. Also raising error in
-            #     # suppressed mode doesn't work, so it's raised later by
-            #     # setting password_input as None
-            #     password_input = None
-            #     return False
 
             else:
                 password_input += key.char.upper() if shift_hold else key.char.lower()
@@ -197,24 +246,11 @@ def pass_input(prompt="Enter Password: ", mask="*", suppress=False):
 
             elif key == keyboard.Key.backspace:
                 password_input = password_input[:-1]
-                # if count != 0:
-                #     # In Spyder IDE, backspace character doesn't
-                #     # work as expected for this, but a combination
-                #     # of backspace and \u200c works. So
-                #     # sys.stdout.isatty() is used to check whether
-                #     # it's the IDE console or not.
-                #     if tty_check:
-                #         if to_reveal:
-                #             print("\b \b", end="", flush=True)
-                #         else:
-                #             # Handling different length masking character
-                #             print("\b \b"*mask_length, end="", flush=True)
-                #     else:
                 if to_reveal:
                     print("\b\u200c", end="", flush=True)
                 else:
                     # Handling different length masking character
-                    print(("\b"*mask_length)+("\u200c"*mask_length),
+                    print(("\b" * mask_length) + ("\u200c" * mask_length),
                           end="", flush=True)
                 count -= 1
 
@@ -232,13 +268,8 @@ def pass_input(prompt="Enter Password: ", mask="*", suppress=False):
                         print(password_input, end="", flush=True)
                         count = len(password_input)
                     else:
-                        # Usual checking whether it's IDE/console
-                        # if tty_check:
-                        #     print("\b \b"*len(password_input),
-                        #           end="", flush=True)
-                        # else:
-                        print(("\b"*len(password_input)) +
-                              ("\u200c"*len(password_input)),
+                        print(("\b" * len(password_input)) +
+                              ("\u200c" * len(password_input)),
                               end="", flush=True)
                         count = 0
                 else:
@@ -246,31 +277,18 @@ def pass_input(prompt="Enter Password: ", mask="*", suppress=False):
                     # printed on the screen, and we need to remove it
                     # before printing the previously entered text
                     if to_reveal:
-                        # The masking character could be multilength.
-                        # So we print destructive backspace character
-                        # times the length of previously entered
-                        # text times the length of masking character
-                        # to remove it completely
-                        # if tty_check:
-                        #     print(("\b \b"*len(password_input)*mask_length) +
-                        #           password_input, end="", flush=True)
-                        # else:
-                        print(("\b"*len(password_input)*mask_length) +
-                              ("\u200c"*len(password_input)*mask_length) +
+                        print(("\b" * len(password_input) * mask_length) +
+                              ("\u200c" * len(password_input) * mask_length) +
                               password_input, end="", flush=True)
                     else:
                         # Just removing the printed text and printing
                         # the mask character to unreveal the text.
-                        print(("\b"*len(password_input)) +
-                              (mask*len(password_input)), end="", flush=True)
+                        print(("\b" * len(password_input)) +
+                              (mask * len(password_input)), end="", flush=True)
 
             elif key == keyboard.Key.esc:
                 password_input = ""
                 return False
-
-            else:
-                # We don't need anything else as input, so just-
-                pass
 
     def on_release(key):
         """
@@ -280,41 +298,8 @@ def pass_input(prompt="Enter Password: ", mask="*", suppress=False):
         if key in [keyboard.Key.shift_l, keyboard.Key.shift_r]:
             shift_hold = False
 
-    # if tty_check:
-    #     listener = keyboard.Listener(on_press=on_press)
-    # else:
-    # Passing suppress True prevents qtconsole from jumping on
-    # pressing Spacebar
     listener = keyboard.Listener(on_press=on_press, on_release=on_release, suppress=suppress)
-
     listener.start()
-
-    # if tty_check:
-    #     # You see, if you're using advpass in normal console, it's
-    #     # actually listening to the input in background, sort of like a
-    #     # keylogger. So while you're focussing on the console and typing
-    #     # into that, pynput is collecting input from the background,
-    #     # at the same time the console is keeping the input in buffer waiting
-    #     # to put text into the console. The problem here is that, after
-    #     # using advpass, the entered text will get put into the console
-    #     # when it allows input afterwards. So, if you call advpass first
-    #     # and then input(), we will get the password_input return from
-    #     # advpass, but the entered text will also get into the input()
-    #     # But things work differently in Spyder. It doesn't keep it in
-    #     # in buffer. So, to work in both the environments, we use a
-    #     # dummy getch/posix_getch just to capture the input in console
-    #     # which will run simultaneously with the background input
-    #     # listening to remove it from buffer. It will stop
-    #     # when Enter is pressed.
-    #     cross_getch = CrossGetch()
-    #     while True:
-    #         dummy_key = cross_getch.getch()
-    #         if dummy_key in [b"\r", b"\x1b"]:
-    #             break
-    #         elif dummy_key == b"\x03":
-    #             print(flush=True)  # To put a newline before the error
-    #             raise KeyboardInterrupt
-    # else:
     try:
         listener.join()
     except KeyboardInterrupt as error:
@@ -328,6 +313,7 @@ def pass_input(prompt="Enter Password: ", mask="*", suppress=False):
     return password_input
 
 
+# MARKER: Animations
 def animated_loading():
     """
     This is the first tester function, used to display a loading screen.
@@ -352,7 +338,7 @@ def returning(message, length=0):
     for i in range(length):
         for char in '/-\\|':
             print('\r' + message + '\t' + char, end='')
-            time.sleep(0.25)
+            time.sleep(0.25 / SPEED)
             sys.stdout.flush()
     print('\r' + message, end='')
     print()
@@ -376,8 +362,8 @@ def progress_bar(message, length):
     :return: Nothing.
     """
     for i in range(1, 101):
-        print('\r' + message + '\t[' + str('=' * int(i/10)) + str('-' * (9 - int(i/10))) + ']\t' + str(i) + '%', end='')
-        time.sleep(length / 100.0)
+        print('\r' + message + '\t[' + str('=' * int(i / 10)) + str('-' * (9 - int(i / 10))) + ']\t' + str(i) + '%', end='')
+        time.sleep(length / 100.0 / SPEED)
 
 
 def log(message=''):
@@ -455,9 +441,9 @@ def caesar_encrypt(message='', priority=1):
             encrypted_h += '\n'
         else:
             try:
-                encrypted_h += alphabet[alphabet.index(message[i]) + key[i]]
+                encrypted_h += ALPHABET[ALPHABET.index(message[i]) + key[i]]
             except IndexError:
-                encrypted_h += alphabet[alphabet.index(message[i]) + key[i] - 92]
+                encrypted_h += ALPHABET[ALPHABET.index(message[i]) + key[i] - 92]
     return encrypted_h
 
 
@@ -479,9 +465,9 @@ def caesar_decrypt(encrypted_h='', priority=1):
             decrypted_h += '\n'
         else:
             try:
-                decrypted_h += alphabet[alphabet.index(encrypted_h[i]) - key[i]]
+                decrypted_h += ALPHABET[ALPHABET.index(encrypted_h[i]) - key[i]]
             except IndexError:
-                decrypted_h += alphabet[alphabet.index(encrypted_h[i]) - key[i] + 92]
+                decrypted_h += ALPHABET[ALPHABET.index(encrypted_h[i]) - key[i] + 92]
             except ValueError:
                 return encrypted_h[i]
     return decrypted_h
@@ -495,12 +481,12 @@ def caesar_encrypt_hex(message=''):
     """
     encrypted_h = caesar_encrypt(message)
     if len(encrypted_h) < 100:
-        return encrypted_h + '\\' + ''.join(random.choices(alphabet, k=99-len(encrypted_h)))
+        return encrypted_h + '\\' + ''.join(random.choices(ALPHABET, k=99 - len(encrypted_h)))
     elif len(encrypted_h) == 100:
         return encrypted_h
     else:
         encrypted_h = caesar_decrypt(encrypted_h)
-        return caesar_encrypt(str(int(len(encrypted_h)/100)) + encrypted_h[0:int(100-int(len(encrypted_h)/100)/9)]) + '\n' + (caesar_encrypt_hex(encrypted_h[100-int(len(encrypted_h)/100):]))
+        return caesar_encrypt(str(int(len(encrypted_h) / 100)) + encrypted_h[0:int(100 - int(len(encrypted_h) / 100) / 9)]) + '\n' + (caesar_encrypt_hex(encrypted_h[100 - int(len(encrypted_h) / 100):]))
 
 
 buffer = []

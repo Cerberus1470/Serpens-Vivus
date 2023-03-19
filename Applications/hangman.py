@@ -146,7 +146,7 @@ class Hangman:
             # Let the player type in a letter.
             while True:
                 print('Guess a letter, or type "quit" to exit the app.')
-                guess = Loading.pocs_input("", self).lower()
+                guess = Loading.pocs_input(app_object=self).lower()
                 if guess in ('quit', 'exit', 'get me outta here bruh'):
                     self.quit()
                     Loading.returning("Saving game progress...", 2)

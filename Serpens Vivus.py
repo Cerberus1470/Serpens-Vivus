@@ -13,7 +13,7 @@ The main file for any bootup. Very simple, but contains some setup and file prot
 # Loading.modify_user("Tejas", 7, "running")
 # Loading.display_user("Tejas")
 # print(Loading.caesar_encrypt_hex("Hello"))
-# print(Loading.caesar_encrypt_hex(random.choices(Loading.alphabet, k=20)))
+# print(Loading.caesar_encrypt_hex(random.choices(Loading.ALPHABET, k=20)))
 # scout_rpg = ScoutRPG.boot('Users\\Tejas')
 # sudoku = Sudoku.boot("Users\\Tejas")
 

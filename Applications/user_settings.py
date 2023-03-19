@@ -58,7 +58,7 @@ class UserSettings:
             print("5. Restore User")
             print("6. Switch User")
             print("\nChoose an option or press [ENTER] or [return] to return to the applications screen!")
-            choice = Loading.pocs_input(message="")
+            choice = Loading.pocs_input()
             if choice == '':
                 return
             if choice.lower() in ('edit username', 'edit uname', '1'):

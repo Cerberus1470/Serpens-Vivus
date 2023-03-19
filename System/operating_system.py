@@ -1,7 +1,10 @@
 """
 Module operating_system. This module contains the Core Python OS functions and classes. Probably the most complex file in the system.
 """
-import random, time, traceback, requests, maskpass
+import colorama
+import maskpass
+import requests
+import traceback
 
 try:
     from Applications.bagels import Bagels
@@ -15,14 +18,15 @@ try:
     from Applications.system_info import SystemInfo
     from Applications.task_manager import TaskManager
     from Applications.tictactoe import Tictactoe
+    from Applications.settings import Settings
     from Applications.user_settings import UserSettings
     from System import Loading
     from System import system_recovery
     from System.User import *
     from System.reset import Reset
-except ImportError:
+except ImportError as missing_files:
     Bagels = EventViewer = Hangman = Jokes = Notepad = ScoutRpg = Sonar = SpeedUpOrSlowDown = SystemInfo = TaskManager = \
-        Tictactoe = UserSettings = system_recovery = Reset = None
+        Tictactoe = UserSettings = system_recovery = Reset = Settings = None
     # If any file is missing, code will come here.
     # UPDATE Change whenever the token changes!
     token = "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"
@@ -40,6 +44,7 @@ except ImportError:
             except FileExistsError:
                 pass
     from System import Loading
+
     Loading.returning("The system is missing files. It will now re-download them from GitHub. Please wait.", 4)
     Loading.progress_bar("Downloading Files", 5)
     Loading.returning("The system has finished downloading/updating files and will now reboot", 5)
@@ -52,16 +57,17 @@ def boot(error=True, stacktrace=False):
     :return: 0 if no crashes occur. Code 1-4 if an error occurs.
     """
     running = True
+    OperatingSystem.HANDLE_ERROR = error
+    colorama.just_fix_windows_console()
     start = time.time()
     cerberus = OperatingSystem()
     Loading.log("System Startup.")
     while running:
         try:
-            # Initialization reads all files and data from disk and loads it into memory.
+            # This code catches any boot errors.
             if cerberus.error:
                 system_recovery.SystemRecovery.boot(cerberus.error)
             cerberus.reload()
-            # Logic to run setup - Moved to reload()
             # Logic for restarting.
             if cerberus.startup() == 4:
                 Loading.returning("Restarting system...", 2)
@@ -69,28 +75,33 @@ def boot(error=True, stacktrace=False):
             else:
                 return "Code 0. Execution successful."
         # Screen for fatal errors. Catches all exceptions and prints the stacktrace. Allows for a reboot.
-        # except (KeyboardInterrupt, console_thrift.KeyboardInterruptException):
-        #     print("bruh")
-        except Exception as f:
-            if not error:
-                raise f
-            for _ in range(20):
-                print("\n")
-            Loading.log("{} encountered a fatal error. Reboot is required. Stacktrace: {}".format(cerberus.name, f if stacktrace else "Stacktrace disabled"))
+        except Exception as fatal_error:
+            if not OperatingSystem.HANDLE_ERROR:
+                raise fatal_error
+            Loading.log(
+                "{} encountered a fatal error. Reboot is required. Stacktrace: {}".format(cerberus.name,
+                                                                                          fatal_error if stacktrace else "Stacktrace disabled"))
             if stacktrace:
                 try:
-                    if input('!!! {} encountered a fatal error. Reboot is required. !!! \nWhat failed: {}\n\nStacktrace: \n{}'
-                             ''.format(cerberus.name, str(traceback.format_exc()).split('\n')[len(traceback.format_exc().split('\n'))-4].split('"')[1],
-                                       str(traceback.format_exc())) + '\nType "REBOOT" to reboot.') == "REBOOT":
+                    if input(
+                            '{}!!! {} encountered a fatal error. Reboot is required. !!! \nWhat failed: {}\n\nStacktrace: \n{}'
+                            ''.format('\n' * 20, cerberus.name,
+                                      str(traceback.format_exc()).split('\n')[
+                                          len(traceback.format_exc().split('\n')) - 4].split(
+                                          '"')[1],
+                                      str(traceback.format_exc())) + '\nType "REBOOT" to reboot.') == "REBOOT":
                         continue
                     break
                 except IndexError:
                     pass
-            if input('!!! {} encountered a fatal error. Reboot is required. !!! Type "REBOOT" to reboot'.format(cerberus.name)):
+            if input(
+                    '!!! {} encountered a fatal error. Reboot is required. !!! Type "REBOOT" to reboot'.format(
+                        cerberus.name)):
                 continue
             print("Goodbye")
+            return "Code {}. A system error has occurred.".format(','.join([str(i.code) for i in cerberus.error]) if cerberus.error else "-1")
         Loading.log("System Shutdown. {} seconds have elapsed.".format(str(time.time() - start)))
-        return "Code {}. A system error has occurred.".format(','.join([str(i.code) for i in cerberus.error]) if cerberus.error else "-1")
+    return
 
 
 # noinspection PyTypeChecker,PyBroadException
@@ -98,6 +109,7 @@ class OperatingSystem:
     """
     Class Operating System. Houses all the core functions aside from boot.
     """
+    HANDLE_ERROR = True
 
     def __init__(self):
         # User list, name, and versions. All inherent settings.
@@ -105,11 +117,13 @@ class OperatingSystem:
         self.name = "Serpens Vivus"
         self.error = []
         self.recently_deleted_users = []
-        self.utilities = ["User Settings", "System Info\t", "Notepad\t\t", "SpeedSlow\t", "\t\t\t", "\t\t\t"]
-        self.games = ["Bagels\t", "Tictactoe", "Hangman ", "Sonar", "Joke Teller", "ScoutRPG"]
-        self.admin = ["Reset\t\t", "Event Viewer\t", "Task Manager", "\t\t", "\t\t", "\t\t"]
-        self.versions = {"Main": "4.0alpha03", "Bagels": 4.5, "Event Viewer": 1.1, "Hangman": 3.5, "Joke Teller": 2.4, "Notepad": 2.2, "ScoutRPG": "alpha1.6",
-                         "Sonar": 2.1, "SpeedUpOrSlowDown": 1.2, "Sudoku": 1.0, "System Info": 1.6, "System Recovery": 1.3, "Tictactoe": 5.7,
+        self.utilities = ["Settings", "System Info", "Notepad", "SpeedSlow"]
+        self.games = ["Bagels", "Tictactoe", "Hangman ", "Sonar", "Joke Teller", "ScoutRPG"]
+        self.admin = ["Reset", "Event Viewer", "Task Manager"]
+        self.versions = {"Main": "4.0beta01", "Bagels": 4.5, "Event Viewer": 1.1, "Hangman": 3.5,
+                         "Joke Teller": 2.4, "Notepad": 2.2, "ScoutRPG": "alpha1.6",
+                         "Sonar": 2.1, "SpeedUpOrSlowDown": 1.2, "Sudoku": 1.0, "System Info": 1.6,
+                         "System Recovery": 1.3, "Tictactoe": 5.7,
                          "User Settings": 2.9}
         self.path = "Users\\{}"
         self.current_user = User()
@@ -119,7 +133,7 @@ class OperatingSystem:
     def __repr__(self):
         # Representation of this class.
         return "< This is an OperatingSystem class named " + self.name + "\n Users: " + str(len(self.users)) + "\n Current User: " + \
-               self.current_user.username + "\n Current Password is hidden. >"
+            self.current_user.username + "\n Current Password is hidden. >"
 
     # noinspection PyUnreachableCode
     def reload(self):
@@ -136,15 +150,12 @@ class OperatingSystem:
                 return
             if "info.usr" in files:
                 user_file = list(open("{}\\info.usr".format(subdir), 'r'))
-                info = Loading.caesar_decrypt(user_file[0]).split('(U)')
+                info = Loading.caesar_decrypt(user_file[0]).split('\n')[0].split('(U)')  # UserType, Username, Password, Current Status, Color (if applicable)
                 programs = Loading.caesar_decrypt(user_file[1]).split('\n')[0].split('(P)')
-                # length = len([files for files in os.walk("Applications")][0][2])
-                if len(info) == 5:
-                    # and (len(programs) == length or len(programs) == length - 2):
+                if 4 <= len(info) <= 5:
                     try:
-                        new_users.append(globals()[info[0]](info[1], info[2], info[3] == "True", programs, self.path.format(info[1])))
-                        # , [j.split('\t') for j in programs]))
-                    except (AttributeError, IndexError):
+                        new_users.append(globals()[info[0]](info[1], info[2], info[3] == "True", programs, (info[4].split("(Pe)") if len(info) == 5 else None), self.path.format(info[1])))
+                    except (AttributeError, IndexError, KeyError):
                         self.error.append(system_recovery.CorruptedFileSystem([subdir, info, programs]))
                 else:
                     self.error.append(system_recovery.CorruptedFileSystem([subdir, info, programs]))
@@ -162,10 +173,8 @@ class OperatingSystem:
             if not admin_present:
                 self.error.append(system_recovery.NoAdministrator())
             if self.error:
-                if len(self.error) == 1:
-                    raise Exception(self.error[0].__repr__() + " Please reboot the system.")
-                else:
-                    raise Exception("Multiple fatal errors occurred. Please reboot the system.")
+                raise Exception((self.error[0].__repr__() if len(self.error == 1) else "Multiple fatal errors occurred.") + " Please reboot the system.")
+            return
         else:
             self.setup()
             return
@@ -178,6 +187,8 @@ class OperatingSystem:
         # The main startup and login screen, housed within a while loop to keep the user here unless specific circumstances are met.
         while True:
             try:
+                print("\033[{}m".format(self.current_user.color), end='')
+                Loading.SPEED = self.current_user.speed
                 print("\nHello! I am {}.".format(self.name))
                 if self.current_user.username != 'Guest':
                     # Separate while loop for users. Guest users head down.
@@ -235,6 +246,7 @@ class OperatingSystem:
                         self.operating_system()
                         return 3
             except Loading.LockInterrupt as lock:
+                Loading.returning("Locking Computer...", 1)
                 if lock.args[0] and lock.args[0].__class__ not in [k.__class__ for k in self.current_user.saved_state]:
                     self.current_user.saved_state.append(lock)
                 pass
@@ -254,15 +266,18 @@ class OperatingSystem:
                     swap.args[0].main()
                 print("Hello! I am {}, running POCS v{}".format(self.name, self.versions["Main"]))
                 # Main while loop for applications.
-                if self.current_user.elevated:
-                    print("\nAPPLICATIONS\nUTILITIES\t\t\tGAMES\t\t\tADMIN")
-                    for j in range(len(self.games)):
-                        print(self.utilities[j] + '\t\t' + self.games[j] + '\t\t' + self.admin[j])
-                else:
-                    print("\nAPPLICATIONS\nUTILITIES\t\t\tGAMES")
-                    for j in range(len(self.games)):
-                        print(self.utilities[j] + '\t\t' + self.games[j])
-                print("\nLock Computer\tPower")
+                max_len = [len(max(self.utilities, key=len)), len(max(self.games, key=len))]
+                margin = [(int(i / 8) + (2 if i % 8 else 1)) * 8 for i in max_len]
+                print(("\nAPPLICATIONS\n{underline}UTILITIES{clear}{util}{underline}GAMES{clear}" + ("{games}{underline}ADMIN{clear}" if self.current_user.elevated else "") +
+                       "{clear}").format(underline="\033[4m", clear="\033[0;{}m".format(self.current_user.color), util=" " * (margin[0] - 9), games=" " * (margin[1] - 5)))
+                for i in range(len(max(self.utilities, self.games, self.admin, key=len))):
+                    print((self.utilities[i] if i < len(self.utilities) else "") + " " * (margin[0] - (len(self.utilities[i]) if i < len(self.utilities) else 0)), end="")
+                    print((self.games[i] if i < len(self.games) else "") + " " * (margin[1] - (len(self.games[i]) if i < len(self.games) else 0)), end="")
+                    if self.current_user.elevated:
+                        print(self.admin[i] if i < len(self.admin) else "")
+                    else:
+                        print()
+                print("\nLock Computer\tPower".expandtabs(8))
                 choice = input().lower()
                 # This logs what app the user opened, but the number codes still work.
                 Loading.log(self.current_user.username + " opened " + choice)
@@ -270,7 +285,7 @@ class OperatingSystem:
                                 , SpeedUpOrSlowDown: ('speedslow', 'speed up', 'slow down', 'speed up or slow down')
                                 , Bagels: ('bagels', 'bagels', '3'), Tictactoe: ('tictactoe', 'tic-tac-toe', 'ttt', '4')
                                 , Hangman: ('hangman', '5'), Sonar: ('sonar', '6'), ScoutRpg: ("scout rpg", "scout", "rpg", "scout_rpg", "scoutrpg")
-                                , UserSettings: ('user settings', 'usersettings', '8'), SystemInfo: ('system info', 'sys info', '9')
+                                , Settings: ('settings', '8'), SystemInfo: ('system info', 'sys info', '9')
                                 , TaskManager: ('task manager', '7'), EventViewer: ('event viewer', 'events'), Reset: ('reset', '10')}
                 if choice in ('exit', 'lock computer', 'lock', '11'):
                     Loading.log(self.current_user.username + " logged out.")
@@ -306,6 +321,9 @@ class OperatingSystem:
                                 if j.boot(self) == 'regular':
                                     print("Hello! I am {}, running POCS v{}".format(self.name, self.versions["Main"]))
                                     return 'regular'
+                            else:
+                                raise Exception(
+                                    "The Application has an incorrect category.")
                         break
                 else:
                     Loading.returning("Please choose from the list of applications.", 1)
@@ -313,10 +331,9 @@ class OperatingSystem:
                 if home.args[0]:
                     self.current_user.saved_state.append(home)
                 pass
-            except Loading.LockInterrupt as lock:
-                Loading.returning("Locking Computer", 1)
-                raise lock
-            except Exception:
+            except Exception as app_error:
+                if not OperatingSystem.HANDLE_ERROR:
+                    raise app_error
                 input("The application has encountered a fatal error and has crashed.\nThis could be a result of a corrupted save file, or a damaged application. Try running System Recovery.")
                 pass
 
@@ -395,8 +412,9 @@ class OperatingSystem:
                     # Open their file, write encrypted data and close the file.
                     Loading.log("Updating user files...")
                     user_file = open(self.path.format(i.username) + "\\info.usr", 'w')
-                    user_file.write(Loading.caesar_encrypt(i.__class__.__name__ + '(U)' + i.username + '(U)' + i.password + "(U)" + str(i.current) + '(U)\n'))
-                    user_file.write(Loading.caesar_encrypt("(P)".join(j.__repr__() for j in i.saved_state) + '\n'))
+                    user_file.write(Loading.caesar_encrypt(i.__repr__()))
+                    # user_file.write(Loading.caesar_encrypt(i.__class__.__name__ + '(U)' + i.username + '(U)' + i.password + "(U)" + str(i.current) + '(U)\n'))
+                    # user_file.write(Loading.caesar_encrypt("(P)".join(j.__repr__() for j in i.saved_state) + '\n'))
                     user_file.close()
                 # Finishing with some print statements.
                 Loading.log("Shutdown complete.")
@@ -450,7 +468,7 @@ class OperatingSystem:
             self.current_user = Administrator(setup_user, setup_pwd)
             Loading.returning("Password set successfully.", 2)
             Loading.returning("One last thing!", 1)
-            recovery_pwd = ''.join(str(random.choice(Loading.alphabet)) for _ in range(1000)) + '(R)' + input("Please enter a recovery password.") + '(R)' + ''.join(str(random.choice(Loading.alphabet)) for _ in range(1000))
+            recovery_pwd = ''.join(str(random.choice(Loading.ALPHABET)) for _ in range(1000)) + '(R)' + input("Please enter a recovery password.") + '(R)' + ''.join(str(random.choice(Loading.ALPHABET)) for _ in range(1000))
             recovery_file = open("System\\recovery.info", 'w')
             recovery_file.write(Loading.caesar_encrypt(recovery_pwd))
             recovery_file.close()

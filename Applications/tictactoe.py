@@ -232,7 +232,7 @@ class Tictactoe:
         # Let the player type in his move.
         while True:
             print('Enter your move from 1-9! Or type "exit" to exit.')
-            move = Loading.pocs_input("", self)
+            move = Loading.pocs_input(app_object=self)
             if move in ('1', '2', '3', '4', '5', '6', '7', '8', '9'):
                 if self.board[int(move) - 1] == ' ':
                     return int(move) - 1
@@ -356,7 +356,7 @@ class Tictactoe:
             pass
         else:
             print("It is the computer's turn. Press [ENTER] or [return] to continue.")
-            Loading.pocs_input("", self)
+            Loading.pocs_input(app_object=self)
             pass
         return
 

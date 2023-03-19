@@ -84,7 +84,7 @@ class Sonar:
                 print('You have {} sonar device(s) left. {} treasure chest(s) remaining.'.format(self.devices, len(self.chests)))
                 print('Where do you want to drop the next sonar device? (0-9 0-39) (or type quit)')
                 while True:
-                    move = Loading.pocs_input("", self)
+                    move = Loading.pocs_input(app_object=self)
                     if move.lower() == 'quit':
                         self.quit()
                         return

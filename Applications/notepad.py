@@ -115,7 +115,7 @@ class Notepad:
         while True:
             if not self.notes_temp_section:
                 print("\nType something!")
-                self.notes_temp_section = Loading.pocs_input("", self)
+                self.notes_temp_section = Loading.pocs_input(app_object=self)
             new_or_save = Loading.pocs_input('New line or Save the text file? Type "New Line" for a new line and "Save" to save the text and return to the homepage.')
             if self.notes_temp:
                 self.notes_temp += '\n' + self.notes_temp_section

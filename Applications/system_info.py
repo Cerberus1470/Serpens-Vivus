@@ -39,7 +39,7 @@ class SystemInfo:
         print("Applications: " + str(versions.keys()))
         for i in range(len(versions)):
             print(versions.keys()[i] + " Version: " + str(versions)[i])
-        if Loading.pocs_input("") == "debug":
+        if Loading.pocs_input() == "debug":
             Loading.returning("")
         return
 
