@@ -35,10 +35,10 @@ class SystemInfo:
         print("\nSYSTEM INFO")
         print("Software: POCS (Python Operating Command System) Version %s" % str(versions["Main"]))
         print("Shell: Python IDLE Version 3.11")
-        print("Applications installed: " + str(len(versions)))
-        print("Applications: " + str(versions.keys()))
-        for i in range(len(versions)):
-            print(versions.keys()[i] + " Version: " + str(versions)[i])
+        print("Applications installed: " + str(len(versions) - 1))
+        print("Applications: " + ', '.join([i for i in versions.keys()][1:]))
+        for i in range(1, len(versions)):
+            print([i for i in versions.keys()][i] + " Version: " + str([i for i in versions.values()][i]))
         if Loading.pocs_input() == "debug":
             Loading.returning("")
         return

@@ -34,14 +34,14 @@ class Notepad:
         print("Welcome to Notepad!\n")
         self.new_file = False
         while True:
+            count = 1
             for subdir, dirs, files in os.walk('Users\\%s' % self.username):
-                count = 1
                 for file in files:
                     if file[len(file) - 3:len(file)] == 'txt':
                         print(str(count) + '. ' + file)
                         count += 1
-                print(str(count) + '. New Note')
-                print(str(count + 1) + '. Delete Note')
+            print(str(count) + '. New Note')
+            print(str(count + 1) + '. Delete Note')
             self.filename = input('Which file would you like to open? Type "exit" to exit.\n').lower()
             if self.filename == 'exit':
                 self.filename = "exit"

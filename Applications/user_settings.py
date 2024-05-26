@@ -42,6 +42,7 @@ class UserSettings:
         :param os_object: The OS object to get info from.
         :return: 1 if the user was switched, Nothing otherwise.
         """
+        Loading.returning("WARNING: This app is deprecated as of January 7th, 2023. Please refrain from using this app and instead use the new Settings app!", 5)
         print("Welcome to User Settings!")
         print("Here you can edit the username and password of the current user!")
 

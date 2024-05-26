@@ -113,14 +113,19 @@ class Bagels:
         if not game_info:
             game_info = init_game(self, path, 'bgl')
         if self.new_file:
-            self.new_file = True
-            self.prev_guesses = []
-            self.num_guesses = 1
-            self.num_digits = int(input('Enter the number of digits in the secret number:'))
-            self.max_guesses = int(input('Enter the number of guesses you would like to try:'))
-            base_number = int(input('Enter a base number system from 5 to 10 to use.\n'
-                                    'The base number decides what range of digits to choose the secret number from.'))
-            self.secret_num = self.get_secret_num(self.num_digits, base_number)
+            while True:
+                try:
+                    self.new_file = True
+                    self.prev_guesses = []
+                    self.num_guesses = 1
+                    self.num_digits = int(input('Enter the number of digits in the secret number:'))
+                    self.max_guesses = int(input('Enter the number of guesses you would like to try:'))
+                    base_number = int(input('Enter a base number system from 5 to 10 to use.\n'
+                                            'The base number decides what range of digits to choose the secret number from.'))
+                    self.secret_num = self.get_secret_num(self.num_digits, base_number)
+                    break
+                except (TypeError, ValueError):
+                    Loading.returning("That is not a valid value.", 2)
         elif game_info:
             (prev_guesses, self.num_guesses, self.num_digits, self.max_guesses, self.secret_num) = game_info
             self.prev_guesses = prev_guesses.split(',')
@@ -261,7 +266,6 @@ class Bagels:
         base_number = int(input('Enter a base number system from 5 to 10 to use.\n'
                                 'The base number decides what range of digits to choose the secret number from.'))
         self.secret_num = self.get_secret_num(self.num_digits, base_number)
-        return
 
     @DeprecationWarning
     def startup(self):

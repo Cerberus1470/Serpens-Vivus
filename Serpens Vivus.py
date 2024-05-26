@@ -1,8 +1,6 @@
 """
 The main file for any bootup. Very simple, but contains some setup and file protection code.
 """
-
-
 # This is an experimental operating system running on Python. Features include password protection, joke-teller,
 # notePad, task manager, two games, information on the system, and the ability to change user settings! IT DOES
 # INCLUDE TWO PYTHON GAMES FROM EARLIER IN THE COURSE (Bagels and Tictactoe)

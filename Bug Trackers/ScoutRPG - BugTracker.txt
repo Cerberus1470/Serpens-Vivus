@@ -1,4 +1,4 @@
-BUG TRACKER
+BUG TRACKER - Updated 1/4/2023
 preprealpha - Classic:
 SCT-001 - Certain corrupted values of Food and Drink objects would crash the game.
 SCT-002 - Repr's of Food and Drink objects did not contain names.

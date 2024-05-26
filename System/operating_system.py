@@ -29,7 +29,7 @@ except ImportError as missing_files:
         Tictactoe = UserSettings = system_recovery = Reset = Settings = None
     # If any file is missing, code will come here.
     # UPDATE Change whenever the token changes!
-    token = "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"
+    token = "DOESN'T WORK"
     for folder in (("System/", ("Loading.py", "operating_system.py", "reset.py", "system_recovery.py", "User.py")),
                    ("Applications/", ("bagels.py", "event_viewer.py", "hangman.py", "jokes.py", "notepad.py", "scout_rpg.py", "settings.py",
                                       "sonar.py", "speed_up_or_slow_down.py", "sudoku.py", "system_info.py", "task_manager.py",
@@ -48,6 +48,11 @@ except ImportError as missing_files:
     Loading.returning("The system is missing files. It will now re-download them from GitHub. Please wait.", 4)
     Loading.progress_bar("Downloading Files", 5)
     Loading.returning("The system has finished downloading/updating files and will now reboot", 5)
+
+# Public Variables
+user_separator = "(U)"
+program_separator = "(P)"
+personalization_separator = "(Pe)"
 
 
 # noinspection PyBroadException
@@ -120,11 +125,11 @@ class OperatingSystem:
         self.utilities = ["Settings", "System Info", "Notepad", "SpeedSlow"]
         self.games = ["Bagels", "Tictactoe", "Hangman ", "Sonar", "Joke Teller", "ScoutRPG"]
         self.admin = ["Reset", "Event Viewer", "Task Manager"]
-        self.versions = {"Main": "4.0beta01", "Bagels": 4.5, "Event Viewer": 1.1, "Hangman": 3.5,
+        self.versions = {"Main": "4.0beta02", "Bagels": 4.5, "Event Viewer": 1.1, "Hangman": 3.5,
                          "Joke Teller": 2.4, "Notepad": 2.2, "ScoutRPG": "alpha1.6",
                          "Sonar": 2.1, "SpeedUpOrSlowDown": 1.2, "Sudoku": 1.0, "System Info": 1.6,
                          "System Recovery": 1.3, "Tictactoe": 5.7,
-                         "User Settings": 2.9}
+                         "Settings": "1.0beta01"}
         self.path = "Users\\{}"
         self.current_user = User()
         Loading.log("Boot complete.")
@@ -150,11 +155,11 @@ class OperatingSystem:
                 return
             if "info.usr" in files:
                 user_file = list(open("{}\\info.usr".format(subdir), 'r'))
-                info = Loading.caesar_decrypt(user_file[0]).split('\n')[0].split('(U)')  # UserType, Username, Password, Current Status, Color (if applicable)
-                programs = Loading.caesar_decrypt(user_file[1]).split('\n')[0].split('(P)')
+                info = Loading.caesar_decrypt(user_file[0]).split('\n')[0].split(user_separator)  # UserType, Username, Password, Current Status, Color (if applicable)
+                programs = Loading.caesar_decrypt(user_file[1]).split('\n')[0].split(program_separator)
                 if 4 <= len(info) <= 5:
                     try:
-                        new_users.append(globals()[info[0]](info[1], info[2], info[3] == "True", programs, (info[4].split("(Pe)") if len(info) == 5 else None), self.path.format(info[1])))
+                        new_users.append(globals()[info[0]](info[1], info[2], info[3] == "True", programs, (info[4].split(personalization_separator) if len(info) == 5 else None), self.path.format(info[1])))
                     except (AttributeError, IndexError, KeyError):
                         self.error.append(system_recovery.CorruptedFileSystem([subdir, info, programs]))
                 else:

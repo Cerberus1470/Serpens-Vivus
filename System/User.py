@@ -3,7 +3,7 @@ Module User. Contains all the User Classes and methods within.
 """
 import importlib
 
-from System import Loading
+from System import Loading, operating_system
 from System.Loading import *
 
 apps = []
@@ -52,16 +52,18 @@ class User:
                 self.background = i
                 continue
             try:
-                self.speed = float(i)
+                self.speed = float(i) if (i != "0" and i != "0.0") else 1.0
                 continue
             except ValueError:
                 continue
         return
 
     def __repr__(self):
-        return self.__class__.__name__ + '(U)' + self.username + '(U)' + self.password + "(U)" + str(self.current) + "(U)" + \
-            str(list(Loading.COLORS.keys())[list(Loading.COLORS.values()).index(self.color)]) + "(Pe)" + str(self.background) + "(Pe)" + str(self.speed) + \
-            '\n' + "(P)".join(j.__repr__() for j in self.saved_state) + '\n'
+        return "{}{U}{}{U}{}{U}{}{U}{}{Pe}{}{Pe}{}\n{}".format(self.__class__.__name__, self.username, self.password, str(self.current),
+                                                               str(list(Loading.COLORS.keys())[list(Loading.COLORS.values()).index(self.color)]),
+                                                               str(self.background), str(self.speed),
+                                                               operating_system.program_separator.join(j.__repr__() for j in self.saved_state) + '\n',
+                                                               U=operating_system.user_separator, Pe=operating_system.personalization_separator)
         # return "I am a user named " + self.username
 
 

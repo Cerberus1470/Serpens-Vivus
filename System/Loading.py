@@ -12,7 +12,7 @@ import datetime
 import sys
 import itertools
 
-# MARKERS: GLOBAL VARIABLES
+# MARKER: GLOBAL VARIABLES
 ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 1234567890!@#$%^&*()`~-_=+[{]}|;:,<.>/?'
 
 ATTRIBUTES = {
@@ -41,7 +41,7 @@ HIGHLIGHTS = {
     "on_light_blue": 104,
     "on_light_magenta": 105,
     "on_light_cyan": 106,
-    "on_white": 107,
+    "on_white": 107
 }
 
 COLORS = {
@@ -120,6 +120,203 @@ class LoadingClass:
         for i in range(10):
             self.results += 1
             time.sleep(self.interval)
+
+
+class Registry:
+    """
+    Class to test out the registry. Currently, storing system settings.
+    """
+
+    class Directory:
+        """
+        Class to create a Registry directory. Houses name.
+        """
+
+        def __init__(self, name: str = "default"):
+            self.name = name
+
+        def __repr__(self):
+            return "Directory with name {name}".format(name=self.name)
+
+    class Key:
+        """
+        Class to create a Registry key. Houses name.
+        """
+
+        def __init__(self, name: str = "default", value: str = "default"):
+            self.name = name
+            self.value = value
+
+        def __repr__(self):
+            return "Key with name {name} and value {value}".format(name=self.name, value=self.value)
+
+    def __init__(self):
+        """
+        This method is to iteratively read through the registry and create a directory-key structure that is intuitive and easy to manipulate in memory.
+        """
+        for subdir, dirs, files in os.walk("System\\REGISTRY"):  # Iterating through the Registry folder.
+            for file in files:
+                if file[len(file) - 5:] == "svkey":  # Making sure the files are svkeys.
+                    file = "{subdir}\\{file}".format(subdir=subdir, file=file)  # Specifying the file path + name.
+                    value = list(open(file, "r"))[0]  # Acquiring the value of the key.
+                    self.add_key(file[16:len(file) - 6], value)  # Using the add_key method to add the key!
+            # Below code scrapped in favor of the new add_key method!
+            # if subdir == "System\\REGISTRY":  # Excluding the root folder
+            #     continue
+            # dir_name = subdir[16:]  # Removing the root folder and replacing all backslashes with periods.
+            # target = self
+            # if "\\" in dir_name:  # If the directory is nested
+            #     path = dir_name.split("\\")
+            #     for i in range(len(path) - 1):
+            #         target = target.__getattribute__(path[i])
+            # dir_name = dir_name.rpartition("\\")[2]
+            # target.__setattr__(dir_name, Registry.Directory(dir_name))
+            # # exec('self.{svdir} = Registry.Directory("{svdir}")'.format(svdir=dir_name))  # Creating Directories for registry structure.
+            # for file in files:  # Iterating through every file in the folder.
+            #     key_name = ("{subdir}\\{file}".format(subdir=subdir, file=file)).replace("\\", ".")  # Acquiring the base name
+            #     key_name = key_name[16:len(key_name) - 6]  # Polishing
+            #     try:
+            #         value = list(open("{subdir}\\{file}".format(subdir=subdir, file=file), "r"))[0]  # Acquiring the value of the key.
+            #         exec('self.{svkey} = Registry.Key("{subdir}\\{file}", "{value}")'.format(svkey=key_name, subdir=subdir, file=file, value=value).replace("\\", "\\\\"))  # Creating and storing the key.
+            #         continue
+            #     except IndexError:
+            #         returning("The registry could not be read. Please reboot and try again.", 3)
+            #         break
+
+    def add_key(self, key: str = "", value=0):
+        """
+        This is a method to add keys to the volatile registry stored in local memory.
+        DANGER: There is no security for this method. Using this, anyone can add keys anywhere in the local registry.
+        :param key: The key to add. Must be in the format {dir}\\{subdir}\\{key} to work.
+        :param value: The value to set the new key to.
+        :return: 0 if successful, 1 if the key exists, 2 if the key is not formatted correctly.
+        """
+        # key_name = "System\\REGISTRY\\{path}".format(path=key.replace('.', "\\"))
+        try:
+            self.__getattribute__(key)  # Try to find if the key exists.
+            returning("That key already exists.", 2)
+            return 1
+        except AttributeError:  # If it doesn't exist...
+            try:
+                # First, iteratively create directories that aren't present.
+                target = self
+                path = key.split("\\")
+                for i in range(len(path) - 1):
+                    try:
+                        target = target.__getattribute__(path[i])
+                    except AttributeError:
+                        target.__setattr__(path[i], Registry.Directory(path[i]))
+                        target = target.__getattribute__(path[i])
+                # Once necessary directories are made/found, create the key.
+                key_name = path[len(path) - 1]
+                target.__setattr__(key_name, Registry.Key(key_name, value))
+                return 0
+            except AttributeError:
+                returning("The key is not formatted correctly.", 2)
+                return 2
+            #     exec('self.{key} = Registry.Key("{name}", "{value}")'.format(key=key, name=key_name, value=value).replace("\\", "\\\\"))
+            #     # Creating and storing the key. The replacement is to fix escape characters.
+            #     return 0
+            # except AttributeError:  # If the directory doesn't exist or it's broken
+            #     key2 = ""
+            #     path = key.split('.')
+            #     for i in range(len(path) - 1):
+            #         key2 += path[i]
+            #         try:
+            #             exec("self.{directory}".format(directory=key2))
+            #         except AttributeError:
+            #             exec('self.{directory} = Registry.Directory("{name}")'.format(directory=key2, name=key2.rpartition(".")[2]))
+            #         key2 += '.'
+            #     try:
+            #         key2 += path[len(path) - 1]
+            #         exec('self.{key} = Registry.Key("{name}", "{value}")'.format(key=key, name=key_name, value=value).replace("\\", "\\\\"))
+            #         return 0
+            #     except AttributeError:
+            #         returning("The key is not formatted correctly.", 2)
+            #         return 2
+
+    def get_key(self, key: str = ""):
+        """
+        This is a method to get values for keys in the volatile registry. This does not read from keys stored on the disk.
+        :param key: The key whose value to get. Must be in the format {dir}\\{subdir}\\{key} to work.
+        :return: The value of the key specified, 1 if the specified key is not a key, 2 if the key was not found.
+        """
+        try:
+            target = self
+            path = key.split("\\")
+            for i in range(len(path) - 1):
+                try:
+                    target = target.__getattribute__(path[i])
+                except AttributeError:
+                    target.__setattr__(path[i], Registry.Directory(path[i]))
+                    target = target.__getattribute__(path[i])
+            key = target.__getattribute__(path[len(path) - 1])
+            if key.__class__ == Registry.Key:
+                return key.value
+            else:
+                returning("The specified key is not a key.", 2)
+                return 1
+        except AttributeError:
+            returning("The specified key was not found.", 2)
+            return 2
+
+    def set_key(self, key: str = "", value: str = ""):
+        try:
+            target = self
+            path = key.split("\\")
+            for i in range(len(path) - 1):
+                try:
+                    target = target.__getattribute__(path[i])
+                except AttributeError:
+                    target.__setattr__(path[i], Registry.Directory(path[i]))
+                    target = target.__getattribute__(path[i])
+            key = target.__getattribute__(path[len(path) - 1])
+            if key.__class__ == Registry.Key:
+                key.__setattr__("value", value)
+            else:
+                returning("The specified key is not a key.", 2)
+                return 1
+        except AttributeError:
+            returning("The specified key was not found.", 2)
+            return 2
+
+    def delete_key(self, key: str = ""):
+        """
+        This is a method to delete keys stored in the volatile registry. This does not delete keys stored on the disk.
+        :param key: The key to delete. Must be in the format {dir}\\{subdir}\\{key} to work.
+        :return: 0 if successful, 1 if the specified key is not a key, 2 if the key was not found.
+        """
+        try:
+            target = self.__getattribute__(key)
+            if target.__class__ == Registry.Key:
+                self.__delattr__(key)
+                return 0
+            else:
+                returning("The specified key is not a key.", 2)
+                return 1
+        except AttributeError:
+            returning("The specified key was not found.", 2)
+            return 2
+
+    @staticmethod
+    def modify_registry(key: str = "", path: str = "", value=0):
+        """
+        This is a method to modify the non-volatile registry keys stored on the local disk.
+        DANGER: There is no security for this method. Using this, anyone can modify the registry and break the OS.
+        :param key: The svkey file to modify.
+        :param path: The path to the key.
+        :param value: The new value for the key.
+        :return: 0 if successful, 1 if unsuccessful.
+        """
+        try:
+            key = (key + ".svkey") if ".svkey" not in key else key
+            file = open("System\\REGISTRY\\{path}\\{key}".format(path=path, key=key), 'w')
+            file.write(value)
+            file.close()
+            return 0
+        except (FileNotFoundError, FileExistsError, OSError):
+            returning("The registry cannot find the key specified. Please reboot and try again.", 3)
+            return 1
 
 
 # MARKER: INTERRUPTS

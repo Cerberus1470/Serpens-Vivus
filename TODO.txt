@@ -23,7 +23,7 @@ TODO - Advanced
     > ! - Add admins and standard users.
     > - Request password before deleting user (then remove the check for admin users)
     > - Add 3 recently deleted users
-        - Add log of who deleted who
+        > - Add log of who deleted who
     > - Event Log
         > - Basically keeps track of every event that happens in the computer.
         > - It will also be accessible using an app: Event Viewer
@@ -61,9 +61,9 @@ TODO - Advanced
     > - Change number of program statuses to reflect how many applications are there, in operating_system.reload().
     X - Create error to upgrade user info files to reflect how many applications there are. - REJECTED after the Saved_State Update.
     > - Handle application errors.
-        - This will be separate from system crashes (BSOD), and will basically boot you back to the home screen.
+        > - This will be separate from system crashes (BSOD), and will basically boot you back to the home screen.
     - Mid-method home button action and saved_state restoring.
-    - Lock "button". This will do the same as the home button, but taken back to the lock screen.
+    > - Lock "button". This will do the same as the home button, but taken back to the lock screen.
     - Revamp Setup to ask which apps to download. This will go well with the game store idea.
 
 TODO - Really advanced
@@ -79,7 +79,9 @@ TODO - Really advanced
     - Make the saved_state actually do something (and revamp task manager with it)
     - Revamp Guest user!
         - Make guest user more user-friendly. Remove "Games will say the path is invalid", make a workaround!
+            - Add guest folder, and ask user if they want to save data to a new user
         - Add guest user at startup.
+    - Registry Editor! And registry keys. Documentation Below.
 
 Administrators:
 - Admins have elevated access that allow for certain functions. These include:
@@ -135,3 +137,26 @@ User Personalization:
 - Users can change the color of the background, the color of the text, perhaps even the language????
 - Completely new app.
 - Could spark the change from separate settings apps to a central Settings app!
+
+Registry Editor:
+- Module, Class, and App to change global system/app settings.
+- This combined with the game store with a fool-proof iteration protocol that will allow users to create their own apps, add to the registry, and use those registry entries!
+- In the registry class, there will be a method to modify the registry.
+    - Security risks will also be handled. Elevation will be considered and some kind of password will be required to make sure no one can make a game with registry-altering code.
+- Before the module is created, I'll put it in Loading.
+
+Calendar App
+ <      2024      >
+<< <   January  > >>
+S  M  T  W  T  F  S
+1  2  3  4  5  6  7
+8  9  10 11 12 13 14
+15 16 17 18 19 20 21
+22 23 24 25 26 27 28
+29 30 31
+
+Year arrows keep the month, update the days
+Month single arrow is one-by-one, dont forget rollover
+Month double arrows are beginning and end of the current year. Disable when alraedy at beg/end
+Travel to Date/Month/Year feature! Default Month and Date to 1 if not specified
+Logic net for input text. Y<, Y>, M<, M>, M<<, M>>, etc.

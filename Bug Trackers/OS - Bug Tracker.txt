@@ -1,4 +1,4 @@
-BUG TRACKER - Updated 10/16/2022
+BUG TRACKER - Updated 7/23/2023
 Installation 1.0 - Classic - 10/15/2021 11:48
 OS-001 - Empty notes cause a system crash.
 OS-002 - Notes with new lines cause corrupted databases.
@@ -71,3 +71,14 @@ Installation 3.2 - 6/6/2022 22:48
 OS-045 - Setup conditions were not fully set up after the filesystem and recovery update.
 OS-046 - The guest account did not return a correct shutdown value, causing system crashes.
 Installation 3.2.1 - 7/5/2022 9:20
+No Bugs
+Installation 3.2.2 - 12/31/2022 00:32
+OS-047 - Adding new programs would break all users.
+Installation 4.0_alpha01 - 1/4/2023 9:06
+OS-048 - Certain special-case fatal errors would break the BSOD.
+OS-049 - The shutdown menu is inescapable.
+Installation 4.0_alpha02 - 1/9/2023 6:12
+OS-050 - Programs held in nonvolatile saved_states would be overwritten with the current user's path upon startup.
+OS-051 - Inputting nothing in the shutdown menu would boot you back to login instead of the home screen.
+Installation 4.0_beta01 - 3/15/2023 3:42
+OS-052 - Passing False to handling errors within the OS did not work for application-based fatal errors.
