@@ -24,7 +24,7 @@ user_separator = "(U)"
 program_separator = "(P)"
 personalization_separator = "(Pe)"
 HANDLE_ERROR = True
-version = "4.0beta02"
+version = "4.0_gamma01"
 
 
 # noinspection PyBroadException
