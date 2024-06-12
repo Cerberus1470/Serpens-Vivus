@@ -5,20 +5,24 @@ The simplest program ever. A joke-teller! This is the first program I constructe
 from System import Loading
 
 
+category = "games"
+version = "2.3"
+entries = ('jokes', 'joke', '1', 'joke teller')
+
+
+def boot(_):
+    """
+    Used to regulate the bootup sequence for the game
+    :param _: Unused cerberus passed from function call.
+    :return: Nothing
+    """
+    Jokes.main()
+
+
 class Jokes:
     """
     The main class for everything.
     """
-    category = "games"
-
-    @staticmethod
-    def boot(_):
-        """
-        Used to regulate the bootup sequence for the game
-        :param _: Unused cerberus passed from function call.
-        :return: Nothing
-        """
-        Jokes.main()
 
     def __init__(self):
         return

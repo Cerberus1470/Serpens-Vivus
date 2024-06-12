@@ -5,20 +5,24 @@ inside the OS.
 from System import Loading
 
 
+category = "admin"
+version = "1.1.3"
+entries = ('task manager', '7')
+
+
+def boot(os_object=None):
+    """
+    This method manages and regulates the boot process.
+    :param os_object: The Cerberus OS Object.
+    :return: Nothing.
+    """
+    TaskManager.main(os_object.current_user.saved_state)
+
+
 class TaskManager:
     """
     Class TaskManager. This class contains the application.
     """
-    category = "admin"
-
-    @staticmethod
-    def boot(os_object):
-        """
-        This method manages and regulates the boot process.
-        :param os_object: The Cerberus OS Object.
-        :return: Nothing.
-        """
-        TaskManager.main(os_object.current_user.saved_state)
 
     def __init__(self):
         return

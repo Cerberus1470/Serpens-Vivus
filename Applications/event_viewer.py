@@ -18,27 +18,31 @@ def update_time(events, index):
     time2 = (int(events[len(events)-index-1][12:14]) * 3600) + (int(events[len(events)-index-1][15:17]) * 60) + int(events[len(events)-index-1][18:20])
 
 
+category = "admin"
+version = "2.1"
+entries = ('event viewer', 'events')
+
+
+def boot(_):
+    """
+    This method regulates booting.
+    :param _: The unused OS Object, passed due to the iterative nature of the application home screen.
+    :return: 4 if the user reset the event log.
+    """
+    event_viewer = EventViewer(_)
+    return EventViewer.main(event_viewer)
+
+
 class EventViewer:
     """
     Class EventViewer. This class houses the main application.
     """
-    category = "admin"
 
     def __init__(self, _, page=0):
         self.page = int(page)
 
     def __repr__(self):
         return "EventViewer(SS1){}".format(self.page)
-
-    @staticmethod
-    def boot(_):
-        """
-        This method regulates booting and
-        :param _: The unused OS Object, passed due to the iterative nature of the application home screen.
-        :return: 4 if the user reset the event log.
-        """
-        event_viewer = EventViewer(_)
-        return EventViewer.main(event_viewer)
 
     def main(self):
         """

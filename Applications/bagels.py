@@ -19,7 +19,7 @@ def delete(path, extension):
         for subdir, dirs, files in os.walk(path):
             count = 0
             for file in files:
-                if file[len(file)-3:len(file)] == extension:
+                if file[len(file) - 3:len(file)] == extension:
                     count += 1
                     print(str(count) + '. ' + file)
         delete_game = input("Which game would you like to delete?\n")
@@ -50,11 +50,11 @@ def init_game(self, path, extension):
         count = 0
         for subdir, dirs, files in os.walk(path):
             for file in files:
-                if file[len(file)-3:len(file)] == extension:
+                if file[len(file) - 3:len(file)] == extension:
                     count += 1
                     print(str(count) + '. ' + file)
-        print(str(count+1) + '. New Game')
-        print(str(count+2) + '. Delete Game')
+        print(str(count + 1) + '. New Game')
+        print(str(count + 2) + '. Delete Game')
         self.filename = input('Which file would you like to open? Type "exit" to exit.\n').lower()
         if self.filename == 'exit':
             self.filename = "exit"
@@ -68,7 +68,7 @@ def init_game(self, path, extension):
             continue
         else:
             try:
-                if self.filename[len(self.filename)-3:len(self.filename)] == extension:
+                if self.filename[len(self.filename) - 3:len(self.filename)] == extension:
                     game = open("{}\\{}".format(path, self.filename), 'r')
                 else:
                     game = open("{}\\{}".format(path, '{}.{}'.format(self.filename, extension)), 'r')
@@ -85,33 +85,37 @@ def init_game(self, path, extension):
             return (Loading.caesar_decrypt(bruh[0].split('\n')[0])).split('(G)')
 
 
+category = "games"
+version = "2.0_gamma07"
+entries = ('bagels', 'bagels', '3')
+
+
+def boot(os_object=None):
+    """
+    Used to regulate the bootup sequence for the game
+    :param os_object: Operating System object, used for the path variable.
+    :return: Nothing
+    """
+    while True:
+        bagels = Bagels(os_object.path)
+        if not bagels.filename == 'exit':
+            if not bagels.main() == "again":
+                return
+        else:
+            return
+
+
 class Bagels:
     """
     Bagels Game. Adapted from BYU CS Part 1 and made to work with Cerberus.
     """
-    category = "games"
-
-    @staticmethod
-    def boot(path="\\"):
-        """
-        Used to regulate the bootup sequence for the game
-        :param path: Path to pass on to everything
-        :return: Nothing
-        """
-        while True:
-            bagels = Bagels(path)
-            if not bagels.filename == 'exit':
-                if not bagels.main() == "again":
-                    return
-            else:
-                return
 
     def __init__(self, path="\\", game_info=""):
         self.new_file = False
         self.path = path
         self.filename = ''
         if not game_info:
-            game_info = init_game(self, path, 'bgl')
+            game_info = init_game(self, self.path, 'bgl')
         if self.new_file:
             while True:
                 try:
@@ -152,7 +156,7 @@ class Bagels:
         print('Hint: Enter different digits. Duplicate digits will produce duplicate results!')
 
         while True:
-            print('I have thought up a number. You have %s guesses to get it.' % (int(self.max_guesses)-int(self.num_guesses)+1))
+            print('I have thought up a number. You have %s guesses to get it.' % (int(self.max_guesses) - int(self.num_guesses) + 1))
 
             while int(self.num_guesses) <= int(self.max_guesses):
                 if not self.prev_guesses or not self.prev_guesses[0] == '':

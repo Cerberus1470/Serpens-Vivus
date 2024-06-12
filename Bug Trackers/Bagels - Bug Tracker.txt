@@ -1,0 +1,46 @@
+BUG TRACKER - Updated 7/25/2023
+Breakfast 1.0 - Classic - 10/15/2021 23:59
+No Bugs
+Breakfast 1.0.1 - 10/16/2021 11:41
+No Bugs
+Breakfast 1.0.2 - 10/19/2021 22:45
+BGL-01 - The secret number is sometimes longer than the specified number of digits.
+Breakfast 2.0_alpha01 - 11/5/2021 22:07
+BGL-02 - The number of guesses shown at the start of the game is off by 1.
+BGL-03 - Starting a saved game would crash the OS.
+BGL-04 - Ending a new game and not playing again would crash the OS.
+Breakfast 2.0_alpha02 - 11/11/2021 4:46
+No Bugs
+Breakfast 2.0_alpha03 - 11/12/2021 12:36
+No Bugs
+Breakfast 2.0_beta01 - 2/2/2022 12:39
+No Bugs
+Breakfast 2.0_beta02 - 2/4/2022 12:20
+No Bugs
+Breakfast 2.0_beta03 - 2/19/2022 12:47
+BGL-05 - Some secret numbers include digits outside the Base number.
+BGL-06 - Guessing a number longer or shorter than the secret number was possible.
+BGL-07 - Guessing non-numeric strings was possible.
+Breakfast 2.0_beta04 - 2/23/2022 22:08
+No Bugs
+Breakfast 2.0_beta05 - 3/14/2022 11:18
+No Bugs
+Breakfast 2.0_beta06 - 3/23/2022 00:49
+No Bugs
+Breakfast 2.0_gamma01 - 3/31/2022 10:47
+BGL-08 - Inputting an invalid guess after a valid one would repeat the valid guess.
+Breakfast 2.0_gamma02 - 4/23/2022 11:47
+BGL-09 - While selecting a game file, if the user exited, the application would crash.
+BGL-10 - Finishing a game that was not saved to a file would result in an application crash.
+Breakfast 2.0_gamma03 - 5/31/2022 11:44
+BGL-11 - Game files in different directories would loop the file count.
+BGL-12 - Invalid game file names would result in an application crash.
+Breakfast 2.0_gamma04 - 6/8/2022 7:00
+No Bugs
+Breakfast 2.0_gamma05 - 6/30/2022 12:10
+No Bugs
+Breakfast 2.0_gamma06 - 7/2/2022 16:05
+No Bugs
+Breakfast 2.0_gamma07 - 12/31/2022 00:32
+No Bugs
+
