@@ -243,6 +243,23 @@ ranks = {
 """* SYNCED LIST * means the list of objects associated with this class has one of each item in their respective list above."""
 
 
+category = "games"
+version = 'alpha1.6'
+entries = ("scout rpg", "scout", "rpg", "scout_rpg", "scoutrpg")
+
+
+def boot(os_object=None):
+    """
+    This method regulates the bootup sequence of the game and helps it connect to Cerberus
+    :param os_object: Operating System object, used for the path variable.
+    :return: Nothing.
+    """
+    scout_rpg = ScoutRpg(os_object.path)
+    if not scout_rpg.filename == "exit":
+        scout_rpg.main()
+    return
+
+
 class Statistics:
     """
     Class Statistics
@@ -448,25 +465,11 @@ class ScoutRpg:
     Class ScoutRPG.
     Houses all the methods pertaining to the main game. This is the good stuff.
     """
-    category = "games"
-    version = 'alpha1.5'
     sleep_weight = [0, 0, 1, 1, 1, 2, 3, 3, 3, 3, 4, 4, 4]
     choices = {'self.eat()': "eat", 'self.drink()': "drink", 'self.sleep()': "sleep", 'self.heal()': "heal",
                'self.house_chores()': "chores", 'self.travel()': "travel", 'self.agenda()': "agenda", 'self.show_rank()': "rank"}
     memories = False
     online_shopping = False
-
-    @staticmethod
-    def boot(path='\\'):
-        """
-        This method regulates the bootup sequence of the game and helps it connect to Cerberus
-        :param path: Path for game files.
-        :return: Nothing.
-        """
-        scout_rpg = ScoutRpg(path)
-        if not scout_rpg.filename == "exit":
-            scout_rpg.main()
-        return
 
     def __init__(self, path):
         # Default game setup code, pulled from sonar.py.
@@ -528,7 +531,7 @@ class ScoutRpg:
         rank = self.rank.__repr__()
         try:
             game = open(self.path + '\\' + self.filename, 'w')
-            for i in (ScoutRpg.version, stats, food, drinks, game_time, locations, chores, possessions, events, rank):
+            for i in (version, stats, food, drinks, game_time, locations, chores, possessions, events, rank):
                 game.write(Loading.caesar_encrypt(i) + '\n')
             game.close()
         except (FileNotFoundError, FileExistsError):
@@ -695,7 +698,7 @@ class ScoutRpg:
             datapack = [version, stats, food, drinks, game_time, locations, chores, possessions, events]
         if version == 'alpha1.4.1':
             # Adding Rank.
-            version = ScoutRpg.version
+            version = version
             (stats, food, drinks, game_time, locations, chores, possessions, events) = datapack[1:]
             rank = ("scout\t" + ','.join([str(False)] * len(ranks["scout"])))
             datapack = [version, stats, food, drinks, game_time, locations, chores, possessions, events, rank]

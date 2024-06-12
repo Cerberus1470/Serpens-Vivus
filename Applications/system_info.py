@@ -1,23 +1,31 @@
 """
 Module system_info. Houses the application.
 """
-from System import Loading
+from System import Loading, operating_system
+import os
+import importlib
+
+
+category = "utilities"
+version = "1.0.12"
+entries = ('system info', 'sys info', '9')
+
+
+def boot(os_object=None):
+    """
+    This method regulates the boot sequence of this application.
+    :return: Nothing.
+    """
+    apps = []
+    for file in [files for subdir, dirs, files in os.walk("Applications")][0]:
+        apps.append(importlib.import_module("Applications.{}".format(file.replace(".py", ""))))
+    SystemInfo.main(apps, os_object)
 
 
 class SystemInfo:
     """
     Class SystemInfo. Houses the main application.
     """
-    category = "utilities"
-
-    @staticmethod
-    def boot(os_object):
-        """
-        This method regulates the boot sequence of this application.
-        :param os_object: The Cerberus OS object.
-        :return: Nothing.
-        """
-        SystemInfo.main(os_object.versions)
 
     def __init__(self):
         return
@@ -26,19 +34,20 @@ class SystemInfo:
         return "< This is a System Info class named " + self.__class__.__name__ + ">"
 
     @staticmethod
-    def main(versions):
+    def main(apps=None, os_object=None):
         """
         The main application screen.
-        :param versions:
+        :param apps: The list of apps in the Applications folder.
+        :param os_object: The OperatingSystem object, used for the version.
         :return:
         """
         print("\nSYSTEM INFO")
-        print("Software: POCS (Python Operating Command System) Version %s" % str(versions["Main"]))
-        print("Shell: Python IDLE Version 3.11")
-        print("Applications installed: " + str(len(versions) - 1))
-        print("Applications: " + ', '.join([i for i in versions.keys()][1:]))
-        for i in range(1, len(versions)):
-            print([i for i in versions.keys()][i] + " Version: " + str([i for i in versions.values()][i]))
+        print("Software: POCS (Python Operating Command System) Version {}".format(str(operating_system.version)))
+        print("Shell: Python Version {}".format(os_object.registry.get_key("Shell")))
+        print("Applications installed: " + str(len(apps)))
+        print("Applications: " + ', '.join([i.__name__.replace("_", "").title() for i in apps]))
+        for i in apps:
+            print("{app} Version: {version}".format(app=i.__name__.replace("_", "").title(), version=i.version))
         if Loading.pocs_input() == "debug":
             Loading.returning("")
         return

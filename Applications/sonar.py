@@ -9,26 +9,30 @@ from System import Loading
 from Applications import bagels
 
 
+category = 'games'
+version = "1.0.3"
+entries = ('sonar', '6')
+
+
+def boot(os_object=None):
+    """
+    Used to regulate the bootup sequence for the game
+    :param os_object: Operating System object, used for the path variable.
+    :return: Nothing
+    """
+    while True:
+        sonar = Sonar(os_object.path)
+        if not sonar.filename == 'exit':
+            if not sonar.main() == "again":
+                return
+        else:
+            return
+
+
 class Sonar:
     """
     The class that contains all.
     """
-    category = 'games'
-
-    @staticmethod
-    def boot(path="\\"):
-        """
-        Used to regulate the bootup sequence for the game
-        :param path: Path to pass on to everything
-        :return: Nothing
-        """
-        while True:
-            sonar = Sonar(path)
-            if not sonar.filename == 'exit':
-                if not sonar.main() == "again":
-                    return
-            else:
-                return
 
     def __init__(self, path="\\", game_info=""):
         self.new_file = False

@@ -14,6 +14,10 @@ The main file for any bootup. Very simple, but contains some setup and file prot
 # print(Loading.caesar_encrypt_hex(random.choices(Loading.ALPHABET, k=20)))
 # scout_rpg = ScoutRPG.boot('Users\\Tejas')
 # sudoku = Sudoku.boot("Users\\Tejas")
+# from System import Registry
+# bruh = Registry.Registry()
+# bruh.modify_registry("Shell", "3.11.1")
+# bruh.modify_registry("System.svkey", "Win10x64")
 
 
 from System import operating_system

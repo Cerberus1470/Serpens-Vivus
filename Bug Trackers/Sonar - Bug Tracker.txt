@@ -1,0 +1,16 @@
+BUG TRACKER - Updated 7/25/2023
+Ping 1.0_alpha01 - 3/31/2022 10:47
+SNR-01 - Move validation is broken.
+Ping 1.0_alpha02 - 4/23/2022 11:47
+SNR-02 - The board is not shown when devices run out.
+SNR-03 - The board is not shown after an invalid move.
+SNR-04 - Replays are reversed.
+Ping 1.0_alpha03 - 5/31/2022 11:44
+SNR-05 - Invalid game file names would result in an application crash.
+Ping 1.0 - Classic- 6/8/2022 7:00
+No Bugs
+Ping 1.0.1 - 12/31/2022 00:32
+No Bugs
+Ping 1.0.2 - 1/9/2023 6:12
+No Bugs
+Ping 1.0.3 - 3/20/2023 4:59

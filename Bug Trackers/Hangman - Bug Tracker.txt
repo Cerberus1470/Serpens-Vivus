@@ -1,0 +1,24 @@
+BUG TRACKER - Updated 7/24/2023
+Figure 1.0 - Classic - 10/15/2021 23:59
+HNG-01 - Incorrectly shows a Potato head instead of a Human.
+Figure 1.1 - 11/12/2021 12:36
+No Bugs
+Figure 2.0_alpha01 - The Object Update - 2/2/2022 12:39
+No Bugs
+Figure 2.0_alpha02 - 2/4/2022 12:20
+No bugs
+Figure 2.0_alpha03 2/19/2022 12:47
+HNG-02 - Quitting does not give an alert message.
+Figure 2.0_alpha04 - 2/23/2022 22:08
+No Bugs
+Figure 2.0_alpha05 - 3/14/2022 11:18
+No Bugs
+Figure 2.0_beta01 - 4/23/2022 11:47
+HNG-02 - Making a move would delete the game file.
+Figure 2.0_beta02 - 5/31/2022 11:44
+HNG-03 - Invalid game file names would result in an application crash.
+Figure 2.0_beta03 - 6/8/2022 7:00
+No Bugs
+Figure 2.0_beta04 - 1/9/2023 6:12
+No Bugs
+Figure 2.0_beta05 - 3/20/2023 4:59

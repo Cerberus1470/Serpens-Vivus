@@ -68,7 +68,7 @@ COLORS = {
 BACKGROUNDS = [k for k in itertools.chain.from_iterable([j for j in [[i for i in files if i.split('.')[1] == "bg"] for subdir, dirs, files in os.walk("System")] if j] +
                                                         [j for j in [[i for i in files if i.split('.')[1] == "bg"] for subdir, dirs, files in os.walk("Users")] if j])]
 
-SPEED = 1
+SPEED = 1.0
 
 
 class LoadingClass:
@@ -122,203 +122,6 @@ class LoadingClass:
             time.sleep(self.interval)
 
 
-class Registry:
-    """
-    Class to test out the registry. Currently, storing system settings.
-    """
-
-    class Directory:
-        """
-        Class to create a Registry directory. Houses name.
-        """
-
-        def __init__(self, name: str = "default"):
-            self.name = name
-
-        def __repr__(self):
-            return "Directory with name {name}".format(name=self.name)
-
-    class Key:
-        """
-        Class to create a Registry key. Houses name.
-        """
-
-        def __init__(self, name: str = "default", value: str = "default"):
-            self.name = name
-            self.value = value
-
-        def __repr__(self):
-            return "Key with name {name} and value {value}".format(name=self.name, value=self.value)
-
-    def __init__(self):
-        """
-        This method is to iteratively read through the registry and create a directory-key structure that is intuitive and easy to manipulate in memory.
-        """
-        for subdir, dirs, files in os.walk("System\\REGISTRY"):  # Iterating through the Registry folder.
-            for file in files:
-                if file[len(file) - 5:] == "svkey":  # Making sure the files are svkeys.
-                    file = "{subdir}\\{file}".format(subdir=subdir, file=file)  # Specifying the file path + name.
-                    value = list(open(file, "r"))[0]  # Acquiring the value of the key.
-                    self.add_key(file[16:len(file) - 6], value)  # Using the add_key method to add the key!
-            # Below code scrapped in favor of the new add_key method!
-            # if subdir == "System\\REGISTRY":  # Excluding the root folder
-            #     continue
-            # dir_name = subdir[16:]  # Removing the root folder and replacing all backslashes with periods.
-            # target = self
-            # if "\\" in dir_name:  # If the directory is nested
-            #     path = dir_name.split("\\")
-            #     for i in range(len(path) - 1):
-            #         target = target.__getattribute__(path[i])
-            # dir_name = dir_name.rpartition("\\")[2]
-            # target.__setattr__(dir_name, Registry.Directory(dir_name))
-            # # exec('self.{svdir} = Registry.Directory("{svdir}")'.format(svdir=dir_name))  # Creating Directories for registry structure.
-            # for file in files:  # Iterating through every file in the folder.
-            #     key_name = ("{subdir}\\{file}".format(subdir=subdir, file=file)).replace("\\", ".")  # Acquiring the base name
-            #     key_name = key_name[16:len(key_name) - 6]  # Polishing
-            #     try:
-            #         value = list(open("{subdir}\\{file}".format(subdir=subdir, file=file), "r"))[0]  # Acquiring the value of the key.
-            #         exec('self.{svkey} = Registry.Key("{subdir}\\{file}", "{value}")'.format(svkey=key_name, subdir=subdir, file=file, value=value).replace("\\", "\\\\"))  # Creating and storing the key.
-            #         continue
-            #     except IndexError:
-            #         returning("The registry could not be read. Please reboot and try again.", 3)
-            #         break
-
-    def add_key(self, key: str = "", value=0):
-        """
-        This is a method to add keys to the volatile registry stored in local memory.
-        DANGER: There is no security for this method. Using this, anyone can add keys anywhere in the local registry.
-        :param key: The key to add. Must be in the format {dir}\\{subdir}\\{key} to work.
-        :param value: The value to set the new key to.
-        :return: 0 if successful, 1 if the key exists, 2 if the key is not formatted correctly.
-        """
-        # key_name = "System\\REGISTRY\\{path}".format(path=key.replace('.', "\\"))
-        try:
-            self.__getattribute__(key)  # Try to find if the key exists.
-            returning("That key already exists.", 2)
-            return 1
-        except AttributeError:  # If it doesn't exist...
-            try:
-                # First, iteratively create directories that aren't present.
-                target = self
-                path = key.split("\\")
-                for i in range(len(path) - 1):
-                    try:
-                        target = target.__getattribute__(path[i])
-                    except AttributeError:
-                        target.__setattr__(path[i], Registry.Directory(path[i]))
-                        target = target.__getattribute__(path[i])
-                # Once necessary directories are made/found, create the key.
-                key_name = path[len(path) - 1]
-                target.__setattr__(key_name, Registry.Key(key_name, value))
-                return 0
-            except AttributeError:
-                returning("The key is not formatted correctly.", 2)
-                return 2
-            #     exec('self.{key} = Registry.Key("{name}", "{value}")'.format(key=key, name=key_name, value=value).replace("\\", "\\\\"))
-            #     # Creating and storing the key. The replacement is to fix escape characters.
-            #     return 0
-            # except AttributeError:  # If the directory doesn't exist or it's broken
-            #     key2 = ""
-            #     path = key.split('.')
-            #     for i in range(len(path) - 1):
-            #         key2 += path[i]
-            #         try:
-            #             exec("self.{directory}".format(directory=key2))
-            #         except AttributeError:
-            #             exec('self.{directory} = Registry.Directory("{name}")'.format(directory=key2, name=key2.rpartition(".")[2]))
-            #         key2 += '.'
-            #     try:
-            #         key2 += path[len(path) - 1]
-            #         exec('self.{key} = Registry.Key("{name}", "{value}")'.format(key=key, name=key_name, value=value).replace("\\", "\\\\"))
-            #         return 0
-            #     except AttributeError:
-            #         returning("The key is not formatted correctly.", 2)
-            #         return 2
-
-    def get_key(self, key: str = ""):
-        """
-        This is a method to get values for keys in the volatile registry. This does not read from keys stored on the disk.
-        :param key: The key whose value to get. Must be in the format {dir}\\{subdir}\\{key} to work.
-        :return: The value of the key specified, 1 if the specified key is not a key, 2 if the key was not found.
-        """
-        try:
-            target = self
-            path = key.split("\\")
-            for i in range(len(path) - 1):
-                try:
-                    target = target.__getattribute__(path[i])
-                except AttributeError:
-                    target.__setattr__(path[i], Registry.Directory(path[i]))
-                    target = target.__getattribute__(path[i])
-            key = target.__getattribute__(path[len(path) - 1])
-            if key.__class__ == Registry.Key:
-                return key.value
-            else:
-                returning("The specified key is not a key.", 2)
-                return 1
-        except AttributeError:
-            returning("The specified key was not found.", 2)
-            return 2
-
-    def set_key(self, key: str = "", value: str = ""):
-        try:
-            target = self
-            path = key.split("\\")
-            for i in range(len(path) - 1):
-                try:
-                    target = target.__getattribute__(path[i])
-                except AttributeError:
-                    target.__setattr__(path[i], Registry.Directory(path[i]))
-                    target = target.__getattribute__(path[i])
-            key = target.__getattribute__(path[len(path) - 1])
-            if key.__class__ == Registry.Key:
-                key.__setattr__("value", value)
-            else:
-                returning("The specified key is not a key.", 2)
-                return 1
-        except AttributeError:
-            returning("The specified key was not found.", 2)
-            return 2
-
-    def delete_key(self, key: str = ""):
-        """
-        This is a method to delete keys stored in the volatile registry. This does not delete keys stored on the disk.
-        :param key: The key to delete. Must be in the format {dir}\\{subdir}\\{key} to work.
-        :return: 0 if successful, 1 if the specified key is not a key, 2 if the key was not found.
-        """
-        try:
-            target = self.__getattribute__(key)
-            if target.__class__ == Registry.Key:
-                self.__delattr__(key)
-                return 0
-            else:
-                returning("The specified key is not a key.", 2)
-                return 1
-        except AttributeError:
-            returning("The specified key was not found.", 2)
-            return 2
-
-    @staticmethod
-    def modify_registry(key: str = "", path: str = "", value=0):
-        """
-        This is a method to modify the non-volatile registry keys stored on the local disk.
-        DANGER: There is no security for this method. Using this, anyone can modify the registry and break the OS.
-        :param key: The svkey file to modify.
-        :param path: The path to the key.
-        :param value: The new value for the key.
-        :return: 0 if successful, 1 if unsuccessful.
-        """
-        try:
-            key = (key + ".svkey") if ".svkey" not in key else key
-            file = open("System\\REGISTRY\\{path}\\{key}".format(path=path, key=key), 'w')
-            file.write(value)
-            file.close()
-            return 0
-        except (FileNotFoundError, FileExistsError, OSError):
-            returning("The registry cannot find the key specified. Please reboot and try again.", 3)
-            return 1
-
-
 # MARKER: INTERRUPTS
 class HomeInterrupt(Exception):
     """
@@ -339,15 +142,33 @@ class LockInterrupt(Exception):
 
 
 # MARKER: CUSTOM PRINT/INPUT
+def colored(message="", color=0):
+    """
+    This method returns colored text.
+    :param message: The message to print
+    :param color: What color to print it in. Can be a name or integer value.
+    :return: The colored text, None if color is unrecognized.
+    """
+    if color in list(COLORS.keys()):
+        return "\033[{color}m{msg}".format(color=(COLORS[color]), msg=message)
+    elif color in list(COLORS.values()):
+        return "\033[{color}m{msg}".format(color=color, msg=message)
+    return None
+
+
+@DeprecationWarning
 def pocs_print(message="", color=0):
     """
     Custom Print Method to print things with the correct color.
-    :param message:
-    :param color:
-    :return:
+    :param message: The message to print.
+    :param color: What color to print it in. Can be a name or integer value.
+    :return: None if color is unrecognized.
     """
-    print("\033[{}m{}".format((COLORS["red"] if color else 0), message))
-    return
+    if color in list(COLORS.keys()):
+        print("\033[{color}m{msg}".format(color=(COLORS[color]), msg=message))
+    elif color in list(COLORS.values()):
+        print("\033[{color}m{msg}".format(color=color, msg=message))
+    return None
 
 
 def pocs_input(message="", app_object=None):
@@ -366,147 +187,79 @@ def pocs_input(message="", app_object=None):
         return temp
 
 
-def pass_input(prompt="Enter Password: ", mask="*", suppress=False):
+def pass_input(prompt="Enter Password: ", mask="*"):
     """
-    CREDIT: Module maskpass.
-    Description
-    ----------
-    An advanced version of the askpass which works in Spyder/Qtconsole and
-    has a revealing feature
-
-    Parameters
-    ----------
-    prompt : The prompt shown for asking password, optional
-        DESCRIPTION. The default is "Enter Password: ".
-    mask : The masking character, use "" for max security, optional
-        DESCRIPTION. The default is "*".
-    suppress : Pass True to stop QTConsole from jumping when Space bar is pressed
-        DESCRIPTION. Default is True
-    Raises
-    ------
-    KeyboardInterrupt
-        When CTRL+C pressed while typing the password
-
-    Returns
-    -------
-    Password
-        Returns the entered password as string type
-        Returns empty string "" if Escape pressed
-
+    Credit: module Maskpass. Modified to work with Python 3.12 and for the purposes of this project.
+    An advanced version of the askpass which has a revealing feature.
+    :param prompt: The prompt shown for asking password, optional. The default is "Enter Password: ".
+    :param mask: The masking character, use "" for max security, optional. The default is "*".
+    :return: Entered password as a string, or empty string if esc pressed.
+    :raises: KeyboardInterrupt when CTRL+C pressed while typing the password.
     """
     from pynput import keyboard
-
     print(prompt, end="", flush=True)
-
-    to_reveal = False
-    count = 0
-    mask_length = len(mask)
-    password_input = ""
-    shift_hold = False
+    to_reveal = False  # Reveal characters?
+    password_input = ""  # The actual input.
+    shift_hold = False  # When using suppressed, capital letters don't get caught, so this is a hacky way to detect that.
 
     def on_press(key):
         """
-        Method called when a key is pressed.
-        :param key:
-        :return:
+        Method to handle keypresses.
+        :param key: The key pressed, of type pynput.Keyboard.Key.
+        :return: False to stop the listener.
         """
-        nonlocal password_input, count, to_reveal, shift_hold
+        nonlocal password_input, to_reveal, shift_hold
 
         try:
-            if key.char in ["\x03"]:
-                # CTRL+C character
+            if key.char in ["\x03"]:  # CTRL+C character
                 raise KeyboardInterrupt
-
             else:
-                password_input += key.char.upper() if shift_hold else key.char.lower()
-                # If to_reveal is True, it means the character which is
-                # entered is printed, else, the masking character is printed
-                char = key.char if to_reveal else mask
-                print(char, end="", flush=True)
-                if char != "":
-                    count += 1
-
+                password_input += key.char.upper() if shift_hold else key.char.lower()  # If to_reveal is True, it means the character which is entered is printed, else, the masking character is printed.
+                print((key.char.upper() if shift_hold else key.char.lower()) if to_reveal else mask, end="", flush=True)
         except AttributeError:
-            if key in [keyboard.Key.shift_l, keyboard.Key.shift_r]:
-                # shift_hold stays true until released.
-                shift_hold = True
-
+            if key in [keyboard.Key.shift_r, keyboard.Key.shift_l]:
+                shift_hold = True  # shift_hold stays True until it's released
             if key == keyboard.Key.enter:
-                # End listening
-                return False
-
+                return False  # End listening
             elif key == keyboard.Key.space:
-                char = " " if to_reveal else mask
-                print(char, end="", flush=True)
                 password_input += " "
-                count += 1
+                print(" " if to_reveal else mask, end="", flush=True)
 
             elif key == keyboard.Key.backspace:
-                password_input = password_input[:-1]
-                if to_reveal:
-                    print("\b\u200c", end="", flush=True)
-                else:
-                    # Handling different length masking character
-                    print(("\b" * mask_length) + ("\u200c" * mask_length),
-                          end="", flush=True)
-                count -= 1
+                if mask != "" and len(password_input) != 0:
+                    password_input = password_input[:-1]
+                    print(("\b \b" * (1 if to_reveal else len(mask))), end="", flush=True)  # \b only moves the cursor back, so we go back, print a space, then go back again.
 
-            elif key == keyboard.Key.ctrl_l:
-                # Fancy way of revealing/unrevealing the characters
-                # entered by pressing CTRL key
+            elif key == keyboard.Key.ctrl_l:  # Fancy way of revealing/unrevealing the characters entered by pressing CTRL key
                 to_reveal = not to_reveal
-
-                if mask == "":
-                    # If mask is "", then that means nothing has been
-                    # printed while typing. So no need to remove characters
-                    # from screen. Just straight up print the stuff
-                    # typed before
-                    if to_reveal:
-                        print(password_input, end="", flush=True)
-                        count = len(password_input)
-                    else:
-                        print(("\b" * len(password_input)) +
-                              ("\u200c" * len(password_input)),
-                              end="", flush=True)
-                        count = 0
-                else:
-                    # If the mask isn't "", then something has been
-                    # printed on the screen, and we need to remove it
-                    # before printing the previously entered text
-                    if to_reveal:
-                        print(("\b" * len(password_input) * mask_length) +
-                              ("\u200c" * len(password_input) * mask_length) +
-                              password_input, end="", flush=True)
-                    else:
-                        # Just removing the printed text and printing
-                        # the mask character to unreveal the text.
-                        print(("\b" * len(password_input)) +
-                              (mask * len(password_input)), end="", flush=True)
-
-            elif key == keyboard.Key.esc:
+                if mask == "":  # Nothing has been printed while typing. So just straight up print the stuff typed before.
+                    print(password_input if to_reveal else ("\b \b" * len(password_input)), end="", flush=True)
+                else:  # Something has been printed on the screen, and we need to remove it before printing the previously entered text.
+                    print("{backspace}{after}".format(
+                        backspace="\b \b" * len(password_input) * (len(mask) if to_reveal else 1),
+                        after=password_input if to_reveal else mask * len(password_input)
+                    ), end="", flush=True)
+            elif key == keyboard.Key.esc:  # Debug way to get out!
                 password_input = ""
                 return False
 
     def on_release(key):
         """
-        Function only for detecting CTRL key release
+        Function only for detecting SHIFT key release
         """
         nonlocal shift_hold
         if key in [keyboard.Key.shift_l, keyboard.Key.shift_r]:
             shift_hold = False
 
-    listener = keyboard.Listener(on_press=on_press, on_release=on_release, suppress=suppress)
+    listener = keyboard.Listener(on_press=on_press, on_release=on_release, suppress=True)  # Initialize listener.
     listener.start()
     try:
         listener.join()
     except KeyboardInterrupt as error:
         raise KeyboardInterrupt(error)
-
     print(flush=True)
-
     if password_input is None:
         raise KeyboardInterrupt
-
     return password_input
 
 
@@ -523,13 +276,16 @@ def animated_loading():
         sys.stdout.flush()
 
 
-def returning(message, length=0):
+def returning(message="", length=0):
     """
     This is the more polished version of the animated_loading function. Used everywhere to display a loading screen.
     :param message: The message to display alongside the loading ticker.
     :param length: How long the ticker should tick for, in seconds.
     :return: Nothing
     """
+    if '\n' in message:  # Code to print out multi-line returning.
+        print(message.rpartition('\n')[0])
+        message = message.rpartition('\n')[2]
     if length == 0:
         print(message, end='')
     for i in range(length):
@@ -677,8 +433,10 @@ def caesar_encrypt_hex(message=''):
     :return: The encrypted hex message
     """
     encrypted_h = caesar_encrypt(message)
-    if len(encrypted_h) < 100:
-        return encrypted_h + '\\' + ''.join(random.choices(ALPHABET, k=99 - len(encrypted_h)))
+    if len(encrypted_h) < 98:
+        space = random.randint(10, 20)
+        return caesar_encrypt("{space}{msg}{stuff}".format(
+            space=space, msg=encrypted_h, stuff=''.join(random.choices(ALPHABET, k=98 - space - len(encrypted_h)))))
     elif len(encrypted_h) == 100:
         return encrypted_h
     else:

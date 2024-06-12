@@ -1,0 +1,19 @@
+BUG TRACKER - Updated 8/5/2023
+Task 1.0 - Classic - 10/15/2021 23:59
+MGR-01 - The status for the Notepad program is broken and leads to a system crash.
+Task 1.0.1 - 10/19/2021 2:25
+No Bugs
+Task 1.0.2 - 11/5/2021 22:07
+MGR-02 - The statuses for all programs is broken, leading to system crashes.
+Task 1.0.3 - 11/9/2021 12:39
+MGR-03 - Quitting all programs leads to a system crash.
+Task 1.0.4 - 11/11/2021 4:46
+No Bugs
+Task 1.1 - 2/2/2022 12:39
+No Bugs
+Task 1.1.1 - 3/14/2022 11:18
+No Bugs
+Task 1.1.2 - 5/31/2022 11:44
+No Bugs
+Task 1.1.3 - 12/31/2022 00:32
+MGR-03 - The statuses for all programs is again broken, leading to system crashes.

@@ -50,6 +50,7 @@ TODO - Advanced
         > - Move reading code into boot function!
         > - Encrypt db_protected.txt using Fernet or Caesar Cypher
     - Spreadsheet app???
+    - Calendar app???
     > ! - Savable user-specific games, similar to notepad. Every game gets the treatment!
     - Add debug mode. Documentation Below.
     > - Add Sonar.
@@ -65,23 +66,24 @@ TODO - Advanced
     - Mid-method home button action and saved_state restoring.
     > - Lock "button". This will do the same as the home button, but taken back to the lock screen.
     - Revamp Setup to ask which apps to download. This will go well with the game store idea.
+    - Built-in Python Console
 
 TODO - Really advanced
-    - Add user personalization. See documentation below.
+    ~ - Add user personalization. See documentation below.
     - Add a game store. I'll add some documentation below.
     > ~ - Implement hashing (encrypting the databases)
         > - Error Correction in databases.
         > - Develop error correcting app after implementing encryption. More documentation below.
     ~ - Implement Threads
-    ~ - Revamp db_unprotected.txt into user directories. More documentation below.
-        ~ - Completely revamp Notes app. See below for documentation.
+    > ~ - Revamp db_unprotected.txt into user directories. More documentation below.
+        > ~ - Completely revamp Notes app. See below for documentation.
             - Add editing functionality.
-    - Make the saved_state actually do something (and revamp task manager with it)
-    - Revamp Guest user!
-        - Make guest user more user-friendly. Remove "Games will say the path is invalid", make a workaround!
-            - Add guest folder, and ask user if they want to save data to a new user
-        - Add guest user at startup.
-    - Registry Editor! And registry keys. Documentation Below.
+    ~ - Make the saved_state actually do something (and revamp task manager with it)
+    ~ - Revamp Guest user!
+        > - Make guest user more user-friendly. Remove "Games will say the path is invalid", make a workaround!
+            > - Add guest folder, and ask user if they want to save data to a new user
+        > - Add guest user at startup.
+    > - Registry Editor! And registry keys. Documentation Below.
 
 Administrators:
 - Admins have elevated access that allow for certain functions. These include:
@@ -145,7 +147,47 @@ Registry Editor:
     - Security risks will also be handled. Elevation will be considered and some kind of password will be required to make sure no one can make a game with registry-altering code.
 - Before the module is created, I'll put it in Loading.
 
-Calendar App
+New Home Screen Ideas (default wallpaper)
+ -  Taskbar style:
+     ________________         _____
+    |  _|            |     __|_o__ |
+    |_| -.- -.-      |    |   _____| __
+    |   -'- -'       |    |__| _____|  |
+    |                |        | _______|
+    |   ___          |        |__o_|
+    |________________|
+    SV | Bagels  Hangman  Settings  Sudoku
+
+    Serpens Vivus - Apps
+    Bagels          ScoutRPG        System Info
+    Event Viewer    Settings        Task Manager
+    Hangman         Sonar           TicTacToe
+    Jokes           SpeedSlow
+    Notepad         Sudoku
+
+    Serpens Vivus - Apps
+    UTILITIES       GAMES
+    Event Viewer    Bagels      Sudoku
+    Notepad         Hangman     TicTacToe
+    Settings        Jokes
+    SpeedSlow       ScoutRPG
+    System Info     Sonar
+
+    - Amount of space adjusted for how many apps shown.
+    - Apps screen can be alphabetical or categorized.
+    - Taskbar space is also decided by resolution.
+
+- Classic Style:
+    APPLICATIONS
+    UTILITIES               GAMES                   ADMIN
+    Settings                Bagels                  Reset
+    System Info             Tictactoe               Event Viewer
+    Notepad                 Hangman                 Task Manager
+    SpeedSlow               Sonar
+                            Joke Teller
+                            ScoutRPG
+
+Calendar App:
  <      2024      >
 << <   January  > >>
 S  M  T  W  T  F  S
@@ -155,8 +197,8 @@ S  M  T  W  T  F  S
 22 23 24 25 26 27 28
 29 30 31
 
-Year arrows keep the month, update the days
-Month single arrow is one-by-one, dont forget rollover
-Month double arrows are beginning and end of the current year. Disable when alraedy at beg/end
-Travel to Date/Month/Year feature! Default Month and Date to 1 if not specified
-Logic net for input text. Y<, Y>, M<, M>, M<<, M>>, etc.
+- Year arrows keep the month, update the days
+- Month single arrow is one-by-one, don't forget rollover
+- Month double arrows are beginning and end of the current year. Disable when already at beg/end
+- Travel to Date/Month/Year feature! Default Month and Date to 1 if not specified
+- Logic net for input text. Y<, Y>, M<, M>, M<<, M>>, etc.

@@ -6,25 +6,28 @@ import math
 import random
 from Applications import bagels
 from System import Loading
-from termcolor import colored
+
+
+category = "games"
+version = "1.1"
+entries = ('sudoku', '4')
+
+
+def boot(os_object=None):
+    """
+    Method to handle booting and quitting.
+    :param os_object: Operating System object, used for the path variable.
+    :return:
+    """
+    sudoku = Sudoku(os_object.path)
+    if not sudoku.filename == "exit":
+        sudoku.main()
 
 
 class Sudoku:
     """
     Main class to hold all the methods and things.
     """
-    category = "games"
-
-    @staticmethod
-    def boot(path='\\'):
-        """
-        Method to handle booting and quitting.
-        :param path: Path to save/read files.
-        :return:
-        """
-        sudoku = Sudoku(path)
-        if not sudoku.filename == "exit":
-            sudoku.main()
 
     def __init__(self, path):
         self.new_file = False
@@ -276,9 +279,9 @@ class Sudoku:
             self.setup()
         print("\nWelcome to Sudoku.")
         while not [all([all([j != 0 for j in i]) for i in self.board])][0]:
-            print(colored("  1 2 3 4 5 6 7 8 9", "blue"))
+            print(Loading.colored("  1 2 3 4 5 6 7 8 9", "blue"))
             for i in self.board:
-                print(colored(str(int(self.board.index(i)) + 1), "blue") + ' ' + ' '.join(str(j) if j != 0 else ' ' for j in i))
+                print(Loading.colored(str(int(self.board.index(i)) + 1), "blue") + ' ' + ' '.join(str(j) if j != 0 else ' ' for j in i))
             coordinates, number = self.enter_player_move()
             if coordinates == 0 and number == 0:
                 self.quit()
@@ -286,10 +289,10 @@ class Sudoku:
             else:
                 try:
                     if self.solution[coordinates[0]][coordinates[1]] == number:
-                        Loading.returning(colored("Correct!", "green"), 2)
+                        Loading.returning(Loading.colored("Correct!", Loading.COLORS["green"]), 2)
                         self.board[int(coordinates[0])][int(coordinates[1])] = int(number)
                     else:
-                        Loading.returning(colored("Incorrect!", "red"))
+                        Loading.returning(Loading.colored("Incorrect!", Loading.COLORS["red"]))
                 except (TypeError, ValueError):
                     Loading.returning("An error occurred.", 2)
 

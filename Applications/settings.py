@@ -3,19 +3,34 @@ Program full of nothing at the moment.
 """
 
 from System.User import *
+from System import Loading
+
+category = "utilities"
+version = "1.0_alpha04"
+entries = ('settings', '8')
+
+
+# The object passed by the OS will always be the os_object. If it's not, someone else is calling the method.
+def boot(os_object=None):
+    """
+    This method regulates the startup process for this application.
+    :param os_object: The OS Object, used to obtain the current user's text color.
+    :return: Nothing
+    """
+    settings = Settings(os_object, os_object.current_user.color)
+    settings.main()
 
 
 class Settings:
     """
     Main class to house everything!
     """
-    category = "utilities"
 
-    def __init__(self, os_object : None = None, color : int = 0):
+    def __init__(self, os_object: None = None, color: int = 0):
         self.user_color = color
         self.os_object = os_object
         self.entries = {"Personalize": ("Edit Text Color", "Edit Background", "Change Animation Speed"),
-                        "System": ("Resolution", ),
+                        "System": ("Resolution",),
                         "Users": ("Add New User", "Edit Username", "Edit Password", "Delete User", "Restore User", "Switch User"),
                         "Updates": ("Check for Updates", "Install Updates", "Update History"),
                         "Recovery": ("Verify OS Integrity", "Back Up Files", "Reset")}
@@ -23,18 +38,6 @@ class Settings:
 
     def __repr__(self):
         return
-
-    # noinspection PyUnresolvedReferences
-    # The object passed by the OS will always be the os_object. If it's not, someone else is calling the method.
-    @staticmethod
-    def boot(os_object : None = None):
-        """
-        This method regulates the startup process for this application.
-        :param os_object: The OS Object, used to obtain the current user's text color.
-        :return: Nothing
-        """
-        settings = Settings(os_object, os_object.current_user.color)
-        settings.main()
 
     @staticmethod
     def settings_menu(title: str = "TITLE", dictionary: dict = None, selected_category: str = "", color: int = 0):
@@ -175,14 +178,15 @@ class Settings:
                             Loading.returning("That is not a valid resolution", 2)
                             continue
                     Loading.returning("Changing Resolution...", 2)
-                    Loading.Registry.modify_registry("Resolution", "SVKEY_SYSTEM", new_resolution)
+                    self.os_object.registry.modify_registry("Resolution", new_resolution)
 
     def users(self):
         """
         Method for the Users Settings Sub-menu. Built from the ground up based on the deprecated user_settings.py app.
         :return: Nothing.
         """
-        def print_all_users(message : str = "Select a User.", access : int = 0) -> User:
+
+        def print_all_users(message: str = "Select a User.", access: int = 0) -> User:
             """
             Method to print a numbered list of all users currently registered. Allows selection of a valid user based on priority.
             Returns PermissionError if access level is not 0, 1, or 2.
@@ -206,6 +210,7 @@ class Settings:
                     return
             else:  # If the access level is not 0, 1, or 2.
                 raise PermissionError("That access level is not valid.")
+
         while True:  # The main while loop for users.
             Settings.settings_menu("SETTINGS", self.entries, "Users", self.user_color)
             choice = input()

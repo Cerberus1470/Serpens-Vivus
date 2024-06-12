@@ -4,6 +4,25 @@ A note-writing application featuring note selection and deletion but no editing 
 from System import Loading
 import os
 
+category = "utilities"
+version = "2.1"
+entries = ('notepad', 'notes', 'note', '2')
+
+
+def boot(os_object=None):
+    """
+    Used to regulate the bootup sequence for the game
+    :param os_object: OS Object passed from Cerberus.
+    :return: Nothing
+    """
+    while True:
+        notepad = Notepad(os_object.current_user.username)
+        if notepad.filename == 'exit':
+            break
+        else:
+            if notepad.main(os_object.current_user.username) == 0:
+                break
+
 
 # noinspection PyTypeChecker
 class Notepad:
@@ -11,23 +30,6 @@ class Notepad:
     Class Notepad.
     Regulates the connections with Cerberus and organizes methods.
     """
-
-    category = "utilities"
-
-    @staticmethod
-    def boot(os_object):
-        """
-        Used to regulate the bootup sequence for the game
-        :param os_object: OS Object passed from Cerberus.
-        :return: Nothing
-        """
-        while True:
-            notepad = Notepad(os_object.current_user.username)
-            if notepad.filename == 'exit':
-                break
-            else:
-                if notepad.main(os_object.current_user.username) == 0:
-                    break
 
     def __init__(self, username):
         self.username = username

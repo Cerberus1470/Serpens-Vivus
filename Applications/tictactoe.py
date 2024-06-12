@@ -7,27 +7,31 @@ from System import Loading
 from Applications import bagels
 
 
+category = "games"
+version = "2.0_beta07"
+entries = ('tictactoe', 'tic-tac-toe', 'ttt', '4')
+
+
+def boot(os_object=None):
+    """
+    Regulates the startup of the game.
+    :param os_object: Operating System object, used for the path variable.
+    :return: Nothing.
+    """
+    while True:
+        ttt = Tictactoe(os_object.path)
+        if not ttt.filename == 'exit':
+            if not ttt.main() == "again":
+                return
+        else:
+            return
+
+
 # noinspection PyTypeChecker
 class Tictactoe:
     """
     Class Tictactoe. Contains the core code for the game.
     """
-    category = "games"
-
-    @staticmethod
-    def boot(path='\\'):
-        """
-        Regulates the startup of the game.
-        :param path: Path to the game files.
-        :return: Nothing.
-        """
-        while True:
-            ttt = Tictactoe(path)
-            if not ttt.filename == 'exit':
-                if not ttt.main() == "again":
-                    return
-            else:
-                return
 
     def __init__(self, path="\\", game_info=""):
         self.new_file = False

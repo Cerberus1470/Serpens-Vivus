@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/Python/Python311" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/venv_p311" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/Python" />
+      <excludeFolder url="file://$MODULE_DIR$/venv_p312" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

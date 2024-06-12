@@ -7,7 +7,6 @@ from System import Loading
 import random
 from Applications import bagels
 
-
 HANGMAN_PICS = ['''
   +-----+
   |     |
@@ -84,34 +83,37 @@ words = {  # this is the word bank
     'Fruits': 'apple orange lemon lime pear watermelon grape grapefruit cherry banana cantaloupe mango strawberry tomato'.split(),
     'Animals': 'bat bear beaver cat cougar crab deer dog donkey duck eagle fish frog goat leech lion lizard monkey moose mouse otter owl panda python rabbit rat shark sheep skunk squid tiger turkey turtle weasel whale wolf wombat zebra'.split()}
 
+category = "games"
+version = "2.0_beta05"
+entries = ('hangman', '5')
+
+
+def boot(os_object=None):
+    """
+    Used to regulate the bootup sequence for the game
+    :param os_object: Operating System object, used for the path variable.
+    :return: Nothing
+    """
+    while True:
+        hangman = Hangman(os_object.path)
+        if not hangman.filename == 'exit':
+            if not hangman.main() == "again":
+                return
+        else:
+            return
+
 
 class Hangman:
     """
     The main class to house everything.
     """
-    category = "games"
-
-    @staticmethod
-    def boot(path="\\"):
-        """
-        Used to regulate the bootup sequence for the game
-        :param path: Path to pass on to everything
-        :return: Nothing
-        """
-        while True:
-            hangman = Hangman(path)
-            if not hangman.filename == 'exit':
-                if not hangman.main() == "again":
-                    return
-            else:
-                return
 
     def __init__(self, path="\\", game_info=""):
         self.new_file = False
         self.path = path
         self.filename = ''
         if not game_info:
-            game_info = bagels.init_game(self, path, 'hng')
+            game_info = bagels.init_game(self, self.path, 'hng')
         if self.new_file:
             self.new_file = True
             self.missed_letters = ''

@@ -9,9 +9,11 @@ class CorruptedFileSystem(Exception):
     """
     Class CorruptedFileSystem. This is an error created when the file system is detected to be corrupt.
     """
+
     def __init__(self, element):
         self.code = 1
         self.element = element
+        self.args = (self.__repr__(),)
 
     def __repr__(self):
         return "The file structure is corrupted."
@@ -23,6 +25,7 @@ class EmptyUserFolder(Exception):
     Class EmptyUserFolder. This is an error created when the user folder is empty. Recently deprecated due to changes within
     operating_system.py that prevents this from happening.
     """
+
     def __init__(self):
         self.code = 2
 
@@ -34,8 +37,10 @@ class NoCurrentUser(Exception):
     """
     Class NoCurrentUser. This is an error created when there is no current user.
     """
+
     def __init__(self):
         self.code = 3
+        self.args = (self.__repr__(),)
 
     def __repr__(self):
         return "There is no current user."
@@ -45,11 +50,27 @@ class NoAdministrator(Exception):
     """
     Class NoAdministrator. This is an error created when there is no administrator in the system.
     """
+
     def __init__(self):
         self.code = 4
+        self.args = (self.__repr__(),)
 
     def __repr__(self):
         return "There is no administrator."
+
+
+class CorruptedRegistry(Exception):
+    """
+    Class CorruptedRegistry. This is an error created when a registry key is missing.
+    """
+
+    def __init__(self, registry):
+        self.code = 5
+        self.element = registry
+        self.args = (self.__repr__(),)
+
+    def __repr__(self):
+        return "The Registry is corrupted or missing files."
 
 
 class SystemRecovery:
@@ -57,8 +78,7 @@ class SystemRecovery:
     Class SystemRecovery. This is the application to recover from fatal system crashes.
     """
     code = 0
-    file = list(open("System\\recovery.info"))
-    password = Loading.caesar_decrypt(file[0]).split('(R)')[1]
+    password = "default"
 
     @staticmethod
     def boot(error=None):
@@ -101,6 +121,8 @@ class SystemRecovery:
                     self.no_current_user()
                 case 4:
                     self.no_admin()
+                case 5:
+                    self.corrupt_registry()
             # UPDATE Add more recovery codes here
         return
 
@@ -264,7 +286,7 @@ class SystemRecovery:
                 new_current = ""
                 for subdir, dirs, files in os.walk("Users"):
                     for i in dirs:
-                        print(str(dirs.index(i)+1) + ". " + i)
+                        print(str(dirs.index(i) + 1) + ". " + i)
                     while True:
                         new_current = input()
                         if new_current in dirs:
@@ -299,7 +321,7 @@ class SystemRecovery:
                 new_current = ""
                 for subdir, dirs, files in os.walk("Users"):
                     for i in dirs:
-                        print(str(dirs.index(i)+1) + ". " + i)
+                        print(str(dirs.index(i) + 1) + ". " + i)
                     while True:
                         new_current = input()
                         if new_current in dirs:
@@ -324,3 +346,6 @@ class SystemRecovery:
                     if i.__class__.__name__ == NoAdministrator.__name__:
                         self.error.pop(self.error.index(i))
                 return "override"
+
+    def corrupt_registry(self):
+        pass
