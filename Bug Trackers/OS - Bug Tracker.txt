@@ -1,0 +1,96 @@
+BUG TRACKER - Updated 6/17/2024
+Installation 1.0 - Classic - 10/15/2021 11:48
+OS-001 - Empty notes cause a system crash.
+OS-002 - Notes with new lines cause corrupted databases.
+Installation 1.0.1 - 10/15/2021 23:11
+OS-003 - Previous notes are overwritten with empty ones.
+OS-004 - Bootup message does not appear after restart.
+OS-005 - No message is shown when no apps are open.
+Installation 1.1 - The Notes Update - 10/17/2021 10:17
+OS-006 - Shutting down from the login screen does not shut down the system.
+OS-007 - Empty notes cause a corrupted database, and a subsequent system crash on the next startup.
+Installation 1.1.1 - 10/18/2021 13:55
+OS-008 - Text flows too quickly.
+Installation 1.1.2 - 10/19/2021 10:15
+OS-009 - System hard resets before bootup, breaking the idea of restarting.
+Installation 1.2 - The TTT Update - 11/5/2021 9:58
+OS-010 - Typing an invalid response during shutdown returns you to either the login or home screen.
+Installation 1.2.1 - 11/8/2021 - 13:24
+No Bugs
+Installation 1.2.2 - 11/8/2021 - 23:09
+OS-011 - Returning code Debug or locking the computer would put it to sleep.
+Installation 1.2.3 - 11/10/2021 - 15:16
+OS-012 - Shutting down would provide no warning that game progress will be lost.
+OS-013 - Shutting down caused a corrupted database, and a subsequent system crash on the next startup.
+Installation 1.2.3 Patch 1 - 11/10/2021 - 15:16
+OS-014 - The saved_state IO object was never closed, leading to some unsynced changes.
+Installation 1.3 - The Hangman Update - 11/11/2022 - 23:06
+No Bugs
+Installation 2.0_alpha1.0 - 2/1/2022 - 23:09
+OS-015 - Empty user game progress was not handled, leading to system crashes.
+Installation 2.0_alpha2.0 - 2/3/2022 22:50
+OS-016 - Default user saved_state is not defined, leading to system crashes.
+OS-017 - System uses an incorrect dictionary to check if users are registered, leading to system crashes when 0 users are registered.
+OS-018 - System printed a User object instead of the user name, leading to system crashes.
+Installation 2.0_beta1.0 - 2/18/2022 23:17
+OS-019 - A corrupted username would lead to a system crash.
+OS-020 - Sleeping, Hibernating, Shutting down, or Restarting the system would result in incorrect files, and a subsequent system crash on the next startup.
+Installation 2.0_beta2.0 - 2/19/2022 23:15
+OS-021 - The power menu causes a system crash.
+OS-022 - Typing an exclamation mark (!) in a note would result in an unintentional new line.
+Installation 2.0 - The Object Update - 2/23/2022 08:38
+OS-023 - The corrupted message would always show "db_protected" as the file.
+OS-024 - Restarting would shutdown, and shutting down/hibernating would restart the system.
+OS-025 - Running Setup will result in corrupted variables and system files, leading to crashes.
+Installation 2.1 - 3/6/2022 23:09
+OS-026 - Restarting does nothing.
+OS-027 - Shutting down when using the Guest user causes a system crash.
+Installation 2.2 - 3/13/2022 22:48
+OS-028 - The apps list for an OS object was empty.
+OS-029 - Return code "regular" not handled correctly.
+OS-030 - When shutting down, typing any string of letters in the word "info" would show info.
+OS-031 - Shutting down would not prompt the current user about open programs on other users.
+OS-032 - Hibernating would cause a corrupted TTT board, causing a TTT crash and a subsequent system crash.
+Installation 3.0_alpha1.0 - 3/22/2022 12:19
+OS-033 - System crashes would cause the event viewer to crash.
+OS-034 - Notes were stored when they didn't need to be.
+Installation 3.0_beta1.0 - 3/30/2022 22:44
+OS-035 - Typing "power" at the lock screen would not allow you to access the power menu.
+OS-036 - Locking and the power menu were not shown at the home screen.
+OS-037 - An invalid option in the shutdown menu would not print a response.
+Installation 3.0 - The Filesystem Update - 4/22/2022 23:17
+OS-038 - Shutting down would not show or prompt the current user about open programs on other users.
+OS-039 - When shutting down, the message showing open apps would show the module name.
+OS-040 - Shutting down and force-quitting apps would result in a semi-corrupted database, leading to a possible system crash on the next startup.
+OS-041 - When setting up, a non-present Users folder would cause a system crash after setting up a new user.
+OS-042 - When setting up, typing a password successfully would not write the data to a user file.
+Installation 3.1 - The Recovery Update - 5/30/2022 23:14
+OS-043 - When booting, some corruption errors are not handled, leading to system crashes.
+OS-044 - When setting up, an empty user folder would overwrite any other errors stored.
+Installation 3.2 - 6/6/2022 22:48
+OS-045 - Setup conditions were not fully set up after the filesystem and recovery update.
+OS-046 - The guest account did not return a correct shutdown value, causing system crashes.
+Installation 3.2.1 - 7/5/2022 9:20
+No Bugs
+Installation 3.2.2 - 12/31/2022 00:32
+OS-047 - Adding new programs would break all users.
+Installation 4.0_alpha01 - 1/4/2023 9:06
+OS-048 - Certain special-case fatal errors would break the BSOD.
+OS-049 - The shutdown menu is inescapable.
+Installation 4.0_alpha02 - 1/9/2023 6:12
+OS-050 - Programs held in nonvolatile saved_states would be overwritten with the current user's path upon startup.
+OS-051 - Inputting nothing in the shutdown menu would boot you back to login instead of the home screen.
+Installation 4.0_alpha03 - 3/15/2023 3:42
+OS-052 - Passing False to handling errors within the OS did not work for application-based fatal errors.
+OS-053 - Applications with an unknown category did nothing.
+Installation 4.0_beta01 - 3/20/2023 04:59
+No Bugs
+Installation 4.0_beta02 - 5/26/24 17:54
+OS-054 - Backspace did not work when entering the password in an IDE.
+Installation 4.0_gamma01 - 6/12/2024 14:59
+OS-055 - The auto-repair system did not work.
+OS-056 - User Registry keys were not checked, leading to system crashes for users with undefined app sorting.
+OS-057 - System recovery would not gather info about the programs for each user.
+OS-058 - No administrator present would not raise the respective error, leading to unwanted behavior.
+OS-059 - The Guest user folder was not properly handled on shutdown.
+Installation 4.0 - 6/17/2024
