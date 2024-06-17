@@ -1,0 +1,49 @@
+BUG TRACKER - Updated 6/17/2024
+Circle 1.0 - Classic - 10/15/2021 23:59
+No Bugs
+Circle 1.1 - 10/16/2021 11:41
+No Bugs
+Circle 1.1.1 - 10/19/2021 2:25
+TTT-01 - The board is indexed out of order. This resulted in incorrect game endings, and incorrect displaying of the board.
+TTT-02 - 0 was a valid board index.
+Circle 1.1.2 - 11/5/2021 22:07
+No Bugs
+Circle 1.1.3 - 11/11/2021 4:46
+No Bugs
+Circle 1.1.4 - 11/12/2021 12:36
+No Bugs
+Circle 2.0_alpha01 - 2/2/2022 12:39
+TTT-03 - Switching turns is broken.
+TTT-04 - Playing again does not reset the board.
+Circle 2.0_alpha02 - 2/4/2022 12:20
+TTT-05 - The computer letter is not defined upon startup.
+Circle 2.0_alpha03 - 2/19/2022 12:47
+TTT-06 - Turns are not properly defined at startup.
+Circle 2.0_alpha04 - 2/23/2022 22:08
+TTT-07 - Drawing the board does not end with a new line, resulting in an unintended appearance.
+Circle 2.0_alpha05 - 3/7/2022 12:39
+No Bugs
+Circle 2.0_alpha06 - 3/14/2022 11:18
+TTT-08 - When playing again, the person going first is not stated.
+TTT-09 - In certain circumstances, the board is drawn twice.
+Circle 2.0_alpha07 - 3/23/2022 00:49
+No Bugs
+Circle 2.0_beta01 - 3/31/2022 10:47
+TTT-10 - The "Saving game progress" message appears before quitting, resulting in incorrect statements if quitting does not work.
+TTT-11 - Making the computer move did not typecast the move, resulting in a possible game crash if the move happened to not be an integer.
+TTT-12 - When completing a game, the game file is not removed, resulting in illegal game moves if a completed game is opened again.
+Circle 2.0_beta02 - 4/23/2022 11:47
+TTT-10 - Filenames inputted with ".ttt" after them already were not properly supported, resulting in 2 ".ttt"s in the filename.
+Circle 2.0_beta03 - 5/31/2022 11:44
+TTT-11 - Invalid file names are not handled correctly.
+Circle 2.0_beta04 - 6/8/2022 7:00
+No Bugs
+Circle 2.0_beta05 - 1/4/2023 9:06
+TTT-12 - The computer algorithm was broken, causing them to not detect a potential player win.
+Circle 2.0_beta06 - 1/9/2023 6:12
+No Bugs
+Circle 2.0_beta07 - 3/20/2023 4:59
+No Bugs
+Circle 2.0 - 6/12/2024 14:59
+No Bugs
+Circle 2.1 - 6/17/2024
