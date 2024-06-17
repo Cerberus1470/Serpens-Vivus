@@ -1,4 +1,4 @@
-BUG TRACKER - Updated 10/16/2022
+BUG TRACKER - Updated 6/17/2024
 Revision 1.0 - Classic - 10/15/2021 11:29
 No Bugs
 Revision 1.1 - 10/17/2021 10:17
@@ -10,3 +10,16 @@ Revision 2.0 - The Filesystem Update - 3/22/2022 12:19
 No perceivable bugs
 Revision 2.1 - 4/22/2022 23:17
 PAD-004 - Counts of files were incorrectly shown.
+Revision 2.2 - 5/31/2022 11:44
+No Bugs
+Revision 2.3 - 6/8/2022 07:00
+No Bugs
+Revision 2.4 - 12/31/2022 00:32
+No Bugs
+Revision 2.5 - 1/4/2023 09:06
+PAD-005 - Notes stored in RAM are not erased when opening a new notes file.
+Revision 2.6 - 1/9/2023 06:12
+No Bugs
+Revision 2.7 - 3/20/2023 04:59
+PAD-006 - New Note and Delete Note would not show up if there were no notes for that user.
+Revision 2.8 - 5/26/2024 17:45

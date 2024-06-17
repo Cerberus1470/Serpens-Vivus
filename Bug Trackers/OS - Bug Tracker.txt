@@ -1,4 +1,4 @@
-BUG TRACKER - Updated 7/23/2023
+BUG TRACKER - Updated 6/17/2024
 Installation 1.0 - Classic - 10/15/2021 11:48
 OS-001 - Empty notes cause a system crash.
 OS-002 - Notes with new lines cause corrupted databases.
@@ -80,5 +80,17 @@ OS-049 - The shutdown menu is inescapable.
 Installation 4.0_alpha02 - 1/9/2023 6:12
 OS-050 - Programs held in nonvolatile saved_states would be overwritten with the current user's path upon startup.
 OS-051 - Inputting nothing in the shutdown menu would boot you back to login instead of the home screen.
-Installation 4.0_beta01 - 3/15/2023 3:42
+Installation 4.0_alpha03 - 3/15/2023 3:42
 OS-052 - Passing False to handling errors within the OS did not work for application-based fatal errors.
+OS-053 - Applications with an unknown category did nothing.
+Installation 4.0_beta01 - 3/20/2023 04:59
+No Bugs
+Installation 4.0_beta02 - 5/26/24 17:54
+OS-054 - Backspace did not work when entering the password in an IDE.
+Installation 4.0_gamma01 - 6/12/2024 14:59
+OS-055 - The auto-repair system did not work.
+OS-056 - User Registry keys were not checked, leading to system crashes for users with undefined app sorting.
+OS-057 - System recovery would not gather info about the programs for each user.
+OS-058 - No administrator present would not raise the respective error, leading to unwanted behavior.
+OS-059 - The Guest user folder was not properly handled on shutdown.
+Installation 4.0 - 6/17/2024

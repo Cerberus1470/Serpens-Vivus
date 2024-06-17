@@ -74,7 +74,11 @@ class Registry:
                 path = key.split("\\")
                 for i in range(len(path) - 1):
                     try:
-                        target = target.__getattribute__(path[i])
+                        if target.__getattribute__(path[i]).__class__ == Registry.Directory:
+                            target = target.__getattribute__(path[i])
+                        else:
+                            Loading.returning("There is already a key under that path.", 2)
+                            return 1
                     except AttributeError:
                         target.__setattr__(path[i], Registry.Directory(path[i]))
                         target = target.__getattribute__(path[i])
@@ -94,10 +98,10 @@ class Registry:
         """
         try:
             (key, _) = Registry.find_key(self, key)
-            if not key:
-                raise AttributeError
-            else:
+            if key:
                 return key.value
+            else:
+                raise AttributeError
         except AttributeError:
             Loading.returning("The specified key was not found.", 2)
             return 1
@@ -143,23 +147,79 @@ class Registry:
             Loading.returning("The specified key was not found.", 2)
             return 2
 
-    @DeprecationWarning
-    def target_key(self, path: str = ""):
+    def add_svkey(self, key: str = "", value=0):
         """
-        This is a helper method to locate the key requested by other methods using the full path.
-        :param path: The path to the requested key.
-        :return: The targeted key.
+        This is a method to add to the global registry keys stored on the local disk. Also changes the local registry.
+        DANGER: There is no security for this method. Using this, anyone can add to the registry and break the OS.
+        :param key: The svkey file to add. Must be in the format {dir}\\{subdir}\\{key} to work.
+        :param value: The value for the key.
+        :return: 0 if successful, 1 if unsuccessful.
         """
-        target = self
-        path = path.split("\\")
-        for i in range(len(path) - 1):
-            try:
-                target = target.__getattribute__(path[i])
-            except AttributeError:
-                target.__setattr__(path[i], Registry.Directory(path[i]))
-                target = target.__getattribute__(path[i])
-        key = target.__getattribute__(path[-1])
-        return key
+        try:
+            key = key.replace(".svkey", "")
+            self.add_key(key, value)
+            os.makedirs("System\\REGISTRY\\{path}".format(path=key.rpartition("\\")[0]), exist_ok=True)
+            file = open("System\\REGISTRY\\{path}.svkey".format(path=key), 'w')
+            file.write(str(value))
+            file.close()
+            return 0
+        except (FileNotFoundError, FileExistsError, OSError):
+            Loading.returning("The registry failed to add the specified key. Please reboot and try again.", 3)
+
+    def get_svkey(self, key: str = ""):
+        """
+        This is a method to get values from the global registry keys stored on the local disk.
+        DANGER: There is no security for this method. Using this, anyone can add to the registry and break the OS.
+        :param key: The svkey file to add. Must be in the format {dir}\\{subdir}\\{key} to work.
+        :return: 0 if successful, 1 if unsuccessful.
+        """
+        (_, path) = Registry.find_key(self, key.replace(".svkey", ""))
+        try:
+            key = list(open("System\\REGISTRY\\{path}.svkey".format(path='\\'.join(path)), 'r'))
+            if key:
+                return key[0]
+            else:
+                raise FileNotFoundError
+        except (FileNotFoundError, FileExistsError, OSError):
+            Loading.returning("The registry failed to find the key specified. Please reboot and try again.", 2)
+            return 1
+
+    def set_svkey(self, key: str = "", value=0):
+        """
+        This is a method to modify the global registry keys stored on the local disk. Also changes the local registry.
+        DANGER: There is no security for this method. Using this, anyone can modify the registry and break the OS.
+        :param key: The svkey file to modify. Must be in the format {dir}\\{subdir}\\{key} to work.
+        :param value: The new value for the key.
+        :return: 0 if successful, 1 if unsuccessful.
+        """
+        try:
+            key = key.replace(".svkey", "")
+            self.set_key(key, value)
+            (target, path) = self.find_key(self, key)
+            file = open("System\\REGISTRY\\{path}.svkey".format(path="\\".join(path)), 'w')
+            file.write(str(value))
+            file.close()
+            return 0
+        except (FileNotFoundError, FileExistsError, OSError):
+            Loading.returning("The registry failed to write to the key specified. Please reboot and try again.", 3)
+            return 1
+
+    def delete_svkey(self, key: str = ""):
+        """
+        This is a method to delete keys from the global registry keys stored on the local disk. Also changes the local registry.
+        DANGER: There is no security for this method. Using this, anyone can modify the registry and break the OS.
+        :param key: The svkey file to modify. Must be in the format {dir}\\{subdir}\\{key} to work.
+        :return: 0 if successful, 1 if unsuccessful.
+        """
+        try:
+            key = key.replace(".svkey", "")
+            (key, path) = Registry.find_key(self, key)
+            self.delete_key(key)
+            os.remove("System\\REGISTRY\\{path}.svkey".format(path="\\".join(path)))
+            return 0
+        except (FileNotFoundError, FileExistsError, OSError):
+            Loading.returning("The registry failed to delete the key specified. Please reboot and try again.", 3)
+            return 1
 
     @staticmethod
     def find_key(self, key: str = "", path: list = None):
@@ -169,6 +229,7 @@ class Registry:
         :param key: The name of the requested key.
         :param path: Path variable to append to.
         :return: The requested key, None if it isn't found.
+        :raises: AttributeError if the key attribute is not found.
         """
         if path is None:
             path = []
@@ -192,7 +253,7 @@ class Registry:
                     return i, path
         return None, None
 
-    def find_keys(self, keys=None):
+    def find_keys(self, keys : list = None):
         """
         This is a helper method to find multiple keys at once, provided a list with proper Key Names.
         :param keys: The list of key names
@@ -200,25 +261,36 @@ class Registry:
         """
         if keys is None:
             keys = []
-        found_keys = [self.find_key(self, i) for i in keys]
+        found_keys = []
+        for i in keys:
+            try:
+                found_keys.append(Registry.find_key(self, i))
+            except AttributeError:
+                found_keys.append(None)
         return found_keys
 
-    def modify_registry(self, key: str = "", value=0):
+    def verify_build(self, required_keys: list = None):
         """
-        This is a method to modify the non-volatile registry keys stored on the local disk. Also changes the local registry.
-        DANGER: There is no security for this method. Using this, anyone can modify the registry and break the OS.
-        :param key: The svkey file to modify. Must be in the format {dir}\\{subdir}\\{key} to work.
-        :param value: The new value for the key.
-        :return: 0 if successful, 1 if unsuccessful.
+        This is a modular method to check that the registry has the required keys. If not, adds the required keys to the global and local Registry.
+        :param required_keys: The list of required keys. Must be a list of path-like objects.
+        :return: True if all keys are found. False if writing to a key failed.
         """
-        try:
-            key = key.replace(".svkey", "")
-            self.set_key(key, value)
-            (target, path) = self.find_key(self, key)
-            file = open("System\\REGISTRY\\{path}.svkey".format(path="\\".join(path)), 'w')
-            file.write(value)
-            file.close()
-            return 0
-        except (FileNotFoundError, FileExistsError, OSError):
-            Loading.returning("The registry cannot find the key specified. Please reboot and try again.", 3)
-            return 1
+        if required_keys is None:
+            required_keys = []
+        for i in required_keys:
+            try:
+                Registry.find_key(self, i)  # Does the key exist?
+            except AttributeError:
+                match i.rpartition("\\")[2]:  # Default values for keys.
+                    case 'Resolution':
+                        value = "10x40"
+                    case 'Recovery':
+                        value = "recovery"
+                    case 'Speed':
+                        value = "1.0"
+                    case 'Start':
+                        value = "alphabetical"
+                    case _:
+                        value = "None"
+                self.add_svkey(i, value)
+        return True

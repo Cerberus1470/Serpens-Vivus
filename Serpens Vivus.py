@@ -15,9 +15,10 @@ The main file for any bootup. Very simple, but contains some setup and file prot
 # scout_rpg = ScoutRPG.boot('Users\\Tejas')
 # sudoku = Sudoku.boot("Users\\Tejas")
 # from System import Registry
-# bruh = Registry.Registry()
-# bruh.modify_registry("Shell", "3.11.1")
-# bruh.modify_registry("System.svkey", "Win10x64")
+# bruh = Registry.Registry("System\\REGISTRY")f
+# [print(''.join(i) + '\n', end='') for i in (Loading.upscale("System\\bg\\10x40\\pyidea.bg", 2))]
+# from Applications import cabinet
+# cabinet.Cabinet.main()
 
 
 from System import operating_system

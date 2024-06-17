@@ -9,7 +9,7 @@ from System import Loading
 
 
 category = "games"
-version = "1.1"
+version = "1.3"
 entries = ('sudoku', '4')
 
 
@@ -19,7 +19,7 @@ def boot(os_object=None):
     :param os_object: Operating System object, used for the path variable.
     :return:
     """
-    sudoku = Sudoku(os_object.path)
+    sudoku = Sudoku(os_object.path.format(os_object.current_user.username))
     if not sudoku.filename == "exit":
         sudoku.main()
 
@@ -41,6 +41,12 @@ class Sudoku:
         if game_info:
             self.board = [[int(j) for j in i.split('.')] for i in game_info[0].split('\n')[0].split(',')]
             self.solution = [[int(j) for j in i.split('.')] for i in game_info[1].split(',')]
+
+    def __repr__(self):
+        return (','.join('.'.join(str(j) for j in i) for i in self.board)) + '\n' + ','.join('.'.join(str(j) for j in i) for i in self.solution)
+
+    def __getstate__(self):
+        return ""
 
     def new_board(self, n, k):
         """
@@ -169,24 +175,6 @@ class Sudoku:
                 count -= 1
                 self.board[i][j] = 0
 
-    @DeprecationWarning
-    def get_row(self, row):
-        """
-        Returns a row.
-        :param row: The specified row.
-        :return: The specified row.
-        """
-        return self.board[row]
-
-    @DeprecationWarning
-    def get_column(self, column):
-        """
-        Returns a row.
-        :param column: The specified column.
-        :return: The specified column.
-        """
-        return [self.board[i][column] for i in range(len(self.board))]
-
     def get_square(self, row, col, status='square'):
         """
         Returns an entire square of board data.
@@ -203,40 +191,6 @@ class Sudoku:
             return [self.board[row * 3][col * 3: col * 3 + 3]] + \
                    [self.board[row * 3 + 1][col * 3: col * 3 + 3]] + \
                    [self.board[row * 3 + 2][col * 3: col * 3 + 3]]
-
-    @DeprecationWarning
-    def get_value_square(self, sq_row, sq_col, row, col):
-        """
-        This gets a specific value in a square.
-        :param sq_row: Specified square row.
-        :param sq_col: Specified square column.
-        :param row: Specified row within the square.
-        :param col: Specified column within the square.
-        :return: The specified value.
-        """
-        return self.get_square(sq_row, sq_col)[row][col]
-
-    @DeprecationWarning
-    def set_value_square(self, sq_row, sq_col, row, col, value):
-        """
-        This method sets a specific value inside a specific square.
-        :param sq_row: Specified square row.
-        :param sq_col: Specified square column.
-        :param row: Specified row within the square.
-        :param col: Specified column within the square.
-        :param value: The new value to set.
-        :return: Nothing.
-        """
-        self.board[sq_row * 3 + row][sq_col * 3 + col] = value
-        return
-
-    @DeprecationWarning
-    def full(self):
-        """
-        Method to determine whether a square is full.
-        :return: True if it's full, False if it's not.
-        """
-        return [all([all([j != 0 for j in i]) for i in self.board])]
 
     def enter_player_move(self):
         """
@@ -284,7 +238,7 @@ class Sudoku:
                 print(Loading.colored(str(int(self.board.index(i)) + 1), "blue") + ' ' + ' '.join(str(j) if j != 0 else ' ' for j in i))
             coordinates, number = self.enter_player_move()
             if coordinates == 0 and number == 0:
-                self.quit()
+                bagels.quit_game(self)
                 return
             else:
                 try:
@@ -313,21 +267,4 @@ class Sudoku:
         self.fill_remaining(0, self.SRN)
         self.solution = [i.copy() for i in self.board]
         self.remove_k_digits()
-        return
-
-    def quit(self):
-        """
-        Method to regulate quitting the game and saving the game file.
-        :return: Nothing.
-        """
-        if self.new_file:
-            self.filename = input("File name?\n") + '.sdu'
-        try:
-            game = open(self.path + '\\' + self.filename, 'w')
-            game.write(Loading.caesar_encrypt(','.join('.'.join(str(j) for j in i) for i in self.board)) + '\n')
-            game.write(Loading.caesar_encrypt(','.join('.'.join(str(j) for j in i) for i in self.solution)))
-            game.close()
-        except (FileNotFoundError, FileExistsError):
-            Loading.returning("The path or file was not found.", 2)
-        Loading.returning("Saving game progress...", 2)
         return

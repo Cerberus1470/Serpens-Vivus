@@ -84,7 +84,7 @@ words = {  # this is the word bank
     'Animals': 'bat bear beaver cat cougar crab deer dog donkey duck eagle fish frog goat leech lion lizard monkey moose mouse otter owl panda python rabbit rat shark sheep skunk squid tiger turkey turtle weasel whale wolf wombat zebra'.split()}
 
 category = "games"
-version = "2.0_beta05"
+version = "2.2"
 entries = ('hangman', '5')
 
 
@@ -95,7 +95,7 @@ def boot(os_object=None):
     :return: Nothing
     """
     while True:
-        hangman = Hangman(os_object.path)
+        hangman = Hangman(os_object.path.format(os_object.current_user.username))
         if not hangman.filename == 'exit':
             if not hangman.main() == "again":
                 return
@@ -125,6 +125,9 @@ class Hangman:
         return
 
     def __repr__(self):
+        return "{}(G){}(G){}".format(self.missed_letters, self.correct_letters, self.secret_word)
+
+    def __getstate__(self):
         return "Hangman(SS1){}(SS2){}(SS2){}".format(self.missed_letters, self.correct_letters, self.secret_word)
 
     def main(self):
@@ -150,7 +153,7 @@ class Hangman:
                 print('Guess a letter, or type "quit" to exit the app.')
                 guess = Loading.pocs_input(app_object=self).lower()
                 if guess in ('quit', 'exit', 'get me outta here bruh'):
-                    self.quit()
+                    bagels.quit_game(self)
                     Loading.returning("Saving game progress...", 2)
                     return
                 elif len(guess) != 1:
@@ -195,91 +198,3 @@ class Hangman:
                 else:
                     Loading.returning_to_apps()
                     return
-
-    def quit(self):
-        """
-        Method to regulate quitting and saving progress
-        :return: Nothing.
-        """
-        if self.new_file:
-            self.filename = input("File name?\n") + '.hng'
-        try:
-            game = open(self.path + "\\" + self.filename, 'w')
-            game.write(Loading.caesar_encrypt("{}(G){}(G){}".format(self.missed_letters, self.correct_letters, self.secret_word)))
-            game.close()
-        except (FileNotFoundError, FileExistsError):
-            Loading.returning("The path or file was not found.", 2)
-
-    @staticmethod
-    @DeprecationWarning
-    def get_random_word(word_dict):
-        """
-        Method to get a random word
-        :param word_dict: Words to limit selection to
-        :return: Random word
-        """
-        # This function returns a random string from the passed dictionary of lists of strings, and the key also.
-        # First, randomly select a key from the dictionary:
-        word_key = random.choice(list(word_dict.keys()))
-        # Second, randomly select a word from the key's list in the dictionary:
-        word_index = random.randint(0, len(word_dict[word_key]) - 1)
-        return [word_dict[word_key][word_index], word_key]
-
-    @DeprecationWarning
-    def display_board(self):
-        """
-        Method to display the Hangman Board, the selected category, the hangman, the past incorrect and correct guesses, and the blanks.
-        :return: Nothing
-        """
-        # this function displays the selected category, the hangman, the past incorrect and correct guesses, and the blanks.
-        print("The secret word is in this set: " + [i for i in words.keys() if self.secret_word in words[i]][0])
-        print(HANGMAN_PICS[len(self.missed_letters)])
-        print()
-        print('Missed letters: {}'.format(','.join(i.upper() for i in self.missed_letters)))
-        # for letter in self.missed_letters:
-        #     print(letter.upper(), end=',')
-        print("Word: ", end='')
-        blanks = '_' * len(self.secret_word)
-        for i in range(len(self.secret_word)):  # replace blanks with correctly guessed letters
-            if self.secret_word[i] in self.correct_letters:
-                blanks = blanks[:i] + self.secret_word[i] + blanks[i + 1:]
-
-        for letter in blanks:  # show the secret word with spaces in between each letter
-            print(letter.upper(), end=' ')
-        print()
-        return
-
-    @staticmethod
-    @DeprecationWarning
-    def get_guess(already_guessed):
-        """
-        Method to get a guess from the player
-        :param already_guessed: Characters already guessed
-        :return: The player's guess
-        """
-        # Returns the letter the player entered. This function makes sure the player entered a single letter, and not something else.
-        while True:
-            print('Guess a letter, or type "quit" to exit the app.')
-            guess = input().lower()
-            if guess in ('quit', 'exit', 'get me outta here bruh'):
-                return 'quit'
-            elif len(guess) != 1:
-                print('Please enter a single letter.')
-            elif guess in already_guessed:
-                print('You have already guessed that letter. Choose again.')
-            elif guess not in 'abcdefghijklmnopqrstuvwxyz':
-                print('Please enter a LETTER.')
-            else:
-                return guess
-
-    @DeprecationWarning
-    def setup(self):
-        """
-        Method to set everything up.
-        :return: Nothing.
-        """
-        self.new_file = True
-        self.missed_letters = ''
-        self.correct_letters = ''
-        # self.secret_word = self.get_random_word(words)
-        return

@@ -1,8 +1,17 @@
-BUG TRACKER - Updated 7/25/2023
+BUG TRACKER - Updated 6/17/2024
 Option 1.0_alpha01 - 6/30/2022 12:10
 No Bugs
 Option 1.0_alpha02 - 12/31/2022 00:32
 No Bugs
-Option 1.0_alpha03 - 3/15/2-23 3:42
+Option 1.0_alpha03 - 3/15/2023 3:42
 No Bugs
 Option 1.0_alpha04 - 3/20/2023 4:59
+SET-001 - The list of colors displays excessive line feed characters.
+SET-002 - Providing a file extension while setting a background would result in an empty background.
+SET-003 - The Settings menu would only display once for all sub-menus.
+Option 1.0 - 5/26/2024 17:45
+No Bugs
+Option 1.1 - 6/12/2024 14:59
+SET-004 - Printing all users would start at 0 instead of 1.
+SET-005 - Users were locked in to making a new user.
+Option 1.2 - 6/17/2024

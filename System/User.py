@@ -25,7 +25,7 @@ class User:
             if i not in ("event_viewer.py", "task_manager.py"):
                 apps.append(globals()[name])
         # Defaults for everything.
-        if saved_state is None or saved_state[0] == '':
+        if not saved_state or not saved_state[0]:
             saved_state = []
         if username.__class__ == list:
             self.username = username[0]
@@ -59,6 +59,14 @@ class User:
             co=str(self.color), bg=self.background, tb=','.join(self.taskbar),
             ss=operating_system.program_separator.join(i.__repr__() for i in self.saved_state),
             U=operating_system.user_separator, Pe=operating_system.personalization_separator)
+
+    def copy(self, path="\\"):
+        """
+        Method to return a copy of the User. Requires a path variable.
+        :param path: The path to the user to be used by the game engine.
+        :return:
+        """
+        return self.__class__(self.username, self.password, self.current, self.saved_state.copy(), [self.color, self.background, ','.join(self.taskbar)], path)
 
 
 class StandardUser(User):

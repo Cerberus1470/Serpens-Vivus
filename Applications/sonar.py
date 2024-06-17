@@ -8,9 +8,8 @@ import os
 from System import Loading
 from Applications import bagels
 
-
 category = 'games'
-version = "1.0.3"
+version = "1.2"
 entries = ('sonar', '6')
 
 
@@ -21,7 +20,7 @@ def boot(os_object=None):
     :return: Nothing
     """
     while True:
-        sonar = Sonar(os_object.path)
+        sonar = Sonar(os_object.path.format(os_object.current_user.username))
         if not sonar.filename == 'exit':
             if not sonar.main() == "again":
                 return
@@ -70,6 +69,23 @@ class Sonar:
         return
 
     def __repr__(self):
+        board = chests = previous_moves = ''
+        for i in self.board:
+            for j in i:
+                board += '{},'.format(j)
+            board = '{}\t'.format(board[0:len(board) - 1])
+        for i in self.chests:
+            for j in i:
+                chests += '{},'.format(j)
+            chests = '{}\t'.format(chests[0:len(chests) - 1])
+        for i in self.previous_moves:
+            for j in i:
+                previous_moves += '{},'.format(j)
+            previous_moves = '{}\t'.format(previous_moves[0:len(previous_moves) - 1])
+        return "{}(G){}(G){}".format(str(self.devices), '(C)'.join([(','.join(str(j) for j in i)) for i in self.chests]),
+                                     '(P)'.join([(','.join(str(j) for j in i)) for i in self.previous_moves]) + '\n')
+
+    def __getstate__(self):
         return "Sonar(SS1){}(SS2){}(SS2){}".format(str(self.devices), '(C)'.join([(','.join(str(j) for j in i)) for i in self.chests]),
                                                    '(P)'.join([(','.join(str(j) for j in i)) for i in self.previous_moves]))
 
@@ -90,7 +106,7 @@ class Sonar:
                 while True:
                     move = Loading.pocs_input(app_object=self)
                     if move.lower() == 'quit':
-                        self.quit()
+                        bagels.quit_game(self)
                         return
                     move = move.split()
                     if len(move) == 2 and move[0].isdigit() and move[1].isdigit() and 0 <= int(move[0]) <= 9 and 0 <= int(move[1]) <= 39:
@@ -133,27 +149,6 @@ class Sonar:
             else:
                 Loading.returning_to_apps()
                 return
-
-    @staticmethod
-    @DeprecationWarning
-    def get_new_board():
-        """
-        Method to get a new board.
-        :return:
-        """
-        # Create a new 10x40 board data structure.
-        board = []
-        # The main list is a list of 10 lists.
-        for x in range(10):
-            board.append([])
-            # Each list in the main list has 40 single-character strings.
-            for y in range(40):
-                # Use different characters for the ocean to make it more readable.
-                if random.randint(0, 1) == 0:
-                    board[x].append('~')
-                else:
-                    board[x].append('-')
-        return board
 
     def draw_board(self):
         """
@@ -199,18 +194,6 @@ class Sonar:
                 chests.append(newChest)
         return chests
 
-    @staticmethod
-    @DeprecationWarning
-    def is_on_board(x, y):
-        """
-        Method to verify if the move is on the board
-        :param x: X-coordinate
-        :param y: Y-coordinate
-        :return: True if position is on the board, False if not.
-        """
-        # Return True if the coordinates are on the board; otherwise, return False.
-        return
-
     def make_move(self, x, y):
         """
         Method to make move on the board
@@ -242,29 +225,6 @@ class Sonar:
             else:
                 self.board[x][y] = 'X'
                 return 'Sonar did not detect anything. All treasure chests out of range.'
-
-    @DeprecationWarning
-    def enter_player_move(self):
-        """
-        Method to ask for a player move. Filters literally every incorrect input.
-        :return: The move, if valid.
-        """
-        # Let the player enter their move. Return a two-item list of int xy coordinates.
-        print('Where do you want to drop the next sonar device? (0-9 0-39) (or type quit)')
-        while True:
-            move = input()
-            if move.lower() == 'quit':
-                self.quit()
-                return ['quit', 'quit']
-
-            move = move.split()
-            if len(move) == 2 and move[0].isdigit() and move[1].isdigit() and 0 <= int(move[0]) <= 9 and 0 <= int(move[1]) <= 39:
-                if [int(move[0]), int(move[1])] in self.previous_moves:
-                    print('You already moved there.')
-                    continue
-                return [int(move[0]), int(move[1])]
-
-            print('Enter a number from 0 to 9, a space, then a number from 0 to 39.')
 
     @staticmethod
     def show_instructions():
@@ -318,84 +278,3 @@ class Sonar:
                 sonar devices. Good luck!
                 
                 Press enter to continue...''')
-
-    @DeprecationWarning
-    def setup(self):
-        """
-        Method to regulate setup of a new game file.
-        :return:
-        """
-        self.new_file = True
-        print('Would you like to view the instructions? (yes/no)')
-        if input().lower().startswith('y'):
-            self.show_instructions()
-        print('How many sonar devices would you like?')
-        self.devices = int(input())
-        print('How many treasure chests should there be?')
-        chests = int(input())
-        # self.board = self.get_new_board()
-        self.chests = self.get_random_chests(chests)
-        self.previous_moves = []
-        return
-
-    @DeprecationWarning
-    def delete(self):
-        """
-        Method to delete a game file properly.
-        :return: Nothing.
-        """
-        while True:
-            for subdir, dirs, files in os.walk(self.path):
-                count = 0
-                for file in files:
-                    if file[len(file) - 3:len(file)] == 'snr':
-                        count += 1
-                        print(str(count) + '. ' + file)
-            delete_game = input("Which game would you like to delete?\n")
-            try:
-                os.remove(self.path + '\\' + delete_game)
-            except FileNotFoundError:
-                try:
-                    os.remove(self.path + '\\' + delete_game + ".snr")
-                    pass
-                except FileNotFoundError:
-                    Loading.returning("That file was not found.", 1)
-                    pass
-            if input('Delete another file? "Yes" or "No".').lower() == 'yes':
-                continue
-            else:
-                Loading.returning("The file was successfully deleted.", 2)
-                return
-        return
-
-    def quit(self):
-        """
-        Method to regulate quitting the game and saving the game file.
-        :return: Nothing.
-        """
-        if self.new_file:
-            self.filename = input("File name?\n") + '.snr'
-        board = chests = previous_moves = ''
-        for i in self.board:
-            for j in i:
-                board += '{},'.format(j)
-            board = '{}\t'.format(board[0:len(board) - 1])
-        for i in self.chests:
-            for j in i:
-                chests += '{},'.format(j)
-            chests = '{}\t'.format(chests[0:len(chests) - 1])
-        for i in self.previous_moves:
-            for j in i:
-                previous_moves += '{},'.format(j)
-            previous_moves = '{}\t'.format(previous_moves[0:len(previous_moves) - 1])
-        try:
-            game = open(self.path + '\\' + self.filename, 'w')
-            game.write(Loading.caesar_encrypt("{}(G){}(G){}".format(str(self.devices), '(C)'.join([(','.join(str(j) for j in i)) for i in self.chests]),
-                                                                    '(P)'.join([(','.join(str(j) for j in i)) for i in self.previous_moves]) + '\n')))
-            # game.write(Loading.caesar_encrypt(board[0:len(board) - 1]) + '\n')
-            # game.write(Loading.caesar_encrypt(chests[0:len(chests) - 1]) + '\n')
-            # game.write(Loading.caesar_encrypt(previous_moves[0:len(previous_moves) - 1]) + '\n')
-            game.close()
-        except (FileNotFoundError, FileExistsError):
-            Loading.returning("The path or file was not found.", 2)
-        Loading.returning("Saving game progress...", 2)

@@ -5350,3 +5350,514 @@
 [12/06/2024 14:54:31] Boot complete.
 [12/06/2024 14:54:31] System Startup.
 [12/06/2024 14:54:34] User Tejas logged in.
+[12/06/2024 17:26:29] Boot complete.
+[12/06/2024 17:26:29] System Startup.
+[12/06/2024 17:26:29] The system has entered SETUP.
+[12/06/2024 17:26:34] SETUP is complete. Entering startup.
+[12/06/2024 17:26:37] User Guest logged in.
+[12/06/2024 17:26:39] Guest opened sv_bagels
+[12/06/2024 17:27:07] Boot complete.
+[12/06/2024 17:27:07] System Startup.
+[12/06/2024 17:27:07] The system has entered SETUP.
+[12/06/2024 17:27:12] SETUP is complete. Entering startup.
+[12/06/2024 17:27:13] User Guest logged in.
+[12/06/2024 17:27:15] Guest opened sv_bagels
+[12/06/2024 18:01:04] Boot complete.
+[12/06/2024 18:01:04] System Startup.
+[12/06/2024 18:01:04] The system has entered SETUP.
+[12/06/2024 18:06:11] Boot complete.
+[12/06/2024 18:06:11] System Startup.
+[12/06/2024 18:06:23] Boot complete.
+[12/06/2024 18:06:23] System Startup.
+[12/06/2024 18:06:24] The system has entered SETUP.
+[12/06/2024 18:14:43] Boot complete.
+[12/06/2024 18:14:43] System Startup.
+[12/06/2024 18:14:54] Boot complete.
+[12/06/2024 18:14:54] System Startup.
+[12/06/2024 18:14:54] The system has entered SETUP.
+[12/06/2024 18:15:29] User Guest logged in.
+[12/06/2024 18:15:32] Guest opened power
+[12/06/2024 18:15:32] Preparing to shut down...
+[12/06/2024 18:15:37] Updating user files...
+[12/06/2024 18:15:37] User files updated.
+[12/06/2024 18:15:38] Tejas exited the shutdown with code 3
+[12/06/2024 18:15:38] Code 3 returned. Executing task.
+[12/06/2024 18:15:55] Boot complete.
+[12/06/2024 18:15:55] System Startup.
+[12/06/2024 18:15:55] Serpens Vivus encountered a fatal error: Stacktrace disabled
+[12/06/2024 18:16:01] A fatal internal error has occurred. The system has entered Recovery.
+[12/06/2024 18:16:09] Boot complete.
+[12/06/2024 18:16:09] System Startup.
+[12/06/2024 18:17:01] Boot complete.
+[12/06/2024 18:17:01] System Startup.
+[12/06/2024 18:20:38] Boot complete.
+[12/06/2024 18:20:38] System Startup.
+[12/06/2024 18:20:46] Boot complete.
+[12/06/2024 18:20:46] System Startup.
+[12/06/2024 18:20:47] Preparing to shut down...
+[12/06/2024 18:20:54] Boot complete.
+[12/06/2024 18:20:54] System Startup.
+[12/06/2024 18:20:56] Preparing to shut down...
+[12/06/2024 18:21:00] Updating user files...
+[12/06/2024 18:21:00] User files updated.
+[12/06/2024 18:21:29] Boot complete.
+[12/06/2024 18:21:29] System Startup.
+[12/06/2024 18:21:32] User Tejas logged in.
+[12/06/2024 18:21:35] Tejas opened sv_settings
+[12/06/2024 18:22:00] Tejas opened 
+[12/06/2024 18:22:00] Tejas logged out.
+[12/06/2024 18:22:00] Code 0 returned. Executing task.
+[12/06/2024 18:22:07] User Tejas logged in.
+[12/06/2024 18:22:09] Tejas opened sv_settings
+[12/06/2024 18:22:18] Tejas opened 
+[12/06/2024 18:22:18] Tejas logged out.
+[12/06/2024 18:22:18] Code 0 returned. Executing task.
+[12/06/2024 18:22:26] User Tejas logged in.
+[12/06/2024 18:22:26] Tejas opened power
+[12/06/2024 18:22:26] Preparing to shut down...
+[12/06/2024 18:22:29] Updating user files...
+[12/06/2024 18:22:29] User files updated.
+[12/06/2024 18:22:30] Tejas exited the shutdown with code 3
+[12/06/2024 18:22:30] Code 3 returned. Executing task.
+[12/06/2024 18:22:58] Boot complete.
+[12/06/2024 18:22:58] System Startup.
+[12/06/2024 18:22:58] The system has entered SETUP.
+[12/06/2024 18:27:07] User Guest logged in.
+[12/06/2024 18:27:10] Guest opened sv_bagels
+[12/06/2024 18:27:41] Guest opened sv_bagels
+[12/06/2024 18:29:50] Boot complete.
+[12/06/2024 18:29:50] System Startup.
+[12/06/2024 18:29:53] User Guest logged in.
+[12/06/2024 18:30:03] Boot complete.
+[12/06/2024 18:30:03] System Startup.
+[12/06/2024 18:30:03] The system has entered SETUP.
+[12/06/2024 18:30:12] User Guest logged in.
+[12/06/2024 18:30:16] Guest opened sv_bagels
+[12/06/2024 18:32:19] Boot complete.
+[12/06/2024 18:32:19] System Startup.
+[12/06/2024 18:32:19] The system has entered SETUP.
+[12/06/2024 18:32:30] User Guest logged in.
+[12/06/2024 18:32:33] Guest opened sv_bagels
+[12/06/2024 18:32:54] Guest opened sv_hangman
+[12/06/2024 18:33:12] Guest opened sv_scout rpg
+[12/06/2024 18:33:55] Boot complete.
+[12/06/2024 18:33:55] System Startup.
+[12/06/2024 18:34:01] User Guest logged in.
+[12/06/2024 18:34:07] Guest opened sv_sonar
+[12/06/2024 18:34:38] Guest opened sv_sudoku
+[12/06/2024 18:35:08] Guest opened sv_tictactoe
+[12/06/2024 18:35:25] Guest opened power
+[12/06/2024 18:35:25] Preparing to shut down...
+[12/06/2024 18:36:13] Updating user files...
+[12/06/2024 18:36:13] User files updated.
+[12/06/2024 18:36:14] Guest exited the shutdown with code 3
+[12/06/2024 18:36:14] Code 3 returned. Executing task.
+[12/06/2024 18:56:44] Boot complete.
+[12/06/2024 18:56:44] System Startup.
+[12/06/2024 18:56:48] User Guest logged in.
+[12/06/2024 18:56:50] Guest opened sv_bagels
+[12/06/2024 18:57:34] Guest opened sv_bagels
+[12/06/2024 18:58:11] Guest opened sv_bagels
+[12/06/2024 18:58:29] Guest opened sv_bagels
+[13/06/2024 10:41:37] Boot complete.
+[13/06/2024 10:41:37] System Startup.
+[13/06/2024 10:41:40] User Guest logged in.
+[13/06/2024 10:41:43] Guest opened sv_bagels
+[13/06/2024 10:41:54] Guest opened power
+[13/06/2024 10:41:54] Preparing to shut down...
+[13/06/2024 10:42:04] Updating user files...
+[13/06/2024 10:44:22] Boot complete.
+[13/06/2024 10:44:22] System Startup.
+[13/06/2024 10:44:46] Boot complete.
+[13/06/2024 10:44:46] System Startup.
+[13/06/2024 10:44:46] The system has entered SETUP.
+[13/06/2024 10:44:55] User Guest logged in.
+[13/06/2024 10:44:57] Guest opened sv_bagels
+[13/06/2024 10:45:06] Preparing to shut down...
+[13/06/2024 10:45:14] Preparing to shut down...
+[13/06/2024 10:45:17] Updating user files...
+[13/06/2024 10:45:27] User files updated.
+[13/06/2024 12:40:34] Boot complete.
+[13/06/2024 12:40:34] System Startup.
+[13/06/2024 12:45:42] Boot complete.
+[13/06/2024 12:45:42] System Startup.
+[13/06/2024 13:15:02] Boot complete.
+[13/06/2024 13:15:02] System Startup.
+[13/06/2024 13:24:35] Boot complete.
+[13/06/2024 13:24:35] System Startup.
+[13/06/2024 13:24:41] Preparing to shut down...
+[13/06/2024 13:24:47] Closing apps.
+[13/06/2024 13:24:49] All apps closed.
+[13/06/2024 13:24:49] Updating user files...
+[13/06/2024 13:24:49] User files updated.
+[13/06/2024 13:33:48] Boot complete.
+[13/06/2024 13:33:48] System Startup.
+[13/06/2024 13:34:08] Boot complete.
+[13/06/2024 13:34:08] System Startup.
+[13/06/2024 13:34:20] Boot complete.
+[13/06/2024 13:34:20] System Startup.
+[13/06/2024 13:34:42] Boot complete.
+[13/06/2024 13:34:42] System Startup.
+[13/06/2024 13:35:34] Boot complete.
+[13/06/2024 13:35:34] System Startup.
+[13/06/2024 13:35:56] Boot complete.
+[13/06/2024 13:35:56] System Startup.
+[13/06/2024 13:37:08] Boot complete.
+[13/06/2024 13:37:08] System Startup.
+[13/06/2024 13:37:29] Boot complete.
+[13/06/2024 13:37:29] System Startup.
+[13/06/2024 13:39:48] Boot complete.
+[13/06/2024 13:39:48] System Startup.
+[13/06/2024 13:40:08] Boot complete.
+[13/06/2024 13:40:08] System Startup.
+[13/06/2024 13:40:24] Boot complete.
+[13/06/2024 13:40:24] System Startup.
+[13/06/2024 13:40:37] Boot complete.
+[13/06/2024 13:40:37] System Startup.
+[13/06/2024 13:40:51] Boot complete.
+[13/06/2024 13:40:51] System Startup.
+[13/06/2024 13:41:25] Boot complete.
+[13/06/2024 13:41:25] System Startup.
+[14/06/2024 09:00:05] Boot complete.
+[14/06/2024 09:00:05] System Startup.
+[14/06/2024 09:04:36] Boot complete.
+[14/06/2024 09:04:36] System Startup.
+[14/06/2024 09:18:16] Boot complete.
+[14/06/2024 09:18:16] System Startup.
+[14/06/2024 09:18:24] Boot complete.
+[14/06/2024 09:18:24] System Startup.
+[14/06/2024 09:18:27] User Tejas logged in.
+[14/06/2024 09:18:33] Tejas opened sv_
+[14/06/2024 09:18:36] Tejas opened 
+[14/06/2024 09:18:36] Tejas logged out.
+[14/06/2024 09:18:36] Code 0 returned. Executing task.
+[14/06/2024 09:18:51] User Dhilip logged in.
+[14/06/2024 09:19:16] Dhilip opened sv_
+[14/06/2024 09:19:19] Dhilip opened 
+[14/06/2024 09:19:19] Dhilip logged out.
+[14/06/2024 09:19:19] Code 0 returned. Executing task.
+[14/06/2024 09:19:33] User Tejas logged in.
+[14/06/2024 09:19:40] Tejas opened power
+[14/06/2024 09:19:40] Preparing to shut down...
+[14/06/2024 09:19:42] Updating user files...
+[14/06/2024 09:19:42] User files updated.
+[14/06/2024 09:19:42] Tejas exited the shutdown with code 2
+[14/06/2024 09:19:42] Code 2 returned. Executing task.
+[14/06/2024 10:04:04] Boot complete.
+[14/06/2024 10:04:04] System Startup.
+[14/06/2024 10:06:13] Boot complete.
+[14/06/2024 10:06:13] System Startup.
+[14/06/2024 10:19:31] Boot complete.
+[14/06/2024 10:19:31] System Startup.
+[14/06/2024 10:19:34] User Tejas logged in.
+[14/06/2024 10:19:37] Tejas opened sv_system info
+[14/06/2024 10:20:11] Boot complete.
+[14/06/2024 10:20:11] System Startup.
+[14/06/2024 10:20:14] User Tejas logged in.
+[14/06/2024 10:20:18] Tejas opened sv_system info
+[14/06/2024 10:20:27] Tejas opened sv_system info
+[14/06/2024 10:20:41] Boot complete.
+[14/06/2024 10:20:41] System Startup.
+[14/06/2024 10:20:43] User Tejas logged in.
+[14/06/2024 10:20:45] Tejas opened sv_system info
+[14/06/2024 10:21:12] Tejas opened power
+[14/06/2024 10:21:12] Preparing to shut down...
+[14/06/2024 10:21:14] Updating user files...
+[14/06/2024 10:21:14] User files updated.
+[14/06/2024 10:21:15] Tejas exited the shutdown with code 2
+[14/06/2024 10:21:15] Code 2 returned. Executing task.
+[14/06/2024 11:39:17] Boot complete.
+[14/06/2024 11:39:17] System Startup.
+[14/06/2024 11:39:20] User Tejas logged in.
+[14/06/2024 11:39:21] Tejas opened settings
+[14/06/2024 11:39:25] Tejas opened sv_settings
+[14/06/2024 11:40:24] Boot complete.
+[14/06/2024 11:40:24] System Startup.
+[14/06/2024 11:40:27] User Tejas logged in.
+[14/06/2024 11:40:33] Tejas opened sv_settings
+[14/06/2024 11:41:11] Boot complete.
+[14/06/2024 11:41:11] System Startup.
+[14/06/2024 11:41:13] User Tejas logged in.
+[14/06/2024 11:41:41] Tejas opened sv_settings
+[14/06/2024 11:41:59] Tejas opened 
+[14/06/2024 11:41:59] Tejas logged out.
+[14/06/2024 11:41:59] Code 0 returned. Executing task.
+[14/06/2024 11:42:10] User Dhilip logged in.
+[14/06/2024 16:43:59] Boot complete.
+[14/06/2024 16:43:59] System Startup.
+[14/06/2024 16:49:23] Boot complete.
+[14/06/2024 16:49:23] System Startup.
+[14/06/2024 16:49:25] User Tejas logged in.
+[14/06/2024 16:49:27] Tejas opened sv_settings
+[14/06/2024 17:00:58] Boot complete.
+[14/06/2024 17:00:58] System Startup.
+[14/06/2024 17:01:01] User Tejas logged in.
+[14/06/2024 17:01:04] Tejas opened sv_settings
+[14/06/2024 17:11:07] Boot complete.
+[14/06/2024 17:11:07] System Startup.
+[14/06/2024 17:11:10] User Tejas logged in.
+[14/06/2024 17:11:13] Tejas opened sv_settings
+[14/06/2024 17:12:21] Boot complete.
+[14/06/2024 17:12:21] System Startup.
+[14/06/2024 17:12:23] User Tejas logged in.
+[14/06/2024 17:12:25] Tejas opened sv_settings
+[14/06/2024 17:12:41] Boot complete.
+[14/06/2024 17:12:41] System Startup.
+[14/06/2024 17:12:44] User Tejas logged in.
+[14/06/2024 17:12:46] Tejas opened sv_settings
+[14/06/2024 17:15:35] Boot complete.
+[14/06/2024 17:15:35] System Startup.
+[14/06/2024 17:15:38] User Tejas logged in.
+[14/06/2024 17:15:40] Tejas opened sv_settings
+[14/06/2024 17:18:20] Boot complete.
+[14/06/2024 17:18:20] System Startup.
+[14/06/2024 17:18:24] User Tejas logged in.
+[14/06/2024 17:18:26] Tejas opened sv_settings
+[14/06/2024 17:22:13] Boot complete.
+[14/06/2024 17:22:13] System Startup.
+[14/06/2024 17:22:15] User Tejas logged in.
+[14/06/2024 17:22:17] Tejas opened sv_settings
+[15/06/2024 08:43:52] Boot complete.
+[15/06/2024 08:43:52] System Startup.
+[15/06/2024 08:43:55] User Tejas logged in.
+[15/06/2024 08:43:56] Tejas opened sv_settings
+[15/06/2024 08:46:01] Tejas opened power
+[15/06/2024 08:46:01] Preparing to shut down...
+[15/06/2024 08:46:05] Updating user files...
+[15/06/2024 08:46:05] User files updated.
+[15/06/2024 08:46:05] Tejas exited the shutdown with code 2
+[15/06/2024 08:46:05] Code 2 returned. Executing task.
+[15/06/2024 11:53:31] Boot complete.
+[15/06/2024 11:53:31] System Startup.
+[15/06/2024 11:53:33] User Tejas logged in.
+[15/06/2024 11:53:35] Tejas opened sv_settings
+[15/06/2024 11:54:58] Boot complete.
+[15/06/2024 11:54:58] System Startup.
+[15/06/2024 11:55:00] User Tejas logged in.
+[15/06/2024 11:55:01] Tejas opened sv_settings
+[15/06/2024 11:55:32] Boot complete.
+[15/06/2024 11:55:32] System Startup.
+[15/06/2024 11:55:35] User Tejas logged in.
+[15/06/2024 11:55:40] Tejas opened sv_settings
+[15/06/2024 11:55:51] Tejas opened settigns
+[15/06/2024 11:55:55] Tejas opened settings
+[15/06/2024 11:56:16] Boot complete.
+[15/06/2024 11:56:16] System Startup.
+[15/06/2024 11:56:25] Boot complete.
+[15/06/2024 11:56:25] System Startup.
+[15/06/2024 14:23:35] Boot complete.
+[15/06/2024 14:23:35] System Startup.
+[15/06/2024 14:24:14] Boot complete.
+[15/06/2024 14:24:14] System Startup.
+[15/06/2024 14:48:46] Boot complete.
+[15/06/2024 14:48:46] System Startup.
+[15/06/2024 14:48:48] User Tejas logged in.
+[15/06/2024 14:48:53] Tejas opened sv_settings
+[15/06/2024 14:50:14] Tejas opened power
+[15/06/2024 14:50:14] Preparing to shut down...
+[15/06/2024 14:50:16] Updating user files...
+[15/06/2024 14:50:16] User files updated.
+[15/06/2024 14:50:17] Tejas exited the shutdown with code 3
+[15/06/2024 14:50:17] Code 3 returned. Executing task.
+[15/06/2024 14:50:20] Boot complete.
+[15/06/2024 14:50:20] System Startup.
+[15/06/2024 14:50:23] User Tejas logged in.
+[15/06/2024 14:50:26] Tejas opened power
+[15/06/2024 14:50:26] Preparing to shut down...
+[15/06/2024 14:50:27] Updating user files...
+[15/06/2024 14:50:27] User files updated.
+[15/06/2024 14:50:27] Tejas exited the shutdown with code 2
+[15/06/2024 14:50:27] Code 2 returned. Executing task.
+[15/06/2024 15:07:41] Boot complete.
+[15/06/2024 15:07:41] System Startup.
+[15/06/2024 15:07:43] User Tejas logged in.
+[15/06/2024 15:07:44] Tejas opened settings
+[15/06/2024 15:08:36] Boot complete.
+[15/06/2024 15:08:36] System Startup.
+[15/06/2024 15:08:39] User Tejas logged in.
+[15/06/2024 15:08:40] Tejas opened settings
+[15/06/2024 15:09:06] Boot complete.
+[15/06/2024 15:09:06] System Startup.
+[15/06/2024 15:09:12] User Tejas logged in.
+[15/06/2024 15:09:19] Tejas opened settings
+[15/06/2024 15:10:17] Tejas opened power
+[15/06/2024 15:10:17] Preparing to shut down...
+[15/06/2024 15:10:19] Updating user files...
+[15/06/2024 15:10:19] User files updated.
+[15/06/2024 15:10:19] Tejas exited the shutdown with code 3
+[15/06/2024 15:10:19] Code 3 returned. Executing task.
+[15/06/2024 15:36:57] Boot complete.
+[15/06/2024 15:36:57] System Startup.
+[15/06/2024 15:37:00] User Tejas logged in.
+[15/06/2024 15:37:02] Tejas opened settings
+[15/06/2024 15:38:34] Boot complete.
+[15/06/2024 15:38:34] System Startup.
+[15/06/2024 15:39:27] Boot complete.
+[15/06/2024 15:39:27] System Startup.
+[15/06/2024 15:39:29] User Tejas logged in.
+[15/06/2024 15:39:31] Tejas opened settings
+[15/06/2024 15:47:07] Boot complete.
+[15/06/2024 15:47:14] Boot complete.
+[15/06/2024 15:47:24] Boot complete.
+[15/06/2024 15:47:24] System Startup.
+[15/06/2024 15:47:32] Boot complete.
+[15/06/2024 15:47:34] Boot complete.
+[15/06/2024 15:48:04] Boot complete.
+[15/06/2024 15:49:35] Boot complete.
+[15/06/2024 18:08:18] Boot complete.
+[15/06/2024 18:12:40] Boot complete.
+[15/06/2024 18:13:37] Boot complete.
+[15/06/2024 18:13:38] Boot complete.
+[15/06/2024 18:13:59] Boot complete.
+[15/06/2024 18:15:53] Boot complete.
+[15/06/2024 18:16:25] Boot complete.
+[15/06/2024 18:16:26] Boot complete.
+[15/06/2024 18:28:15] Boot complete.
+[15/06/2024 18:28:15] System Startup.
+[15/06/2024 18:28:18] User Tejas logged in.
+[15/06/2024 18:28:24] Tejas opened settings
+[15/06/2024 18:32:46] Boot complete.
+[15/06/2024 18:33:40] Boot complete.
+[15/06/2024 18:33:40] System Startup.
+[15/06/2024 18:33:43] User Tejas logged in.
+[15/06/2024 18:33:46] Tejas opened settings
+[15/06/2024 18:34:10] Boot complete.
+[15/06/2024 18:38:02] Boot complete.
+[15/06/2024 18:38:02] System Startup.
+[15/06/2024 18:38:05] User Tejas logged in.
+[15/06/2024 18:38:09] Tejas opened settings
+[15/06/2024 18:38:18] Boot complete.
+[16/06/2024 09:48:55] Boot complete.
+[16/06/2024 09:48:55] System Startup.
+[16/06/2024 09:49:36] Boot complete.
+[16/06/2024 09:49:36] System Startup.
+[16/06/2024 09:50:29] Boot complete.
+[16/06/2024 09:50:29] System Startup.
+[16/06/2024 09:51:33] Boot complete.
+[16/06/2024 09:51:33] System Startup.
+[16/06/2024 09:51:36] Serpens Vivus encountered a fatal error: Multiple fatal errors occurred.
+[16/06/2024 09:51:42] A fatal internal error has occurred. The system has entered Recovery.
+[16/06/2024 09:52:14] Boot complete.
+[16/06/2024 09:52:14] System Startup.
+[16/06/2024 09:52:14] Serpens Vivus encountered a fatal error: Multiple fatal errors occurred.
+[16/06/2024 09:52:20] A fatal internal error has occurred. The system has entered Recovery.
+[16/06/2024 09:53:31] Boot complete.
+[16/06/2024 09:53:31] System Startup.
+[16/06/2024 09:53:31] Serpens Vivus encountered a fatal error: Multiple fatal errors occurred.
+[16/06/2024 09:53:37] A fatal internal error has occurred. The system has entered Recovery.
+[16/06/2024 09:58:40] Serpens Vivus encountered a fatal error: (0, 'Administratq`W`MfqXw#T~Fibmpm-O(VtvX')
+[16/06/2024 09:58:46] A fatal internal error has occurred. The system has entered Recovery.
+[16/06/2024 09:59:38] Boot complete.
+[16/06/2024 09:59:38] System Startup.
+[16/06/2024 09:59:38] Serpens Vivus encountered a fatal error: Multiple fatal errors occurred.
+[16/06/2024 09:59:44] A fatal internal error has occurred. The system has entered Recovery.
+[16/06/2024 10:05:44] Boot complete.
+[16/06/2024 10:05:44] System Startup.
+[16/06/2024 10:05:44] Serpens Vivus encountered a fatal error: Multiple fatal errors occurred.
+[16/06/2024 10:05:50] A fatal internal error has occurred. The system has entered Recovery.
+[16/06/2024 10:06:54] Serpens Vivus encountered a fatal error: [Errno 2] No such file or directory: '{subdir}\\info.usr'
+[16/06/2024 10:07:00] A fatal internal error has occurred. The system has entered Recovery.
+[16/06/2024 10:21:32] Boot complete.
+[16/06/2024 10:21:32] System Startup.
+[16/06/2024 10:21:35] User Def logged in.
+[16/06/2024 10:21:50] Boot complete.
+[16/06/2024 10:21:50] System Startup.
+[16/06/2024 10:22:34] Boot complete.
+[16/06/2024 10:22:34] System Startup.
+[16/06/2024 10:22:39] Serpens Vivus encountered a fatal error: There is no administrator.
+[16/06/2024 10:22:45] A fatal internal error has occurred. The system has entered Recovery.
+[16/06/2024 10:23:21] Serpens Vivus encountered a fatal error: There is no administrator.
+[16/06/2024 10:23:27] A fatal internal error has occurred. The system has entered Recovery.
+[16/06/2024 10:27:40] Serpens Vivus encountered a fatal error: There is no administrator.
+[16/06/2024 10:27:46] A fatal internal error has occurred. The system has entered Recovery.
+[16/06/2024 10:27:56] Boot complete.
+[16/06/2024 10:27:56] System Startup.
+[16/06/2024 10:27:56] Serpens Vivus encountered a fatal error: There is no administrator.
+[16/06/2024 10:28:02] A fatal internal error has occurred. The system has entered Recovery.
+[16/06/2024 12:18:45] Boot complete.
+[16/06/2024 12:18:45] System Startup.
+[16/06/2024 12:18:45] Serpens Vivus encountered a fatal error: There is no administrator.
+[16/06/2024 12:19:00] Boot complete.
+[16/06/2024 12:19:00] System Startup.
+[16/06/2024 12:19:03] User Tejas logged in.
+[16/06/2024 12:19:10] Tejas opened sv_cabinet
+[16/06/2024 12:19:37] Tejas opened settings
+[16/06/2024 12:19:39] Tejas opened setting
+[16/06/2024 12:19:47] Tejas opened sv_settings
+[16/06/2024 12:19:58] Tejas opened power
+[16/06/2024 12:19:58] Preparing to shut down...
+[16/06/2024 12:19:59] Updating user files...
+[16/06/2024 12:19:59] User files updated.
+[16/06/2024 12:20:00] Tejas exited the shutdown with code 3
+[16/06/2024 12:20:00] Code 3 returned. Executing task.
+[16/06/2024 14:31:16] Boot complete.
+[16/06/2024 14:31:16] System Startup.
+[16/06/2024 14:31:26] User Tejas logged in.
+[16/06/2024 14:31:49] Tejas opened sv_console
+[16/06/2024 14:32:40] Boot complete.
+[16/06/2024 14:32:40] System Startup.
+[16/06/2024 14:32:42] User Tejas logged in.
+[16/06/2024 14:32:45] Tejas opened sv_console
+[16/06/2024 14:35:00] Tejas opened power
+[16/06/2024 14:35:00] Preparing to shut down...
+[16/06/2024 14:35:05] Updating user files...
+[16/06/2024 14:35:05] User files updated.
+[16/06/2024 14:35:06] Tejas exited the shutdown with code 3
+[16/06/2024 14:35:06] Code 3 returned. Executing task.
+[16/06/2024 14:35:56] Boot complete.
+[16/06/2024 14:35:56] System Startup.
+[16/06/2024 14:36:00] User Tejas logged in.
+[16/06/2024 14:36:11] Tejas opened 
+[16/06/2024 14:36:11] Tejas logged out.
+[16/06/2024 14:36:11] Code 0 returned. Executing task.
+[16/06/2024 14:36:14] User Tejas logged in.
+[16/06/2024 14:36:21] Tejas opened sv_console
+[16/06/2024 14:36:45] Tejas opened cabinet
+[16/06/2024 14:37:17] Tejas opened power
+[16/06/2024 14:37:17] Preparing to shut down...
+[16/06/2024 14:37:18] Updating user files...
+[16/06/2024 14:37:18] User files updated.
+[16/06/2024 14:37:19] Tejas exited the shutdown with code 3
+[16/06/2024 14:37:19] Code 3 returned. Executing task.
+[16/06/2024 19:13:10] Boot complete.
+[16/06/2024 19:13:10] System Startup.
+[16/06/2024 19:13:13] User Tejas logged in.
+[16/06/2024 19:13:16] Tejas opened sv_task manager
+[16/06/2024 19:13:35] Tejas opened bagels
+[16/06/2024 19:13:44] Tejas opened task manager
+[16/06/2024 19:17:00] Boot complete.
+[16/06/2024 19:17:00] System Startup.
+[16/06/2024 19:17:03] User Tejas logged in.
+[16/06/2024 19:17:04] Tejas opened bagels
+[16/06/2024 19:17:19] Tejas opened hangman
+[16/06/2024 19:17:21] Tejas opened sv_hangman
+[16/06/2024 19:17:28] Tejas opened power
+[16/06/2024 19:17:28] Preparing to shut down...
+[16/06/2024 19:17:29] Updating user files...
+[16/06/2024 19:17:29] User files updated.
+[16/06/2024 19:17:29] Tejas exited the shutdown with code 2
+[16/06/2024 19:17:29] Code 2 returned. Executing task.
+[16/06/2024 20:32:58] Boot complete.
+[16/06/2024 20:32:58] System Startup.
+[16/06/2024 20:33:01] User Tejas logged in.
+[16/06/2024 20:33:02] Tejas opened task manager
+[17/06/2024 10:54:14] Boot complete.
+[17/06/2024 10:54:14] System Startup.
+[17/06/2024 10:54:17] User Tejas logged in.
+[17/06/2024 10:54:19] Tejas opened task manager
+[17/06/2024 12:08:54] Boot complete.
+[17/06/2024 12:08:54] System Startup.
+[17/06/2024 12:08:57] User Tejas logged in.
+[17/06/2024 12:09:00] Tejas opened task
+[17/06/2024 12:09:03] Tejas opened tasks
+[17/06/2024 12:09:06] Tejas opened manager
+[17/06/2024 12:09:09] Tejas opened task manager
+[17/06/2024 12:09:41] Boot complete.
+[17/06/2024 12:09:41] System Startup.
+[17/06/2024 12:09:44] User Tejas logged in.
+[17/06/2024 12:09:45] Tejas opened task manger
+[17/06/2024 12:09:47] Tejas opened task manager
+[17/06/2024 12:11:04] Boot complete.
+[17/06/2024 12:11:04] System Startup.
+[17/06/2024 12:11:07] User Tejas logged in.
+[17/06/2024 12:11:09] Tejas opened task manager

@@ -6,7 +6,7 @@ from System import Loading
 
 
 category = "games"
-version = "2.3"
+version = "2.7"
 entries = ('jokes', 'joke', '1', 'joke teller')
 
 

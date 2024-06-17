@@ -1,4 +1,8 @@
-BUG TRACKER - Updated 8/1/2023
+BUG TRACKER - Updated 6/17/2024
 Nine 1.0 - 12/31/12022 00:32
 No Bugs
 Nine 1.1 - 1/4/2023 9:06
+No Bugs
+Nine 1.2 - 6/12/2024 14:59
+No Bugs
+Nine 1.3 - 6/17/2024

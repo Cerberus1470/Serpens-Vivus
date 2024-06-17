@@ -1,4 +1,4 @@
-BUG TRACKER - Updated 7/24/2023
+BUG TRACKER - Updated 6/17/2024
 Figure 1.0 - Classic - 10/15/2021 23:59
 HNG-01 - Incorrectly shows a Potato head instead of a Human.
 Figure 1.1 - 11/12/2021 12:36
@@ -22,3 +22,9 @@ No Bugs
 Figure 2.0_beta04 - 1/9/2023 6:12
 No Bugs
 Figure 2.0_beta05 - 3/20/2023 4:59
+HNG-04 - The 6th stage stand was not aligned.
+Figure 2.0 - 5/26/2024 17:54
+No Bugs
+Figure 2.1 - 6/12/2024 14:59
+No Bugs
+Figure 2.2 - 6/17/2024

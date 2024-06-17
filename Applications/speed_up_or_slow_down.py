@@ -5,7 +5,7 @@ from System import Loading
 
 
 category = "utilities"
-version = "2.0.2"
+version = "2.1"
 entries = ('speedslow', 'speed up', 'slow down', 'speed up or slow down')
 
 

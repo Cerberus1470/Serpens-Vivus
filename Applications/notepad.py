@@ -5,7 +5,7 @@ from System import Loading
 import os
 
 category = "utilities"
-version = "2.1"
+version = "2.8"
 entries = ('notepad', 'notes', 'note', '2')
 
 

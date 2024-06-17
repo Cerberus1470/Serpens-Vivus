@@ -1,14 +1,16 @@
 """
 Module operating_system. This module contains the Core Python OS functions and classes. Probably the most complex file in the system.
 """
+import io
 import colorama
 import traceback
 import importlib
 import os
 import time
+import requests
 
 try:  # Try importing all the files.
-    from System import Loading, Registry, reset, system_recovery, User
+    from System import Loading, Registry, recovery, User
 
     apps = {"games": [], "utilities": [], "admin": []}
     for file in [files for subdir, dirs, files in os.walk("Applications")][0]:
@@ -16,15 +18,26 @@ try:  # Try importing all the files.
         temp.__setattr__("__name__", file.replace(".py", ""))
         apps[temp.category].append(temp)
 except ImportError as missing_files:  # If any of the files fail to import, they are assumed missing.
-    Loading = Registry = reset = system_recovery = User = None
-    print("The system is missing files. Please re-download the OS from GitHub.")
+    # Trying a download algorithm that seemingly doesn't need an auth token.
+    Loading = Registry = recovery = User = None
+    # noinspection PyUnresolvedReferences
+    files = {missing_files.name_from, "Loading", "Registry", "recovery", "User"}
+    print("The system is missing files. Attempting re-download from GitHub.")
+    for filename in files:
+        try:
+            new_file = requests.get("https://raw.githubusercontent.com/Cerberus1470/Serpens-Vivus/Tejas/System/{file}.py".format(file=filename))
+            if new_file.status_code == 200:  # Checking for 200 OK Response Code
+                open("System\\{file}.py".format(file=filename), 'w').write(new_file.text)
+        except (io.UnsupportedOperation, OSError, FileNotFoundError, FileExistsError):
+            print("The system was unable to write to System\\{file}.py. Please download it from GitHub.".format(file=filename))
+    raise ImportError("The system was missing files. Please reboot the system")
 
 # Public Variables
 user_separator = "(U)"
 program_separator = "(P)"
 personalization_separator = "(Pe)"
 HANDLE_ERROR = True
-version = "4.0_gamma01"
+version = "4.0"
 
 
 # noinspection PyBroadException
@@ -43,7 +56,7 @@ def boot(error=True, stacktrace=False):
     while True:
         try:
             if cerberus.error:  # This code catches any boot errors.
-                system_recovery.SystemRecovery.boot(cerberus.error)
+                recovery.boot(cerberus.error)
             cerberus.reload()
             if cerberus.startup() == 4:  # Logic for restarting.
                 Loading.returning("Restarting system...", 2)
@@ -56,8 +69,8 @@ def boot(error=True, stacktrace=False):
                 raise fatal_error
             Loading.log("{name} encountered a fatal error: {error}".format(name=cerberus.name, error=fatal_error if stacktrace else "Stacktrace disabled"))
             print('{new_line}{msg}{stacktrace}\n'.format(
-                  new_line='\n' * 20, msg="!!! {name} encountered a fatal error. Reboot is required. !!!".format(name=cerberus.name),
-                  stacktrace=("\nWhat failed: {file}\n\nStacktrace: \n{trace}".format(file=str(traceback.__file__), trace=str(traceback.format_exc()))) if stacktrace else ""))
+                new_line='\n' * 20, msg="!!! {name} encountered a fatal error. Reboot is required. !!!".format(name=cerberus.name),
+                stacktrace=("\nWhat failed: {file}\n\nStacktrace: \n{trace}".format(file=str(traceback.__file__), trace=str(traceback.format_exc()))) if stacktrace else ""))
             Loading.returning("The system will reboot shortly.", 5)
             continue
             # return "Code {}. A system error has occurred.".format(','.join([str(i.code) for i in cerberus.error]) if cerberus.error else "-1")
@@ -71,15 +84,15 @@ class OperatingSystem:
     Class Operating System. Houses all the core functions aside from boot.
     """
 
-    def __init__(self):
+    def __init__(self, users=None, name=None, error=None, rdu=None, path=None, reg=None, cu=None):
         # User list, name, and version. All inherent settings.
-        self.users = []
-        self.name = "Serpens Vivus"
-        self.error = []
-        self.recently_deleted_users = []
-        self.path = "Users\\{}"
-        self.registry = Registry.Registry("System\\REGISTRY")
-        self.current_user = User.User()
+        self.users = [] if not users else users
+        self.name = "Serpens Vivus" if not name else name
+        self.error = [] if not error else error
+        self.recently_deleted_users = [] if not rdu else rdu
+        self.path = "Users\\{}" if not path else path
+        self.registry = Registry.Registry("System\\REGISTRY") if not reg else reg
+        self.current_user = User.User() if not cu else cu
         Loading.log("Boot complete.")
         return
 
@@ -88,6 +101,14 @@ class OperatingSystem:
         return "< This is an OperatingSystem class named {name}\n Users: {users}\n Current User: {current}\n Current Password is hidden. >" \
             .format(name=self.name, users=str(len(self.users)), current=self.current_user.username)
 
+    def copy(self):
+        """
+        Method to return a copy of the OS
+        :return:
+        """
+        return OperatingSystem(self.users.copy(), self.name, self.error.copy(), self.recently_deleted_users.copy(), self.path,
+                               Registry.Registry("SYSTEM\\REGISTRY"), self.current_user.copy(self.path.format(self.current_user.username)))
+
     # noinspection PyUnresolvedReferences
     def reload(self):
         """
@@ -95,44 +116,38 @@ class OperatingSystem:
         python shell.
         :return:
         """
-        # First, read in the registry.
-        required_keys = self.registry.find_keys(["Resolution", "Recovery", "Speed"])
-        if None in required_keys:
-            raise system_recovery.CorruptedRegistry(self.registry)
-        else:
-            Loading.SPEED = float(self.registry.get_key("Speed"))
         self.error.clear()  # Reset errors and users.
         self.users.clear()
         for subdir, dirs, files in os.walk("Users"):
             if len(dirs) == 0 and len(files) == 0:  # If no users exist (or there is no user folder)
                 self.setup()
                 return
-            info = programs = None
+            info = person = programs = None
             try:
                 if "info.usr" in files:
                     user_file = Loading.caesar_decrypt(''.join(list(open("{}\\info.usr".format(subdir), 'r')))).split('\n')
-                    # user_file = [Loading.caesar_decrypt(i).replace('\n', '') for i in list(open("{}\\info.usr".format(subdir), 'r'))]
                     info = user_file[0].split(user_separator)  # UserType, Username, Password, Current Status
-                    person = user_file[1].split(personalization_separator)
+                    person = user_file[1].split(personalization_separator)  # Color, Background, Taskbar list
                     programs = user_file[2].split(program_separator)
                     if len(info) == 4 and len(person) == 3:
                         self.users.append(User.__getattribute__(info[0])(username=info[1:], saved_state=programs, personalization=person, path=self.path.format(info[1])))  # Try creating the user object.
                     else:
                         raise AttributeError
             except (IndexError, TypeError, AttributeError):
-                self.error.append(system_recovery.CorruptedFileSystem([subdir, info, programs]))
+                self.error.append(recovery.CorruptedFileSystem(subdir, info, person, programs))
         if self.users or self.error:  # Begin the error detection!
             self.current_user = [i for i in self.users if i.current]
-            admin_present = all([i for i in self.users if i.elevated])
-            if len(self.current_user) == 1:
-                self.current_user = self.current_user[0]
-            else:
-                self.error.append(system_recovery.NoCurrentUser())
+            admin_present = bool([i for i in self.users if i.elevated])
+            self.current_user = self.current_user[0] if len(self.current_user) == 1 else self.users[0]
             if not admin_present:
-                self.error.append(system_recovery.NoAdministrator())
+                self.error.append(recovery.NoAdministrator())
             if self.error:
                 raise self.error[0] if len(self.error) == 1 else Exception("Multiple fatal errors occurred.")
-            return
+            # Now we can verify the registry has the required keys.
+            if self.registry.verify_build(["Resolution", "Recovery", "Speed"] + ["SVKEY_USER\\{user}\\Start".format(user=i.username.upper()) for i in self.users]):
+                Loading.SPEED = float(self.registry.get_key("Speed"))
+            else:
+                raise recovery.CorruptedRegistry(self.registry)
         else:
             self.setup()
             return
@@ -209,7 +224,7 @@ class OperatingSystem:
                             apps_display = [sorted([j.__name__.replace("_", " ").title() for j in apps[i]]) for i in apps]
                             max_len = [-(-max([len(j) for j in i]) // 5) * 5 for i in apps_display]
                         case _:
-                            raise system_recovery.CorruptedRegistry(self.registry)  # If the sort isn't recognized.
+                            raise recovery.CorruptedRegistry(self.registry)  # If the sort isn't recognized.
                     for i in range(5):  # Print the apps screen.
                         for j in range(3):
                             try:
@@ -264,7 +279,7 @@ class OperatingSystem:
                         Loading.returning("That username is taken.", 2)
                     else:
                         self.current_user.username = new_uname
-                        os.makedirs("Users\\{}".format(self.current_user.username))
+                        os.rename("Users\\Guest", "Users\\{}".format(self.current_user.username))
                         shutdown = True
                         break
         while True:
@@ -347,41 +362,37 @@ class OperatingSystem:
         """
         # The setup method. Conveniently sets up the system to run on its first boot, and whenever there is no data. Modifies the dictionary with a new user.
         Loading.log("The system has entered SETUP.")
-        os.makedirs(self.path.format(""), exist_ok=True)  # Make the user folder (if it doesn't already exist). Then ask the user if they want to make a user or not.
+        os.makedirs(self.path.format(""), exist_ok=True)  # Make the user folder (if it doesn't already exist).
+        guest = False  # Flag for guest users.
         if input("SETUP: Since this is the first time you're running this OS, you have entered the setup.\n"
-                 "Would you like to create a new user, or login as guest?") in ('new user', 'new', 'user', 'yes'):
-            while True:  # Quick username validation.
-                setup_user = input("Name your user:\n")  # New user it is!
-                if "\\" not in setup_user:
+                 "Would you like to create a new user, or login as guest?\n") not in ('new user', 'new', 'user', 'yes'):  # Then ask the user if they want to make a user or not.
+            guest = True
+        while True:  # Quick username validation.
+            setup_user = input("Name your user:\n") if not guest else "Guest"  # New username
+            if "\\" not in setup_user:  # Quick check for validity.
+                break
+            Loading.returning("Escape characters are not supported.", 2)
+        print("New User added. Enter a password or press [ENTER] or [return] to use the default password." if not guest else "Guest User added.")
+        while True:  # The while loop handles the password creation. Can only escape under certain circumstances.
+            setup_pwd = input() if not guest else ""
+            if setup_pwd:  # If the user entered a password:
+                if setup_pwd == (input("Password set. Enter it again to confirm it.") if not guest else ""):
+                    Loading.returning("Password set.", 2)
                     break
-                Loading.returning("Escape characters are not supported.", 2)
-            print("New User added. Enter a password or press [ENTER] or [return] to use the default password.")
-            while True:  # The while loop handles the password creation. Can only escape under certain circumstances.
-                setup_pwd = input()
-                if setup_pwd:  # If the user entered a password:
-                    if setup_pwd == input("Password set. Enter it again to confirm it."):
-                        Loading.returning("Password set.", 2)
-                        break
-                    else:  # Handle password matching. Loops back to ensure the user typed the correct passwords.
-                        Loading.returning("The passwords you entered didn't match. Type the same password twice.", 2)
-                else:  # If the user did not enter a password.
-                    setup_pwd = "python123"
-                    Loading.returning('Default password set. The password is "python123".', 2)
-                    break
-            # User entered password correctly twice.
-            self.current_user = User.Administrator(setup_user, setup_pwd)  # Create the user object
-            self.users.append(self.current_user)  # Add the user and save it to disk.
-            os.mkdir(self.path.format(self.current_user.username))
-            user_file = open(self.path.format(self.current_user.username) + "\\info.usr", 'w')
-            user_file.write(Loading.caesar_encrypt(self.current_user.__repr__()))
-            user_file.close()
-            Loading.returning("One last thing!", 1)  # Ask for a recovery pwd.
-            recovery_pwd = input("Please enter a recovery password.")
-            self.registry.modify_registry("Recovery", Loading.caesar_encrypt(recovery_pwd))  # Modify the registry.
-            Loading.returning("Entering startup in 3 seconds.", 3)
-        else:  # If the user did not specify whether they wanted a new user.
-            self.current_user = User.Administrator("Guest", "")
-            self.users.append(self.current_user)
-            Loading.returning("Guest user added. There is no password. Entering startup in 3 seconds.", 3)
-        Loading.log("SETUP is complete. Entering startup.")
-        return
+                else:  # Handle password matching. Loops back to ensure the user typed the correct passwords.
+                    Loading.returning("The passwords you entered didn't match. Type the same password twice.", 2)
+            else:  # If the user did not enter a password.
+                setup_pwd = "python123"
+                Loading.returning('Default password set. The password is "python123".', 2)
+                break
+        # User entered password correctly twice.
+        self.current_user = User.Administrator(setup_user, setup_pwd)  # Create the user object
+        self.users.append(self.current_user)  # Add the user and save it to disk.
+        os.mkdir(self.path.format(self.current_user.username))
+        user_file = open(self.path.format(self.current_user.username) + "\\info.usr", 'w')
+        user_file.write(Loading.caesar_encrypt(self.current_user.__repr__()))
+        user_file.close()
+        Loading.returning("One last thing!" if not guest else "", 1 if not guest else 0)  # Ask for a recovery pwd if not a guest.
+        recovery_pwd = input("Please enter a recovery password.") if not guest else "guest"
+        self.registry.set_svkey("Recovery", Loading.caesar_encrypt(recovery_pwd))  # Modify the registry.
+        Loading.returning("Entering startup in 3 seconds.", 3)

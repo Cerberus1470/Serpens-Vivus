@@ -19,7 +19,7 @@ def update_time(events, index):
 
 
 category = "admin"
-version = "2.1"
+version = "2.3"
 entries = ('event viewer', 'events')
 
 

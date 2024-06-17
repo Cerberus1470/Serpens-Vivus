@@ -85,6 +85,25 @@ TODO - Really advanced
         > - Add guest user at startup.
     > - Registry Editor! And registry keys. Documentation Below.
 
+TODO - POCS4.0 after gamma01:
+    > - Guest user folder
+    > - Fix game engine
+    > - Develop registry disk methods
+    > - Fully integrate registry into OS
+    > - Finish Settings App
+    > - Rework System Recovery
+    > - GitHub Downloads
+    > - Update Bug Trackers
+    > - Phase out unneeded apps (reset)
+    > - Finish creating backgrounds
+    > - In-built Python console
+    > - File Explorer
+    - Merge with master!
+    - In case I forget, mid-method saved_state is possible by saving each user input to a list, saved with each application.
+      When the saved_state object is restored, the list will be checked. If there are items, they will be iterated and typed
+      with pynput.keyboard.Controller().type() so that each input() can be filled with the respective inputs from the user
+      and the state can be restored.
+
 Administrators:
 - Admins have elevated access that allow for certain functions. These include:
     - Creating new Users

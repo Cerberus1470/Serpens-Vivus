@@ -8,41 +8,11 @@ import random
 from System import Loading
 
 
-def delete(path, extension):
-    """
-    Method to delete a game file
-    :param path: Path to search in
-    :param extension: File extension to filter to.
-    :return: Nothing.
-    """
-    while True:
-        for subdir, dirs, files in os.walk(path):
-            count = 0
-            for file in files:
-                if file[len(file) - 3:len(file)] == extension:
-                    count += 1
-                    print(str(count) + '. ' + file)
-        delete_game = input("Which game would you like to delete?\n")
-        try:
-            os.remove("{}\\{}".format(path, delete_game))
-        except FileNotFoundError:
-            try:
-                os.remove("{}\\{}".format(path, '{}.{}'.format(delete_game, extension)))
-            except FileNotFoundError:
-                Loading.returning("That file was not found.", 1)
-        Loading.returning("The file was successfully deleted.", 2)
-        if input('Delete another file? "Yes" or "No".').lower() == 'yes':
-            continue
-        else:
-            Loading.returning("Returning to the game...", 2)
-            return
-
-
 def init_game(self, path, extension):
     """
-    Method to select a game file
-    :param self: Game object
-    :param path: Path to search in
+    Method to select a game file.
+    :param self: Game object.
+    :param path: Path to search in.
     :param extension: File extension to filter to.
     :return: Either raw game data or translated game data
     """
@@ -50,43 +20,77 @@ def init_game(self, path, extension):
         count = 0
         for subdir, dirs, files in os.walk(path):
             for file in files:
-                if file[len(file) - 3:len(file)] == extension:
+                if file.rpartition(".")[2] == extension:
                     count += 1
-                    print(str(count) + '. ' + file)
+                    print('{count}. {file}'.format(count=count, file=file))
         print(str(count + 1) + '. New Game')
         print(str(count + 2) + '. Delete Game')
-        self.filename = input('Which file would you like to open? Type "exit" to exit.\n').lower()
-        if self.filename == 'exit':
-            self.filename = "exit"
+        self.filename = input('Which file would you like to open? Type "exit" to exit.\n').replace(".{ext}".format(ext=extension), "")
+        if self.filename.lower() == 'exit':
             Loading.returning_to_apps()
             return
-        if self.filename == 'new game':
+        if self.filename.lower() == 'new game':
             self.new_file = True
             return
-        elif self.filename == 'delete game':
+        elif self.filename.lower() == 'delete game':
             delete(path, extension)
-            continue
         else:
             try:
-                if self.filename[len(self.filename) - 3:len(self.filename)] == extension:
-                    game = open("{}\\{}".format(path, self.filename), 'r')
-                else:
-                    game = open("{}\\{}".format(path, '{}.{}'.format(self.filename, extension)), 'r')
-                    self.filename = '{}.{}'.format(self.filename, extension)
+                game = list(open("{}\\{}".format(path, '{}.{}'.format(self.filename, extension)), 'r'))
+                self.filename = '{}.{}'.format(self.filename, extension)
+                Loading.returning("Loading previous game...", 2)
+                if extension == "sct":
+                    return game
+                if extension == "sdu":
+                    return [Loading.caesar_decrypt(i) for i in game]
+                return (Loading.caesar_decrypt(game[0].replace('\n', ''))).split('(G)')
             except FileNotFoundError:
                 Loading.returning("Choose a valid option.", 1)
-                continue
-            Loading.returning("Loading previous game...", 2)
-            bruh = list(game)
-            if extension == "sct":
-                return bruh
-            if extension == "sdu":
-                return [Loading.caesar_decrypt(i) for i in bruh]
-            return (Loading.caesar_decrypt(bruh[0].split('\n')[0])).split('(G)')
+
+
+def delete(path, extension):
+    """
+    Method to delete a game file.
+    :param path: Path to search in.
+    :param extension: File extension to filter to.
+    :return: Nothing.
+    """
+    while True:
+        count = 0
+        for subdir, dirs, files in os.walk(path):
+            for file in files:
+                if file.rpartition(".")[2] == extension:
+                    count += 1
+                    print('{count}. {file}'.format(count=count, file=file))
+        delete_game = input("Which game would you like to delete?\n").replace(".{ext}".format(ext=extension), "")
+        try:
+            os.remove("{}\\{}".format(path, delete_game))
+            Loading.returning("The file was successfully deleted.", 2)
+        except FileNotFoundError:
+            Loading.returning("That file was not found.", 1)
+        if input('Delete another file?.').lower() not in ('yes', 'sure', 'absolutely'):
+            Loading.returning("Returning to the game...", 2)
+            return
+
+
+def quit_game(self):
+    """
+    Method to regulate quitting and saving progress
+    :return: Nothing.
+    """
+    if self.new_file:
+        self.filename = input("File name?\n") + '.bgl'
+    try:
+        game = open(self.path + "\\" + self.filename, 'w')
+        game.write(Loading.caesar_encrypt(self.__repr__()))
+        game.close()
+    except (FileNotFoundError, FileExistsError):
+        Loading.returning("The path or file was not found.", 2)
+    return
 
 
 category = "games"
-version = "2.0_gamma07"
+version = "3.0"
 entries = ('bagels', 'bagels', '3')
 
 
@@ -97,7 +101,7 @@ def boot(os_object=None):
     :return: Nothing
     """
     while True:
-        bagels = Bagels(os_object.path)
+        bagels = Bagels(os_object.path.format(os_object.current_user.username))
         if not bagels.filename == 'exit':
             if not bagels.main() == "again":
                 return
@@ -137,6 +141,9 @@ class Bagels:
         return
 
     def __repr__(self):
+        return "{}(G){}(G){}(G){}(G){}".format(','.join(self.prev_guesses), self.num_guesses, self.num_digits, self.max_guesses, self.secret_num)
+
+    def __getstate__(self):
         return "Bagels(SS1){}(SS2){}(SS2){}(SS2){}(SS2){}".format(','.join(self.prev_guesses), self.num_guesses, self.num_digits, self.max_guesses, self.secret_num)
 
     def main(self):
@@ -163,9 +170,9 @@ class Bagels:
                     for i in self.prev_guesses:
                         print("Guess: {}, Clue: {}".format(i, self.get_clues(i)))
                 print('Guess #%s: \nType "help" for help. Type "quit" to quit.' % self.num_guesses)
-                guess = Loading.pocs_input("", self)
+                guess = Loading.pocs_input(app_object=self)
                 if guess == 'quit':
-                    self.quit()
+                    quit_game(self)
                     Loading.returning("Saving game progress...", 2)
                     return
                 elif guess == 'help':
@@ -210,22 +217,6 @@ class Bagels:
             secret_num += str(numbers[i])
         return str(secret_num)
 
-    @staticmethod
-    @DeprecationWarning
-    def is_only_digits(num):
-        """
-        Method to evaluate a valid number
-        :param num: The number to check
-        :return: True or False depending on the validity of the number.
-        """
-        # Returns True if num is a string made up only of digits. Otherwise, returns False.
-        if not num:
-            return False
-        for i in num:
-            if i not in '0 1 2 3 4 5 6 7 8 9'.split(' '):
-                return False
-        return True
-
     def get_clues(self, guess):
         """
         Method to obtain clues from the guessed number
@@ -255,50 +246,3 @@ class Bagels:
 
         clue.sort()
         return ' '.join(clue)
-
-    @DeprecationWarning
-    def setup(self):
-        """
-        Method to set everything up.
-        :return: Nothing.
-        """
-        self.new_file = True
-        self.prev_guesses = []
-        self.num_guesses = 1
-        self.num_digits = int(input('Enter the number of digits in the secret number:'))
-        self.max_guesses = int(input('Enter the number of guesses you would like to try:'))
-        base_number = int(input('Enter a base number system from 5 to 10 to use.\n'
-                                'The base number decides what range of digits to choose the secret number from.'))
-        self.secret_num = self.get_secret_num(self.num_digits, base_number)
-
-    @DeprecationWarning
-    def startup(self):
-        """
-        Method to regulate startup and show previous clues.
-        :return: Nothing.
-        """
-        # if self.new_file:
-        #     self.setup()
-        # else:
-        #     print("Welcome Back! Your progress has been restored.")
-        #     Loading.returning("There are {} digits in the secret number, and you have {} guesses left.".format(self.num_digits, str(int(self.max_guesses) - int(self.num_guesses) + 1)), 3)
-        #     print("Here is a list of your previous guesses.")
-        #     for i in self.prev_guesses:
-        #         print("Guess: {}, Clue: {}".format(i, self.get_clues(i, self.secret_num)))
-        #     time.sleep(3)
-        return
-
-    def quit(self):
-        """
-        Method to regulate quitting and saving progress
-        :return: Nothing.
-        """
-        if self.new_file:
-            self.filename = input("File name?\n") + '.bgl'
-        try:
-            game = open(self.path + "\\" + self.filename, 'w')
-            game.write(Loading.caesar_encrypt("{}(G){}(G){}(G){}(G){}".format(','.join(self.prev_guesses), self.num_guesses, self.num_digits, self.max_guesses, self.secret_num)))
-            game.close()
-        except (FileNotFoundError, FileExistsError):
-            Loading.returning("The path or file was not found.", 2)
-        return

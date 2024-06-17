@@ -65,8 +65,8 @@ COLORS = {
     "default": 0
 }
 
-BACKGROUNDS = [k for k in itertools.chain.from_iterable([j for j in [[i for i in files if i.split('.')[1] == "bg"] for subdir, dirs, files in os.walk("System")] if j] +
-                                                        [j for j in [[i for i in files if i.split('.')[1] == "bg"] for subdir, dirs, files in os.walk("Users")] if j])]
+BACKGROUNDS = set([k for k in itertools.chain.from_iterable([j for j in [[i for i in files if i.split('.')[1] == "bg"] for subdir, dirs, files in os.walk("System")] if j] +
+                                                            [j for j in [[i for i in files if i.split('.')[1] == "bg"] for subdir, dirs, files in os.walk("Users")] if j])])
 
 SPEED = 1.0
 
@@ -129,7 +129,7 @@ class HomeInterrupt(Exception):
     """
 
     def __repr__(self):
-        return "HomeInterrupt(Interrupt){}".format(self.args[0])
+        return "HomeInterrupt(Interrupt){}".format(self.args[0].__getstate__())
 
 
 class LockInterrupt(Exception):
@@ -138,7 +138,7 @@ class LockInterrupt(Exception):
     """
 
     def __repr__(self):
-        return "LockInterrupt(Interrupt){}".format(self.args[0])
+        return "LockInterrupt(Interrupt){}".format(self.args[0].__getstate__())
 
 
 # MARKER: CUSTOM PRINT/INPUT
@@ -153,21 +153,6 @@ def colored(message="", color=0):
         return "\033[{color}m{msg}".format(color=(COLORS[color]), msg=message)
     elif color in list(COLORS.values()):
         return "\033[{color}m{msg}".format(color=color, msg=message)
-    return None
-
-
-@DeprecationWarning
-def pocs_print(message="", color=0):
-    """
-    Custom Print Method to print things with the correct color.
-    :param message: The message to print.
-    :param color: What color to print it in. Can be a name or integer value.
-    :return: None if color is unrecognized.
-    """
-    if color in list(COLORS.keys()):
-        print("\033[{color}m{msg}".format(color=(COLORS[color]), msg=message))
-    elif color in list(COLORS.values()):
-        print("\033[{color}m{msg}".format(color=color, msg=message))
     return None
 
 
@@ -374,6 +359,32 @@ def display_user(username=""):
             file = list(open(subdir + "\\info.usr"))
             print(caesar_decrypt(file[0]))
             print(caesar_decrypt(file[1]))
+
+
+def upscale(file, resolution):
+    """
+    This is a tester method to upscale wallpapers. It doesn't work quite as well as manual. But it does help.
+    :param file:
+    :param resolution:
+    :return:
+    """
+    image = [i.replace("\n", "") for i in list(open(file, 'r'))] if file.__class__ == str else file
+    upscaled_image = [[' ' for _ in range(40 * resolution)] for _ in range(10 * resolution)]
+    for i in range(len(image)):
+        for j in range(len(image[i])):
+            match image[i][j]:
+                case '_':
+                    char = [[' ', ' '], ['_', '_']]
+                case '/':
+                    char = [[' ', '/'], ['/', ' ']]
+                case '\\':
+                    char = [['\\', ' '], [' ', '\\']]
+                case _:
+                    char = [[' ', ' '], [' ', ' ']]
+            for k in range(i*2, i*2+2):
+                for l in range(j*2, j*2+2):
+                    upscaled_image[k][l] = char[k-i*2][l-j*2]
+    return upscaled_image
 
 
 def caesar_encrypt(message='', priority=1):

@@ -244,7 +244,7 @@ ranks = {
 
 
 category = "games"
-version = 'alpha1.6'
+version = 'alpha1.6.4'
 entries = ("scout rpg", "scout", "rpg", "scout_rpg", "scoutrpg")
 
 
@@ -254,7 +254,7 @@ def boot(os_object=None):
     :param os_object: Operating System object, used for the path variable.
     :return: Nothing.
     """
-    scout_rpg = ScoutRpg(os_object.path)
+    scout_rpg = ScoutRpg(os_object.path.format(os_object.current_user.username))
     if not scout_rpg.filename == "exit":
         scout_rpg.main()
     return
@@ -481,9 +481,9 @@ class ScoutRpg:
         if game_info:
             # Decrypting everything and cutting off the new line at the end!
             try:
-                version = Loading.caesar_decrypt(game_info[0]).split('\n')[0]
+                game_version = Loading.caesar_decrypt(game_info[0]).split('\n')[0]
                 # UPDATE Add versions here after updates!!!
-                if version not in ("prealpha", "alpha1.0", "alpha1.1", "alpha1.2", "alpha1.3", "alpha1.4", "alpha1.4.1", "alpha1.5", "alpha1.6"):
+                if game_version not in ("prealpha", "alpha1.0", "alpha1.1", "alpha1.2", "alpha1.3", "alpha1.4", "alpha1.4.1", "alpha1.5", "alpha1.6", "alpha1.6.1", "alpha1.6.2"):
                     raise IndexError
             except IndexError:
                 if input("There is no version in the selected game file. Type ENTER to delete it, or stop the program now "
@@ -492,7 +492,7 @@ class ScoutRpg:
                 return
             try:
                 # Checking for update and unpacking...
-                (version, stats, food, drinks, game_time, locations, chores, possessions, events, rank) = self.update_check(version, [Loading.caesar_decrypt(i).split('\n')[0] for i in game_info])
+                (game_version, stats, food, drinks, game_time, locations, chores, possessions, events, rank) = self.update_check(game_version, [Loading.caesar_decrypt(i).split('\n')[0] for i in game_info])
                 # stats will look something like "100.0\t50.0\t50.0\t0.0"
                 self.stats = Statistics(stats.split('\t')) if stats else Statistics()
                 # Food data looks like peanuts,5,5,5\tpancake10,10,15
@@ -617,18 +617,18 @@ class ScoutRpg:
                 return 1
         return
 
-    def update_check(self, version, datapack):
+    def update_check(self, game_version, datapack):
         """
         Checks the game file for an update.
         Checks the version of the game file against multiple options and updates the file recursively (sort of). The version is redefined as the next version, so that the next check works. Then the next check runs and does it again
-        :param version: This is the version of the game file
+        :param game_version: This is the version of the game file
         :param datapack: This is the variable to unpack all the game file data
         :return: Returns the updated data pack.
         """
         # "Recursive" method to upgrade game files saved in previous versions.
-        if version == 'prealpha':
+        if game_version == 'prealpha':
             # Adding money, locations, chores, possessions, and renaming food and drinks.
-            version = 'alpha1.0'
+            game_version = 'alpha1.0'
             (stats, food, drinks, game_time) = datapack[1:]
             stats = '\t'.join(stats.split(',')) + '\t0.0'
             food = food.split('\t')
@@ -656,10 +656,10 @@ class ScoutRpg:
             locations = 'grocery store,10\tdepartment store,20\tscout store,30'
             chores = '\t'.join(i + ',False' for i in chore_list)
             possessions = ''
-            datapack = [version, stats, food, drinks, game_time, locations, chores, possessions]
-        if version == 'alpha1.0':
+            datapack = [game_version, stats, food, drinks, game_time, locations, chores, possessions]
+        if game_version == 'alpha1.0':
             # Filtering removed possessions.
-            version = 'alpha1.1'
+            game_version = 'alpha1.1'
             (stats, food, drinks, game_time, locations, chores, possessions) = datapack[1:]
             if possessions:
                 possessions = possessions.split('\t')
@@ -667,18 +667,18 @@ class ScoutRpg:
                     (name, quantity) = possessions[i].split(',')
                     possessions[i] = '\t'.join([name] * int(quantity))
                 possessions = '\t'.join(possessions)
-            datapack = [version, stats, food, drinks, game_time, locations, chores, possessions]
-        if version == 'alpha1.1':
+            datapack = [game_version, stats, food, drinks, game_time, locations, chores, possessions]
+        if game_version == 'alpha1.1':
             # Adding the day to the time.
-            version = 'alpha1.2'
+            game_version = 'alpha1.2'
             (stats, food, drinks, game_time, locations, chores, possessions) = datapack[1:]
             game_time = game_time.split(',')
             game_time = [list(calendar.day_name)[dt.strptime('{} {} {}'.format(game_time[0], game_time[1], game_time[2]), '%m %d %Y').weekday()]] + game_time
             game_time = ','.join(game_time)
-            datapack = [version, stats, food, drinks, game_time, locations, chores, possessions, '']
-        if version == 'alpha1.2':
+            datapack = [game_version, stats, food, drinks, game_time, locations, chores, possessions, '']
+        if game_version == 'alpha1.2':
             # Changing from list to datetime object.
-            version = 'alpha1.3'
+            game_version = 'alpha1.3'
             (stats, food, drinks, game_time, locations, chores, possessions, events) = datapack[1:]
             game_time = game_time.split(',')
             game_time = game_time[1] + game_time[2] + game_time[3] + game_time[4] + game_time[5]
@@ -689,19 +689,19 @@ class ScoutRpg:
                     if possessions[i] not in ("reusable plastic box", "reusable liquid flask", "kitchen cabinets", "refrigerator"):
                         new_possessions.append(possessions[i])
             new_possessions = '\t'.join(new_possessions)
-            datapack = [version, stats, food, drinks, game_time, locations, chores, new_possessions, events]
-        if version == 'alpha1.3' or version == 'alpha1.4':
+            datapack = [game_version, stats, food, drinks, game_time, locations, chores, new_possessions, events]
+        if game_version == 'alpha1.3' or game_version == 'alpha1.4':
             # Adding Reputation.
-            version = 'alpha1.4.1'
+            game_version = 'alpha1.4.1'
             (stats, food, drinks, game_time, locations, chores, possessions, events) = datapack[1:]
             stats += '\t0'
-            datapack = [version, stats, food, drinks, game_time, locations, chores, possessions, events]
-        if version == 'alpha1.4.1':
+            datapack = [game_version, stats, food, drinks, game_time, locations, chores, possessions, events]
+        if game_version == 'alpha1.4.1':
             # Adding Rank.
-            version = version
+            game_version = game_version
             (stats, food, drinks, game_time, locations, chores, possessions, events) = datapack[1:]
             rank = ("scout\t" + ','.join([str(False)] * len(ranks["scout"])))
-            datapack = [version, stats, food, drinks, game_time, locations, chores, possessions, events, rank]
+            datapack = [game_version, stats, food, drinks, game_time, locations, chores, possessions, events, rank]
             # Now to quit and rewrite the game files.
             # UPDATE THIS SHOULD BE MOVED TO THE BOTTOM OF THE UPGRADE TREE!
             file = open(self.path + '\\' + self.filename, 'w')
