@@ -4,89 +4,8 @@ Player gets to select conditions for a secret number and then attempt to guess t
 """
 import os
 import random
-
 from System import Loading
-
-
-def init_game(self, path, extension):
-    """
-    Method to select a game file.
-    :param self: Game object.
-    :param path: Path to search in.
-    :param extension: File extension to filter to.
-    :return: Either raw game data or translated game data
-    """
-    while True:
-        count = 0
-        for subdir, dirs, files in os.walk(path):
-            for file in files:
-                if file.rpartition(".")[2] == extension:
-                    count += 1
-                    print('{count}. {file}'.format(count=count, file=file))
-        print(str(count + 1) + '. New Game')
-        print(str(count + 2) + '. Delete Game')
-        self.filename = input('Which file would you like to open? Type "exit" to exit.\n').replace(".{ext}".format(ext=extension), "")
-        if self.filename.lower() == 'exit':
-            Loading.returning_to_apps()
-            return
-        if self.filename.lower() == 'new game':
-            self.new_file = True
-            return
-        elif self.filename.lower() == 'delete game':
-            delete(path, extension)
-        else:
-            try:
-                game = list(open("{}\\{}".format(path, '{}.{}'.format(self.filename, extension)), 'r'))
-                self.filename = '{}.{}'.format(self.filename, extension)
-                Loading.returning("Loading previous game...", 2)
-                if extension == "sct":
-                    return game
-                if extension == "sdu":
-                    return [Loading.caesar_decrypt(i) for i in game]
-                return (Loading.caesar_decrypt(game[0].replace('\n', ''))).split('(G)')
-            except FileNotFoundError:
-                Loading.returning("Choose a valid option.", 1)
-
-
-def delete(path, extension):
-    """
-    Method to delete a game file.
-    :param path: Path to search in.
-    :param extension: File extension to filter to.
-    :return: Nothing.
-    """
-    while True:
-        count = 0
-        for subdir, dirs, files in os.walk(path):
-            for file in files:
-                if file.rpartition(".")[2] == extension:
-                    count += 1
-                    print('{count}. {file}'.format(count=count, file=file))
-        delete_game = input("Which game would you like to delete?\n").replace(".{ext}".format(ext=extension), "")
-        try:
-            os.remove("{}\\{}".format(path, delete_game))
-            Loading.returning("The file was successfully deleted.", 2)
-        except FileNotFoundError:
-            Loading.returning("That file was not found.", 1)
-        if input('Delete another file?.').lower() not in ('yes', 'sure', 'absolutely'):
-            Loading.returning("Returning to the game...", 2)
-            return
-
-
-def quit_game(self):
-    """
-    Method to regulate quitting and saving progress
-    :return: Nothing.
-    """
-    if self.new_file:
-        self.filename = input("File name?\n") + '.bgl'
-    try:
-        game = open(self.path + "\\" + self.filename, 'w')
-        game.write(Loading.caesar_encrypt(self.__repr__()))
-        game.close()
-    except (FileNotFoundError, FileExistsError):
-        Loading.returning("The path or file was not found.", 2)
-    return
+from Applications.cabinet import FileEngine
 
 
 category = "games"
@@ -101,7 +20,7 @@ def boot(os_object=None):
     :return: Nothing
     """
     while True:
-        bagels = Bagels(os_object.path.format(os_object.current_user.username))
+        bagels = Bagels(path=os_object.path.format(os_object.current_user.username))
         if not bagels.filename == 'exit':
             if not bagels.main() == "again":
                 return
@@ -119,7 +38,7 @@ class Bagels:
         self.path = path
         self.filename = ''
         if not game_info:
-            game_info = init_game(self, self.path, 'bgl')
+            game_info = FileEngine.init(self, self.path, 'bgl')
         if self.new_file:
             while True:
                 try:
@@ -172,7 +91,7 @@ class Bagels:
                 print('Guess #%s: \nType "help" for help. Type "quit" to quit.' % self.num_guesses)
                 guess = Loading.pocs_input(app_object=self)
                 if guess == 'quit':
-                    quit_game(self)
+                    FileEngine.quit_game(self, ".bgl")
                     Loading.returning("Saving game progress...", 2)
                     return
                 elif guess == 'help':

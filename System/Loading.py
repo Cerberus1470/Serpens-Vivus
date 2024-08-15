@@ -65,8 +65,8 @@ COLORS = {
     "default": 0
 }
 
-BACKGROUNDS = set([k for k in itertools.chain.from_iterable([j for j in [[i for i in files if i.split('.')[1] == "bg"] for subdir, dirs, files in os.walk("System")] if j] +
-                                                            [j for j in [[i for i in files if i.split('.')[1] == "bg"] for subdir, dirs, files in os.walk("Users")] if j])])
+BACKGROUNDS = set([k for k in itertools.chain.from_iterable([j for j in [[i for i in files if i.rpartition('.')[2] == "bg"] for subdir, dirs, files in os.walk("System")] if j] +
+                                                            [j for j in [[i for i in files if i.rpartition('.')[2] == "bg"] for subdir, dirs, files in os.walk("Users")] if j])])
 
 SPEED = 1.0
 
@@ -401,8 +401,8 @@ def caesar_encrypt(message='', priority=1):
     if len(key) <= len(message):
         key *= int(len(message))
     for i in range(len(message)):
-        if message[i] == '\n':
-            encrypted_h += '\n'
+        if message[i] not in ALPHABET:
+            encrypted_h += message[i]
         else:
             try:
                 encrypted_h += ALPHABET[ALPHABET.index(message[i]) + key[i]]
@@ -425,8 +425,8 @@ def caesar_decrypt(encrypted_h='', priority=1):
     if len(key) <= len(encrypted_h):
         key *= int(len(encrypted_h))
     for i in range(len(encrypted_h)):
-        if encrypted_h[i] == '\n':
-            decrypted_h += '\n'
+        if encrypted_h[i] not in ALPHABET:
+            decrypted_h += encrypted_h[i]
         else:
             try:
                 decrypted_h += ALPHABET[ALPHABET.index(encrypted_h[i]) - key[i]]

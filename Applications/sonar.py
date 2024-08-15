@@ -6,7 +6,8 @@ import random
 import math
 import os
 from System import Loading
-from Applications import bagels
+from Applications.cabinet import FileEngine
+
 
 category = 'games'
 version = "1.2"
@@ -38,7 +39,7 @@ class Sonar:
         self.filename = ''
         self.path = path
         if not game_info:
-            game_info = bagels.init_game(self, path, 'snr')
+            game_info = FileEngine.init(self, path, 'snr')
         self.board = [['-' if random.randint(0, 1) == 0 else '~' for _ in range(40)] for _ in range(10)]
         if self.new_file:
             self.new_file = True
@@ -106,7 +107,7 @@ class Sonar:
                 while True:
                     move = Loading.pocs_input(app_object=self)
                     if move.lower() == 'quit':
-                        bagels.quit_game(self)
+                        FileEngine.quit_game(self, ".snr")
                         return
                     move = move.split()
                     if len(move) == 2 and move[0].isdigit() and move[1].isdigit() and 0 <= int(move[0]) <= 9 and 0 <= int(move[1]) <= 39:

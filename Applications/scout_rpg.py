@@ -6,7 +6,7 @@ import math
 import time
 
 import os
-from Applications import bagels
+from Applications.cabinet import FileEngine
 from System import Loading
 from datetime import datetime as dt, timedelta as td
 import calendar
@@ -476,7 +476,7 @@ class ScoutRpg:
         self.new_file = False
         self.filename = ""
         self.path = path
-        game_info = bagels.init_game(self, path, 'sct')
+        game_info = FileEngine.init(self, path, 'sct')
         # Default stats for the time being. Health, Hunger, Thirst, and time (date, hour, minute).
         if game_info:
             # Decrypting everything and cutting off the new line at the end!

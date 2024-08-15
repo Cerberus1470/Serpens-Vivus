@@ -4,7 +4,7 @@ Sudoku Game, replicated in Python.
 import math
 
 import random
-from Applications import bagels
+from Applications.cabinet import FileEngine
 from System import Loading
 
 
@@ -37,7 +37,7 @@ class Sudoku:
         self.K = 0
         self.SRN = 0
         self.solution = []
-        game_info = bagels.init_game(self, self.path, 'sdu')
+        game_info = FileEngine.init(self, self.path, 'sdu')
         if game_info:
             self.board = [[int(j) for j in i.split('.')] for i in game_info[0].split('\n')[0].split(',')]
             self.solution = [[int(j) for j in i.split('.')] for i in game_info[1].split(',')]
@@ -47,6 +47,51 @@ class Sudoku:
 
     def __getstate__(self):
         return ""
+
+    def main(self):
+        """
+        The main application screen.
+        :return: Nothing.
+        """
+        if self.new_file:
+            self.setup()
+        print("\nWelcome to Sudoku.")
+        while not [all([all([j != 0 for j in i]) for i in self.board])][0]:
+            print(Loading.colored("  1 2 3 4 5 6 7 8 9", "blue"))
+            for i in self.board:
+                print(Loading.colored(str(int(self.board.index(i)) + 1), "blue") + ' ' + ' '.join(str(j) if j != 0 else ' ' for j in i))
+            coordinates, number = self.enter_player_move()
+            if coordinates == 0 and number == 0:
+                FileEngine.quit_game(self, ".sdu")
+                return
+            else:
+                try:
+                    if self.solution[coordinates[0]][coordinates[1]] == number:
+                        Loading.returning(Loading.colored("Correct!", Loading.COLORS["green"]), 2)
+                        self.board[int(coordinates[0])][int(coordinates[1])] = int(number)
+                    else:
+                        Loading.returning(Loading.colored("Incorrect!", Loading.COLORS["red"]))
+                except (TypeError, ValueError):
+                    Loading.returning("An error occurred.", 2)
+
+    def setup(self):
+        """
+        Screen to set up a new game.
+        :return:
+        """
+        print("Welcome to Sudoku!")
+        if input("Would you like to view the instructions?").startswith('y'):
+            input("Sudoku is a game of logic.\nThe goal is to fill the board with numbers. How, you might ask? There are a few simple rules. Press ENTER to continue.")
+            input("Rule 1: Each box only has one of each number.\nRule 2: Each row only has one of each number\nRule 3: Each column only has one of each number.")
+            input("There will be numbers provided at the beginning of each game. These cannot be changed.\nNo guessing is necessary. Every Sudoku puzzle can be solved with logic.")
+        # Create a new board
+        self.new_board(9, 20)
+        for i in range(self.SRN):
+            self.fill_box(3 * i, 3 * i)
+        self.fill_remaining(0, self.SRN)
+        self.solution = [i.copy() for i in self.board]
+        self.remove_k_digits()
+        return
 
     def new_board(self, n, k):
         """
@@ -223,48 +268,3 @@ class Sudoku:
             else:
                 break
         return coordinates, int(number)
-
-    def main(self):
-        """
-        The main application screen.
-        :return: Nothing.
-        """
-        if self.new_file:
-            self.setup()
-        print("\nWelcome to Sudoku.")
-        while not [all([all([j != 0 for j in i]) for i in self.board])][0]:
-            print(Loading.colored("  1 2 3 4 5 6 7 8 9", "blue"))
-            for i in self.board:
-                print(Loading.colored(str(int(self.board.index(i)) + 1), "blue") + ' ' + ' '.join(str(j) if j != 0 else ' ' for j in i))
-            coordinates, number = self.enter_player_move()
-            if coordinates == 0 and number == 0:
-                bagels.quit_game(self)
-                return
-            else:
-                try:
-                    if self.solution[coordinates[0]][coordinates[1]] == number:
-                        Loading.returning(Loading.colored("Correct!", Loading.COLORS["green"]), 2)
-                        self.board[int(coordinates[0])][int(coordinates[1])] = int(number)
-                    else:
-                        Loading.returning(Loading.colored("Incorrect!", Loading.COLORS["red"]))
-                except (TypeError, ValueError):
-                    Loading.returning("An error occurred.", 2)
-
-    def setup(self):
-        """
-        Screen to set up a new game.
-        :return:
-        """
-        print("Welcome to Sudoku!")
-        if input("Would you like to view the instructions?").startswith('y'):
-            input("Sudoku is a game of logic.\nThe goal is to fill the board with numbers. How, you might ask? There are a few simple rules. Press ENTER to continue.")
-            input("Rule 1: Each box only has one of each number.\nRule 2: Each row only has one of each number\nRule 3: Each column only has one of each number.")
-            input("There will be numbers provided at the beginning of each game. These cannot be changed.\nNo guessing is necessary. Every Sudoku puzzle can be solved with logic.")
-        # Create a new board
-        self.new_board(9, 20)
-        for i in range(self.SRN):
-            self.fill_box(3 * i, 3 * i)
-        self.fill_remaining(0, self.SRN)
-        self.solution = [i.copy() for i in self.board]
-        self.remove_k_digits()
-        return

@@ -5,7 +5,7 @@ your ability to guess a word. Good luck! Side note: I thought we were supposed t
 import os
 from System import Loading
 import random
-from Applications import bagels
+from Applications.cabinet import FileEngine
 
 HANGMAN_PICS = ['''
   +-----+
@@ -113,7 +113,7 @@ class Hangman:
         self.path = path
         self.filename = ''
         if not game_info:
-            game_info = bagels.init_game(self, self.path, 'hng')
+            game_info = FileEngine.init(self, self.path, 'hng')
         if self.new_file:
             self.new_file = True
             self.missed_letters = ''
@@ -153,7 +153,7 @@ class Hangman:
                 print('Guess a letter, or type "quit" to exit the app.')
                 guess = Loading.pocs_input(app_object=self).lower()
                 if guess in ('quit', 'exit', 'get me outta here bruh'):
-                    bagels.quit_game(self)
+                    FileEngine.quit_game(self, ".hng")
                     Loading.returning("Saving game progress...", 2)
                     return
                 elif len(guess) != 1:

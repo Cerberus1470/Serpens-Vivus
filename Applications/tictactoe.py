@@ -4,7 +4,7 @@ Module tictactoe. Contains the classes and methods for the TTT game.
 import os
 import random
 from System import Loading
-from Applications import bagels
+from Applications.cabinet import FileEngine
 
 
 category = "games"
@@ -38,7 +38,7 @@ class Tictactoe:
         self.filename = ''
         self.path = path
         if not game_info:
-            game_info = bagels.init_game(self, path, 'ttt')
+            game_info = FileEngine.init(self, path, 'ttt')
         if self.new_file:
             (self.board, self.turn, self.player_letter) = ([" "] * 9, "", "")
         elif game_info:
@@ -87,7 +87,7 @@ class Tictactoe:
                 move = self.get_player_move()
                 if move in ('exit', 'quit', 'get me out of here'):
                     # Safely quit the app.
-                    bagels.quit_game(self)
+                    FileEngine.quit_game(self, ".ttt")
                     Loading.returning("Saving game progress...", 2)
                     return
                 else:
