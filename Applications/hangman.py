@@ -84,7 +84,7 @@ words = {  # this is the word bank
     'Animals': 'bat bear beaver cat cougar crab deer dog donkey duck eagle fish frog goat leech lion lizard monkey moose mouse otter owl panda python rabbit rat shark sheep skunk squid tiger turkey turtle weasel whale wolf wombat zebra'.split()}
 
 category = "games"
-version = "2.2"
+version = "2.4"
 entries = ('hangman', '5')
 
 
@@ -153,8 +153,7 @@ class Hangman:
                 print('Guess a letter, or type "quit" to exit the app.')
                 guess = Loading.pocs_input(app_object=self).lower()
                 if guess in ('quit', 'exit', 'get me outta here bruh'):
-                    FileEngine.quit_game(self, ".hng")
-                    Loading.returning("Saving game progress...", 2)
+                    FileEngine.quit(self, ".hng")
                     return
                 elif len(guess) != 1:
                     print('Please enter a single letter.')

@@ -14,4 +14,7 @@ No Bugs
 Option 1.1 - 6/12/2024 14:59
 SET-004 - Printing all users would start at 0 instead of 1.
 SET-005 - Users were locked in to making a new user.
-Option 1.2 - 6/17/2024
+Option 1.2 - 6/17/2024 20:19
+SET-006 - Changing the animation speed would cause an application crash.
+SET-007 - Resetting anything would cause an application crash.
+Option 1.3 - 8/5/2025 10:53

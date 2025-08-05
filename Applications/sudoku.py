@@ -9,7 +9,7 @@ from System import Loading
 
 
 category = "games"
-version = "1.3"
+version = "1.5"
 entries = ('sudoku', '4')
 
 
@@ -43,7 +43,7 @@ class Sudoku:
             self.solution = [[int(j) for j in i.split('.')] for i in game_info[1].split(',')]
 
     def __repr__(self):
-        return (','.join('.'.join(str(j) for j in i) for i in self.board)) + '\n' + ','.join('.'.join(str(j) for j in i) for i in self.solution)
+        return "{}(G){}".format((','.join('.'.join(str(j) for j in i) for i in self.board)), ','.join('.'.join(str(j) for j in i) for i in self.solution))
 
     def __getstate__(self):
         return ""
@@ -62,7 +62,7 @@ class Sudoku:
                 print(Loading.colored(str(int(self.board.index(i)) + 1), "blue") + ' ' + ' '.join(str(j) if j != 0 else ' ' for j in i))
             coordinates, number = self.enter_player_move()
             if coordinates == 0 and number == 0:
-                FileEngine.quit_game(self, ".sdu")
+                FileEngine.quit(self, ".sdu")
                 return
             else:
                 try:

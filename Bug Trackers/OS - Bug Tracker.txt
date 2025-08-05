@@ -93,4 +93,10 @@ OS-056 - User Registry keys were not checked, leading to system crashes for user
 OS-057 - System recovery would not gather info about the programs for each user.
 OS-058 - No administrator present would not raise the respective error, leading to unwanted behavior.
 OS-059 - The Guest user folder was not properly handled on shutdown.
-Installation 4.0 - 6/17/2024
+Installation 4.0 - The Iterative Update- 6/17/2024 20:19
+OS-060 - Any background files with multiple periods in the filename would not be recognized by the OS.
+OS-061 - All escape characters except the newline were not recognized by the encryption algorithm.
+Installation 4.0.1 - 8/14/2024 15:10
+OS-062 - Chaining a LockInterrupt with a HomeInterrupt caused unintended behavior.
+OS-063 - HomeInterrupts did not work.
+OS-064 - LockInterrupts were recognized as Program Errors.

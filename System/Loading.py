@@ -65,8 +65,8 @@ COLORS = {
     "default": 0
 }
 
-BACKGROUNDS = set([k for k in itertools.chain.from_iterable([j for j in [[i for i in files if i.rpartition('.')[2] == "bg"] for subdir, dirs, files in os.walk("System")] if j] +
-                                                            [j for j in [[i for i in files if i.rpartition('.')[2] == "bg"] for subdir, dirs, files in os.walk("Users")] if j])])
+BACKGROUNDS = {k for k in itertools.chain.from_iterable([j for j in [[i for i in files if i.rpartition('.')[2] == "bg"] for subdir, dirs, files in os.walk("System")] if j] +
+                                                        [j for j in [[i for i in files if i.rpartition('.')[2] == "bg"] for subdir, dirs, files in os.walk("Users")] if j])}
 
 SPEED = 1.0
 
@@ -329,17 +329,10 @@ def modify_user(username='', element=-1, value=''):
         if subdir == "Users\\" + username:
             file = list(open("{}\\info.usr".format(subdir), 'r'))
             info = caesar_decrypt(file[0]).split('(U)')
-            # programs = caesar_decrypt(file[1]).split('\n')[0].split('(P)')
             if element < 4:
                 info[element] = value
-            # else:
-            #     try:
-            #         programs[element - 4] = value
-            #     except IndexError:
-            #         break
             file = open("{}\\info.usr".format(subdir), 'w')
             file.write(caesar_encrypt('(U)'.join(info)))
-            # file.write(caesar_encrypt('(P)'.join(programs) + '\n'))
             file.close()
             if element == 1:
                 os.rename(subdir, "Users\\{}".format(value))
@@ -348,17 +341,16 @@ def modify_user(username='', element=-1, value=''):
     return 1
 
 
-def display_user(username=""):
+def display_user(username="", priority=0):
     """
     This is a tester method to display a user and all of its pertinent info.
     :param username: The name of the user to gather info about.
+    :param priority: The priority for decryption.
     :return: Nothing.
     """
     for subdir, dirs, files in os.walk("Users"):
         if subdir == "Users\\{}".format(username) and "info.usr" in files:
-            file = list(open(subdir + "\\info.usr"))
-            print(caesar_decrypt(file[0]))
-            print(caesar_decrypt(file[1]))
+            print(caesar_decrypt(''.join(list(open(subdir + "\\info.usr"))), priority=priority))
 
 
 def upscale(file, resolution):
@@ -381,9 +373,9 @@ def upscale(file, resolution):
                     char = [['\\', ' '], [' ', '\\']]
                 case _:
                     char = [[' ', ' '], [' ', ' ']]
-            for k in range(i*2, i*2+2):
-                for l in range(j*2, j*2+2):
-                    upscaled_image[k][l] = char[k-i*2][l-j*2]
+            for k in range(i * 2, i * 2 + 2):
+                for l in range(j * 2, j * 2 + 2):
+                    upscaled_image[k][l] = char[k - i * 2][l - j * 2]
     return upscaled_image
 
 
@@ -404,10 +396,7 @@ def caesar_encrypt(message='', priority=1):
         if message[i] not in ALPHABET:
             encrypted_h += message[i]
         else:
-            try:
-                encrypted_h += ALPHABET[ALPHABET.index(message[i]) + key[i]]
-            except IndexError:
-                encrypted_h += ALPHABET[ALPHABET.index(message[i]) + key[i] - 92]
+            encrypted_h += ALPHABET[(ALPHABET.index(message[i]) + key[i]) % len(ALPHABET)]
     return encrypted_h
 
 
@@ -429,9 +418,7 @@ def caesar_decrypt(encrypted_h='', priority=1):
             decrypted_h += encrypted_h[i]
         else:
             try:
-                decrypted_h += ALPHABET[ALPHABET.index(encrypted_h[i]) - key[i]]
-            except IndexError:
-                decrypted_h += ALPHABET[ALPHABET.index(encrypted_h[i]) - key[i] + 92]
+                decrypted_h += ALPHABET[(ALPHABET.index(encrypted_h[i]) - key[i]) % len(ALPHABET)]
             except ValueError:
                 return encrypted_h[i]
     return decrypted_h

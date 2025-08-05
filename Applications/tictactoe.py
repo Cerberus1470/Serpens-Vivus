@@ -8,7 +8,7 @@ from Applications.cabinet import FileEngine
 
 
 category = "games"
-version = "2.1"
+version = "2.3"
 entries = ('tictactoe', 'tic-tac-toe', 'ttt', '4')
 
 
@@ -87,8 +87,7 @@ class Tictactoe:
                 move = self.get_player_move()
                 if move in ('exit', 'quit', 'get me out of here'):
                     # Safely quit the app.
-                    FileEngine.quit_game(self, ".ttt")
-                    Loading.returning("Saving game progress...", 2)
+                    FileEngine.quit(self, ".ttt")
                     return
                 else:
                     self.board[int(move)] = self.player_letter

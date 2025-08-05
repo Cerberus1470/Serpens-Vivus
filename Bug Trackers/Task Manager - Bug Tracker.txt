@@ -22,4 +22,6 @@ Task 1.2 - 1/4/2024 09:06
 No Bugs
 Task 1.3 - 6/12/2024 14:59
 MGR-06 - Quitting apps does not work.
-Task 2.0_alpha01 - 6/17/2024
+Task 2.0_alpha01 - 6/17/2024 20:19
+MGR-07 - The header would show up for each running process instead of once.
+Task 2.0_alpha02 - 8/5/2025 10:53

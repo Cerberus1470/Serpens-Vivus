@@ -242,9 +242,8 @@ ranks = {
 # Full uniform (Pants/Shorts, Shirt, Socks, belt, optional cap) + handbook REQUIRED for troop meetings. If not present, player will be scolded. FUTURE: Will decrease reputation.
 """* SYNCED LIST * means the list of objects associated with this class has one of each item in their respective list above."""
 
-
 category = "games"
-version = 'alpha1.6.4'
+version = 'alpha1.6.6'
 entries = ("scout rpg", "scout", "rpg", "scout_rpg", "scoutrpg")
 
 
@@ -282,6 +281,9 @@ class Statistics:
             self.money = 0.0
             self.reputation = 0
 
+    def __repr__(self):
+        return '(S)'.join([str(self.__getattribute__(i)) for i in [*self.__iter__(), 'reputation']])
+
     @staticmethod
     def __iter__():
         return ['health', 'hunger', 'thirst', 'money']
@@ -316,6 +318,9 @@ class Food:
     def __iter__(self):
         return [self.name, self.count, self.fuel, self.duration]
 
+    def __getstate__(self):
+        return ','.join(str(x) for x in (self.name, self.count))
+
 
 class Drink:
     """
@@ -342,9 +347,13 @@ class Drink:
     def __iter__(self):
         return [self.name, self.count, self.fuel, self.duration]
 
+    def __getstate__(self):
+        return ','.join(str(x) for x in (self.name, self.count))
+
 
 class Location:
     """
+
     Class Location
     Creates an object to store a location. Stores the name (str) and distance duration (int).
     * SYNCED LIST *
@@ -421,7 +430,7 @@ class Event:
         self.importance = importance
 
     def __repr__(self):
-        return self.name + ',' + self.date.strftime('%m%d%Y%H%M') + ',' + str(self.importance)
+        return ','.join([self.name, self.date.strftime('%m%d%Y%H%M'), str(self.importance)])
 
     def alert_message(self):
         """
@@ -443,7 +452,7 @@ class Rank:
         self.requirement_list = [Requirement(i, (info[ranks[rank].index(i)] if info else False)) for i in ranks[rank]]
 
     def __repr__(self):
-        return self.rank + '\t' + ','.join([str(i.status) for i in self.requirement_list])
+        return self.rank + '(R)' + ','.join([str(i.status) for i in self.requirement_list])
 
 
 class Requirement:
@@ -454,10 +463,10 @@ class Requirement:
 
     def __init__(self, name, status=None):
         self.name = name
-        self.status = status == "True" if status else False
+        self.status = status if status else False
 
     def __repr__(self):
-        return self.status.upper() + '\t' + self.name
+        return str(self.status) + '(Re)' + self.name
 
 
 class ScoutRpg:
@@ -481,9 +490,10 @@ class ScoutRpg:
         if game_info:
             # Decrypting everything and cutting off the new line at the end!
             try:
-                game_version = Loading.caesar_decrypt(game_info[0]).split('\n')[0]
+                game_version = game_info[0]
                 # UPDATE Add versions here after updates!!!
-                if game_version not in ("prealpha", "alpha1.0", "alpha1.1", "alpha1.2", "alpha1.3", "alpha1.4", "alpha1.4.1", "alpha1.5", "alpha1.6", "alpha1.6.1", "alpha1.6.2"):
+                if game_version not in ("prealpha", "alpha1.0", "alpha1.1", "alpha1.2", "alpha1.3", "alpha1.4", "alpha1.4.1", "alpha1.5", "alpha1.6",
+                                        "alpha1.6.1", "alpha1.6.2", "alpha1.6.3", "alpha1.6.4"):
                     raise IndexError
             except IndexError:
                 if input("There is no version in the selected game file. Type ENTER to delete it, or stop the program now "
@@ -492,19 +502,19 @@ class ScoutRpg:
                 return
             try:
                 # Checking for update and unpacking...
-                (game_version, stats, food, drinks, game_time, locations, chores, possessions, events, rank) = self.update_check(game_version, [Loading.caesar_decrypt(i).split('\n')[0] for i in game_info])
+                (game_version, stats, food, drinks, game_time, locations, chores, possessions, events, rank) = self.update_check(game_version, game_info)
                 # stats will look something like "100.0\t50.0\t50.0\t0.0"
-                self.stats = Statistics(stats.split('\t')) if stats else Statistics()
+                self.stats = Statistics(stats.split('(S)')) if stats else Statistics()
                 # Food data looks like peanuts,5,5,5\tpancake10,10,15
-                self.food = [Food(i.split(',')[0], i.split(',')[1]) for i in food.split('\t')] if food else []
-                self.drinks = [Drink(i.split(',')[0], i.split(',')[1]) for i in drinks.split('\t')] if drinks else []
-                self.locations = [Location(i.split(',')[0], i.split(',')[1]) for i in locations.split('\t')] if locations else []
+                self.food = [Food(*i.split(',')) for i in food.split('(F)')] if food else []
+                self.drinks = [Drink(*i.split(',')) for i in drinks.split('(D)')] if drinks else []
+                self.locations = [Location(*i.split(',')) for i in locations.split('(L)')] if locations else []
                 self.time = dt.strptime(game_time, "%m%d%Y%H%M") if game_time else None
                 self.difference = [0, 0, 0, 0]
-                self.chores = [Chore(i.split(',')[0], i.split(',')[1]) for i in chores.split('\t')] if chores else []
-                self.possessions = [Possession(i) for i in possessions.split('\t')] if possessions else []
-                self.events = [Event(i.split(',')[0], i.split(',')[1], i.split(',')[2]) for i in events.split('\t')] if events else []
-                self.rank = Rank(rank.split('\t')[0], rank.split('\t')[1].split(',')) if rank else Rank("scout", [])
+                self.chores = [Chore(*i.split(',')) for i in chores.split('(C)')] if chores else []
+                self.possessions = [Possession(i) for i in possessions.split('(P)')] if possessions else []
+                self.events = [Event(*i.split(',')) for i in events.split('(E)')] if events else []
+                self.rank = Rank(rank.split('(R)')[0], rank.split('(R)')[1].split(',')) if rank else Rank("scout", [])
             except (KeyError, IndexError, ValueError):
                 # If the element doesn't exist.
                 if input("This game save is corrupted! Nooooo...\nType ENTER to delete it, or stop the program now "
@@ -513,31 +523,21 @@ class ScoutRpg:
                 return
         return
 
-    def quit(self):
+    def __repr__(self):
         """
         Regulates the rewriting of game files and quitting the game.
         :return: Nothing.
         """
-        if self.new_file:
-            self.filename = input("File name?\n") + '.sct'
-        stats = '\t'.join(str(self.stats.__getattribute__(i)) for i in self.stats.__iter__()) + '\t' + str(self.stats.reputation)
-        food = '\t'.join(i.__repr__() for i in self.food)
-        drinks = '\t'.join(i.__repr__() for i in self.drinks)
+        stats = self.stats.__repr__()
+        food = '(F)'.join(i.__getstate__() for i in self.food)
+        drinks = '(D)'.join(i.__getstate__() for i in self.drinks)
         game_time = self.time.strftime("%m%d%Y%H%M")
-        locations = '\t'.join(i.__repr__() for i in self.locations)
-        chores = '\t'.join(i.__repr__() for i in self.chores)
-        possessions = '\t'.join(i.__repr__() for i in self.possessions)
-        events = '\t'.join(i.__repr__() for i in self.events)
+        locations = '(L)'.join(i.__repr__() for i in self.locations)
+        chores = '(C)'.join(i.__repr__() for i in self.chores)
+        possessions = '(P)'.join(i.__repr__() for i in self.possessions)
+        events = '(E)'.join(i.__repr__() for i in self.events)
         rank = self.rank.__repr__()
-        try:
-            game = open(self.path + '\\' + self.filename, 'w')
-            for i in (version, stats, food, drinks, game_time, locations, chores, possessions, events, rank):
-                game.write(Loading.caesar_encrypt(i) + '\n')
-            game.close()
-        except (FileNotFoundError, FileExistsError):
-            Loading.returning("The path or file was not found.", 2)
-        Loading.returning("Saving game progress...", 2)
-        return
+        return "(G)".join([version, stats, food, drinks, game_time, locations, chores, possessions, events, rank])
 
     def refresh(self, element=None, value=None):
         """
@@ -728,10 +728,10 @@ class ScoutRpg:
             print("Rank: " + self.rank.rank.capitalize())
             action = input('What would you like to do? Type "help" for help').lower()
             if action == "help":
-                input('Here is a list of common actions:\n1. Eat\n2. Drink\n3. Sleep\n4. Heal\n5. Chores\n6. Travel\n7. Agenda\n8. Rank'
+                input('Here is a list of common actions:\n1. Eat\n2. Drink\n3. Sleep\n4. Heal\n5. Chores\n6. Travel\n7. Agenda\n8. Rank\n'
                       'You can type "exit" to exit')
             if action in ('quit', 'exit', 'leave', 'save'):
-                self.quit()
+                FileEngine.quit(self, ".sct")
                 return
             for i in ScoutRpg.choices:
                 if action == ScoutRpg.choices[i]:
@@ -1362,11 +1362,11 @@ class ScoutRpg:
         Loading.returning("Here you will be tested on your first aid. Good Luck!", 3)
         score = 0
         for i in random.sample([FirstAidQuestion(i[0], i[1], i[2]) for i in [
-                ("What does AED stand for?", [": Automated Emergency Drill", ": Automatic Excess Drainer", ": Automated External Defibrillator", ": Autocratic Extrinsic Deoscillator"], ": Automated External Defibrillator"),
-                ("What do you do in the event of a severe allergic reaction?", [": Run around", ": Use an Epi-Pen", ": Inject epinephrine into your system while doing push-ups.", ": Do nothing."], ": Use an Epi-Pen"),
-                ("What happens if you break a bone in an outing?", [": Use a tourniquet to reduce movement of the limb.", ": Flee from the scene", ": Amputate the limb.", ": Cry out for help"], ": Use a tourniquet to reduce movement of the limb."),
-                ("Put the steps for alleviating a cut or scrape in order.", [": Wash, Sanitize, Cover", ": Sanitize, Cover, Wash", ": Cover, Wash, Sanitize", ": Sanitize, Wash, Cover"], ": Wash, Sanitize, Cover"),
-                ("Why do we wear mask during an airborne pandemic?", [": To protect ourselves and others.", ": To protect others", ": To look cool by buying your favorite design.", ": To scare the virus."], ": To protect ourselves and others.")]], 3):
+            ("What does AED stand for?", [": Automated Emergency Drill", ": Automatic Excess Drainer", ": Automated External Defibrillator", ": Autocratic Extrinsic Deoscillator"], ": Automated External Defibrillator"),
+            ("What do you do in the event of a severe allergic reaction?", [": Run around", ": Use an Epi-Pen", ": Inject epinephrine into your system while doing push-ups.", ": Do nothing."], ": Use an Epi-Pen"),
+            ("What happens if you break a bone in an outing?", [": Use a tourniquet to reduce movement of the limb.", ": Flee from the scene", ": Amputate the limb.", ": Cry out for help"], ": Use a tourniquet to reduce movement of the limb."),
+            ("Put the steps for alleviating a cut or scrape in order.", [": Wash, Sanitize, Cover", ": Sanitize, Cover, Wash", ": Cover, Wash, Sanitize", ": Sanitize, Wash, Cover"], ": Wash, Sanitize, Cover"),
+            ("Why do we wear mask during an airborne pandemic?", [": To protect ourselves and others.", ": To protect others", ": To look cool by buying your favorite design.", ": To scare the virus."], ": To protect ourselves and others.")]], 3):
             choice = input('\n' + i.question + '\n' + '\n'.join([["A", "B", "C", "D"][j] + i.options[j] for j in range(len(i.options))]) + '\n')
             if choice in i.answer or choice in ["A", "B", "C", "D"][i.options.index(i.answer)]:
                 Loading.returning("Great Job!", 2)
@@ -1705,11 +1705,13 @@ class ScoutRpg:
         Method for the Kids Against Hunger Outing.
         :return: Nothing.
         """
+
         class Meal:
             """
             Class Meal.
             Creates an object to store a Meal. Stores the name and creates and stores the count and the progress towards the next meal.
             """
+
             def __init__(self, name):
                 self.name = name
                 self.count = 0
@@ -1778,17 +1780,20 @@ class ScoutRpg:
         Method for the Conservation Outing.
         :return: Nothing.
         """
+
         class Bin:
             """
             Class Bin.
             Creates an object to store a Bin. Stores the name and count of how many things are in it.
             """
+
             def __init__(self, name):
                 self.name = name
                 self.count = 0
 
             def __repr__(self):
                 return "{} - \t{} ".format(self.name.capitalize(), ('|' * self.count if self.count > 0 else "0"))
+
         Loading.returning("Welcome to the conservation outing.")
         if 'yes' in input("Would you like to view the instructions? \"yes\" or \"no\""):
             input("Reduce, Reuse, Recycle! Here we're going to learn where to place what item of waste. Specifically which bin (trash, recycle, compost).\n"

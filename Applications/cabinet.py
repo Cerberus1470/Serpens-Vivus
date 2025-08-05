@@ -5,7 +5,7 @@ import os
 from System import Loading
 
 category = "utilities"
-version = "1.0"
+version = "1.2_alpha01"
 entries = ("cabinet", "files", "explorer", "file manager", "file explorer")
 
 
@@ -72,7 +72,9 @@ class Cabinet:
                 if [i for i in tree if i.name == choice][0].is_dir():  # Check if it's a directory.
                     folder += "\\" + choice
                 else:  # Should be a file at this point.
-                    pass  # TODO: Add opening files here!
+                    pass  # TODO: Add opening files here! Use open_file() and then use that to create a HomeInterrupt, then return to home to open the file.
+                    # I don't want to deal with scope, calling main() methods from the Cabinet, so I'm going to quit cabinet and launch the game using
+                    # already set-up OS features.
             elif choice in ("", "back", "up"):
                 folder = folder.rpartition("\\")[0]
                 if not folder:
@@ -116,13 +118,7 @@ class FileEngine:
                 try:
                     game = list(open("{}\\{}".format(path, '{}.{}'.format(self.filename, extension)), 'r'))
                     self.filename = '{}.{}'.format(self.filename, extension)
-                    Loading.returning("Loading save file...", 1)
-                    if extension == "sct":
-                        return game
-                    if extension == "sdu":
-                        return [Loading.caesar_decrypt(i) for i in game]
-                    if extension == "txt":
-                        return Loading.caesar_decrypt(''.join(game)).split('\n')
+                    Loading.progress_bar("Loading save file...", 1)
                     return (Loading.caesar_decrypt(game[0].replace('\n', ''))).split('(G)')
                 except FileNotFoundError:
                     Loading.returning("Choose a valid option.", 1)
@@ -153,7 +149,7 @@ class FileEngine:
                 return
 
     @staticmethod
-    def quit_game(self, extension: str = "."):
+    def quit(self, extension: str = "."):
         """
         Method to regulate quitting and saving progress
         :param self: Game object.
@@ -166,6 +162,26 @@ class FileEngine:
             game = open(self.path + "\\" + self.filename, 'w')
             game.write(Loading.caesar_encrypt(self.__repr__()))
             game.close()
+            Loading.returning("Saving game progress...", 2)
         except (FileNotFoundError, FileExistsError):
             Loading.returning("The path or file was not found.", 2)
         return
+
+    @staticmethod
+    def open_file(path : str = "\\", filename : str = "", extension : str = ""):
+        """
+        Method to open files and create application objects with the proper data.
+        :param path: Path to the file.
+        :param filename: Filename of the file.
+        :param extension: Extension of the file, used to figure out how to open a file.
+        :return: An Application Object, dependent on the file extension used, and the file opened.
+        """
+        (filename, _, extension) = filename.rpartition('.') if not extension else extension
+        try:
+            file = list(open("{}\\{}".format(path, '{}.{}'.format(filename, extension)), 'r'))
+            Loading.returning("Loading save file...", 1)
+            file = (Loading.caesar_decrypt(file[0].replace('\n', ''))).split('(G)')
+            print(file)
+        except FileNotFoundError:
+            Loading.returning("Choose a valid option.", 1)
+            return

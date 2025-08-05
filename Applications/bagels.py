@@ -9,7 +9,7 @@ from Applications.cabinet import FileEngine
 
 
 category = "games"
-version = "3.0"
+version = "3.1.1"
 entries = ('bagels', 'bagels', '3')
 
 
@@ -91,14 +91,13 @@ class Bagels:
                 print('Guess #%s: \nType "help" for help. Type "quit" to quit.' % self.num_guesses)
                 guess = Loading.pocs_input(app_object=self)
                 if guess == 'quit':
-                    FileEngine.quit_game(self, ".bgl")
-                    Loading.returning("Saving game progress...", 2)
+                    FileEngine.quit(self, ".bgl")
                     return
                 elif guess == 'help':
                     print('Here are some clues:')
                     print('When I say:    That means:')
-                    print('  Pico         One digit is correct but in the wrong position.')
                     print('  Fermi        One digit is correct and in the right position.')
+                    print('  Pico         One digit is correct but in the wrong position.')
                     print('  Bagels       No digit is correct.')
                 clue = self.get_clues(guess)
                 if clue:

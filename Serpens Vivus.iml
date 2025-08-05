@@ -7,6 +7,10 @@
       <sourceFolder url="file://$MODULE_DIR$/venv_p311" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/Python" />
       <excludeFolder url="file://$MODULE_DIR$/venv_p312" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/Lib" />
+      <excludeFolder url="file://$MODULE_DIR$/venv/Scripts" />
+      <excludeFolder url="file://$MODULE_DIR$/venv_p311/Lib" />
+      <excludeFolder url="file://$MODULE_DIR$/venv_p311/Scripts" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

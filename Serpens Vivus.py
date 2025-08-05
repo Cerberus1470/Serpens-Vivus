@@ -18,8 +18,9 @@ The main file for any bootup. Very simple, but contains some setup and file prot
 # bruh = Registry.Registry("System\\REGISTRY")f
 # [print(''.join(i) + '\n', end='') for i in (Loading.upscale("System\\bg\\10x40\\pyidea.bg", 2))]
 # from Applications import cabinet
-# cabinet.Cabinet.main()
-
+# cabinet.FileEngine.open_file(".\\Users\\Tejas", "sudoku1.sdu")
+from System import Loading
+Loading.caesar_encrypt("hello", priority=16)
 
 from System import operating_system
 one = operating_system.boot(False, True)

@@ -27,17 +27,32 @@ except ImportError as missing_files:  # If any of the files fail to import, they
         try:
             new_file = requests.get("https://raw.githubusercontent.com/Cerberus1470/Serpens-Vivus/Tejas/System/{file}.py".format(file=filename))
             if new_file.status_code == 200:  # Checking for 200 OK Response Code
-                open("System\\{file}.py".format(file=filename), 'w').write(new_file.text)
+                with open("System\\{file}.py".format(file=filename), 'w') as file:
+                    file.write(new_file.text)
         except (io.UnsupportedOperation, OSError, FileNotFoundError, FileExistsError):
             print("The system was unable to write to System\\{file}.py. Please download it from GitHub.".format(file=filename))
-    raise ImportError("The system was missing files. Please reboot the system")
+    raise ImportError("The system was missing files. Please reboot the system.")
+
+
+def find_app(target : str = "FileEngine"):
+    """
+    Helper method to get a specific app from the applications list.
+    :param target: The app to find. Is a string, and default is the FileEngine.
+    :return: The list of apps, regardless of category.
+    :raises: IndexError if the target class is not found.
+    """
+    apps_modules = [app for category in apps.values() for app in category] + [Loading, Registry, recovery, User]  # First make the total apps list.
+    apps_classes = {j for i in apps_modules for j in i.__dict__.values() if type(j) == type}  # Then gather all classes. Remove duplicates by using a set.
+    if target == "_all": return apps_modules+list(apps_classes)
+    return [i for i in apps_modules+list(apps_classes) if i.__name__ == target][0]  # Access Control to make sure user KNOWS the class name.
+
 
 # Public Variables
 user_separator = "(U)"
 program_separator = "(P)"
 personalization_separator = "(Pe)"
 HANDLE_ERROR = True
-version = "4.0"
+version = "4.1"
 
 
 # noinspection PyBroadException
@@ -91,7 +106,7 @@ class OperatingSystem:
         self.error = [] if not error else error
         self.recently_deleted_users = [] if not rdu else rdu
         self.path = "Users\\{}" if not path else path
-        self.registry = Registry.Registry("System\\REGISTRY") if not reg else reg
+        self.registry = Registry.Registry("System\\REGISTRY", self.elevate) if not reg else reg
         self.current_user = User.User() if not cu else cu
         Loading.log("Boot complete.")
         return
@@ -125,7 +140,7 @@ class OperatingSystem:
             info = person = programs = None
             try:
                 if "info.usr" in files:
-                    user_file = Loading.caesar_decrypt(''.join(list(open("{}\\info.usr".format(subdir), 'r')))).split('\n')
+                    user_file = Loading.caesar_decrypt(''.join(list(open("{}\\info.usr".format(subdir), 'r'))), priority=2).split('\n')
                     info = user_file[0].split(user_separator)  # UserType, Username, Password, Current Status
                     person = user_file[1].split(personalization_separator)  # Color, Background, Taskbar list
                     programs = user_file[2].split(program_separator)
@@ -152,7 +167,31 @@ class OperatingSystem:
             self.setup()
             return
 
-    def startup(self):
+    def elevate(self) -> bool:
+        """
+        Universal method to elevate user privileges for a specific purpose. Use in a boolean expression for any protected action.
+        :return: True if elevation succeeded, False if it did not.
+        """
+        print("The requested action requires administrator privileges.")
+        user = self.current_user
+        if not self.current_user.elevated:  # If the current user is standard, prompt for an admin name.
+            uname = input("Please enter an administrator's username: ")
+            try:
+                user = [i for i in self.users if i.username.lower() == uname.lower()][0]
+                if not user.elevated:
+                    Loading.returning("That user is not an administrator.", 2)
+                    return False
+            except IndexError:  # Invalid user, not in user list.
+                Loading.returning("That is not a valid user.", 2)
+                return False
+        pwd = Loading.pass_input("Enter administrator password: ", mask='-')
+        if user.password == pwd:
+            return True
+        else:
+            Loading.returning("That password is not correct.", 2)
+            return False
+
+    def startup(self) -> int:
         """
         This method regulates the startup and login of the OS. Allows to shut down and switch users.
         :return: Shutdown values returned from operating_system().
@@ -206,12 +245,10 @@ class OperatingSystem:
         while True:
             try:
                 if Loading.LockInterrupt in [i.__class__ for i in self.current_user.saved_state]:  # If any game was stopped by locking
-                    swap = self.current_user.saved_state[-1]
-                    self.current_user.saved_state.remove(swap)
-                    swap.args[0].main()
+                    self.current_user.saved_state.pop(-1).args[0].main()
                 print("\nHello! I am {name}, running POCS v{version}".format(name=self.name, version=version))  # Print the welcome message, the user's background, and the taskbar.
                 [print(i, end='') for i in list(open("System\\bg\\{res}\\{bg}".format(res=self.registry.get_key("Resolution"), bg=self.current_user.background)))]
-                print("SV |  {taskbar}".format(taskbar="  ".join(self.current_user.taskbar)))
+                print("\nSV |  {taskbar}".format(taskbar="  ".join(self.current_user.taskbar)))
                 print('\nWelcome to {name}! This is the main desktop.\nType "sv" or "start" to open the apps screen, or type the name of an app in the taskbar to open that.\n'.format(name=self.name))
                 choice = input().lower()  # Desktop input
                 if choice in ('sv', 'start', 'apps'):  # If the user opens the apps menu.
@@ -249,6 +286,10 @@ class OperatingSystem:
                 else:
                     for i in choices_list:  # Now iterate! If the choice is alone and in the taskbar, or if it was selected through the apps menu, run the boot().
                         if (choice in choices_list[i] and choice in [i.lower() for i in self.current_user.taskbar]) or ("sv_" in choice and choice.replace("sv_", "") in choices_list[i]):
+                            for j in range(len(self.current_user.saved_state)):  # Checking for HomeInterrupts
+                                # noinspection PyUnresolvedReferences
+                                if choice in find_app(self.current_user.saved_state[j].args[0].__module__.partition('.')[2]).entries:
+                                    self.current_user.saved_state.pop(j).args[0].main()
                             i.boot(self)
                             break
                     else:  # If the for loop was exhausted (not a valid choice).
@@ -256,6 +297,9 @@ class OperatingSystem:
             except Loading.HomeInterrupt as home:
                 if home.args[0]:
                     self.current_user.saved_state.append(home)
+            except Loading.LockInterrupt as lock:
+                if lock.args[0]:
+                    raise lock
             except Exception as app_error:
                 if not HANDLE_ERROR:
                     raise app_error
@@ -322,9 +366,8 @@ class OperatingSystem:
                 print("Shutting down..." if shutdown else "Restarting...")
             Loading.log("Updating user files...")
             for i in self.users:  # Now write each user's info to their respective info files.
-                user_file = open(self.path.format(i.username) + "\\info.usr", 'w')  # Open their file, write encrypted data and close the file.
-                user_file.write(Loading.caesar_encrypt(i.__repr__()))  # Using the repr() for each user, containing everything!
-                user_file.close()
+                with open(self.path.format(i.username) + "\\info.usr", 'w') as user_file: # Open their file, write encrypted data and close the file.
+                    user_file.write(Loading.caesar_encrypt(i.__repr__(), priority=2))  # Using the repr() for each user, containing everything!
             Loading.log("User files updated.")  # Finishing with some print statements.
             if restart:
                 return 4
@@ -389,9 +432,8 @@ class OperatingSystem:
         self.current_user = User.Administrator(setup_user, setup_pwd)  # Create the user object
         self.users.append(self.current_user)  # Add the user and save it to disk.
         os.mkdir(self.path.format(self.current_user.username))
-        user_file = open(self.path.format(self.current_user.username) + "\\info.usr", 'w')
-        user_file.write(Loading.caesar_encrypt(self.current_user.__repr__()))
-        user_file.close()
+        with open(self.path.format(self.current_user.username) + "\\info.usr", 'w') as user_file:
+            user_file.write(Loading.caesar_encrypt(self.current_user.__repr__()))
         Loading.returning("One last thing!" if not guest else "", 1 if not guest else 0)  # Ask for a recovery pwd if not a guest.
         recovery_pwd = input("Please enter a recovery password.") if not guest else "guest"
         self.registry.set_svkey("Recovery", Loading.caesar_encrypt(recovery_pwd))  # Modify the registry.

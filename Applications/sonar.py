@@ -10,7 +10,7 @@ from Applications.cabinet import FileEngine
 
 
 category = 'games'
-version = "1.2"
+version = "1.4"
 entries = ('sonar', '6')
 
 
@@ -107,7 +107,7 @@ class Sonar:
                 while True:
                     move = Loading.pocs_input(app_object=self)
                     if move.lower() == 'quit':
-                        FileEngine.quit_game(self, ".snr")
+                        FileEngine.quit(self, ".snr")
                         return
                     move = move.split()
                     if len(move) == 2 and move[0].isdigit() and move[1].isdigit() and 0 <= int(move[0]) <= 9 and 0 <= int(move[1]) <= 39:

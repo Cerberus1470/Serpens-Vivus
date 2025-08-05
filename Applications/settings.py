@@ -7,7 +7,7 @@ import os
 from System import Loading, User, operating_system
 
 category = "utilities"
-version = "1.2"
+version = "1.3"
 entries = ('settings', '8')
 
 
@@ -179,13 +179,13 @@ class Settings:
                     self.os_object.registry.set_svkey("Resolution", new_resolution)
                 case "change animation speed" | "animation" | "speed" | "change animation" | "change speed" | "animation speed":
                     try:
-                        new_anim_speed = float(input("What should the new animation speed be (i.e. 1 = 1x, 2 = 2x, 0.5 = 0.5x)? Current Factor: {!s}\n".format(self.os_object.current_user.speed)))
+                        new_anim_speed = float(input("What should the new animation speed be (i.e. 1 = 1x, 2 = 2x, 0.5 = 0.5x)? Current Factor: {!s}\n".format(Loading.SPEED)))
                         if new_anim_speed <= 0:
                             raise ValueError
                     except ValueError:
                         Loading.returning("That is not a valid speed factor.", 2)
                     else:
-                        self.os_object.current_user.speed = Loading.SPEED = new_anim_speed
+                        Loading.SPEED = new_anim_speed
                     pass
                 case "" | "exit" | "please":
                     return
@@ -457,7 +457,7 @@ class Settings:
                             Loading.progress_bar("Resetting {reset}...".format(reset=reset), 2 * len(self.os_object.users))
                             Loading.returning("{reset} successfully reset. The system will now shutdown.".format(reset=reset.capitalize()), 2)
                             exit()
-                        except(shutil.Error, NotImplementedError):
+                        except(shutil.Error, NotImplementedError, TypeError):
                             Loading.returning("The OS failed to reset your {reset}. Please shutdown the system.".format(reset=reset), 2)
                 case "" | "exit" | "burger with no honey mustard":
                     break
